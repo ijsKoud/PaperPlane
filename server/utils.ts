@@ -1,7 +1,12 @@
+import { User, PrismaClient } from "@prisma/client";
 import { hash, verify as Verify } from "argon2";
-import { readdir, stat } from "fs/promises";
+import { mkdir, readdir, stat, writeFile } from "fs/promises";
+import { nanoid } from "nanoid";
 import { join } from "path";
 import { File, Link } from "./types";
+import { v4 as uuid } from "uuid";
+
+const client = new PrismaClient();
 
 export const encrypt = async (str: string): Promise<string> => {
 	return await hash(str);
@@ -96,4 +101,23 @@ export const sortLinksArray = (array: Link[], type: string): Link[] => {
 		case "name-reverse":
 			return array.sort(sortByName).reverse();
 	}
+};
+
+export const createUser = async (username: string, password: string): Promise<User> => {
+	let id = nanoid(8);
+	while (await client.user.findFirst({ where: { userId: id } })) id = nanoid(8);
+
+	if (await client.user.findFirst({ where: { username } }))
+		throw "User with that username already exists";
+
+	const hashed = await encrypt(password);
+	const user = await client.user.create({
+		data: { userId: id, username, password: hashed, token: uuid() },
+	});
+
+	const base = join(process.cwd(), "data", id);
+	await mkdir(join(base, "files"), { recursive: true });
+	await writeFile(join(base, "links.json"), JSON.stringify([]));
+
+	return user;
 };
