@@ -82,13 +82,6 @@ export const sortFilesArray = (array: File[], type: string): File[] => {
 };
 
 export const sortLinksArray = (array: Link[], type: string): Link[] => {
-	const sortByName = (a: Link, b: Link) => {
-		if (a.name < b.name) return -1;
-		if (a.name > b.name) return 1;
-
-		return 0;
-	};
-
 	switch (type) {
 		default:
 		case "default":
@@ -96,10 +89,6 @@ export const sortLinksArray = (array: Link[], type: string): Link[] => {
 			return array.sort((a, b) => b.date - a.date);
 		case "date-old":
 			return array.sort((a, b) => a.date - b.date);
-		case "name":
-			return array.sort(sortByName);
-		case "name-reverse":
-			return array.sort(sortByName).reverse();
 	}
 };
 

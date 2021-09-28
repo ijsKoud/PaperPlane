@@ -53,12 +53,12 @@ const DashboardLinks: React.FC<Props> = ({ user, fetchStats }) => {
 	const getLink = (id: string) => `/${user?.userId}/r/${id}`;
 	const copyLink = (link: string) => copy(`${location.protocol}//${location.host}${getLink(link)}`);
 
-	const deleteLink = async (path: string, name: string) => {
+	const deleteLink = async (path: string) => {
 		setLinks(links.filter((link) => link.path !== path));
 
 		try {
 			await fetch(`/${user.userId}/r/${path}`, { method: "DELETE" });
-			success("Link deleted!", `Successfully deleted link: ${name}`);
+			success("Link deleted!", `Successfully deleted link: ${path}`);
 		} catch (error) {
 			if (!("isAxiosError" in error)) return;
 
@@ -136,7 +136,7 @@ const DashboardLinks: React.FC<Props> = ({ user, fetchStats }) => {
 					instanceId="sort-type"
 					// @ts-ignore
 					onChange={onSortChange}
-					options={sortTypes}
+					options={sortTypes.slice(0, 2)}
 					defaultValue={sortTypes[0]}
 					className="dashboard__page-dropdown2"
 				/>
@@ -145,7 +145,6 @@ const DashboardLinks: React.FC<Props> = ({ user, fetchStats }) => {
 				<table>
 					<thead>
 						<tr>
-							<th>Name</th>
 							<th>Code</th>
 							<th>URL</th>
 							<th>Date</th>
@@ -155,7 +154,6 @@ const DashboardLinks: React.FC<Props> = ({ user, fetchStats }) => {
 					<tbody>
 						{links.map((link, i) => (
 							<tr key={i}>
-								<td>{link.name}</td>
 								<td>{link.path}</td>
 								<td>{link.url}</td>
 								<td>{link.date}</td>
@@ -174,10 +172,7 @@ const DashboardLinks: React.FC<Props> = ({ user, fetchStats }) => {
 											<i className="edit fas fa-edit" />
 										</Tippy>
 										<Tippy duration={5e2} content={<p>Delete the link</p>}>
-											<i
-												className="delete fas fa-trash"
-												onClick={() => deleteLink(link.path, link.name)}
-											/>
+											<i className="delete fas fa-trash" onClick={() => deleteLink(link.path)} />
 										</Tippy>
 									</div>
 								</td>

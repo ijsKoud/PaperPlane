@@ -33,7 +33,6 @@ export interface FileStats {
 }
 
 export interface LinkStats {
-	name: string;
 	path: string;
 	url: string;
 	date: string;
