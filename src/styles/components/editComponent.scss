@@ -1,0 +1,70 @@
+.edit-wrapper {
+	width: 100%;
+	height: 100%;
+	background-color: $bg1;
+	border: 2px solid $border;
+	border-radius: 5px;
+
+	display: grid;
+	place-items: center;
+
+	> i {
+		position: absolute;
+		top: 10px;
+		right: calc(2rem + 10px);
+
+		color: rgba($white, 0.3);
+		transition: all 0.5s ease;
+		cursor: pointer;
+
+		&:hover {
+			color: $white;
+		}
+	}
+}
+
+.edit-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 50%;
+
+	p {
+		font-size: 2rem;
+		font-weight: 500;
+	}
+
+	span {
+		font-size: 1.2rem;
+		color: $red;
+	}
+
+	button {
+		font-size: 1.2rem;
+		margin-top: 1rem;
+		border: 1px solid $green;
+		padding: 5px;
+		border-radius: 5px;
+		cursor: pointer;
+		color: $green;
+		transition: all 0.5s ease;
+
+		&:hover {
+			background-color: $green;
+			color: $white;
+		}
+
+		&:disabled {
+			color: rgba($green, 0.1);
+			border-color: rgba($green, 0.1);
+			cursor: not-allowed;
+
+			&:hover {
+				color: rgba($green, 0.1) !important;
+				border-color: rgba($green, 0.1) !important;
+				background-color: unset !important;
+			}
+		}
+	}
+}

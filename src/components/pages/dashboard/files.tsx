@@ -102,6 +102,7 @@ const DashboardFiles: React.FC<Props> = ({ user, fetchStats }) => {
 							apiFileLink,
 							preview,
 							deleteFile,
+							fetchFiles,
 						};
 						return <TableContent {...props} />;
 					})}

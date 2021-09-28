@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
-import { lstat, readFile, unlink, writeFile } from "fs/promises";
+import { lstat, readdir, readFile, rename, unlink, writeFile } from "fs/promises";
 import { lookup } from "mime-types";
 import { join } from "path";
 import { Link } from "../types";
@@ -128,6 +128,47 @@ router.delete("/:id/:file", async (req, res) => {
 			error: "Internal error, check logs for more information",
 		});
 	}
+});
+
+router.patch("/:id/:file", async (req, res) => {
+	const { id, file } = req.params;
+	let { name } = req.body;
+	if (!name)
+		return res.status(400).send({
+			message: "Something went wrong while processing your request, please try again later",
+			error: "Missing 'name' in request body",
+		});
+
+	const { session } = req.cookies;
+	if (!session)
+		return res.status(401).send({
+			message: "You must be logged in to perform this action",
+			error: "User unauthorized",
+		});
+
+	const user = await client.session.findFirst({
+		where: { token: session },
+		include: { user: true },
+	});
+	if (!user)
+		return res.status(401).send({
+			message: "You must be logged in to perform this action",
+			error: "User unauthorized",
+		});
+
+	const base = join(process.cwd(), "data", id, "files");
+	const files = await readdir(base);
+	if (!files.includes(file))
+		return res.status(404).send({
+			message: "The requested file was not found on the server",
+			error: "No file found on the server",
+		});
+
+	const fileExt = file.split(".").pop();
+	if (!lookup(name)) name = `${name}.${fileExt}`;
+
+	await rename(join(base, file), join(base, name));
+	res.sendStatus(204);
 });
 
 export default router;
