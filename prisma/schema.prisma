@@ -15,11 +15,13 @@ model User {
   userId   String    @id
   password String
   token    String
+  theme    String    @default("dark-blue")
   Session  Session[]
 }
 
 model Session {
-  token  String @id
-  userId String
-  user   User   @relation(fields: [userId], references: [userId])
+  token   String @id
+  userId  String
+  created BigInt
+  user    User   @relation(fields: [userId], references: [userId])
 }
