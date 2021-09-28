@@ -10,19 +10,17 @@ import { AxiosError } from "axios";
 import { useAuth } from "../lib/hooks/useAuth";
 import { ApiError } from "../lib/types";
 import { alert } from "../lib/notifications";
+import Head from "next/head";
 
 const Login: NextPage = () => {
-	const [cookies, setCookie] = useCookies(["session"]);
+	const [, setCookie] = useCookies(["session"]);
 	const [show, setShow] = useState(false);
 	const router = useRouter();
 	const auth = useAuth();
 
 	useEffect(() => {
-		if (cookies.session) {
-			auth.fetch();
-			router.push("/dashboard");
-		}
-	}, [cookies]);
+		if (auth.user && !auth.loading) router.push("/dashboard");
+	}, [auth]);
 
 	const schema = object({
 		username: string()
@@ -58,55 +56,61 @@ const Login: NextPage = () => {
 			// eslint-disable-next-line no-inline-comments
 			maxAge: 12096e5, // 2 weeks
 		});
+		auth.fetch();
 	};
 
 	return (
-		<main className="login-container">
-			<div className="login">
-				<h1>Login</h1>
-				<Formik
-					validationSchema={schema}
-					onSubmit={onSubmit}
-					initialValues={{ username: "", password: "" }}
-					validateOnMount
-					validateOnChange>
-					{({ errors, submitForm, isValid, isSubmitting }) => (
-						<Form className="login-form" autoComplete="off">
-							<div className="login__form-item">
-								<Field as="input" id="username" name="username" placeholder="username..." />
-								<p className="login__form-error">{errors.username ?? <wbr />}</p>
-							</div>
-							<div className="login__form-item">
-								<div className="login__form-password">
-									<Field
-										as="input"
-										type={show ? "text" : "password"}
-										id="password"
-										name="password"
-										placeholder="password..."
-										style={{ width: "90%" }}
-									/>
-									<i
-										className={show ? "fas fa-eye-slash" : "fas fa-eye"}
-										onClick={() => setShow(!show)}
-									/>
+		<>
+			<Head>
+				<title>Proton - Login</title>
+			</Head>
+			<main className="login-container">
+				<div className="login">
+					<h1>Login</h1>
+					<Formik
+						validationSchema={schema}
+						onSubmit={onSubmit}
+						initialValues={{ username: "", password: "" }}
+						validateOnMount
+						validateOnChange>
+						{({ errors, submitForm, isValid, isSubmitting }) => (
+							<Form className="login-form" autoComplete="off">
+								<div className="login__form-item">
+									<Field as="input" id="username" name="username" placeholder="username..." />
+									<p className="login__form-error">{errors.username ?? <wbr />}</p>
 								</div>
-								<p className="login__form-error">{errors.password ?? <wbr />}</p>
-							</div>
-							{isSubmitting ? (
-								<ThreeDots className="login__form-load" />
-							) : (
-								<p
-									className={isValid ? "login__form-submit" : "login__form-submit disabled"}
-									onClick={submitForm}>
-									Login
-								</p>
-							)}
-						</Form>
-					)}
-				</Formik>
-			</div>
-		</main>
+								<div className="login__form-item">
+									<div className="login__form-password">
+										<Field
+											as="input"
+											type={show ? "text" : "password"}
+											id="password"
+											name="password"
+											placeholder="password..."
+											style={{ width: "90%" }}
+										/>
+										<i
+											className={show ? "fas fa-eye-slash" : "fas fa-eye"}
+											onClick={() => setShow(!show)}
+										/>
+									</div>
+									<p className="login__form-error">{errors.password ?? <wbr />}</p>
+								</div>
+								{isSubmitting ? (
+									<ThreeDots className="login__form-load" />
+								) : (
+									<p
+										className={isValid ? "login__form-submit" : "login__form-submit disabled"}
+										onClick={submitForm}>
+										Login
+									</p>
+								)}
+							</Form>
+						)}
+					</Formik>
+				</div>
+			</main>
+		</>
 	);
 };
 

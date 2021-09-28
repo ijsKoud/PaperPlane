@@ -1,0 +1,11 @@
+.error {
+	width: 100vw;
+	min-height: 100vh;
+
+	display: grid;
+	place-items: center;
+
+	img {
+		width: clamp(50%, 700px, 90%);
+	}
+}
