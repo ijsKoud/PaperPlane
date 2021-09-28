@@ -10,9 +10,8 @@ const NotFound: NextPage<{ head: boolean }> = ({ head = true }) => {
 					<title>404 - Not Found</title>
 				</Head>
 			)}
-			<main style={{ width: "100vw", height: "100vh", display: "grid", placeItems: "center" }}>
-				<img alt="" src="/assets/404.svg" style={{ width: "800px" }} />
-				<h1 style={{ marginTop: "-10rem" }}>Page not found</h1>
+			<main className="error">
+				<img src="/assets/404.svg" alt="" />
 			</main>
 		</>
 	);
