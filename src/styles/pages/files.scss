@@ -1,0 +1,70 @@
+.files-text {
+	background-color: $bg2;
+	width: 98vw;
+	min-height: 90vh;
+	padding: 1rem;
+	border: 1px solid $border;
+	border-radius: 5px;
+
+	p {
+		font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+			Bitstream Vera Sans Mono, Courier New;
+	}
+}
+
+.file-buttons {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 1rem;
+
+	i {
+		cursor: pointer;
+		transition: all 0.5s ease;
+		border-width: 1px;
+		border-style: solid;
+		padding: 10px;
+		font-size: 1rem;
+
+		&.open {
+			color: $alt;
+			border-color: $alt;
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+
+			&:hover {
+				background-color: $alt;
+				color: $white;
+			}
+		}
+
+		&.download {
+			color: $green;
+			border-color: $green;
+
+			&:hover {
+				background-color: $green;
+				color: $white;
+			}
+		}
+
+		&.copy {
+			color: $orange;
+			border-color: $orange;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+
+			&:hover {
+				background-color: $orange;
+				color: $white;
+			}
+		}
+	}
+}
+
+.file-view {
+	max-width: 100vw;
+	display: grid;
+	place-items: center;
+}

@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+
+// colours
+$main: #2c39a6;
+$alt: #7344e2;
+$bg1: #05070f;
+$bg2: #0c101c;
+$bg3: #2e384f;
+$border: #1b2541;
+
+$white: #fbfdfe;
+$black: #272727;
+$gray: #555555;
+$green: #77b300;
+$red: #ff4141;
+$orange: #ff9800;
+$blurple: #5865f2;
+
+* {
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+	margin: 0;
+	padding: 0;
+	color: $white;
+
+	i {
+		color: unset;
+	}
+}
+
+a,
+.link {
+	cursor: pointer;
+	text-decoration: none;
+	transition: all 0.5s ease;
+
+	user-select: none; /* standard syntax */
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+
+	color: rgba($white, 0.3);
+
+	&:hover {
+		color: rgba($white, 0.9) !important;
+	}
+}
+
+body {
+	background-color: $bg1;
+
+	/* hide scroll bar */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+svg {
+	vertical-align: middle;
+}
+
+main {
+	padding-top: 60px;
+}
+
+.separator {
+	height: 0.5px;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: $border;
+}
+
+.background {
+	background: url("/assets/background.svg");
+	background-size: cover;
+	background-position: center;
+	height: 100vh;
+}
+
+.background-full {
+	background: url("/assets/background.svg");
+	background-size: 150vw;
+	background-position: center;
+	height: auto;
+	min-height: 100vh;
+	width: 100vw;
+}
+
+input,
+textarea {
+	outline: none;
+	padding: 10px;
+
+	border-radius: 4px;
+	border-width: 1px;
+	border-color: rgba($white, 0.2);
+	border-style: solid;
+
+	background-color: #14161a;
+	transition: border-color 0.5s ease;
+
+	resize: vertical;
+
+	&:hover {
+		border-color: rgba($white, 0.6);
+	}
+
+	&:focus {
+		border-color: $blurple;
+	}
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th,
+td {
+	border: 1px solid rgba($white, 0.2);
+	text-align: left;
+	padding: 8px;
+	font-size: 1.5rem;
+}
+
+th {
+	background-color: rgba($bg3, 0.5);
+}
+
+td {
+	background-color: rgba($bg3, 0.2);
+	color: rgba($white, 0.6);
+}
+
+@import "./components/navbar.scss";
+
+@import "./pages/login.scss";
+@import "./pages/dashboard.scss";
+@import "./pages/files.scss";

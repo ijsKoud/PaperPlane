@@ -1,0 +1,113 @@
+.login-container {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+}
+
+.login {
+	padding: 10px;
+	min-width: 100%;
+	min-height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	h1 {
+		font-size: 4rem;
+	}
+}
+
+.login-form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+}
+
+.login__form-item {
+	margin-bottom: 1rem;
+	width: 600px;
+	// height: 70px;
+
+	input {
+		width: 100%;
+		height: 50px;
+		font-size: 1.2rem;
+	}
+}
+
+.login__form-error {
+	color: $red;
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+.login__form-submit {
+	padding: 10px;
+	border: 1px solid rgba($white, 0.3);
+	border-radius: 5px;
+	background-color: rgba($bg2, 0.3);
+	transition: all 0.5s ease;
+	cursor: pointer;
+	font-size: 1.5rem;
+
+	&:hover {
+		background-color: rgba($bg2, 0.9);
+		border: 1px solid rgba($white, 0.9);
+	}
+
+	&.disabled {
+		cursor: not-allowed;
+		background-color: rgba($bg2, 0.1);
+		border: 1px solid rgba($white, 0.1);
+
+		&:hover {
+			background-color: rgba($bg2, 0.1) !important;
+			border: 1px solid rgba($white, 0.1);
+		}
+	}
+}
+
+.login__form-load {
+	max-width: 65px;
+	height: 45px;
+}
+
+.login__form-password {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	i {
+		color: rgba($white, 0.6);
+		transition: all 0.5s ease;
+		font-size: 2rem;
+		cursor: pointer;
+
+		&:hover {
+			color: rgba($white, 0.9);
+		}
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.login__form-item {
+		width: 90vw;
+
+		input {
+			font-size: 1rem;
+		}
+	}
+
+	.login__form-password {
+		input {
+			margin-right: 10px;
+		}
+	}
+
+	.login__form-error {
+		font-size: 1rem;
+	}
+}
