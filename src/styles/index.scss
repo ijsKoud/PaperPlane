@@ -139,6 +139,11 @@ td {
 	color: rgba($white, 0.6);
 }
 
+button {
+	background-color: unset;
+	border: unset;
+}
+
 @import "./components/navbar.scss";
 
 @import "./pages/login.scss";

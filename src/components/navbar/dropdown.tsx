@@ -1,11 +1,30 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
+import { useAuth } from "../../lib/hooks/useAuth";
+import { useRouter } from "next/router";
+import { fetch } from "../../lib/fetch";
 
 const Dropdown: React.FC<{ user: string }> = ({ user }) => {
 	const [dropdown, setDropdown] = useState(false);
+	const [, , removeCookie] = useCookies(["session"]);
+	const auth = useAuth();
+	const router = useRouter();
 
 	const closeDropdown = () => setDropdown(false);
 	const updateDropdown = () => setDropdown(!dropdown);
+
+	const handleLogout = async () => {
+		await fetch("/auth/logout", {
+			method: "DELETE",
+			withCredentials: true,
+		}).catch(() => void 0);
+
+		removeCookie("session");
+		auth.fetch(true);
+		router.push("/");
+		closeDropdown();
+	};
 
 	return (
 		<div className="navbar-dropdown">
@@ -29,11 +48,9 @@ const Dropdown: React.FC<{ user: string }> = ({ user }) => {
 					</a>
 				</Link>
 				<div className="separator" />
-				<Link href="/logout">
-					<a className="navbar__dropdown-link" onClick={closeDropdown}>
-						<i className="fas fa-sign-out-alt" /> Logout
-					</a>
-				</Link>
+				<button className="navbar__dropdown-link" onClick={handleLogout}>
+					<i className="fas fa-sign-out-alt" /> Logout
+				</button>
 			</div>
 		</div>
 	);
