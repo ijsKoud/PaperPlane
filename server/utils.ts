@@ -1,7 +1,7 @@
 import { hash, verify as Verify } from "argon2";
 import { readdir, stat } from "fs/promises";
 import { join } from "path";
-import { Link } from "./types";
+import { File, Link } from "./types";
 
 export const encrypt = async (str: string): Promise<string> => {
 	return await hash(str);
@@ -97,11 +97,3 @@ export const sortLinksArray = (array: Link[], type: string): Link[] => {
 			return array.sort(sortByName).reverse();
 	}
 };
-
-interface File {
-	name: string;
-	size: string;
-	_size: number;
-	date: number;
-	type: string;
-}
