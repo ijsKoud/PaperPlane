@@ -45,7 +45,7 @@
 		"dev:web": "next dev",
 		"build:web": "next build",
 		"start:web": "next start",
-		"lint:web": "next lint"
+		"lint:web": "next lint --quiet"
 	},
 	"devDependencies": {
 		"@types/body-parser": "^1.19.1",

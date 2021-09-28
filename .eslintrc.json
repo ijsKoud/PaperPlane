@@ -16,6 +16,7 @@
 	},
 	"rules": {
 		"no-empty": ["error", { "allowEmptyCatch": true }],
+		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/ban-ts-comment": "off",
 		"no-mixed-spaces-and-tabs": "off",
@@ -37,7 +38,7 @@
 		"no-lonely-if": "error",
 		"no-multi-spaces": "error",
 		"no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }],
-		"@typescript-eslint/no-shadow":["error", { "allow": ["err", "resolve", "reject"] }],
+		"@typescript-eslint/no-shadow": ["error", { "allow": ["err", "resolve", "reject"] }],
 		"no-shadow": "off",
 		"no-trailing-spaces": ["error"],
 		"no-var": "error",
@@ -58,6 +59,6 @@
 		"space-infix-ops": "error",
 		"space-unary-ops": "error",
 		"spaced-comment": "error",
-		"yoda": "error"
+		"yoda": "off"
 	}
 }

@@ -47,14 +47,15 @@ const Login: NextPage = () => {
 		if ("isAxiosError" in res) {
 			if (!res.response) return;
 
-			const { data } = res.response;
-			alert("Something went wrong while processing your request", data.message);
-			console.error(`[Login]: ${data.error}`);
+			const { data: resData } = res.response;
+			alert("Something went wrong while processing your request", resData.message);
+			console.error(`[Login]: ${resData.error}`);
 
 			return;
 		}
 
 		setCookie("session", res.data.sessionId, {
+			// eslint-disable-next-line no-inline-comments
 			maxAge: 12096e5, // 2 weeks
 		});
 	};
