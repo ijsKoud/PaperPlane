@@ -33,9 +33,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-
+      
       - name: Install dependencies
         run: yarn install
+        
+      - name: Generate Prisma Types
+        run: yarn prisma:generate
 
       - name: (Server) TypeScript Compiler
         run: yarn build:server
