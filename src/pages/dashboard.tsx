@@ -52,12 +52,12 @@ const Dashboard: NextPage = () => {
 								<p>{stats.files.size}</p>
 							</div>
 							<div className="dashboard__stats-item">
-								<h2>Total Size</h2>
-								<p>{stats.files.bytes}</p>
-							</div>
-							<div className="dashboard__stats-item">
 								<h2>Links</h2>
 								<p>{stats.links}</p>
+							</div>
+							<div className="dashboard__stats-item">
+								<h2>Total Size</h2>
+								<p>{stats.files.bytes}</p>
 							</div>
 							<div className="dashboard__stats-item">
 								<h2>Users</h2>
