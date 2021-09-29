@@ -13,7 +13,7 @@ const EditFile: React.FC<Props> = ({ handleClose, name }) => {
 	const { user } = useAuth();
 
 	const validationSchema = object({
-		name: string().max(255, "File name is too long"),
+		name: string().max(255, "File name is too long").required("Item is required"),
 	});
 
 	const submit = async (data: { name: string }) => {

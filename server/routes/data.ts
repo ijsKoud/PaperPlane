@@ -171,4 +171,50 @@ router.patch("/:id/:file", async (req, res) => {
 	res.sendStatus(204);
 });
 
+router.patch("/:id/r/:path", async (req, res) => {
+	const { id, path } = req.params;
+	const { path: newPath, url } = req.body;
+	if (!newPath || !url)
+		return res.status(400).send({
+			message: "Something went wrong while processing your request, please try again later",
+			error: "Missing 'path' or 'url' in request body",
+		});
+
+	const { session } = req.cookies;
+	if (!session)
+		return res.status(401).send({
+			message: "You must be logged in to perform this action",
+			error: "User unauthorized",
+		});
+
+	const user = await client.session.findFirst({
+		where: { token: session },
+		include: { user: true },
+	});
+	if (!user)
+		return res.status(401).send({
+			message: "You must be logged in to perform this action",
+			error: "User unauthorized",
+		});
+
+	const base = join(process.cwd(), "data", id, "links.json");
+	const linksRaw = await readFile(base, "utf-8");
+	const links = (JSON.parse(linksRaw) as Link[]).map((l, i) => ({ link: l, index: i }));
+
+	const link = links.find((l) => l.link.path === path);
+	if (!link)
+		return res.status(404).send({
+			message: "The requested link was not found on the server",
+			error: "No link found on the server",
+		});
+
+	link.link.path = newPath;
+	link.link.url = url;
+
+	const newLinks = links.map((v) => (v.index === link.index ? link.link : v.link));
+	await writeFile(base, JSON.stringify(newLinks));
+
+	res.sendStatus(204);
+});
+
 export default router;

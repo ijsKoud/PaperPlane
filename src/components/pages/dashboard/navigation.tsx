@@ -8,12 +8,12 @@ interface Props {
 	setQuery: StateFunction<string>;
 	setPage: StateFunction<number>;
 	setSort: StateFunction<string>;
-	fetchFiles: () => void;
+	fetchItems: () => void;
 	page: number;
 	pages: number;
 }
 
-const Navigation: React.FC<Props> = ({ setQuery, setPage, setSort, fetchFiles, page, pages }) => {
+const Navigation: React.FC<Props> = ({ setQuery, setPage, setSort, fetchItems, page, pages }) => {
 	const onSortChange = (value: { label: string; value: any } | null) => {
 		if (!value) return;
 		setSort(value.value);
@@ -35,7 +35,7 @@ const Navigation: React.FC<Props> = ({ setQuery, setPage, setSort, fetchFiles, p
 
 	const search = () => {
 		setPage(1);
-		fetchFiles();
+		fetchItems();
 	};
 
 	return (

@@ -87,7 +87,7 @@ const DashboardFiles: React.FC<Props> = ({ user, fetchStats }) => {
 		<>
 			<div className="dashboard-stats file">
 				<h1 className="dashboard__stats-title files">Files</h1>
-				<Navigation {...{ setQuery, setPage, setSort, fetchFiles, page, pages }} />
+				<Navigation {...{ setQuery, setPage, setSort, fetchItems: fetchFiles, page, pages }} />
 				<Table listItems={["Preview", "Name", "Size", "Date", "Actions"]}>
 					{files.map((file, i) => {
 						const fileLink = getFileLink(file.name, false);
