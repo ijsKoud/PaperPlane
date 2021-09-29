@@ -4,6 +4,7 @@ import { fetch } from "../../../../lib/fetch";
 import { useAuth } from "../../../../lib/hooks/useAuth";
 import { object, string } from "yup";
 import { LinkStats } from "../../../../lib/types";
+import { ThreeDots } from "@agney/react-loading";
 
 interface Props {
 	handleClose: () => void;
@@ -35,30 +36,36 @@ const EditLink: React.FC<Props> = ({ handleClose, link }) => {
 				validationSchema={validationSchema}
 				validateOnMount
 				validateOnChange>
-				{({ isValid, errors }) => (
+				{({ isValid, isSubmitting, errors }) => (
 					<Form className="edit-container">
-						<p>Shortlink Code</p>
-						<Field
-							as="input"
-							id="path"
-							name="path"
-							placeholder="code..."
-							style={{ width: "90%" }}
-						/>
-						<span>{errors.path}</span>
-						<p>URL</p>
-						<Field
-							as="input"
-							id="url"
-							type="url"
-							name="url"
-							placeholder="url..."
-							style={{ width: "90%" }}
-						/>
-						<span>{errors.url}</span>
-						<button disabled={!isValid} type="submit">
-							<i className="fas fa-save" /> Save
-						</button>
+						{isSubmitting ? (
+							<ThreeDots style={{ width: "100px" }} />
+						) : (
+							<>
+								<p>Shortlink Code</p>
+								<Field
+									as="input"
+									id="path"
+									name="path"
+									placeholder="code..."
+									style={{ width: "90%" }}
+								/>
+								<span>{errors.path}</span>
+								<p>URL</p>
+								<Field
+									as="input"
+									id="url"
+									type="url"
+									name="url"
+									placeholder="url..."
+									style={{ width: "90%" }}
+								/>
+								<span>{errors.url}</span>
+								<button disabled={!isValid} type="submit">
+									<i className="fas fa-save" /> Save
+								</button>
+							</>
+						)}
 					</Form>
 				)}
 			</Formik>

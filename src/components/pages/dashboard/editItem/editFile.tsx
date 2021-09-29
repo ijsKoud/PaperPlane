@@ -3,6 +3,7 @@ import React from "react";
 import { fetch } from "../../../../lib/fetch";
 import { useAuth } from "../../../../lib/hooks/useAuth";
 import { object, string } from "yup";
+import { ThreeDots } from "@agney/react-loading";
 
 interface Props {
 	handleClose: () => void;
@@ -30,20 +31,26 @@ const EditFile: React.FC<Props> = ({ handleClose, name }) => {
 				validationSchema={validationSchema}
 				validateOnMount
 				validateOnChange>
-				{({ isValid, errors }) => (
+				{({ isValid, isSubmitting, errors }) => (
 					<Form className="edit-container">
-						<p>New file name</p>
-						<Field
-							as="input"
-							id="name"
-							name="name"
-							placeholder="name..."
-							style={{ width: "90%" }}
-						/>
-						<span>{errors.name}</span>
-						<button disabled={!isValid} type="submit">
-							<i className="fas fa-save" /> Save
-						</button>
+						{isSubmitting ? (
+							<ThreeDots style={{ width: "100px" }} />
+						) : (
+							<>
+								<p>New file name</p>
+								<Field
+									as="input"
+									id="name"
+									name="name"
+									placeholder="name..."
+									style={{ width: "90%" }}
+								/>
+								<span>{errors.name}</span>
+								<button disabled={!isValid} type="submit">
+									<i className="fas fa-save" /> Save
+								</button>
+							</>
+						)}
 					</Form>
 				)}
 			</Formik>
