@@ -1,0 +1,63 @@
+.confirm-buttons button {
+	cursor: pointer;
+	padding: 10px;
+
+	font-size: 1.2rem;
+
+	&.cancel {
+		border: 1px solid $blurple;
+		border-right: unset;
+		color: $blurple;
+		border-radius: 5px 0 0 5px;
+		transition: all 0.5s ease;
+
+		&:hover {
+			color: $white;
+			background-color: $blurple;
+		}
+	}
+
+	&.delete {
+		border: 1px solid $red;
+		border-left: unset;
+		color: $red;
+		border-radius: 0 5px 5px 0;
+		transition: all 0.5s ease;
+
+		&:hover {
+			color: $white;
+			background-color: $red;
+		}
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.edit-wrapper.confirmation {
+		h2 {
+			font-size: 1.5rem;
+			padding: 5px;
+		}
+	}
+	.confirm-buttons {
+		width: 80%;
+
+		button {
+			font-size: 1.2rem;
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+
+			&.cancel {
+				border: 1px solid $blurple;
+				border-bottom: unset;
+				border-radius: 5px 5px 0 0;
+			}
+
+			&.delete {
+				border: 1px solid $red;
+				border-top: unset;
+				border-radius: 0 0 5px 5px;
+			}
+		}
+	}
+}

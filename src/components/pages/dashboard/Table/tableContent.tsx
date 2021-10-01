@@ -3,6 +3,7 @@ import copy from "copy-to-clipboard";
 import React, { useState } from "react";
 import { isMobile } from "react-device-detect";
 import Modal from "../../../modal";
+import ConfirmModal from "../confirmModal";
 import EditFile from "../editItem/editFile";
 import EditLink from "../editItem/editLink";
 
@@ -36,6 +37,7 @@ const TableContent: React.FC<Props> = (props) => {
 	if (type === "file") {
 		const { preview, name, size, date, fileLink, apiFileLink, deleteFile, fetchFiles } = props;
 		const [open, setOpen] = useState(false);
+		const [openDelete, setOpenDelete] = useState(false);
 
 		const copyLink = () => copy(fileLink);
 		const download = () => saveAs(apiFileLink, name);
@@ -43,6 +45,16 @@ const TableContent: React.FC<Props> = (props) => {
 		const handleClose = () => {
 			fetchFiles();
 			setOpen(false);
+		};
+
+		const handleCancel = () => {
+			fetchFiles();
+			setOpenDelete(false);
+		};
+
+		const handleAccept = () => {
+			deleteFile(name);
+			setOpenDelete(false);
 		};
 
 		return (
@@ -54,6 +66,9 @@ const TableContent: React.FC<Props> = (props) => {
 				<td>
 					<Modal onClick={() => setOpen(false)} isOpen={open}>
 						<EditFile name={name} handleClose={handleClose} />
+					</Modal>
+					<Modal onClick={() => setOpenDelete(false)} isOpen={openDelete}>
+						<ConfirmModal handleCancel={handleCancel} handleAccept={handleAccept} />
 					</Modal>
 					<div className="dashboard__table-buttons">
 						<Tippy duration={5e2} disabled={isMobile} content={<p>Open in browser</p>}>
@@ -69,7 +84,7 @@ const TableContent: React.FC<Props> = (props) => {
 							<i className="edit fas fa-edit" onClick={() => setOpen(true)} />
 						</Tippy>
 						<Tippy duration={5e2} disabled={isMobile} content={<p>Delete the file</p>}>
-							<i className="delete fas fa-trash" onClick={() => deleteFile(name)} />
+							<i className="delete fas fa-trash" onClick={() => setOpenDelete(true)} />
 						</Tippy>
 					</div>
 				</td>
@@ -79,10 +94,21 @@ const TableContent: React.FC<Props> = (props) => {
 
 	const { path, url, date, shortLink, deleteLink, fetchLinks } = props;
 	const [open, setOpen] = useState(false);
+	const [openDelete, setOpenDelete] = useState(false);
 
 	const handleClose = () => {
 		fetchLinks();
 		setOpen(false);
+	};
+
+	const handleCancel = () => {
+		fetchLinks();
+		setOpenDelete(false);
+	};
+
+	const handleAccept = () => {
+		deleteLink(path);
+		setOpenDelete(false);
 	};
 
 	return (
@@ -93,6 +119,9 @@ const TableContent: React.FC<Props> = (props) => {
 			<td>
 				<Modal onClick={() => setOpen(false)} isOpen={open}>
 					<EditLink link={{ url, path, date }} handleClose={handleClose} />
+				</Modal>
+				<Modal onClick={() => setOpenDelete(false)} isOpen={openDelete}>
+					<ConfirmModal handleCancel={handleCancel} handleAccept={handleAccept} />
 				</Modal>
 				<div className="dashboard__table-buttons">
 					<Tippy duration={5e2} content={<p>Open in browser</p>}>
@@ -105,7 +134,7 @@ const TableContent: React.FC<Props> = (props) => {
 						<i className="edit fas fa-edit" onClick={() => setOpen(true)} />
 					</Tippy>
 					<Tippy duration={5e2} content={<p>Delete the link</p>}>
-						<i className="delete fas fa-trash" onClick={() => deleteLink(path)} />
+						<i className="delete fas fa-trash" onClick={() => setOpenDelete(true)} />
 					</Tippy>
 				</div>
 			</td>

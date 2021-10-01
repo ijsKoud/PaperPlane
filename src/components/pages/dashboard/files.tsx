@@ -96,7 +96,7 @@ const DashboardFiles: React.FC<Props> = ({ user, fetchStats }) => {
 
 						const props = {
 							...file,
-							type: "file" as "file" | "link",
+							type: "file" as const,
 							key: i,
 							fileLink,
 							apiFileLink,
