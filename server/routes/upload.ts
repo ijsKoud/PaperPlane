@@ -2,10 +2,10 @@ import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import multer from "multer";
 import { join } from "path";
-import { getSettings } from "../utils";
 import { readdir, readFile, rename, unlink, writeFile } from "fs/promises";
 import { nanoid } from "nanoid";
 import { Link } from "../types";
+import getSettings from "../../settings";
 
 const client = new PrismaClient();
 const router = Router();
