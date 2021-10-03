@@ -3,6 +3,7 @@ export interface User {
 	userId: string;
 	password: string;
 	token: string;
+	theme: string;
 }
 
 export interface Session {
