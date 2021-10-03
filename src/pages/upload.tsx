@@ -1,8 +1,16 @@
 import type { NextPage } from "next";
-import Head from "next/head";
+import React from "react";
+import { FileUpload } from "../components/pages/upload/";
 
-const Landing: NextPage = () => {
-	return <div>hello</div>;
+const Upload: NextPage = () => {
+	return (
+		<main className="upload">
+			<FileUpload />
+			<div className="link-upload">
+				<h1>Create shortlink</h1>
+			</div>
+		</main>
+	);
 };
 
-export default Landing;
+export default Upload;
