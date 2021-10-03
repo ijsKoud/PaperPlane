@@ -1,5 +1,5 @@
 {
-	"name": "PaperPlane",
+	"name": "paperplane",
 	"version": "1.0.0",
 	"description": "PaperPlane, a shareX/File upload/shortlink server with multi-user support and packed with a lot of cool features!",
 	"main": "dist/index.js",
