@@ -1,6 +1,6 @@
 <h1 align="center">PaperPlane</h1>
 
-> PaperPlane, a shareX/File upload/shortlink server with multi-user support and packed with a lot of cool features! (WIP)
+> PaperPlane, a fast ShareX/File upload/shortlink server with multi-user support and packed with a lot of cool features! (WIP)
 
 ## Install
 
