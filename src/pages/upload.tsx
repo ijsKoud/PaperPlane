@@ -1,14 +1,16 @@
 import type { NextPage } from "next";
 import React from "react";
-import { FileUpload } from "../components/pages/upload/";
+import { FileUpload, LinkUpload } from "../components/pages/upload";
+import Head from "next/head";
 
 const Upload: NextPage = () => {
 	return (
 		<main className="upload">
+			<Head>
+				<title>PaperPlane - Upload</title>
+			</Head>
 			<FileUpload />
-			<div className="link-upload">
-				<h1>Create shortlink</h1>
-			</div>
+			<LinkUpload />
 		</main>
 	);
 };

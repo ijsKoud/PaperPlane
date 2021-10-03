@@ -45,12 +45,13 @@ router.post("/upload", uploader.array("upload"), async (req, res) => {
 
 	const settings = getSettings();
 	const short = req.body.short;
+	const linkPath = req.body.path;
 	if (typeof short === "string" && short.length > 0) {
 		const path = join(process.cwd(), "data", user.userId, "links.json");
 		const linksRaw = await readFile(path, "utf-8");
 		const links: Link[] = JSON.parse(linksRaw);
 
-		let id = nanoid(8);
+		let id = linkPath || nanoid(8);
 		while (links.some((l) => l.path === id)) id = nanoid(8);
 
 		await writeFile(path, JSON.stringify([...links, { date: Date.now(), path: id, url: short }]));
@@ -88,6 +89,7 @@ router.post("/upload", uploader.array("upload"), async (req, res) => {
 });
 
 const deleteFiles = async (files: Express.Multer.File[]) => {
+	if (!Array.isArray(files)) return;
 	for (const file of files) await unlink(file.path).catch(() => void 0);
 };
 
