@@ -1,7 +1,7 @@
 {
-	"name": "proton",
+	"name": "PaperPlane",
 	"version": "1.0.0",
-	"description": "Proton, a shareX/File upload/shortlink server with multi-user support and packed with a lot of cool features!",
+	"description": "PaperPlane, a shareX/File upload/shortlink server with multi-user support and packed with a lot of cool features!",
 	"main": "dist/index.js",
 	"author": "DaanGamesDG <daan@daangamesdg.wtf>",
 	"license": "MIT",

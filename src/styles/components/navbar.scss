@@ -17,6 +17,15 @@
 	align-self: center;
 }
 
+.navbar-logo {
+	display: flex;
+	align-items: center;
+
+	p {
+		margin-left: 10px;
+	}
+}
+
 .navbar__dropdown-items {
 	width: 125px;
 	background-color: $bg2;
@@ -102,7 +111,7 @@
 		margin-left: auto;
 	}
 
-	.navbar-logo i {
+	.navbar-logo p {
 		display: none;
 	}
 }

@@ -8,9 +8,9 @@ const Navbar: React.FC = () => {
 
 	return (
 		<nav className="navbar">
-			<p className="navbar-logo">
-				<i className="fab fa-react" /> Proton
-			</p>
+			<div className="navbar-logo">
+				<i className="fas fa-paper-plane" /> <p>PaperPlane</p>
+			</div>
 			{loading ? (
 				<p style={{ fontSize: "1.5rem" }}>loading...</p>
 			) : user ? (

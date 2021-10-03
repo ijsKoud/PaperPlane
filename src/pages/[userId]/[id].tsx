@@ -66,7 +66,7 @@ const FilePage: NextPage<Props> = ({ fileId, userId, file }) => {
 	return (
 		<>
 			<Head>
-				<title>Proton - {fileId}</title>
+				<title>PaperPlane - {fileId}</title>
 				<meta name="twitter:image" content={fileUrl} />
 				<meta name="og:image" content={fileUrl} />
 			</Head>

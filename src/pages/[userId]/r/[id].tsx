@@ -13,7 +13,7 @@ const LinkPage: NextPage<Props> = ({ linkId, link }) => {
 
 	return (
 		<Head>
-			<title>Proton - {linkId}</title>
+			<title>PaperPlane - {linkId}</title>
 		</Head>
 	);
 };

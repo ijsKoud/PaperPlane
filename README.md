@@ -1,6 +1,6 @@
-<h1 align="center">Proton</h1>
+<h1 align="center">PaperPlane</h1>
 
-> Proton, a shareX/File upload/shortlink server with multi-user support and packed with a lot of cool features! (WIP)
+> PaperPlane, a shareX/File upload/shortlink server with multi-user support and packed with a lot of cool features! (WIP)
 
 ## Install
 

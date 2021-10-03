@@ -62,7 +62,7 @@ const Login: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Proton - Login</title>
+				<title>PaperPlane - Login</title>
 			</Head>
 			<main className="login-container">
 				<div className="login">

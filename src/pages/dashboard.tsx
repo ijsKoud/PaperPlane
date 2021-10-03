@@ -37,7 +37,7 @@ const Dashboard: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Proton - Dashboard</title>
+				<title>PaperPlane - Dashboard</title>
 			</Head>
 			{loading ? (
 				<Loading />
