@@ -11,7 +11,7 @@
 		"@prisma/client": "^3.1.1",
 		"@tippyjs/react": "^4.2.5",
 		"argon2": "^0.28.2",
-		"axios": "^0.21.4",
+		"axios": "^0.22.0",
 		"body-parser": "^1.19.0",
 		"cookie-parser": "^1.4.5",
 		"copy-to-clipboard": "^3.3.1",
