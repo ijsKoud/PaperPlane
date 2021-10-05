@@ -41,7 +41,7 @@
 	},
 	"scripts": {
 		"build:server": "tsc -p ./tsconfig2.json",
-		"dev:server": "nodemon --exec \"ts-node --project ./tsconfig2.json server/index.ts\"",
+		"dev:server": "nodemon -e ts --exec \"ts-node --project ./tsconfig2.json server/index.ts\"",
 		"start:server": "node .",
 		"lint:server": "eslint server",
 		"dev:web": "next dev",
