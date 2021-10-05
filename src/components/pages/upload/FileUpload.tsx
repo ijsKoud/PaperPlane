@@ -31,7 +31,7 @@ export const FileUpload: React.FC = () => {
 				data: formData,
 				method: "POST",
 				headers: {
-					Authorization: user.token,
+					Authorization: user?.token ?? "",
 					"Content-Type": "multipart/form-data",
 				},
 			});
@@ -41,8 +41,8 @@ export const FileUpload: React.FC = () => {
 			if (!("isAxiosError" in err)) return;
 
 			const error = err as AxiosError<ApiError>;
-			alert("Upload failed", `${error.response.data.message ?? "Unknown error"}`);
-			console.error(error.response.data.error ?? "Unknown error");
+			alert("Upload failed", `${error.response?.data.message ?? "Unknown error"}`);
+			console.error(error.response?.data.error ?? "Unknown error");
 		}
 
 		setSubmitting(false);

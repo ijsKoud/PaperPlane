@@ -23,7 +23,7 @@ const EditLink: React.FC<Props> = ({ handleClose, link }) => {
 	});
 
 	const submit = async (data: { url: string; path: string }) => {
-		await fetch(`/${user.userId}/r/${link.path}`, { method: "PATCH", data });
+		await fetch(`/${user?.userId}/r/${link.path}`, { method: "PATCH", data });
 		handleClose();
 	};
 

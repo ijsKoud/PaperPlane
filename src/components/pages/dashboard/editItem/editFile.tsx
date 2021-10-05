@@ -18,7 +18,7 @@ const EditFile: React.FC<Props> = ({ handleClose, name }) => {
 	});
 
 	const submit = async (data: { name: string }) => {
-		await fetch(`/${user.userId}/${name}`, { method: "PATCH", data: { name: data.name } });
+		await fetch(`/${user?.userId}/${name}`, { method: "PATCH", data: { name: data.name } });
 		handleClose();
 	};
 

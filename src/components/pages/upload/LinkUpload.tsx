@@ -21,7 +21,7 @@ export const LinkUpload: React.FC = () => {
 			const { data: resData } = await fetch<{ url: string }>("/upload", {
 				method: "POST",
 				headers: {
-					Authorization: user.token,
+					Authorization: user?.token ?? "",
 				},
 				data: JSON.stringify({
 					short: data.url,
@@ -35,8 +35,8 @@ export const LinkUpload: React.FC = () => {
 			if (!("isAxiosError" in err)) return;
 
 			const error = err as AxiosError<ApiError>;
-			alert("Upload failed", `${error.response.data.message ?? "Unknown error"}`);
-			console.error(error.response.data.error ?? "Unknown error");
+			alert("Upload failed", `${error.response?.data.message ?? "Unknown error"}`);
+			console.error(error.response?.data.error ?? "Unknown error");
 		}
 	};
 

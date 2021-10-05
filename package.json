@@ -2,7 +2,7 @@
 	"name": "paperplane",
 	"version": "1.0.0",
 	"description": "PaperPlane, a shareX/File upload/shortlink server with multi-user support and packed with a lot of cool features!",
-	"main": "dist/index.js",
+	"main": "dist/server/index.js",
 	"author": "DaanGamesDG <daan@daangamesdg.wtf>",
 	"license": "MIT",
 	"private": false,
@@ -41,7 +41,7 @@
 		"yup": "^0.32.9"
 	},
 	"scripts": {
-		"build:server": "tsc --build",
+		"build:server": "tsc -p ./tsconfig2.json",
 		"dev:server": "nodemon --exec ts-node server/index.ts",
 		"start:server": "node .",
 		"lint:server": "eslint server",
