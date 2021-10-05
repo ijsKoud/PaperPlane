@@ -19,6 +19,11 @@ const ratelimit = rateLimit({
 // links
 router.get("/:id/r/:link", async (req, res) => {
 	const { id, link } = req.params;
+	if (id.indexOf("..") !== -1)
+		return res.status(400).send({
+			message: "Something went wrong while processing your request",
+			error: "Malformed id in request",
+		});
 
 	const file = join(process.cwd(), "data", id, "links.json");
 	const linksRaw = await readFile(file, "utf-8");
@@ -73,6 +78,13 @@ router.delete("/:id/r/:link", ratelimit, async (req, res) => {
 // files
 router.get("/:id/:file", async (req, res) => {
 	const { id, file } = req.params;
+
+	if (id.indexOf("..") !== -1 || file.indexOf("..") !== -1)
+		return res.status(400).send({
+			message: "Something went wrong while processing your request",
+			error: "Malformed id/file in request",
+		});
+
 	const filePath = join(process.cwd(), "data", id, "files", file);
 	const data = parseQuery(req.query.data ?? "false");
 
@@ -105,6 +117,12 @@ router.get("/:id/:file", async (req, res) => {
 
 router.delete("/:id/:file", ratelimit, async (req, res) => {
 	const { id, file } = req.params;
+	if (id.indexOf("..") !== -1 || file.indexOf("..") !== -1)
+		return res.status(400).send({
+			message: "Something went wrong while processing your request",
+			error: "Malformed id/file in request",
+		});
+
 	const { session } = req.cookies;
 	if (!session)
 		return res.status(401).send({
@@ -139,6 +157,12 @@ router.delete("/:id/:file", ratelimit, async (req, res) => {
 
 router.patch("/:id/:file", ratelimit, async (req, res) => {
 	const { id, file } = req.params;
+	if (id.indexOf("..") !== -1 || file.indexOf("..") !== -1)
+		return res.status(400).send({
+			message: "Something went wrong while processing your request",
+			error: "Malformed id/file in request",
+		});
+
 	let { name } = req.body;
 	if (!name)
 		return res.status(400).send({
@@ -180,6 +204,12 @@ router.patch("/:id/:file", ratelimit, async (req, res) => {
 
 router.patch("/:id/r/:path", ratelimit, async (req, res) => {
 	const { id, path } = req.params;
+	if (id.indexOf("..") !== -1)
+		return res.status(400).send({
+			message: "Something went wrong while processing your request",
+			error: "Malformed id in request",
+		});
+
 	const { path: newPath, url } = req.body;
 	if (!newPath || !url)
 		return res.status(400).send({
