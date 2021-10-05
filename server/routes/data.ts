@@ -1,13 +1,20 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
+import rateLimit from "express-rate-limit";
 import { lstat, readdir, readFile, rename, unlink, writeFile } from "fs/promises";
 import { lookup } from "mime-types";
 import { join } from "path";
+import getSettings from "../../settings";
 import { Link } from "../types";
 import { formatBytes, parseQuery } from "../utils";
 
 const router = Router();
 const client = new PrismaClient();
+const settings = getSettings();
+const ratelimit = rateLimit({
+	windowMs: settings.ratelimit.time,
+	max: settings.ratelimit.amount,
+});
 
 // links
 router.get("/:id/r/:link", async (req, res) => {
@@ -27,7 +34,7 @@ router.get("/:id/r/:link", async (req, res) => {
 	res.send(linkData.url);
 });
 
-router.delete("/:id/r/:link", async (req, res) => {
+router.delete("/:id/r/:link", ratelimit, async (req, res) => {
 	const { id, link } = req.params;
 	const { session } = req.cookies;
 	if (!session)
@@ -96,7 +103,7 @@ router.get("/:id/:file", async (req, res) => {
 	res.sendFile(filePath, () => res.end());
 });
 
-router.delete("/:id/:file", async (req, res) => {
+router.delete("/:id/:file", ratelimit, async (req, res) => {
 	const { id, file } = req.params;
 	const { session } = req.cookies;
 	if (!session)
@@ -130,7 +137,7 @@ router.delete("/:id/:file", async (req, res) => {
 	}
 });
 
-router.patch("/:id/:file", async (req, res) => {
+router.patch("/:id/:file", ratelimit, async (req, res) => {
 	const { id, file } = req.params;
 	let { name } = req.body;
 	if (!name)
@@ -171,7 +178,7 @@ router.patch("/:id/:file", async (req, res) => {
 	res.sendStatus(204);
 });
 
-router.patch("/:id/r/:path", async (req, res) => {
+router.patch("/:id/r/:path", ratelimit, async (req, res) => {
 	const { id, path } = req.params;
 	const { path: newPath, url } = req.body;
 	if (!newPath || !url)

@@ -6,15 +6,21 @@ import { readdir, readFile, rename, unlink, writeFile } from "fs/promises";
 import { nanoid } from "nanoid";
 import { Link } from "../types";
 import getSettings from "../../settings";
+import rateLimit from "express-rate-limit";
 
 const client = new PrismaClient();
 const router = Router();
+const settings = getSettings();
+const ratelimit = rateLimit({
+	windowMs: settings.ratelimit.time,
+	max: settings.ratelimit.amount,
+});
 
 const uploader = multer({
 	storage: multer.diskStorage({ destination: join(process.cwd(), "data", "temp") }),
 });
 
-router.post("/upload", uploader.array("upload"), async (req, res) => {
+router.post("/upload", ratelimit, uploader.array("upload"), async (req, res) => {
 	req.files = req.files as Express.Multer.File[];
 	if (
 		(!req.files || req.files.length === 0) &&
@@ -43,7 +49,6 @@ router.post("/upload", uploader.array("upload"), async (req, res) => {
 		});
 	}
 
-	const settings = getSettings();
 	const short = req.body.short;
 	const linkPath = req.body.path;
 	if (typeof short === "string" && short.length > 0) {

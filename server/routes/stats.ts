@@ -13,11 +13,19 @@ import {
 } from "../utils";
 import { lookup } from "mime-types";
 import MiniSearch from "minisearch";
+import rateLimit from "express-rate-limit";
+import getSettings from "../../settings";
+
+const settings = getSettings();
+const ratelimit = rateLimit({
+	windowMs: settings.ratelimit.time,
+	max: settings.ratelimit.amount,
+});
 
 const router = Router();
 const client = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", ratelimit, async (req, res) => {
 	const { session } = req.cookies;
 	if (!session)
 		return res.status(401).send({
@@ -58,7 +66,7 @@ router.get("/", async (req, res) => {
 	});
 });
 
-router.get("/links", async (req, res) => {
+router.get("/links", ratelimit, async (req, res) => {
 	const page = Number(parseQuery(req.query.page ?? "1"));
 	const sortType = parseQuery(req.query.sortType ?? "default");
 	const search = decodeURIComponent(parseQuery(req.query.search ?? ""));
@@ -101,7 +109,7 @@ router.get("/links", async (req, res) => {
 	res.send({ pages: chunks[page - 1] ?? [], length: chunks.length });
 });
 
-router.get("/files", async (req, res) => {
+router.get("/files", ratelimit, async (req, res) => {
 	const page = Number(parseQuery(req.query.page ?? "1"));
 	const sortType = parseQuery(req.query.sortType ?? "default");
 	const search = decodeURIComponent(parseQuery(req.query.search ?? ""));
