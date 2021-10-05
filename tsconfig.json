@@ -1,46 +1,32 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "module": "CommonJS",
-    "outDir": "./dist",
-    "types": [
-      "node"
-    ],
-    "skipLibCheck": true,
-    "incremental": false,
-    "inlineSourceMap": true,
-    "declaration": false,
-    "allowJs": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noFallthroughCasesInSwitch": true,
-    "pretty": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "useUnknownInCatchVariables": false,
-    "moduleResolution": "node",
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "noEmit": true
-  },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "./src/**/*",
-    "./server/**/*",
-    "./settings.ts"
-  ]
+	"compilerOptions": {
+		"incremental": false,
+		"inlineSourceMap": true,
+		"declaration": false,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noImplicitThis": true,
+		"alwaysStrict": true,
+		"noFallthroughCasesInSwitch": true,
+		"pretty": true,
+		"experimentalDecorators": true,
+		"target": "es5",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"useUnknownInCatchVariables": false
+	},
+	"exclude": ["node_modules"],
+	"include": ["./src/**/*", "./server/**/*", "./settings.ts"]
 }
