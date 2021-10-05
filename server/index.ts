@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { json } from "body-parser";
 import { createUser } from "./utils";
+import Ratelimit from "express-rate-limit";
 
 import routers from "./routes";
 
@@ -13,6 +14,12 @@ const server = express();
 server
 	.use(cors({ credentials: true, origin: ["http://localhost:3000"] }))
 	.use(cookieParser())
+	.use(
+		Ratelimit({
+			windowMs: 6e4,
+			max: 5,
+		})
+	)
 	.use(json())
 	.use(routers);
 
