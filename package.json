@@ -37,7 +37,7 @@
 		"react-select": "^5.1.0",
 		"sass": "^1.42.1",
 		"uuid": "^8.3.2",
-		"yup": "^0.32.9"
+		"yup": "^0.32.10"
 	},
 	"scripts": {
 		"build:server": "tsc -p ./tsconfig2.json",
