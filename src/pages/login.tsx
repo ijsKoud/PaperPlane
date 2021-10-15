@@ -46,8 +46,11 @@ const Login: NextPage = () => {
 			if (!res.response) return;
 
 			const { data: resData } = res.response;
-			alert("Something went wrong while processing your request", resData.message);
-			console.error(`[Login]: ${resData.error}`);
+			alert(
+				"Something went wrong while processing your request",
+				resData.message ?? "No extra information."
+			);
+			console.error(`[Login]: ${resData.error}\n${resData.error}`);
 
 			return;
 		}
