@@ -20,8 +20,8 @@ model User {
 }
 
 model Session {
-  token   String @id
+  token   String   @id
   userId  String
-  created BigInt
-  user    User   @relation(fields: [userId], references: [userId])
+  created DateTime @default(now())
+  user    User     @relation(fields: [userId], references: [userId])
 }

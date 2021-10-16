@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
 
 	const id = uuid();
 	const session = await client.session.create({
-		data: { token: id, userId: user.userId, created: BigInt(Date.now()) },
+		data: { token: id, userId: user.userId },
 	});
 	return res.send({ sessionId: session.token });
 });

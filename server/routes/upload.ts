@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import { Link } from "../types";
 import getSettings from "../../settings";
 import rateLimit from "express-rate-limit";
+import logger from "../logger";
 
 const client = new PrismaClient();
 const router = Router();
@@ -86,7 +87,7 @@ router.post("/upload", ratelimit, uploader.array("upload"), async (req, res) => 
 			});
 		}
 
-		await rename(file.path, join(dir, file.originalname)).catch((e) => console.error(e));
+		await rename(file.path, join(dir, file.originalname)).catch((e) => logger("api").error(e));
 		files.push(`${settings.dashboard}/${user.userId}/${file.originalname}`);
 	}
 

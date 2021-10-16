@@ -5,6 +5,7 @@ import { lstat, readdir, readFile, rename, unlink, writeFile } from "fs/promises
 import { lookup } from "mime-types";
 import { join } from "path";
 import getSettings from "../../settings";
+import logger from "../logger";
 import { Link } from "../types";
 import { formatBytes, parseQuery } from "../utils";
 
@@ -67,7 +68,7 @@ router.delete("/:id/r/:link", ratelimit, async (req, res) => {
 		await writeFile(file, JSON.stringify(newLinks));
 		res.sendStatus(204);
 	} catch (err) {
-		console.error(err);
+		logger("api").error(err);
 		res.status(500).send({
 			message: "Something went wrong on our side, please try again later.",
 			error: "Internal error, check logs for more information",

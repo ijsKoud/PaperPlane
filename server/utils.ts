@@ -4,7 +4,6 @@ import { mkdir, readdir, stat, writeFile } from "fs/promises";
 import { nanoid } from "nanoid";
 import { join } from "path";
 import { File, Link } from "./types";
-import { v4 as uuid } from "uuid";
 
 const client = new PrismaClient();
 
