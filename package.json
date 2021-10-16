@@ -41,15 +41,13 @@
 		"yup": "^0.32.11"
 	},
 	"scripts": {
+		"dev": "cross-env NODE_ENV=development nodemon -e ts --exec \"ts-node --project ./tsconfig2.json server/index.ts\"",
+		"start": "node .",
+		"prisma:generate": "prisma generate",
 		"build:server": "tsc -p ./tsconfig2.json",
-		"dev:server": "nodemon -e ts --exec \"ts-node --project ./tsconfig2.json server/index.ts\"",
-		"start:server": "node .",
 		"lint:server": "eslint server",
-		"dev:web": "next dev",
 		"build:web": "next build",
-		"start:web": "next start",
-		"lint:web": "next lint --quiet",
-		"prisma:generate": "prisma generate"
+		"lint:web": "next lint --quiet"
 	},
 	"devDependencies": {
 		"@types/body-parser": "1.19.1",
@@ -68,6 +66,7 @@
 		"@types/uuid": "8.3.1",
 		"@typescript-eslint/eslint-plugin": "5.0.0",
 		"@typescript-eslint/parser": "5.0.0",
+		"cross-env": "^7.0.3",
 		"eslint": "8.0.1",
 		"eslint-config-next": "11.1.2",
 		"prisma": "3.2.1",
