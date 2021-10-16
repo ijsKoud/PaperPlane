@@ -88,7 +88,7 @@ const sessionHandler = async () => {
 		log.info(`From the ${sessions.length} sessions ${deleted.count} were deleted`);
 	};
 
-	setTimeout(checkSessions, 6e5);
+	setInterval(checkSessions, 6e5);
 	log.info("Session collector is now collection sessions that are awaiting deletion");
 
 	await checkSessions();
