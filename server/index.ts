@@ -9,6 +9,8 @@ import { createUser } from "./utils";
 import routers from "./routes";
 import logger from "./logger";
 import getSettings from "../settings";
+import next from "next";
+import { parse } from "url";
 
 const client = new PrismaClient({
 	log: [
@@ -109,6 +111,19 @@ const sessionHandler = async () => {
 	await dbConnect();
 	await userCheck();
 	await sessionHandler();
+
+	const nextApp = next({
+		dev: process.env.NODE_ENV === "development",
+		customServer: true,
+	});
+
+	await nextApp.prepare();
+	const handler = nextApp.getRequestHandler();
+
+	server.use((req, res) => {
+		const parsedUrl = parse(req.url, true);
+		handler(req, res, parsedUrl);
+	});
 
 	const settings = getSettings();
 	server.listen(settings.port, () => logger("api").info(`Api listening to port ${settings.port}`));

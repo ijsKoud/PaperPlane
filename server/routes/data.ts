@@ -37,7 +37,7 @@ router.get("/:id/r/:link", async (req, res) => {
 			error: "Redirection URL was not found on the server",
 		});
 
-	res.send(linkData.url);
+	res.redirect(linkData.url);
 });
 
 router.delete("/:id/r/:link", ratelimit, async (req, res) => {
@@ -68,7 +68,16 @@ router.delete("/:id/r/:link", ratelimit, async (req, res) => {
 		await writeFile(file, JSON.stringify(newLinks));
 		res.sendStatus(204);
 	} catch (err) {
-		logger("api").error(err);
+		const log = logger("api");
+		log
+			.trace(
+				"Fatal error trace:",
+				`Route: ${id}/r/${link}`,
+				"method: DELETE",
+				`Parameters: ${id}, ${link}`,
+				"loggedIn: true"
+			)
+			.fatal(err);
 		res.status(500).send({
 			message: "Something went wrong on our side, please try again later.",
 			error: "Internal error, check logs for more information",
