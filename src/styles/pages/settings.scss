@@ -16,6 +16,10 @@
 	border: 1px solid $border;
 	border-radius: 5px;
 	width: min(90%, 90%, 1000px);
+
+	&:last-child {
+		margin-bottom: 1rem;
+	}
 }
 
 .sep-settings {
@@ -40,6 +44,7 @@
 		max-width: 370px;
 		text-align: center;
 		font-size: 1.2rem;
+		word-break: break-all;
 
 		&.token {
 			filter: blur(10px);
@@ -94,8 +99,24 @@
 	}
 }
 
-.settings__username-buttons {
+.settings-password {
+	width: 240px;
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: space-between;
+
+	input {
+		width: 200px !important;
+	}
+
+	i {
+		font-size: 1.5rem;
+		cursor: pointer;
+		color: rgba($white, 0.3);
+		transition: all 0.5s ease;
+
+		&:hover {
+			color: rgba($white, 0.9);
+		}
+	}
 }

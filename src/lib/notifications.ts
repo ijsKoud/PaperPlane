@@ -31,3 +31,19 @@ export const success = (title: string, message: string, id?: string) => {
 		},
 	});
 };
+
+export const info = (title: string, message: string, id?: string) => {
+	store.addNotification({
+		id,
+		title,
+		message,
+		container: "bottom-right",
+		type: "info",
+		dismiss: {
+			duration: 5e3,
+			showIcon: true,
+			pauseOnHover: true,
+			onScreen: true,
+		},
+	});
+};

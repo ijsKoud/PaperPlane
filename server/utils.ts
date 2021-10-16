@@ -101,7 +101,7 @@ export const createUser = async (username: string, password: string): Promise<Us
 
 	const hashed = await encrypt(password);
 	const user = await client.user.create({
-		data: { userId: id, username, password: hashed, token: uuid() },
+		data: { userId: id, username, password: hashed, token: generateToken() },
 	});
 
 	const base = join(process.cwd(), "data", id);
@@ -109,4 +109,17 @@ export const createUser = async (username: string, password: string): Promise<Us
 	await writeFile(join(base, "links.json"), JSON.stringify([]));
 
 	return user;
+};
+
+export const randomChars = (length: number): string => {
+	const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
+
+	let str = "";
+	for (let i = 0; i !== length; ++i) str += charset[Math.floor(Math.random() * charset.length)];
+	return str;
+};
+
+export const generateToken = (): string => {
+	const date = Buffer.from(Date.now().toString()).toString("base64url");
+	return `${randomChars(24)}.${date}`;
 };

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
-import { encrypt } from "../utils";
+import { encrypt, generateToken } from "../utils";
 
 const client = new PrismaClient();
 const router = Router();
@@ -43,6 +43,30 @@ router.put("/update", async (req, res) => {
 	if (username) user.user.username = username.slice(0, 32);
 
 	await client.user.update({ where: { userId: user.userId }, data: user.user });
+	res.sendStatus(204);
+});
+
+router.get("/generate", async (req, res) => {
+	const { session } = req.cookies;
+	if (!session)
+		return res.status(400).send({
+			message: "Something went wrong while processing your request, please try again later",
+			error: "Bad Request",
+		});
+
+	const user = await client.session.findFirst({
+		where: { token: session },
+		include: { user: true },
+	});
+
+	if (!user)
+		return res
+			.status(401)
+			.send({ message: "You need to be logged in to perform this action", error: "Unauthorized" });
+
+	user.user.token = generateToken();
+	await client.user.update({ where: { userId: user.userId }, data: user.user });
+
 	res.sendStatus(204);
 });
 
