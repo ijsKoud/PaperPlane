@@ -14,7 +14,10 @@ router.get("/", async (req, res) => {
 		include: { user: true },
 	});
 
-	res.send(sessionData?.user);
+	const user = sessionData?.user;
+	if (!user) return res.send(null);
+
+	res.send({ ...user, password: "" });
 });
 
 router.put("/update", async (req, res) => {
