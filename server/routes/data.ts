@@ -95,6 +95,9 @@ router.get("/:id/:file", async (req, res) => {
 			error: "Malformed id/file in request",
 		});
 
+	if (id === "assets")
+		return res.sendFile(join(process.cwd(), "public", "assets", file), () => res.end());
+
 	const filePath = join(process.cwd(), "data", id, "files", file);
 	const data = parseQuery(req.query.data ?? "false");
 
