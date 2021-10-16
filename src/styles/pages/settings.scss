@@ -1,0 +1,101 @@
+.settings {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 500;
+	}
+}
+
+.settings-container {
+	background-color: $bg2;
+	padding: 1rem;
+	border: 1px solid $border;
+	border-radius: 5px;
+	width: min(90%, 90%, 1000px);
+}
+
+.sep-settings {
+	margin-top: 1rem;
+}
+
+.settings-component {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	h3 {
+		font-size: 1.7rem;
+	}
+
+	p {
+		background: rgba($bg3, 0.5);
+		padding: 10px;
+		border-radius: 5px;
+		min-width: 160px;
+		max-width: 370px;
+		text-align: center;
+		font-size: 1.2rem;
+
+		&.token {
+			filter: blur(10px);
+			user-select: none; /* standard syntax */
+			-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+			-moz-user-select: none; /* mozilla browsers */
+			-khtml-user-select: none; /* webkit (konqueror) browsers */
+			-ms-user-select: none; /* IE10+ */
+		}
+
+		&.token.show {
+			filter: none;
+			user-select: text; /* standard syntax */
+			-webkit-user-select: text; /* webkit (safari, chrome) browsers */
+			-moz-user-select: text; /* mozilla browsers */
+			-khtml-user-select: text; /* webkit (konqueror) browsers */
+			-ms-user-select: text; /* IE10+ */
+		}
+	}
+
+	div {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 200px;
+	}
+
+	button {
+		margin-top: 0.5rem;
+		padding: 5px;
+		border-radius: 5px;
+		border: 1px solid $blurple;
+		transition: all 0.5s ease;
+		font-size: 1.2rem;
+		color: $blurple;
+		cursor: pointer;
+
+		&:hover {
+			background: $blurple;
+			color: $white;
+		}
+
+		&.danger {
+			color: $red;
+			border-color: $red;
+
+			&:hover {
+				background: $red;
+				color: $white;
+			}
+		}
+	}
+}
+
+.settings__username-buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
