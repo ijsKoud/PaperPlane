@@ -10,7 +10,7 @@ const ConfigDownloads: React.FC = () => {
 			Name: "PaperPlane",
 			DestinationType: "ImageUploader, TextUploader, FileUploader, URLShortener",
 			RequestMethod: "POST",
-			RequestURL: `${process.env.NEXT_PUBLIC_API}/upload`,
+			RequestURL: `${process.env.NEXT_PUBLIC_DOMAIN}/upload`,
 			Headers: {
 				Authorization: user?.token,
 			},

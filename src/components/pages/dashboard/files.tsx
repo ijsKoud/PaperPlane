@@ -50,7 +50,7 @@ const DashboardFiles: React.FC<Props> = ({ user, fetchStats }) => {
 	}, [page, sort]);
 
 	const getFileLink = (id: string, api = true) =>
-		`${api ? process.env.NEXT_PUBLIC_API : `${location.protocol}//${location.host}`}/${
+		`${api ? process.env.NEXT_PUBLIC_DOMAIN : `${location.protocol}//${location.host}`}/${
 			user?.userId
 		}/${id}`;
 
