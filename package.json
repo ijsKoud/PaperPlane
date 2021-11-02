@@ -9,7 +9,7 @@
 	"dependencies": {
 		"@agney/react-loading": "^0.1.2",
 		"@daangamesdg/logger": "^1.1.0",
-		"@prisma/client": "^3.3.0",
+		"@prisma/client": "^3.4.0",
 		"@tippyjs/react": "^4.2.6",
 		"argon2": "^0.28.2",
 		"axios": "^0.24.0",
