@@ -9,7 +9,7 @@
 	"dependencies": {
 		"@agney/react-loading": "^0.1.2",
 		"@daangamesdg/logger": "^1.1.0",
-		"@prisma/client": "^3.4.1",
+		"@prisma/client": "^3.4.2",
 		"@tippyjs/react": "^4.2.6",
 		"argon2": "^0.28.2",
 		"axios": "^0.24.0",
@@ -69,7 +69,7 @@
 		"cross-env": "^7.0.3",
 		"eslint": "8.2.0",
 		"eslint-config-next": "12.0.3",
-		"prisma": "3.4.1",
+		"prisma": "3.4.2",
 		"typescript": "4.4.4"
 	}
 }
