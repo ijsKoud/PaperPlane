@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "PaperPlane, a shareX/File upload/shortlink server with multi-user support and packed with a lot of cool features!",
 	"main": "dist/server/index.js",
-	"author": "DaanGamesDG <daan@daangamesdg.wtf>",
+	"author": "DaanGamesDG <daan@daangamesdg.xyz>",
 	"license": "MIT",
 	"private": false,
 	"dependencies": {

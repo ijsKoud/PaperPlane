@@ -10,8 +10,8 @@ soon:tm:
 
 👤 **DaanGamesDG**
 
-- Website: https://daangamesdg.wtf/
-- Email: <daan@daangamesdg.wtf>
+- Website: https://daangamesdg.xyz/
+- Email: <daan@daangamesdg.xyz>
 - Twitter: [@DaanGamesDG](https://twitter.com/DaanGamesDG)
 - Github: [@DaanGamesDG](https://github.com/DaanGamesDG)
 
