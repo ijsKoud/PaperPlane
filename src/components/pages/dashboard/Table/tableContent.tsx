@@ -1,5 +1,6 @@
 import Tippy from "@tippyjs/react";
 import copy from "copy-to-clipboard";
+import saveAs from "file-saver";
 import React, { useState } from "react";
 import { isMobile } from "react-device-detect";
 import Modal from "../../../modal";
