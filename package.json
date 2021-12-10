@@ -36,7 +36,7 @@
 		"react-dropzone": "^11.4.2",
 		"react-notifications-component": "^3.1.0",
 		"react-select": "^5.2.1",
-		"sass": "^1.44.0",
+		"sass": "^1.45.0",
 		"uuid": "^8.3.2",
 		"yup": "^0.32.11"
 	},
