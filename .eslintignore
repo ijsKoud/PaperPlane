@@ -1,0 +1,6 @@
+node_modules
+dist
+
+package.json
+.lintstagedrc.json
+.commitlintrc.json
