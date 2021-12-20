@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const express = require("express");
 const next = require("next");
-const nextHandler = require("./NextHandler");
-const dataHandler = require("./DataHandler");
+const nextHandler = require("./handlers/NextHandler");
+const dataHandler = require("./handlers/DataHandler");
 
 console.log(
 	[

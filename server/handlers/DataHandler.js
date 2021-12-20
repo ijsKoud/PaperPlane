@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { FILE_DATA_DIR, URL_DATA_FILE } = require("./constants");
+const { FILE_DATA_DIR, URL_DATA_FILE } = require("../constants");
 const { readdir, readFile } = require("fs/promises");
 const { Router } = require("express");
 const { join } = require("path");
