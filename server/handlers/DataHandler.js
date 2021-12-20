@@ -17,8 +17,10 @@ module.exports = function DataHandler(nextApp) {
 		if (!files.includes(id)) return nextApp.render404(req, res);
 
 		res.sendFile(path, (err) => {
-			console.error(err);
-			res.end();
+			if (err) {
+				console.error(err);
+				res.end();
+			}
 		});
 	});
 
