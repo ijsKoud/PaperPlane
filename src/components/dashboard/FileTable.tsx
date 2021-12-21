@@ -7,6 +7,8 @@ import type { AxiosError, CancelToken } from "axios";
 import Image from "next/image";
 import moment from "moment";
 import { alert, success } from "../../lib/notifications";
+import TableContent from "./table/TableContent";
+import Table from "./table/Table";
 
 const carrotButtonVariants: Variants = {
 	init: {
@@ -21,11 +23,11 @@ const carrotButtonVariants: Variants = {
 
 const tableVariants: Variants = {
 	init: {
-		height: 0,
+		maxHeight: 0,
 		...defaultVariant
 	},
 	animation: {
-		height: 175,
+		maxHeight: 2500,
 		...defaultVariant
 	}
 };
@@ -63,12 +65,17 @@ const Statistics: React.FC<Props> = ({ fetchStats }) => {
 
 	useEffect(() => {
 		const { token, cancel } = getCancelToken();
-		fetchFiles(token);
 
-		return () => cancel("Cancelled");
+		fetchFiles(token);
+		void controller.start("animation");
+
+		return () => {
+			cancel("Cancelled");
+			controller.stop();
+		};
 	}, [page, sort]);
 
-	const getFileLink = (id: string, api = true) => `${api ? process.env.NEXT_PUBLIC_DOMAIN : `${location.protocol}//${location.host}`}/file/${id}`;
+	const getFileLink = (id: string, full = false) => `${full ? process.env.NEXT_PUBLIC_DOMAIN : ""}/files/${id}`;
 
 	const deleteFile = async (name: string) => {
 		setFiles(files.filter((file) => file.name !== name));
@@ -91,7 +98,7 @@ const Statistics: React.FC<Props> = ({ fetchStats }) => {
 		const [type] = _type.split("/");
 		switch (type) {
 			case "image":
-				return <Image alt="" className="dashboard__table-preview" src={url} width={100} />;
+				return <Image alt="" className="dashboard__table-preview" src={url} width={200} height={100} layout="responsive" loading="lazy" />;
 			case "video":
 				return <video className="dashboard__table-preview" controls src={url} />;
 			default:
@@ -118,6 +125,24 @@ const Statistics: React.FC<Props> = ({ fetchStats }) => {
 			</div>
 			<motion.div className="dashboard-table-items" variants={tableVariants} initial="init" animate={controller}>
 				<Navigation {...{ setQuery, setPage, setSort, fetchItems: fetchFiles, page, pages }} />
+				<Table listItems={["Preview", "Name", "Size", "Date", "Actions"]}>
+					{files.map((file, i) => {
+						const fileLink = getFileLink(file.name);
+						const apiFileLink = getFileLink(file.name, true);
+						const preview = getPreview(file.type, apiFileLink);
+
+						const props = {
+							...file,
+							type: "file" as const,
+							fileLink,
+							apiFileLink,
+							preview,
+							deleteFile,
+							fetchFiles
+						};
+						return <TableContent key={i} {...props} />;
+					})}
+				</Table>
 			</motion.div>
 		</div>
 	);

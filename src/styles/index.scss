@@ -122,6 +122,11 @@ td {
 	color: rgba(var(--white-rgb), 0.6);
 }
 
+button {
+	background: unset;
+	border: unset;
+}
+
 /* == Tippy Theme */
 @font-face {
 	font-family: "Discord Font";
