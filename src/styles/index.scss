@@ -9,7 +9,7 @@ html {
 	--bg1: #05070f;
 	--bg2: #0c101c;
 	--bg3: #2e384f;
-	--border: #1b2541;
+	--bg2-border: #1b2541;
 
 	--white: #fff;
 	--black: #272727;
@@ -109,3 +109,5 @@ a {
 		margin-bottom: 8px;
 	}
 }
+
+@import "./components/index.scss";

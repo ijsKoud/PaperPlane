@@ -1,0 +1,90 @@
+.navbar {
+	position: fixed;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	width: 100vw;
+	height: 75px;
+
+	background-color: var(--bg2);
+	border-bottom: 1px solid var(--bg2-border);
+
+	padding: 0 10px;
+}
+
+.navbar-logo {
+	display: flex;
+	align-items: center;
+
+	h1 {
+		font-size: 2rem;
+		font-weight: 500;
+	}
+}
+
+.navbar-user {
+	button {
+		background-color: unset;
+		border: unset;
+
+		font-size: 1.5rem;
+		cursor: pointer;
+
+		color: var(--white);
+		opacity: 0.5;
+		transition: opacity 0.5s ease;
+
+		&:hover {
+			opacity: 0.9;
+		}
+	}
+}
+
+.navbar-dropdown {
+	list-style: none;
+
+	background-color: var(--bg2);
+	border: 1px solid var(--bg2-border);
+	border-radius: 5px;
+
+	transform: translateY(-10px);
+	opacity: 0;
+	transition: transform 0.5s ease, opacity 0.5s ease;
+
+	position: fixed;
+	top: 60px;
+	right: 10px;
+
+	width: 125px;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+
+	text-align: center;
+	pointer-events: none;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	&.active {
+		pointer-events: auto;
+		transform: translateY(0px);
+		opacity: 1;
+	}
+}
+
+.navbar-dropdown-item {
+	font-size: 1.25rem;
+
+	cursor: pointer;
+
+	color: var(--white);
+	opacity: 0.5;
+	transition: opacity 0.5s ease;
+
+	&:hover {
+		opacity: 0.9;
+	}
+}
