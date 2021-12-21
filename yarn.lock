@@ -278,6 +278,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@daangamesdg/logger@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@daangamesdg/logger@npm:1.1.0"
+  dependencies:
+    moment: ^2.29.1
+  checksum: c471e0f79c8378cf50e85af8b01ab49f238d9e7ef295155b47ac76ae1dc9e6b0aa3a026ecf08de71f314cd2c8c728354766db70d54f41c56aa1a1c946461eeba
+  languageName: node
+  linkType: hard
+
 "@endemolshinegroup/cosmiconfig-typescript-loader@npm:^3.0.2":
   version: 3.0.2
   resolution: "@endemolshinegroup/cosmiconfig-typescript-loader@npm:3.0.2"
@@ -4509,6 +4518,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moment@npm:^2.29.1":
+  version: 2.29.1
+  resolution: "moment@npm:2.29.1"
+  checksum: 1e14d5f422a2687996be11dd2d50c8de3bd577c4a4ca79ba5d02c397242a933e5b941655de6c8cb90ac18f01cc4127e55b4a12ae3c527a6c0a274e455979345e
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -5046,6 +5062,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^15.0.0
     "@commitlint/config-angular": ^15.0.0
+    "@daangamesdg/logger": ^1.1.0
     "@prisma/client": ^3.6.0
     "@sapphire/eslint-config": ^4.0.8
     "@sapphire/prettier-config": ^1.2.7
