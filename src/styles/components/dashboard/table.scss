@@ -1,0 +1,20 @@
+.dashboard-table-title {
+	display: flex;
+	align-items: center;
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 600;
+	}
+
+	button {
+		background-color: unset;
+		border: unset;
+		margin-right: 10px;
+		cursor: pointer;
+
+		i {
+			font-size: 1.5rem;
+		}
+	}
+}
