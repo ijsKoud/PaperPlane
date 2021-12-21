@@ -6,6 +6,7 @@ import { ApiError, fetch, FileStats, getCancelToken } from "../../lib";
 import type { AxiosError, CancelToken } from "axios";
 import Image from "next/image";
 import moment from "moment";
+import { alert, success } from "../../lib/notifications";
 
 const carrotButtonVariants: Variants = {
 	init: {
@@ -74,12 +75,12 @@ const Statistics: React.FC<Props> = ({ fetchStats }) => {
 
 		try {
 			await fetch(`/api/file/delete/${name}`, undefined, { method: "DELETE" });
-			// success("File deleted!", `Successfully deleted file: ${name}`);
+			success("File deleted!", `Successfully deleted file: ${name}`);
 		} catch (error) {
 			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
 
 			const err = error as AxiosError<ApiError>;
-			// alert("Could not delete the file", `${err.response?.data.message ?? "Unknown cause"}`);
+			alert("Could not delete the file", `${err.response?.data.message ?? "Unknown cause"}`);
 		}
 
 		fetchFiles();

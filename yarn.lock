@@ -826,6 +826,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-notifications-component@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@types/react-notifications-component@npm:3.1.1"
+  dependencies:
+    "@types/react": "*"
+  checksum: f363fa136d73c7f83eb89067929147b6a0b3444f5d9174151c5d2d12c722c8e9260e400a28272f0cc4600472ab188c7b3975d8e6ffacb868b832450b4264c0cd
+  languageName: node
+  linkType: hard
+
 "@types/react-transition-group@npm:^4.4.0":
   version: 4.4.4
   resolution: "@types/react-transition-group@npm:4.4.4"
@@ -5285,6 +5294,7 @@ __metadata:
     "@types/mime-types": ^2.1.1
     "@types/node": 17.0.1
     "@types/react": 17.0.37
+    "@types/react-notifications-component": ^3.1.1
     axios: ^0.24.0
     dotenv: ^10.0.0
     eslint: 8.5.0
@@ -5302,6 +5312,7 @@ __metadata:
     prompts: ^2.4.2
     react: 17.0.2
     react-dom: 17.0.2
+    react-notifications-component: ^3.1.0
     react-select: ^5.2.1
     sass: ^1.45.0
     typescript: 4.5.4
@@ -5765,6 +5776,15 @@ __metadata:
   version: 1.1.0
   resolution: "react-merge-refs@npm:1.1.0"
   checksum: 90884352999002d868ab9f1bcfe3222fb0f2178ed629f1da7e98e5a9b02a2c96b4aa72800db92aabd69d2483211b4be57a2088e89a11a0b660e7ada744d4ddf7
+  languageName: node
+  linkType: hard
+
+"react-notifications-component@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "react-notifications-component@npm:3.1.0"
+  peerDependencies:
+    react: ^17.0.1
+  checksum: f841faccf627ea70d85756a0538e37230eb6f3cadcb75d6c6963c6928d4aa477939db01c44d375391619a2c76b8425fb33720aa3b18f99721c56fa68a7cfd5f8
   languageName: node
   linkType: hard
 

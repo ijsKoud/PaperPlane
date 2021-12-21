@@ -1,15 +1,20 @@
 import "../styles/index.scss";
+import "react-notifications-component/dist/theme.css";
 import type { AppProps } from "next/app";
 
 import Navbar from "../components/general/Navbar";
 import { AnimatePresence } from "framer-motion";
+import ReactNotificationsComponent from "react-notifications-component";
 
 const App = ({ Component, pageProps }: AppProps) => {
 	return (
-		<AnimatePresence exitBeforeEnter>
-			<Navbar key="1" />
-			<Component key="2" {...pageProps} />
-		</AnimatePresence>
+		<>
+			<ReactNotificationsComponent />
+			<Navbar />
+			<AnimatePresence exitBeforeEnter>
+				<Component {...pageProps} />
+			</AnimatePresence>
+		</>
 	);
 };
 
