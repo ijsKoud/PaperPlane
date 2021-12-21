@@ -54,7 +54,7 @@ const Statistics: React.FC = () => {
 				<motion.button onClick={toggleOpen} variants={carrotButtonVariants} initial="init" animate={controller}>
 					<i className="fas fa-chevron-right" />
 				</motion.button>
-				<h1>Stats</h1>
+				<h1>Files</h1>
 			</div>
 			<motion.div
 				className="dashboard__stats-items"
