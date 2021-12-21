@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+require("dotenv").config();
 const express = require("express");
 const next = require("next");
 const nextHandler = require("./handlers/NextHandler");
