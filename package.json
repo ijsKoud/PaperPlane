@@ -1,6 +1,7 @@
 {
 	"name": "paperplane",
 	"main": "server/index.js",
+	"version": "2.0.0",
 	"scripts": {
 		"dev": "NODE_ENV=development nodemon .",
 		"dev:web": "next dev",

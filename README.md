@@ -2,17 +2,17 @@
     <img src="public/assets/images/paperplane.png" width="100px" />
     <h1>PaperPlane</h1>
   
-  <p>Fast file/shorturl upload server packed with lots of cool features!</p>
+  <p>A fast file/shorturl upload server packed with lots of cool features!</p>
   
   <p align="center">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg" />
+    <img alt="Version" src="https://img.shields.io/badge/version-2.0.0-blue.svg" />
     <a href="/LICENSE" target="_blank">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
     </a>
   </p>
 
   <a href="https://daangamesdg.xyz/discord" target="_blank">
-    <img src="https://discord.com/api/guilds/828382957310967820/embed.png?style=banner2" />
+    <img src="https://daangamesdg.xyz/discord/banner" />
   </a>
 </div>
 
