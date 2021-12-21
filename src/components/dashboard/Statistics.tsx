@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { fetch, getCancelToken, Stats } from "../../lib";
+import React from "react";
+import type { Stats } from "../../lib";
 
-const Statistics: React.FC = () => {
-	const [stats, setStats] = useState<Stats>({ files: { size: 0, bytes: "0 kB" }, links: 0 });
+interface Props {
+	stats: Stats;
+}
 
-	useEffect(() => {
-		const { cancel, token } = getCancelToken();
-		fetch<Stats>("/api/stats", token)
-			.then((res) => setStats(res.data))
-			.catch(() => void 0);
-
-		return () => cancel();
-	}, []);
-
+const Statistics: React.FC<Props> = ({ stats }) => {
 	return (
 		<div className="dashboard-stats">
 			<h1 className="dashboard__stats-title">Stats</h1>

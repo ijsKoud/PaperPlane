@@ -29,7 +29,11 @@ const tableVariants: Variants = {
 	}
 };
 
-const Statistics: React.FC = () => {
+interface Props {
+	fetchStats: (token?: CancelToken) => void;
+}
+
+const Statistics: React.FC<Props> = ({ fetchStats }) => {
 	const [open, setOpen] = useState(true);
 	const controller = useAnimation();
 
@@ -79,7 +83,7 @@ const Statistics: React.FC = () => {
 		}
 
 		fetchFiles();
-		// fetchStats();
+		fetchStats();
 	};
 
 	const getPreview = (_type: string, url: string) => {
