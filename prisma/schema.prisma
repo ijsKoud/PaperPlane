@@ -22,7 +22,7 @@ model User {
   embedEnabled     Boolean
 }
 
-model URL {
+model Url {
   id      String  @id
   url     String
   enabled Boolean
