@@ -13,7 +13,7 @@ const Dashboard: NextPage = () => {
 	});
 
 	const fetchStats = (token?: CancelToken) => {
-		fetch<Stats>("/stats/", token)
+		fetch<Stats>("/api/stats", token)
 			.then((res) => setStats(res.data))
 			.catch(() => void 0);
 	};
