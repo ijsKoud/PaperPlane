@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { fetch, getCancelToken, Stats } from "../../lib";
 import { motion, useAnimation, Variants } from "framer-motion";
 import { defaultVariant } from "../../lib/clientConstants";
+import Navigation from "./table/Navigation";
+import { ApiError, fetch, FileStats, getCancelToken } from "../../lib";
+import type { AxiosError, CancelToken } from "axios";
+import Image from "next/image";
+import moment from "moment";
 
 const carrotButtonVariants: Variants = {
 	init: {
@@ -26,9 +30,70 @@ const tableVariants: Variants = {
 };
 
 const Statistics: React.FC = () => {
-	const [stats, setStats] = useState<Stats>({ files: { size: 0, bytes: "0 kB" }, links: 0 });
 	const [open, setOpen] = useState(true);
 	const controller = useAnimation();
+
+	const [page, setPage] = useState(1);
+	const [pages, setPages] = useState(1);
+
+	const [sort, setSort] = useState("default");
+	const [query, setQuery] = useState("");
+
+	const [files, setFiles] = useState<FileStats[]>([]);
+
+	const fetchFiles = (token?: CancelToken | undefined) => {
+		const path = `/api/files/search?page=${page}&sortType=${sort}&search=${encodeURIComponent(query ?? "")}`;
+		fetch<{ pages: FileStats[]; length: number }>(path, token)
+			.then((res) => {
+				setPages(res.data.length);
+				setFiles(
+					res.data.pages.map((file) => ({
+						...file,
+						date: `${moment(file.date).format("DD/MM/YYYY HH:mm:ss")}`
+					}))
+				);
+			})
+			.catch(() => void 0);
+	};
+
+	useEffect(() => {
+		const { token, cancel } = getCancelToken();
+		fetchFiles(token);
+
+		return () => cancel("Cancelled");
+	}, [page, sort]);
+
+	const getFileLink = (id: string, api = true) => `${api ? process.env.NEXT_PUBLIC_DOMAIN : `${location.protocol}//${location.host}`}/file/${id}`;
+
+	const deleteFile = async (name: string) => {
+		setFiles(files.filter((file) => file.name !== name));
+
+		try {
+			await fetch(`/api/file/${name}`, undefined, { method: "DELETE" });
+			// success("File deleted!", `Successfully deleted file: ${name}`);
+		} catch (error) {
+			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
+
+			const err = error as AxiosError<ApiError>;
+			// alert("Could not delete the file", `${err.response?.data.message ?? "Unknown cause"}`);
+		}
+
+		fetchFiles();
+		// fetchStats();
+	};
+
+	const getPreview = (type: string, url: string) => {
+		// eslint-disable-next-line prefer-destructuring
+		type = type.split("/")[0];
+		switch (type) {
+			case "image":
+				return <Image alt="" className="dashboard__table-preview" src={url} width={100} />;
+			case "video":
+				return <video className="dashboard__table-preview" controls src={url} />;
+			default:
+				return <i className="fas fa-file no-preview dashboard__table-preview" />;
+		}
+	};
 
 	const toggleOpen = () => {
 		const _open = !open;
@@ -39,15 +104,6 @@ const Statistics: React.FC = () => {
 		else void controller.start("init");
 	};
 
-	useEffect(() => {
-		const { cancel, token } = getCancelToken();
-		fetch<Stats>("/api/stats", token)
-			.then((res) => setStats(res.data))
-			.catch(() => void 0);
-
-		return () => cancel();
-	}, []);
-
 	return (
 		<div className="dashboard-table">
 			<div className="dashboard-table-title">
@@ -56,25 +112,8 @@ const Statistics: React.FC = () => {
 				</motion.button>
 				<h1>Files</h1>
 			</div>
-			<motion.div
-				className="dashboard__stats-items"
-				style={{ overflow: "hidden" }}
-				variants={tableVariants}
-				initial="init"
-				animate={controller}
-			>
-				<div className="dashboard__stats-item">
-					<h2>Files</h2>
-					<p>{stats.files.size}</p>
-				</div>
-				<div className="dashboard__stats-item">
-					<h2>Links</h2>
-					<p>{stats.links}</p>
-				</div>
-				<div className="dashboard__stats-item">
-					<h2>Total Size</h2>
-					<p>{stats.files.bytes}</p>
-				</div>
+			<motion.div className="dashboard-table-items" variants={tableVariants} initial="init" animate={controller}>
+				<Navigation {...{ setQuery, setPage, setSort, fetchItems: fetchFiles, page, pages }} />
 			</motion.div>
 		</div>
 	);
