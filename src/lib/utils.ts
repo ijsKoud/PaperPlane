@@ -1,4 +1,6 @@
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypto";
+import { readdir, stat } from "fs/promises";
+import { join } from "path";
 
 export function randomChars(length: number) {
 	const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
@@ -38,4 +40,28 @@ export function decryptToken(hash: string): string {
 	const token = decrypted.toString();
 
 	return token;
+}
+
+export async function sizeOfDir(directory: string): Promise<number> {
+	const files = await readdir(directory);
+
+	let size = 0;
+	for (let i = 0, L = files.length; i !== L; ++i) {
+		const sta = await stat(join(directory, files[i]));
+		size += sta.size;
+	}
+
+	return size;
+}
+
+export function formatBytes(bytes: number): string {
+	const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+	let num = 0;
+
+	while (bytes > 1024) {
+		bytes /= 1024;
+		++num;
+	}
+
+	return `${bytes.toFixed(1)} ${units[num]}`;
 }
