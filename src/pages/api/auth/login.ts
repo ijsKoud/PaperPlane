@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		return res.status(400).json({ error: "Missing password or username in the request body" });
 
 	const body = req.body as ReqBody;
-	const user = await client.user.findFirst({ where: { username: req.body.username } });
+	const user = await client.user.findFirst({ where: { username: body.username } });
 	if (!user) return res.status(404).send({ error: "Incorrect username or password provided" });
 
 	const [salt, key] = user.password.split(":");
