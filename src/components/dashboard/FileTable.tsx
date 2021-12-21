@@ -82,9 +82,8 @@ const Statistics: React.FC = () => {
 		// fetchStats();
 	};
 
-	const getPreview = (type: string, url: string) => {
-		// eslint-disable-next-line prefer-destructuring
-		type = type.split("/")[0];
+	const getPreview = (_type: string, url: string) => {
+		const [type] = _type.split("/");
 		switch (type) {
 			case "image":
 				return <Image alt="" className="dashboard__table-preview" src={url} width={100} />;
