@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-var-requires */
+const { PrismaClient } = require("@prisma/client");
 const { FILE_DATA_DIR, URL_DATA_FILE } = require("../constants");
 const { readdir, readFile } = require("fs/promises");
 const { Router } = require("express");
 const { join } = require("path");
+
+const client = new PrismaClient();
 
 module.exports = function DataHandler(nextApp) {
 	const router = Router();
@@ -23,17 +26,14 @@ module.exports = function DataHandler(nextApp) {
 			}
 		});
 	});
-
 	router.get("/r/:id", async (req, res) => {
 		const { id } = req.params;
 
 		try {
-			const file = await readFile(URL_DATA_FILE, "utf-8");
-			const urls = JSON.parse(file);
-			if (!Array.isArray(urls)) return nextApp.render404(req, res);
+			const url = await client.url.findFirst({ where: { id } });
+			if (!url) return nextApp.render404(req, res);
 
-			const url = urls.find((url) => url.id === id);
-			if (url && url.url) return res.redirect(url.url);
+			res.redirect(url.url);
 		} catch (err) {
 			console.error(err);
 		}
