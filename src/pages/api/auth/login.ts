@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { scryptSync, timingSafeEqual } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { encryptToken } from "../../../lib";
+import { encryptToken } from "../../../lib/utils";
 
 const client = new PrismaClient();
 
