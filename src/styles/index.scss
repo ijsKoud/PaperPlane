@@ -6,9 +6,11 @@
 html {
 	--main: #2c39a6;
 	--alt: #7344e2;
+
 	--bg1: #05070f;
 	--bg2: #0c101c;
 	--bg3: #2e384f;
+
 	--bg2-border: #1b2541;
 
 	--white: #fff;
@@ -18,6 +20,24 @@ html {
 	--red: #ff4141;
 	--orange: #ff9800;
 	--blurple: #5865f2;
+
+	/* === RGB === */
+	--main-rgb: 44, 57, 166;
+	--alt-rgb: 115, 68, 226;
+
+	--bg1-rgb: 5, 7, 15;
+	--bg2-rgb: 12, 16, 28;
+	--bg3-rgb: 46, 56, 79;
+
+	--bg2-border-rgb: 27, 37, 65;
+
+	--white-rgb: 255, 255, 255;
+	--black-rgb: 39, 39, 39;
+	--gray-rgb: 85, 85, 85;
+	--green-rgb: 7, 219, 60;
+	--red-rgb: 255, 65, 65;
+	--orange-rgb: 255, 152, 0;
+	--blurple-rgb: 88, 101, 242;
 }
 
 * {
@@ -50,6 +70,10 @@ a {
 	-moz-user-select: none; /* mozilla browsers */
 	-khtml-user-select: none; /* webkit (konqueror) browsers */
 	-ms-user-select: none; /* IE10+ */
+}
+
+main {
+	padding-top: 100px;
 }
 
 /* == Tippy Theme */
