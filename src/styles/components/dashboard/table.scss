@@ -18,3 +18,17 @@
 		}
 	}
 }
+
+.dashboard-table {
+	background-color: var(--bg2);
+	border: 1px solid var(--bg2-border);
+	width: 90%;
+	padding: 10px;
+	border-radius: 5px;
+
+	margin-left: auto;
+	margin-right: auto;
+
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}

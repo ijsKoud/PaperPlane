@@ -49,7 +49,7 @@ const Statistics: React.FC = () => {
 	}, []);
 
 	return (
-		<div className="dashboard-stats">
+		<div className="dashboard-table">
 			<div className="dashboard-table-title">
 				<motion.button onClick={toggleOpen} variants={carrotButtonVariants} initial="init" animate={controller}>
 					<i className="fas fa-chevron-right" />
