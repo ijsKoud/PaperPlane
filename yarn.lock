@@ -784,6 +784,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/mime-types@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@types/mime-types@npm:2.1.1"
+  checksum: 106b5d556add46446a579ad25ff15d6b421851790d887edcad558c90c1e64b1defc72bfbaf4b08f208916e21d9cc45cdb951d77be51268b18221544cfe054a3c
+  languageName: node
+  linkType: hard
+
 "@types/minimist@npm:^1.2.0":
   version: 1.2.2
   resolution: "@types/minimist@npm:1.2.2"
@@ -4560,7 +4567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime-types@npm:~2.1.24":
+"mime-types@npm:^2.1.34, mime-types@npm:~2.1.24":
   version: 2.1.34
   resolution: "mime-types@npm:2.1.34"
   dependencies:
@@ -4697,6 +4704,13 @@ __metadata:
   dependencies:
     yallist: ^4.0.0
   checksum: 57a04041413a3531a65062452cb5175f93383ef245d6f4a2961d34386eb9aa8ac11ac7f16f791f5e8bbaf1dfb1ef01596870c88e8822215db57aa591a5bb0a77
+  languageName: node
+  linkType: hard
+
+"minisearch@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "minisearch@npm:3.2.0"
+  checksum: 953ee407008f80db18b4696fee2bad3a6bbbd2b41879dcad68839896b12b38578e198c03add2366fc521ea54a0c81020e00f9ffd1f7767ef805de1aeb7cc2c11
   languageName: node
   linkType: hard
 
@@ -5268,6 +5282,7 @@ __metadata:
     "@sapphire/eslint-config": ^4.0.8
     "@sapphire/prettier-config": ^1.2.7
     "@sapphire/ts-config": ^3.1.6
+    "@types/mime-types": ^2.1.1
     "@types/node": 17.0.1
     "@types/react": 17.0.37
     axios: ^0.24.0
@@ -5278,6 +5293,8 @@ __metadata:
     framer-motion: ^5.5.5
     husky: ^7.0.4
     lint-staged: ^12.1.3
+    mime-types: ^2.1.34
+    minisearch: ^3.2.0
     moment: ^2.29.1
     next: 12.0.7
     nodemon: ^2.0.15

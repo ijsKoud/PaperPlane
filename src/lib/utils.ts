@@ -1,8 +1,9 @@
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient, Url, User } from "@prisma/client";
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypto";
 import { readdir, stat } from "fs/promises";
 import type { NextApiRequest } from "next";
 import { join } from "path";
+import type { File } from ".";
 
 export function randomChars(length: number) {
 	const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
@@ -78,4 +79,55 @@ export async function getUser(req: NextApiRequest): Promise<User | null> {
 	const user = await client.user.findFirst({ where: { username } });
 
 	return user;
+}
+
+export function parseQuery(query: any): string {
+	return Array.isArray(query) ? query[0] : query;
+}
+
+export function chunk<T>(arr: T[], size: number): T[][] {
+	const result = [];
+	const L = arr.length;
+	let i = 0;
+
+	while (i < L) result.push(arr.slice(i, (i += size)));
+
+	return result;
+}
+
+export function sortFilesArray(array: File[], type: string): File[] {
+	const sortByName = (a: File, b: File) => {
+		if (a.name < b.name) return -1;
+		if (a.name > b.name) return 1;
+
+		return 0;
+	};
+
+	switch (type) {
+		default:
+		case "default":
+		case "date-new":
+			return array.sort((a, b) => b.date - a.date);
+		case "date-old":
+			return array.sort((a, b) => a.date - b.date);
+		case "bytes-small":
+			return array.sort((a, b) => b._size - a._size);
+		case "bytes-large":
+			return array.sort((a, b) => a._size - b._size);
+		case "name":
+			return array.sort(sortByName);
+		case "name-reverse":
+			return array.sort(sortByName).reverse();
+	}
+}
+
+export function sortLinksArray(array: Url[], type: string): Url[] {
+	switch (type) {
+		default:
+		case "default":
+		case "date-new":
+			return array.sort((a, b) => b.date.getTime() - a.date.getTime());
+		case "date-old":
+			return array.sort((a, b) => a.date.getTime() - b.date.getTime());
+	}
 }

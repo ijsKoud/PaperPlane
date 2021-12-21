@@ -21,6 +21,14 @@ export interface FileStats {
 	type: string;
 }
 
+export interface File {
+	name: string;
+	size: string;
+	_size: number;
+	date: number;
+	type: string;
+}
+
 /* == Link == */
 export interface LinkStats {
 	path: string;

@@ -23,7 +23,7 @@ model User {
 }
 
 model Url {
-  id      String  @id
-  url     String
-  enabled Boolean
+  id   String   @id
+  url  String
+  date DateTime
 }
