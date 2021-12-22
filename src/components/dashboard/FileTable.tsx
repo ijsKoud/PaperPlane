@@ -81,7 +81,7 @@ const Statistics: React.FC<Props> = ({ fetchStats }) => {
 		setFiles(files.filter((file) => file.name !== name));
 
 		try {
-			await fetch(`/api/file/delete/${name}`, undefined, { method: "DELETE" });
+			await fetch("/api/file", undefined, { method: "DELETE", data: { name } });
 			success("File deleted!", `Successfully deleted file: ${name}`);
 		} catch (error) {
 			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
