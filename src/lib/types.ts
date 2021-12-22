@@ -35,3 +35,9 @@ export interface LinkStats {
 	url: string;
 	date: string;
 }
+
+/* == Login == */
+export interface LoginCreds {
+	username: string;
+	password: string;
+}
