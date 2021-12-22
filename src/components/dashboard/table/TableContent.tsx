@@ -3,10 +3,10 @@ import saveAs from "file-saver";
 import React, { useState } from "react";
 import ToolTip from "../../general/ToolTip";
 import { isMobile } from "react-device-detect";
-// import Modal from "../../../modal";
-// import ConfirmModal from "../confirmModal";
-// import EditFile from "../editItem/editFile";
-// import EditLink from "../editItem/editLink";
+import Modal from "../../general/modal";
+import EditFile from "../modals/EditFile";
+import ConfirmModal from "../modals/ConfirmModal";
+import EditLink from "../modals/EditLink";
 
 interface FileProps {
 	type: "file";
@@ -65,12 +65,12 @@ const TableContent: React.FC<Props> = (props) => {
 				<td>{size}</td>
 				<td>{date}</td>
 				<td>
-					{/* <Modal onClick={() => setOpen(false)} isOpen={open}>
+					<Modal onClick={() => setOpen(false)} isOpen={open}>
 						<EditFile name={name} handleClose={handleClose} />
 					</Modal>
 					<Modal onClick={() => setOpenDelete(false)} isOpen={openDelete}>
 						<ConfirmModal handleCancel={handleCancel} handleAccept={handleAccept} />
-					</Modal> */}
+					</Modal>
 					<div className="dashboard__table-buttons">
 						<ToolTip isMobile={isMobile} content="Open in browser">
 							<a href={fileLink} target="_blank" rel="noreferrer">
@@ -126,12 +126,12 @@ const TableContent: React.FC<Props> = (props) => {
 			<td>{url}</td>
 			<td>{date}</td>
 			<td>
-				{/* <Modal onClick={() => setOpen(false)} isOpen={open}>
+				<Modal onClick={() => setOpen(false)} isOpen={open}>
 					<EditLink link={{ url, path, date }} handleClose={handleClose} />
 				</Modal>
 				<Modal onClick={() => setOpenDelete(false)} isOpen={openDelete}>
 					<ConfirmModal handleCancel={handleCancel} handleAccept={handleAccept} />
-				</Modal> */}
+				</Modal>
 				<div className="dashboard__table-buttons">
 					<ToolTip isMobile={isMobile} content="Open in browser">
 						<a href={shortLink} target="_blank" rel="noreferrer">
