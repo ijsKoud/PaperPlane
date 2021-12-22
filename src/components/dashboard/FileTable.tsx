@@ -98,7 +98,7 @@ const Statistics: React.FC<Props> = ({ fetchStats }) => {
 		const [type] = _type.split("/");
 		switch (type) {
 			case "image":
-				return <Image alt="" className="dashboard__table-preview" src={url} width={200} height={100} layout="responsive" loading="lazy" />;
+				return <Image alt="" className="dashboard__table-preview" src={url} width={200} height={100} layout="responsive" />;
 			case "video":
 				return <video className="dashboard__table-preview" controls src={url} />;
 			default:
