@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
+import { fetch, getCancelToken, Stats } from "../lib";
+import type { CancelToken } from "axios";
 
 import Statistics from "../components/dashboard/Statistics";
 import FileTable from "../components/dashboard/FileTable";
-import { fetch, getCancelToken, Stats } from "../lib";
-import type { CancelToken } from "axios";
+import LinkTable from "../components/dashboard/LinkTable";
 
 const Dashboard: NextPage = () => {
 	const [stats, setStats] = useState<Stats>({
@@ -29,6 +30,7 @@ const Dashboard: NextPage = () => {
 		<main>
 			<Statistics stats={stats} />
 			<FileTable fetchStats={fetchStats} />
+			<LinkTable fetchStats={fetchStats} />
 		</main>
 	);
 };
