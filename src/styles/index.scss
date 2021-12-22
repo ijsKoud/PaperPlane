@@ -127,6 +127,14 @@ button {
 	border: unset;
 }
 
+.center-items {
+	display: grid;
+	place-items: center;
+
+	min-height: 100vh;
+	width: 100vw;
+}
+
 /* == Tippy Theme */
 @font-face {
 	font-family: "Discord Font";

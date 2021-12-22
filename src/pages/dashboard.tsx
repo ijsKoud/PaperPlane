@@ -2,13 +2,16 @@ import type { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { fetch, getCancelToken, Stats } from "../lib";
 import type { CancelToken } from "axios";
-
+import Head from "next/head";
 import Statistics from "../components/dashboard/Statistics";
 import FileTable from "../components/dashboard/FileTable";
 import LinkTable from "../components/dashboard/LinkTable";
-import Head from "next/head";
+import PulseLoader from "../components/general/PulseLoader";
+import { useAuth } from "../lib/hooks/useAuth";
+import Unauthorized from "../components/general/Unauthorized";
 
 const Dashboard: NextPage = () => {
+	const { user, loading } = useAuth();
 	const [stats, setStats] = useState<Stats>({
 		files: { bytes: "0.0 B", size: 0 },
 		links: 0
@@ -32,9 +35,19 @@ const Dashboard: NextPage = () => {
 			<Head>
 				<title>PaperPlane - Dashboard</title>
 			</Head>
-			<Statistics stats={stats} />
-			<FileTable fetchStats={fetchStats} />
-			<LinkTable fetchStats={fetchStats} />
+			{loading ? (
+				<div className="center-items">
+					<PulseLoader size={30} />
+				</div>
+			) : user ? (
+				<>
+					<Statistics stats={stats} />
+					<FileTable fetchStats={fetchStats} />
+					<LinkTable fetchStats={fetchStats} />
+				</>
+			) : (
+				<Unauthorized />
+			)}
 		</main>
 	);
 };
