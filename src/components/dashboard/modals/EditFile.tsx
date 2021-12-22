@@ -1,10 +1,10 @@
 import { Formik, Form, Field } from "formik";
 import React from "react";
 import { object, string } from "yup";
-import { PulseLoader } from "react-spinners";
 import { ApiError, fetch } from "../../../lib";
 import type { AxiosError } from "axios";
 import { alert, success } from "../../../lib/notifications";
+import PulseLoader from "../../general/PulseLoader";
 
 interface Props {
 	handleClose: () => void;
@@ -37,7 +37,7 @@ const EditFile: React.FC<Props> = ({ handleClose, name }) => {
 				{({ isValid, isSubmitting, errors }) => (
 					<Form className="edit-container">
 						{isSubmitting ? (
-							<PulseLoader color="#fff" />
+							<PulseLoader />
 						) : (
 							<>
 								<p>New file name</p>

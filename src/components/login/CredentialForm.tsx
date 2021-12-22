@@ -2,8 +2,8 @@ import { Field, Form, Formik } from "formik";
 import { object, string } from "yup";
 import React, { useState } from "react";
 import type { LoginCreds } from "../../lib";
-import { PulseLoader } from "react-spinners";
 import ToolTip from "../general/ToolTip";
+import PulseLoader from "../general/PulseLoader";
 
 interface Props {
 	onSubmit: (data: LoginCreds) => void | Promise<void>;
@@ -54,7 +54,7 @@ const CredentialForm: React.FC<Props> = ({ onSubmit }) => {
 						<p className="credentials-error">{errors.password ?? <wbr />}</p>
 					</div>
 					{isSubmitting ? (
-						<PulseLoader color="#fff" size={30} />
+						<PulseLoader size={30} />
 					) : (
 						<button className={"credentials-submit"} type="submit" disabled={!isValid}>
 							Login

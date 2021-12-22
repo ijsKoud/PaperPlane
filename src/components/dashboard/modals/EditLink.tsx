@@ -1,8 +1,8 @@
 import { Formik, Form, Field } from "formik";
 import React from "react";
 import { object, string } from "yup";
-import { PulseLoader } from "react-spinners";
 import { fetch, LinkStats } from "../../../lib";
+import PulseLoader from "../../general/PulseLoader";
 
 interface Props {
 	handleClose: () => void;
@@ -33,7 +33,7 @@ const EditLink: React.FC<Props> = ({ handleClose, link }) => {
 				{({ isValid, isSubmitting, errors }) => (
 					<Form className="edit-container">
 						{isSubmitting ? (
-							<PulseLoader color="#fff" />
+							<PulseLoader />
 						) : (
 							<>
 								<p>Shortlink Code</p>
