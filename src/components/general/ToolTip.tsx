@@ -3,10 +3,11 @@ import Tippy from "@tippyjs/react";
 
 interface Props {
 	content: string;
+	isMobile?: boolean;
 	children: ReactElement<any, string | JSXElementConstructor<any>> | undefined;
 }
 
-const ToolTip: React.FC<Props> = ({ content, children }) => {
+const ToolTip: React.FC<Props> = ({ content, children, isMobile }) => {
 	return (
 		<Tippy
 			className="discord-theme"
@@ -14,6 +15,7 @@ const ToolTip: React.FC<Props> = ({ content, children }) => {
 			theme="discord"
 			arrow
 			inertia
+			disabled={isMobile}
 			animation="discord-anim"
 			duration={[100, 100]}
 			hideOnClick={false}

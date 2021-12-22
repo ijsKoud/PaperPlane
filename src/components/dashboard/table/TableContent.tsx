@@ -2,7 +2,7 @@ import copy from "copy-to-clipboard";
 import saveAs from "file-saver";
 import React, { useState } from "react";
 import ToolTip from "../../general/ToolTip";
-// import { isMobile } from "react-device-detect";
+import { isMobile } from "react-device-detect";
 // import Modal from "../../../modal";
 // import ConfirmModal from "../confirmModal";
 // import EditFile from "../editItem/editFile";
@@ -72,27 +72,27 @@ const TableContent: React.FC<Props> = (props) => {
 						<ConfirmModal handleCancel={handleCancel} handleAccept={handleAccept} />
 					</Modal> */}
 					<div className="dashboard__table-buttons">
-						<ToolTip content="Open in browser">
+						<ToolTip isMobile={isMobile} content="Open in browser">
 							<a href={fileLink} target="_blank" rel="noreferrer">
 								<i className="open fas fa-external-link-alt" />
 							</a>
 						</ToolTip>
-						<ToolTip content="Download the file">
+						<ToolTip isMobile={isMobile} content="Download the file">
 							<button onClick={download}>
 								<i className="download fas fa-cloud-download-alt" />
 							</button>
 						</ToolTip>
-						<ToolTip content="Copy the link">
+						<ToolTip isMobile={isMobile} content="Copy the link">
 							<button onClick={copyLink}>
 								<i className="copy fas fa-link" />
 							</button>
 						</ToolTip>
-						<ToolTip content="Edit the file name">
+						<ToolTip isMobile={isMobile} content="Edit the file name">
 							<button onClick={() => setOpen(true)}>
 								<i className="edit fas fa-edit" />
 							</button>
 						</ToolTip>
-						<ToolTip content="Delete the file">
+						<ToolTip isMobile={isMobile} content="Delete the file">
 							<button onClick={() => setOpenDelete(true)}>
 								<i className="delete fas fa-trash" />
 							</button>
@@ -133,22 +133,22 @@ const TableContent: React.FC<Props> = (props) => {
 					<ConfirmModal handleCancel={handleCancel} handleAccept={handleAccept} />
 				</Modal> */}
 				<div className="dashboard__table-buttons">
-					<ToolTip content="Open in browser">
+					<ToolTip isMobile={isMobile} content="Open in browser">
 						<a href={shortLink} target="_blank" rel="noreferrer">
 							<i className="open fas fa-external-link-alt" />
 						</a>
 					</ToolTip>
-					<ToolTip content="Copy the link">
+					<ToolTip isMobile={isMobile} content="Copy the link">
 						<button onClick={() => copy(shortLink)}>
 							<i className="copy fas fa-link" />
 						</button>
 					</ToolTip>
-					<ToolTip content="Edit the link">
+					<ToolTip isMobile={isMobile} content="Edit the link">
 						<button onClick={() => setOpen(true)}>
 							<i className="edit fas fa-edit" />
 						</button>
 					</ToolTip>
-					<ToolTip content="Delete the link">
+					<ToolTip isMobile={isMobile} content="Delete the link">
 						<button onClick={() => setOpenDelete(true)}>
 							<i className="delete fas fa-trash" />
 						</button>
