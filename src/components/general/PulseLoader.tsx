@@ -8,7 +8,7 @@ interface Props {
 
 const PulseLoader: React.FC<Props> = ({ size }) => {
 	const { user } = useAuth();
-	return <ReactLoader size={size} color={user?.theme === "dark" ? "#fff" : "#000000"} />;
+	return <ReactLoader size={size} color={user ? (user.theme === "dark" ? "#fff" : "#000000") : "#fff"} />;
 };
 
 export default PulseLoader;
