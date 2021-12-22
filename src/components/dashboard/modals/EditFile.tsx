@@ -2,7 +2,9 @@ import { Formik, Form, Field } from "formik";
 import React from "react";
 import { object, string } from "yup";
 import { PulseLoader } from "react-spinners";
-import { fetch } from "../../../lib";
+import { ApiError, fetch } from "../../../lib";
+import type { AxiosError } from "axios";
+import { alert, success } from "../../../lib/notifications";
 
 interface Props {
 	handleClose: () => void;
@@ -15,7 +17,16 @@ const EditFile: React.FC<Props> = ({ handleClose, name }) => {
 	});
 
 	const submit = async (data: { name: string }) => {
-		await fetch("/api/file/", undefined, { method: "PATCH", data: { newName: data.name, oldName: name } });
+		try {
+			await fetch("/api/files", undefined, { method: "PATCH", data: { newName: data.name, oldName: name } });
+			success("File renamed", `${name} successfully renamed to ${data.name}`);
+		} catch (err) {
+			if (!err) return;
+			if (typeof err === "object" && "isAxiosError" in err) {
+				const error = err as AxiosError<ApiError>;
+				alert("Error while renaming the file", error.response?.data.message ?? "Unknown error, please try again later");
+			}
+		}
 		handleClose();
 	};
 
