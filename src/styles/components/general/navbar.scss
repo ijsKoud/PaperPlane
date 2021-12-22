@@ -99,6 +99,20 @@
 	}
 }
 
+.navbar-login {
+	font-size: 1.5rem;
+	background-color: rgba(var(--blurple-rgb), 0.5);
+	transition: background-color 0.5s ease;
+
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+
+	&:hover {
+		background-color: rgba(var(--blurple-rgb), 0.9);
+	}
+}
+
 @media screen and (max-width: 600px) {
 	.navbar-user p {
 		display: none;
