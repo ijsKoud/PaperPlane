@@ -6,6 +6,7 @@ import type { CancelToken } from "axios";
 import Statistics from "../components/dashboard/Statistics";
 import FileTable from "../components/dashboard/FileTable";
 import LinkTable from "../components/dashboard/LinkTable";
+import Head from "next/head";
 
 const Dashboard: NextPage = () => {
 	const [stats, setStats] = useState<Stats>({
@@ -28,6 +29,9 @@ const Dashboard: NextPage = () => {
 
 	return (
 		<main>
+			<Head>
+				<title>PaperPlane - Dashboard</title>
+			</Head>
 			<Statistics stats={stats} />
 			<FileTable fetchStats={fetchStats} />
 			<LinkTable fetchStats={fetchStats} />
