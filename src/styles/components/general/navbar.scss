@@ -37,6 +37,14 @@
 		opacity: 0.5;
 		transition: opacity 0.5s ease;
 
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		P {
+			margin-left: 10px;
+		}
+
 		&:hover {
 			opacity: 0.9;
 		}
@@ -88,5 +96,15 @@
 
 	&:hover {
 		opacity: 0.9;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.navbar-user p {
+		display: none;
+	}
+
+	.navbar-logo h1 {
+		display: none;
 	}
 }

@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
 			</div>
 			<div className="navbar-user">
 				<button onClick={toggleDropdown}>
-					<i className="fas fa-user" /> DaanGamesDG
+					<i className="fas fa-user" /> <p>DaanGamesDG</p>
 				</button>
 				<ul className={dropdownActive ? "navbar-dropdown active" : "navbar-dropdown"}>
 					<NavLink closeDropdown={closeDropdown} name="Home" icon="fas fa-home" path="/dashboard" />
