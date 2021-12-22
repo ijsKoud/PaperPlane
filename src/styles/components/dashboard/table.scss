@@ -254,22 +254,40 @@
 		border-radius: 5px 0 0 5px;
 		transition: all 0.5s ease;
 
+		i {
+			color: var(--blurple);
+			transition: all 0.5s ease;
+		}
+
 		&:hover {
 			color: var(--white);
 			background-color: var(--blurple);
+
+			i {
+				color: var(--white);
+			}
 		}
 	}
 
 	&.delete {
-		border: 1px solid var(--white);
+		border: 1px solid var(--red);
 		border-left: unset;
-		color: var(--white);
+		color: var(--red);
 		border-radius: 0 5px 5px 0;
 		transition: all 0.5s ease;
 
+		i {
+			color: var(--red);
+			transition: all 0.5s ease;
+		}
+
 		&:hover {
 			color: var(--white);
-			background-color: var(--white);
+			background-color: var(--red);
+
+			i {
+				color: var(--white);
+			}
 		}
 	}
 }
@@ -328,9 +346,18 @@
 		color: var(--green);
 		transition: all 0.5s ease;
 
+		i {
+			color: var(--green);
+			transition: all 0.5s ease;
+		}
+
 		&:hover {
 			background-color: var(--green);
 			color: var(--white);
+
+			i {
+				color: var(--white);
+			}
 		}
 
 		&:disabled {
@@ -370,7 +397,7 @@
 			}
 
 			&.delete {
-				border: 1px solid var(--white);
+				border: 1px solid var(--red);
 				border-top: unset;
 				border-radius: 0 0 5px 5px;
 			}
