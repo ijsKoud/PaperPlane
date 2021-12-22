@@ -7,6 +7,7 @@ import Navbar from "../components/general/Navbar";
 import { AnimatePresence, motion } from "framer-motion";
 import ReactNotificationsComponent from "react-notifications-component";
 import { defaultVariant } from "../lib/clientConstants";
+import { ProvideAuth } from "../lib/hooks/useAuth";
 
 const App = ({ Component, pageProps, router }: AppProps) => {
 	const variants = {
@@ -19,7 +20,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
 	};
 
 	return (
-		<>
+		<ProvideAuth>
 			<ReactNotificationsComponent />
 			<Navbar />
 			<AnimatePresence exitBeforeEnter>
@@ -27,7 +28,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
 					<Component {...pageProps} />
 				</motion.div>
 			</AnimatePresence>
-		</>
+		</ProvideAuth>
 	);
 };
 
