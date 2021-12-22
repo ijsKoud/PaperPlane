@@ -1,21 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { chunk, parseQuery, sortLinksArray } from "../../../lib/utils";
 import MiniSearch from "minisearch";
-import { PrismaClient, Url } from "@prisma/client";
+import type { Url } from "@prisma/client";
+import prisma from "../../../lib/prisma";
 
 interface Data {
 	pages: Url[];
 	length: number;
 }
 
-const client = new PrismaClient();
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 	const page = Number(parseQuery(req.query.page ?? "1"));
 	const sortType = parseQuery(req.query.sortType ?? "default");
 	const search = decodeURIComponent(parseQuery(req.query.search ?? ""));
 
-	let links = await client.url.findMany();
+	let links = await prisma.url.findMany();
 
 	if (search.length > 0) {
 		const searcher = new MiniSearch({

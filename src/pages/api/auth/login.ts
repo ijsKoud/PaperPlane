@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../lib/prisma";
 import { scryptSync, timingSafeEqual } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { encryptToken } from "../../../lib/utils";
-
-const client = new PrismaClient();
 
 interface ReqBody {
 	password: string;
@@ -18,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		return res.status(400).json({ error: "Missing password or username in the request body" });
 
 	const body = req.body as ReqBody;
-	const user = await client.user.findFirst({ where: { username: body.username } });
+	const user = await prisma.user.findFirst({ where: { username: body.username } });
 	if (!user) return res.status(404).send({ error: "Incorrect username or password provided" });
 
 	const [salt, key] = user.password.split(":");

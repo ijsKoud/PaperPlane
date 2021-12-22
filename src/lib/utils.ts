@@ -1,4 +1,5 @@
-import { PrismaClient, Url, User } from "@prisma/client";
+import type { Url, User } from "@prisma/client";
+import prisma from "./prisma";
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypto";
 import { readdir, stat } from "fs/promises";
 import type { NextApiRequest } from "next";
@@ -70,13 +71,11 @@ export function formatBytes(bytes: number): string {
 }
 
 export async function getUser(req: NextApiRequest): Promise<User | null> {
-	const client = new PrismaClient();
-
 	const { authorization } = req.headers;
 	if (!authorization || !authorization.startsWith("Bearer ") || authorization.includes("null")) return null;
 
 	const [username] = decryptToken(authorization.replace("Bearer ", "")).split(".");
-	const user = await client.user.findFirst({ where: { username } });
+	const user = await prisma.user.findFirst({ where: { username } });
 
 	return user;
 }

@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-const client = new PrismaClient();
+import prisma from "../../../lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === "DELETE") {
@@ -10,11 +8,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		const { path } = req.body;
 		if (typeof path !== "string" || !path.length) return res.status(400).send({ message: "path is not a valid string" });
 
-		const url = await client.url.findFirst({ where: { id: path } });
+		const url = await prisma.url.findFirst({ where: { id: path } });
 		if (!url) return res.status(404).send({ message: "The requested shorturl was not found" });
 
 		try {
-			await client.url.delete({ where: url });
+			await prisma.url.delete({ where: url });
 			res.status(204).send(null);
 		} catch (err) {
 			res.status(500).json({ message: "Something went wrong on our side, please try again later." });
@@ -32,14 +30,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		if (!newData.url.startsWith("http")) return res.status(400).send({ message: "Invalid url provided" });
 		if (!newData.url.includes("/")) return res.status(400).send({ message: "Invalid path provided" });
 
-		const url = await client.url.findFirst({ where: { id: oldPath } });
+		const url = await prisma.url.findFirst({ where: { id: oldPath } });
 		if (!url) return res.status(404).json({ message: "The requested shorturl was not found" });
 
 		url.id = newData.path;
 		url.url = newData.url;
 
 		try {
-			await client.url.update({ where: { id: oldPath }, data: url });
+			await prisma.url.update({ where: { id: oldPath }, data: url });
 			res.status(204).send(null);
 		} catch (err) {
 			res.status(500).json({ message: "Something went wrong on our side, please try again later." });

@@ -61,5 +61,7 @@ void (async () => {
 	console.info("[INFO] - Creating new user");
 	await client.user.create({ data: { embedEnabled: false, password: encryptPassword(password), username, token: createToken() } });
 
+	await client.$disconnect();
+
 	console.info("[INFO] - Creation completed!");
 })();
