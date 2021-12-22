@@ -26,7 +26,7 @@
 }
 
 .navbar-user {
-	button {
+	> button {
 		background-color: unset;
 		border: unset;
 
@@ -86,9 +86,11 @@
 }
 
 .navbar-dropdown-item {
-	font-size: 1.25rem;
-
-	cursor: pointer;
+	a,
+	button {
+		font-size: 1.25rem;
+		cursor: pointer;
+	}
 
 	color: var(--white);
 	opacity: 0.5;

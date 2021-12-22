@@ -5,11 +5,17 @@ import { useAuth } from "../../lib/hooks/useAuth";
 import PulseLoader from "./PulseLoader";
 
 const Navbar: React.FC = () => {
-	const { user, loading } = useAuth();
+	const { user, loading, fetch } = useAuth();
 	const [dropdownActive, setDropdownActive] = useState(false);
 
 	const closeDropdown = () => setDropdownActive(false);
 	const toggleDropdown = () => setDropdownActive(!dropdownActive);
+
+	const logout = () => {
+		if (localStorage) localStorage.removeItem("PAPERPLANE_AUTH");
+		closeDropdown();
+		fetch(true);
+	};
 
 	return (
 		<nav className="navbar">
@@ -29,11 +35,9 @@ const Navbar: React.FC = () => {
 						<NavLink closeDropdown={closeDropdown} name="Upload" icon="fas fa-upload" path="/upload" />
 						<NavLink closeDropdown={closeDropdown} name="Settings" icon="fas fa-cog" path="/settings" />
 						<li className="navbar-dropdown-item">
-							<Link href="/dashboard">
-								<a onClick={closeDropdown}>
-									<i className="fas fa-sign-out-alt" /> Logout
-								</a>
-							</Link>
+							<button onClick={logout}>
+								<i className="fas fa-sign-out-alt" /> Logout
+							</button>
 						</li>
 					</ul>
 				</div>
