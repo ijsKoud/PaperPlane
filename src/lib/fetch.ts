@@ -10,7 +10,7 @@ export function fetch<V = unknown>(path: string, cancelToken?: CancelToken, opti
 	options.cancelToken ??= cancelToken;
 
 	options.headers ??= {};
-	options.headers["Authorization"] ??= `Bearer ${localStorage.getItem("PAPERPLANE_TOKEN")}`;
+	options.headers["Authorization"] ??= `Bearer ${localStorage.getItem("PAPERPLANE_AUTH")}`;
 
 	if (options.method !== "get" && options.method !== "GET") options.headers["Content-Type"] ??= "application/json";
 
