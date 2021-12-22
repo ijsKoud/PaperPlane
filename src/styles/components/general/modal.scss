@@ -5,7 +5,7 @@
 	left: 0;
 	height: 100%;
 	width: 100%;
-	background-color: rgba($bg2, 0.9);
+	background-color: rgba(var(--bg2-rgb), 0.9);
 	display: flex;
 	align-items: center;
 	justify-content: center;
