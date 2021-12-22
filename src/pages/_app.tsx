@@ -4,16 +4,28 @@ import "react-notifications-component/dist/theme.css";
 
 import type { AppProps } from "next/app";
 import Navbar from "../components/general/Navbar";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import ReactNotificationsComponent from "react-notifications-component";
+import { defaultVariant } from "../lib/clientConstants";
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps, router }: AppProps) => {
+	const variants = {
+		initial: { opacity: 0 },
+		exit: { opacity: 0 },
+		animate: {
+			opacity: 1,
+			...defaultVariant
+		}
+	};
+
 	return (
 		<>
 			<ReactNotificationsComponent />
 			<Navbar />
 			<AnimatePresence exitBeforeEnter>
-				<Component {...pageProps} />
+				<motion.div key={router.route} variants={variants} initial="initial" animate="animate" exit="exit">
+					<Component {...pageProps} />
+				</motion.div>
 			</AnimatePresence>
 		</>
 	);
