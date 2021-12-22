@@ -2,7 +2,7 @@ import { readdir, stat } from "fs/promises";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { join } from "path";
 import { File, FILE_DATA_DIR } from "../../../lib";
-import { chunk, formatBytes, parseQuery, sortFilesArray } from "../../../lib/utils";
+import { chunk, formatBytes, getUser, parseQuery, sortFilesArray } from "../../../lib/utils";
 import { lookup } from "mime-types";
 import MiniSearch from "minisearch";
 
@@ -11,7 +11,10 @@ interface Data {
 	length: number;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data | null>) {
+	const user = await getUser(req);
+	if (!user) return res.status(401).send(null);
+
 	const page = Number(parseQuery(req.query.page ?? "1"));
 	const sortType = parseQuery(req.query.sortType ?? "default");
 	const search = decodeURIComponent(parseQuery(req.query.search ?? ""));

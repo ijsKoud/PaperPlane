@@ -1,7 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
+import { getUser } from "../../../lib/utils";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+	const user = await getUser(req);
+	if (!user) return res.status(401).send(null);
+
 	if (req.method === "DELETE") {
 		if (!req.body) return res.status(400).send({ message: "Missing name in request body" });
 
