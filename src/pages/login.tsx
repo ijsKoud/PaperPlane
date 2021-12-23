@@ -9,7 +9,7 @@ import CredentialForm from "../components/login/CredentialForm";
 import type { AxiosError } from "axios";
 import { alert } from "../lib/notifications";
 
-const Dashboard: NextPage = () => {
+const Login: NextPage = () => {
 	const [userData, setUserData] = useState<LoginCreds | null>(null);
 	const { user, fetch: userFetch } = useAuth();
 	const router = useRouter();
@@ -53,4 +53,4 @@ const Dashboard: NextPage = () => {
 	);
 };
 
-export default Dashboard;
+export default Login;
