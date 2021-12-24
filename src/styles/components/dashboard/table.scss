@@ -365,10 +365,18 @@
 			border-color: rgba(var(--green-rgb), 0.1);
 			cursor: not-allowed;
 
+			i {
+				color: rgba(var(--green-rgb), 0.1);
+			}
+
 			&:hover {
 				color: rgba(var(--green-rgb), 0.1) !important;
 				border-color: rgba(var(--green-rgb), 0.1) !important;
 				background-color: unset !important;
+
+				i {
+					color: rgba(var(--green-rgb), 0.1) !important;
+				}
 			}
 		}
 	}
