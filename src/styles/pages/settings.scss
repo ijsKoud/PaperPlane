@@ -127,14 +127,22 @@
 		width: 200px !important;
 	}
 
-	i {
+	.settings-button {
 		font-size: 1.5rem;
 		cursor: pointer;
-		color: rgba(var(--white-rgb), 0.3);
-		transition: all 0.5s ease;
 
-		&:hover {
-			color: rgba(var(--white-rgb), 0.9);
+		i {
+			color: rgba(var(--white-rgb), 0.3) !important;
+			transition: all 0.5s ease !important;
+		}
+
+		border: none !important;
+		background: none !important;
+
+		margin-top: unset !important;
+
+		&:hover i {
+			color: rgba(var(--white-rgb), 0.9) !important;
 		}
 	}
 }
