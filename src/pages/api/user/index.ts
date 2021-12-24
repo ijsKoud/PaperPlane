@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { encryptPassword, getUser, createToken } from "../../../lib/utils";
+import { encryptPassword, getUser, encryptToken } from "../../../lib/utils";
 import prisma from "../../../lib/prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -22,14 +22,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 		if (body.password) {
 			const password = encryptPassword(body.password);
-			const token = createToken();
+			const token = encryptToken(`${user.username}.${Date.now()}`);
 
 			user.password = password;
 			await prisma.user.update({ where: { username: user.username }, data: user });
 
 			return res.json({ token });
 		} else if (body.username) {
-			const token = createToken();
+			const token = encryptToken(`${user.username}.${Date.now()}`);
 
 			user.username = body.username;
 			await prisma.user.update({ where: { username: user.username }, data: user });
