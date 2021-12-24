@@ -4,6 +4,9 @@ import { fetch } from "../../../lib/fetch";
 import { useAuth } from "../../../lib/hooks/useAuth";
 import { object, string } from "yup";
 import PulseLoader from "../../general/PulseLoader";
+import type { ApiError } from "../../../lib";
+import type { AxiosError } from "axios";
+import { alert } from "../../../lib/notifications";
 
 interface Props {
 	handleClose: () => void;
@@ -18,10 +21,18 @@ const EditPasswordModal: React.FC<Props> = ({ handleClose }) => {
 	});
 
 	const submit = async (data: { password: string }) => {
-		const res = await fetch<{ token: string }>("/api/user", undefined, { method: "PATCH", data: { password: data.password } });
-		localStorage.setItem("PAPERPLANE_AUTH", res.data.token);
+		try {
+			const res = await fetch<{ token: string }>("/api/user", undefined, { method: "PATCH", data: { password: data.password } });
+			localStorage.setItem("PAPERPLANE_AUTH", res.data.token);
 
-		FetchUser();
+			FetchUser();
+		} catch (error) {
+			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
+
+			const err = error as AxiosError<ApiError>;
+			alert("Unable to update the password", `${err.response?.data.message ?? "Unknown error, please try again later"}`);
+		}
+
 		handleClose();
 	};
 
