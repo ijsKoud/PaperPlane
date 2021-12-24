@@ -5,6 +5,7 @@ import PulseLoader from "../components/general/PulseLoader";
 import { useAuth } from "../lib/hooks/useAuth";
 import Unauthorized from "../components/general/Unauthorized";
 import ConfigDownloads from "../components/settings/ConfigDownloads";
+import UserSettings from "../components/settings/UserSettings";
 
 const Settings: NextPage = () => {
 	const { user, loading } = useAuth();
@@ -20,6 +21,7 @@ const Settings: NextPage = () => {
 				</div>
 			) : user ? (
 				<div className="settings">
+					<UserSettings />
 					<ConfigDownloads />
 				</div>
 			) : (
