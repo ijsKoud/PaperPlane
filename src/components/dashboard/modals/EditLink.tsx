@@ -1,7 +1,9 @@
+import type { AxiosError } from "axios";
 import { Formik, Form, Field } from "formik";
 import React from "react";
 import { object, string } from "yup";
-import { fetch, LinkStats } from "../../../lib";
+import { ApiError, fetch, LinkStats } from "../../../lib";
+import { alert } from "../../../lib/notifications";
 import PulseLoader from "../../general/PulseLoader";
 
 interface Props {
@@ -16,7 +18,15 @@ const EditLink: React.FC<Props> = ({ handleClose, link }) => {
 	});
 
 	const submit = async (data: { url: string; path: string }) => {
-		await fetch(`/api/url`, undefined, { method: "PATCH", data: { newData: data, oldPath: link.path } });
+		try {
+			await fetch(`/api/url`, undefined, { method: "PATCH", data: { newData: data, oldPath: link.path } });
+		} catch (error) {
+			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
+
+			const err = error as AxiosError<ApiError>;
+			alert("Unable to update the url", `${err.response?.data.message ?? "Unknown error, please try again later"}`);
+		}
+
 		handleClose();
 	};
 

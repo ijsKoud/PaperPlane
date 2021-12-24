@@ -31,8 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		} else if (body.username) {
 			const token = encryptToken(`${user.username}.${Date.now()}`);
 
-			user.username = body.username;
-			await prisma.user.update({ where: { username: user.username }, data: user });
+			await prisma.user.update({ where: { username: user.username }, data: { ...user, username: body.username } });
 
 			return res.json({ token });
 		}
