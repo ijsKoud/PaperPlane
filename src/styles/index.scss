@@ -135,6 +135,14 @@ button {
 	width: 100vw;
 }
 
+.separator {
+	height: 0.5px;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: $border;
+}
+
 /* == Tippy Theme */
 @font-face {
 	font-family: "Discord Font";
