@@ -13,7 +13,6 @@ datasource db {
 model User {
   username         String  @id
   password         String
-  twoAuthToken     String?
   token            String
   theme            String  @default("dark")
   embedTitle       String?
