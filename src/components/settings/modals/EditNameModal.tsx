@@ -17,7 +17,9 @@ const EditNameModal: React.FC<Props> = ({ handleClose }) => {
 	});
 
 	const submit = async (data: { username: string }) => {
-		await fetch("/api/user", undefined, { method: "PATCH", data: { username: data.username } });
+		const res = await fetch<{ token: string }>("/api/user", undefined, { method: "PATCH", data: { username: data.username } });
+		localStorage.setItem("PAPERPLANE_AUTH", res.data.token);
+
 		FetchUser();
 		handleClose();
 	};

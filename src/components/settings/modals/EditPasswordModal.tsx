@@ -18,7 +18,9 @@ const EditPasswordModal: React.FC<Props> = ({ handleClose }) => {
 	});
 
 	const submit = async (data: { password: string }) => {
-		await fetch("/api/user", undefined, { method: "PATCH", data: { password: data.password } });
+		const res = await fetch<{ token: string }>("/api/user", undefined, { method: "PATCH", data: { password: data.password } });
+		localStorage.setItem("PAPERPLANE_AUTH", res.data.token);
+
 		FetchUser();
 		handleClose();
 	};
