@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useAuth } from "../lib/hooks/useAuth";
 import { useRouter } from "next/router";
@@ -10,7 +10,6 @@ import type { AxiosError } from "axios";
 import { alert } from "../lib/notifications";
 
 const Login: NextPage = () => {
-	const [userData, setUserData] = useState<LoginCreds | null>(null);
 	const { user, fetch: userFetch } = useAuth();
 	const router = useRouter();
 
@@ -19,15 +18,6 @@ const Login: NextPage = () => {
 	}, [user]);
 
 	const onSubmit = async (data: LoginCreds) => {
-		const has2faEnabled = await fetch<{ enabled: boolean }>("/api/auth/2fa", undefined, {
-			method: "POST",
-			data: { username: data.username }
-		}).catch(() => ({ data: { enabled: false } }));
-		if (has2faEnabled.data.enabled) {
-			setUserData(data);
-			return;
-		}
-
 		try {
 			const token = await fetch<{ token: string }>("/api/auth/login", undefined, {
 				method: "POST",

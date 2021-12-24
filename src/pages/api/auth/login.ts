@@ -6,10 +6,8 @@ import { encryptToken } from "../../../lib/utils";
 interface ReqBody {
 	password: string;
 	username: string;
-	code?: string;
 }
 
-// TODO: check 2fa code
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method !== "POST") return res.status(403).json({ error: "Invalid method used" });
 	if (typeof req.body.password !== "string" || typeof req.body.username !== "string")
