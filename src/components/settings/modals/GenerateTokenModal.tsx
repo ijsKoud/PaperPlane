@@ -13,7 +13,7 @@ const GenerateTokenModal: React.FC<Props> = ({ handleClose }) => {
 
 	const handleAccept = async () => {
 		setLoading(true);
-		await fetch("/api/user/token");
+		await fetch("/api/user/token", undefined, { method: "POST" });
 		userFetch();
 
 		setLoading(false);
