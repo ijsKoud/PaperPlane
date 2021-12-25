@@ -27,7 +27,7 @@ const EmbedSettings: React.FC = () => {
 
 	const onSubmit = async (data: OnSubmitTypes) => {
 		try {
-			await fetch("/api/user", undefined, { method: "PATCH", data });
+			await fetch("/api/user/embed", undefined, { method: "PATCH", data });
 			success("Embed settings updated", "Successfully updated the embed settings");
 		} catch (error) {
 			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
