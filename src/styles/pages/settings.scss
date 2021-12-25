@@ -146,3 +146,111 @@
 		}
 	}
 }
+
+.embed-settings-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+
+	width: 100%;
+
+	> button[type="submit"] {
+		margin-top: 1rem;
+		padding: 0.5rem;
+		font-size: 1.5rem;
+		cursor: pointer;
+
+		border: 1px solid var(--blurple);
+		border-radius: 5px;
+
+		color: var(--blurple);
+		transition: all 0.5s ease-in-out;
+
+		i {
+			color: var(--blurple);
+			transition: all 0.5s ease-in-out;
+		}
+
+		&:hover {
+			color: var(--white);
+			background-color: var(--blurple);
+
+			i {
+				color: var(--white);
+			}
+		}
+
+		&:disabled {
+			border-color: rgba(var(--blurple-rgb), 0.4) !important;
+			color: rgba(var(--blurple-rgb), 0.4) !important;
+			background-color: unset !important;
+
+			cursor: not-allowed !important;
+
+			i {
+				color: rgba(var(--blurple-rgb), 0.4) !important;
+			}
+		}
+	}
+}
+
+.embed-settings-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	height: 100%;
+	width: 100%;
+}
+
+.embed-settings-discord {
+	width: 50%;
+	min-height: 350px;
+	transition: opacity 0.5s ease-in-out;
+
+	&.disabled {
+		opacity: 0.5;
+		pointer-events: none;
+		cursor: not-allowed;
+	}
+}
+
+.embed-settings {
+	width: 50%;
+	list-style: none;
+
+	height: 100%;
+	margin-left: 10px;
+}
+
+.embed-settings-item {
+	position: relative;
+
+	h3 {
+		font-size: 1.5rem;
+		font-weight: 500;
+	}
+
+	> p {
+		color: var(--red);
+	}
+
+	&.flex-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+}
+
+.embed-colour-picker {
+	background: var(--black);
+
+	input {
+		color: var(--white) !important;
+	}
+}
+
+.embed-settings-text {
+	width: 100%;
+}
