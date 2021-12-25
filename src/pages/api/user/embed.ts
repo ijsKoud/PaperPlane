@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 		user = { ...user, ...body };
 		await prisma.user.update({ where: { username: user.username }, data: user });
+		return res.status(204).send(null);
 	}
 
 	res.status(403).json({ error: "Forbidden method" });
