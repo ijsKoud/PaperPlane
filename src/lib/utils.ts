@@ -80,6 +80,15 @@ export async function getUser(req: NextApiRequest): Promise<User | null> {
 	return user;
 }
 
+export async function getUserWithToken(req: NextApiRequest): Promise<User | null> {
+	const { authorization } = req.headers;
+	if (!authorization?.length) return null;
+
+	const user = await prisma.user.findFirst({ where: { token: authorization } });
+
+	return user;
+}
+
 export function parseQuery(query: any): string {
 	return Array.isArray(query) ? query[0] : query;
 }
