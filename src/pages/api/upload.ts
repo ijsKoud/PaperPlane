@@ -3,6 +3,8 @@ import { getUserWithToken } from "../../lib/utils";
 import multer from "multer";
 import { FILE_DATA_DIR } from "../../lib/constants";
 import settings from "../../lib/settings";
+import { readdir } from "fs/promises";
+import { nanoid } from "nanoid";
 
 const uploader = multer({
 	limits: {
@@ -13,14 +15,25 @@ const uploader = multer({
 		if (!settings.allowedExtensions.length) return cl(null, true);
 
 		const [, ..._extension] = file.originalname.split(/\./g);
-		const extension = _extension.join(".");
+		const extension = `.${_extension.join(".")}`;
 		if (settings.allowedExtensions.includes(extension)) return cl(null, false);
 
 		cl(null, true);
 	},
 	storage: multer.diskStorage({
 		destination: FILE_DATA_DIR,
-		filename: (req, file, cl) => cl(null, file.originalname)
+		filename: async (req, file, cl) => {
+			const files = await readdir(FILE_DATA_DIR);
+			if (settings.customFileName && !files.includes(file.originalname)) return cl(null, file.originalname);
+
+			let id = nanoid(settings.fileNameLength);
+			while (files.includes(id)) id = nanoid(settings.fileNameLength);
+
+			const [, ..._extension] = file.originalname.split(/\./g);
+			const extension = _extension.join(".");
+
+			cl(null, `${id}.${extension}`);
+		}
 	})
 });
 export type NextApiReq = NextApiRequest & {
