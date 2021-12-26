@@ -2,8 +2,22 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getUserWithToken } from "../../lib/utils";
 import multer from "multer";
 import { FILE_DATA_DIR } from "../../lib/constants";
+import settings from "../../lib/settings";
 
 const uploader = multer({
+	limits: {
+		files: settings.maxFilesPerRequest,
+		fileSize: settings.maxFileSize
+	},
+	fileFilter: (req, file, cl) => {
+		if (!settings.allowedExtensions.length) return cl(null, true);
+
+		const [, ..._extension] = file.originalname.split(/\./g);
+		const extension = _extension.join(".");
+		if (settings.allowedExtensions.includes(extension)) return cl(null, false);
+
+		cl(null, true);
+	},
 	storage: multer.diskStorage({
 		destination: FILE_DATA_DIR,
 		filename: (req, file, cl) => cl(null, file.originalname)
