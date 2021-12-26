@@ -76,7 +76,7 @@ const LinkTable: React.FC<Props> = ({ fetchStats }) => {
 	const getLink = (id: string) => `/r/${id}`;
 
 	const deleteLink = async (path: string) => {
-		setLinks(links.filter((link) => link.path !== path));
+		setLinks(links.filter((link) => link.id !== path));
 
 		try {
 			await fetch("/api/links", undefined, { method: "DELETE", data: { path } });
@@ -113,7 +113,7 @@ const LinkTable: React.FC<Props> = ({ fetchStats }) => {
 				<Navigation {...{ setQuery, setPage, setSort, fetchItems: fetchLinks, page, pages }} />
 				<Table listItems={["Code", "URL", "Date", "Actions"]}>
 					{links.map((link, i) => {
-						const shortLink = `${process.env.NEXT_PUBLIC_DOMAIN}${getLink(link.path)}`;
+						const shortLink = `${process.env.NEXT_PUBLIC_DOMAIN}${getLink(link.id)}`;
 
 						const props = {
 							...link,

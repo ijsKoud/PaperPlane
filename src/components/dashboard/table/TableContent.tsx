@@ -22,7 +22,7 @@ interface FileProps {
 
 interface LinkProps {
 	type: "link";
-	path: string;
+	id: string;
 	url: string;
 	date: string;
 	shortLink: string;
@@ -103,7 +103,7 @@ const TableContent: React.FC<Props> = (props) => {
 		);
 	}
 
-	const { path, url, date, shortLink, deleteLink, fetchLinks } = props;
+	const { id, url, date, shortLink, deleteLink, fetchLinks } = props;
 
 	const handleClose = () => {
 		fetchLinks();
@@ -116,18 +116,18 @@ const TableContent: React.FC<Props> = (props) => {
 	};
 
 	const handleAccept = () => {
-		deleteLink(path);
+		deleteLink(id);
 		setOpenDelete(false);
 	};
 
 	return (
 		<tr>
-			<td>{path}</td>
+			<td>{id}</td>
 			<td>{url}</td>
 			<td>{date}</td>
 			<td>
 				<Modal onClick={() => setOpen(false)} isOpen={open}>
-					<EditLink link={{ url, path, date }} handleClose={handleClose} />
+					<EditLink link={{ url, id, date }} handleClose={handleClose} />
 				</Modal>
 				<Modal onClick={() => setOpenDelete(false)} isOpen={openDelete}>
 					<ConfirmModal handleCancel={handleCancel} handleAccept={handleAccept} />

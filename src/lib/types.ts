@@ -31,7 +31,7 @@ export interface File {
 
 /* == Link == */
 export interface LinkStats {
-	path: string;
+	id: string;
 	url: string;
 	date: string;
 }

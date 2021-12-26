@@ -29,15 +29,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		const { newData, oldPath } = req.body;
 		if (typeof oldPath !== "string" || !oldPath.length) return res.status(400).send({ message: "oldPath is not a valid string" });
 		if (typeof newData !== "object") return res.status(400).send({ message: "newData is not a valid object" });
-		if (typeof newData.url !== "string" || typeof newData.path !== "string")
-			return res.status(400).send({ message: "Invalid data for newData provided (missing path or url)" });
+		if (typeof newData.url !== "string" || typeof newData.id !== "string")
+			return res.status(400).send({ message: "Invalid data for newData provided (missing id or url)" });
 		if (!newData.url.startsWith("http")) return res.status(400).send({ message: "Invalid url provided" });
 		if (!newData.url.includes("/")) return res.status(400).send({ message: "Invalid path provided" });
 
 		const url = await prisma.url.findFirst({ where: { id: oldPath } });
 		if (!url) return res.status(404).json({ message: "The requested shorturl was not found" });
 
-		url.id = newData.path;
+		url.id = newData.id;
 		url.url = newData.url;
 
 		try {

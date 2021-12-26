@@ -14,12 +14,12 @@ interface Props {
 const EditLink: React.FC<Props> = ({ handleClose, link }) => {
 	const validationSchema = object({
 		url: string().url("Item must be a URL").required("Item is required"),
-		path: string().min(3, "Must be 3 characters or longer").max(20, "Shortlink code is too long").required("Item is required")
+		id: string().min(3, "Must be 3 characters or longer").max(20, "Shortlink code is too long").required("Item is required")
 	});
 
-	const submit = async (data: { url: string; path: string }) => {
+	const submit = async (data: { url: string; id: string }) => {
 		try {
-			await fetch(`/api/url`, undefined, { method: "PATCH", data: { newData: data, oldPath: link.path } });
+			await fetch(`/api/links`, undefined, { method: "PATCH", data: { newData: data, oldPath: link.id } });
 		} catch (error) {
 			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
 
@@ -35,7 +35,7 @@ const EditLink: React.FC<Props> = ({ handleClose, link }) => {
 			<i className="fas fa-times" onClick={handleClose} />
 			<Formik
 				onSubmit={submit}
-				initialValues={{ url: link.url, path: link.path }}
+				initialValues={{ url: link.url, id: link.id }}
 				validationSchema={validationSchema}
 				validateOnMount
 				validateOnChange
@@ -47,8 +47,8 @@ const EditLink: React.FC<Props> = ({ handleClose, link }) => {
 						) : (
 							<>
 								<p>Shortlink Code</p>
-								<Field as="input" id="path" name="path" placeholder="code..." style={{ width: "90%" }} />
-								<span>{errors.path}</span>
+								<Field as="input" id="id" name="id" placeholder="code..." style={{ width: "90%" }} />
+								<span>{errors.id}</span>
 								<p>URL</p>
 								<Field as="input" id="url" type="url" name="url" placeholder="url..." style={{ width: "90%" }} />
 								<span>{errors.url}</span>
