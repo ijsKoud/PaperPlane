@@ -19,7 +19,7 @@
 		"cors": "^2.8.5",
 		"crypto-js": "^4.1.1",
 		"express": "^4.17.2",
-		"express-rate-limit": "^5.5.1",
+		"express-rate-limit": "^6.0.1",
 		"file-saver": "^2.0.5",
 		"formik": "^2.2.9",
 		"framer-motion": "^5.5.5",
