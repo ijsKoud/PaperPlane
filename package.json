@@ -9,7 +9,7 @@
 	"dependencies": {
 		"@agney/react-loading": "^0.1.2",
 		"@daangamesdg/logger": "^1.1.0",
-		"@prisma/client": "^3.6.0",
+		"@prisma/client": "^3.7.0",
 		"@tippyjs/react": "^4.2.6",
 		"argon2": "^0.28.3",
 		"axios": "^0.24.0",
@@ -36,7 +36,7 @@
 		"react-dropzone": "^11.4.2",
 		"react-notifications-component": "^3.1.0",
 		"react-select": "^5.2.1",
-		"sass": "^1.45.0",
+		"sass": "^1.45.1",
 		"uuid": "^8.3.2",
 		"yup": "^0.32.11"
 	},
@@ -59,17 +59,17 @@
 		"@types/file-saver": "2.0.4",
 		"@types/mime-types": "2.1.1",
 		"@types/multer": "1.4.7",
-		"@types/node": "16.11.14",
-		"@types/react": "17.0.37",
+		"@types/node": "16.11.17",
+		"@types/react": "17.0.38",
 		"@types/react-notifications-component": "3.1.1",
 		"@types/sass": "1.43.1",
 		"@types/uuid": "8.3.3",
-		"@typescript-eslint/eslint-plugin": "5.7.0",
-		"@typescript-eslint/parser": "5.7.0",
+		"@typescript-eslint/eslint-plugin": "5.8.0",
+		"@typescript-eslint/parser": "5.8.0",
 		"cross-env": "^7.0.3",
 		"eslint": "8.5.0",
 		"eslint-config-next": "12.0.7",
-		"prisma": "3.6.0",
+		"prisma": "3.7.0",
 		"typescript": "4.5.4"
 	}
 }
