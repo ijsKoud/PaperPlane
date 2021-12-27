@@ -27,4 +27,12 @@ const nextApp = next({
 server.use(dataHandler(nextApp, server));
 void nextHandler(nextApp, server);
 
-server.listen(3000, () => console.log(`Api listening to port ${3000}`));
+const getPort = () => {
+	const env = process.env.PORT;
+	if (!env) return 3e3;
+
+	const port = Number(env);
+	return isNaN(port) ? 3e3 : port;
+};
+
+server.listen(getPort(), () => console.log(`Api listening to port ${getPort()} (http://localhost:${getPort()})`));
