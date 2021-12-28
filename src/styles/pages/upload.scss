@@ -109,7 +109,9 @@
 .file-uploader-items {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
+
+	width: 100%;
+	padding: 1rem;
 }
 
 .file-progress {

@@ -16,15 +16,15 @@ const FileUpload: React.FC = () => {
 				{({ getRootProps, getInputProps, isDragActive }) => (
 					<div {...getRootProps({ className: "file-uploader-container" })}>
 						<input {...getInputProps()} />
-						<div className="file-uploader-items">
-							{files.map((file, i) => (
-								<FileUploadItem key={i} file={file} index={i} />
-							))}
-						</div>
-						{files.length ? <></> : isDragActive ? <h1>Drag them here!!</h1> : <h1>Drag and drop files here</h1>}
+						{isDragActive ? <h1>Drag them here!!</h1> : <h1>Drag and drop files here</h1>}
 					</div>
 				)}
 			</DropZone>
+			<div className="file-uploader-items">
+				{files.map((file, i) => (
+					<FileUploadItem key={i} file={file} index={i} />
+				))}
+			</div>
 		</div>
 	);
 };
