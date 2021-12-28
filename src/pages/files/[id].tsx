@@ -1,7 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 import { lookup } from "mime-types";
 import type { NextPage, GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import React from "react";
 import prisma from "../../lib/prisma";
 
@@ -23,6 +23,7 @@ const FileViewer: NextPage<ServerSideProps> = ({ id, url, embed }) => {
 			const [fileType, extraType] = type.split("/");
 			switch (fileType) {
 				case "image":
+					// eslint-disable-next-line @next/next/no-img-element
 					return <img className="fileviewer-component" alt={url} src={url} />;
 				case "video":
 					return <video className="fileviewer-component" controls src={url} style={{ maxWidth: 107, maxHeight: 53 }} />;
@@ -43,7 +44,16 @@ const FileViewer: NextPage<ServerSideProps> = ({ id, url, embed }) => {
 			}
 		}
 
-		return <i className="fas fa-file no-preview dashboard__table-preview" />;
+		return (
+			<div className="fileviewer-no-preview">
+				<i className="fas fa-file no-preview dashboard__table-preview" />
+				<Link href={url}>
+					<a target="_blank" rel="noopener noopener noreferrer">
+						View raw
+					</a>
+				</Link>
+			</div>
+		);
 	};
 
 	return (
