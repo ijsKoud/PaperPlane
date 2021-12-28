@@ -32,6 +32,12 @@ module.exports = function DataHandler(nextApp) {
 	const router = Router();
 	router.get("/files/:id", async (req, res) => {
 		const { id } = req.params;
+		const { raw: rawQuery } = req.query;
+
+		const raw = typeof rawQuery === "string" ? (rawQuery === "true" ? true : false) : false;
+		const user = await client.user.findFirst();
+
+		if (user?.embedEnabled && !raw) return nextApp.render(req, res, `/files/${id}`);
 
 		const path = join(FILE_DATA_DIR, id);
 		if (!path.startsWith(FILE_DATA_DIR)) return nextApp.render404(req, res);

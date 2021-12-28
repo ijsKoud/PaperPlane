@@ -75,7 +75,7 @@ const Statistics: React.FC<Props> = ({ fetchStats }) => {
 		};
 	}, [page, sort]);
 
-	const getFileLink = (id: string, full = false) => `${full ? process.env.NEXT_PUBLIC_DOMAIN : ""}/files/${id}`;
+	const getFileLink = (id: string, full = false) => `${full ? process.env.NEXT_PUBLIC_DOMAIN : ""}/files/${id}${full ? "?raw=true" : ""}`;
 
 	const deleteFile = async (name: string) => {
 		setFiles(files.filter((file) => file.name !== name));
