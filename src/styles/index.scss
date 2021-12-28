@@ -13,8 +13,8 @@ html {
 
 	--bg2-border: #1b2541;
 
-	--white: #fff;
-	--black: #272727;
+	--white: #ffffff;
+	--black: #000000;
 	--gray: #555555;
 	--green: #77b300;
 	--red: #ff4141;
@@ -223,7 +223,7 @@ button {
 }
 
 .tippy-box.discord-theme .tippy-arrow {
-	color: var(--white);
+	color: var(--black);
 	filter: drop-shadow(0 2px 16px 0 rgba(var(--black-rgb), 0.5));
 }
 
