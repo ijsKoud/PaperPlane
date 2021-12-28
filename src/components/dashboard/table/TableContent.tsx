@@ -73,7 +73,7 @@ const TableContent: React.FC<Props> = (props) => {
 					</Modal>
 					<div className="dashboard__table-buttons">
 						<ToolTip isMobile={isMobile} content="Open in browser">
-							<a href={fileLink} target="_blank" rel="noreferrer">
+							<a href={fileLink} target="_blank" rel="noopener noreferrer">
 								<i className="open fas fa-external-link-alt" />
 							</a>
 						</ToolTip>
@@ -134,7 +134,7 @@ const TableContent: React.FC<Props> = (props) => {
 				</Modal>
 				<div className="dashboard__table-buttons">
 					<ToolTip isMobile={isMobile} content="Open in browser">
-						<a href={shortLink} target="_blank" rel="noreferrer">
+						<a href={shortLink} target="_blank" rel="noopener noreferrer">
 							<i className="open fas fa-external-link-alt" />
 						</a>
 					</ToolTip>
