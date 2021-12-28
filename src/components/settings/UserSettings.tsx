@@ -7,6 +7,7 @@ import Modal from "../general/modal";
 import ToolTip from "../general/ToolTip";
 import EditNameModal from "./modals/EditNameModal";
 import EditPasswordModal from "./modals/EditPasswordModal";
+import EditThemeModal from "./modals/EditThemeModal";
 import GenerateTokenModal from "./modals/GenerateTokenModal";
 
 const UserSettings: React.FC = () => {
@@ -15,6 +16,7 @@ const UserSettings: React.FC = () => {
 
 	const [editName, setEditName] = useState(false);
 	const [editPassword, setEditPassword] = useState(false);
+	const [editTheme, setEditTheme] = useState(false);
 	const [generateToken, setGenerateToken] = useState(false);
 
 	const copyToken = () => {
@@ -34,6 +36,9 @@ const UserSettings: React.FC = () => {
 			</Modal>
 			<Modal onClick={() => setEditPassword(false)} isOpen={editPassword}>
 				<EditPasswordModal handleClose={() => setEditPassword(false)} />
+			</Modal>
+			<Modal onClick={() => setEditTheme(false)} isOpen={editTheme}>
+				<EditThemeModal handleClose={() => setEditTheme(false)} />
 			</Modal>
 			<Modal onClick={() => setGenerateToken(false)} isOpen={generateToken}>
 				<GenerateTokenModal handleClose={handleClose} />
@@ -71,7 +76,7 @@ const UserSettings: React.FC = () => {
 				<div className="settings-component">
 					<h3>Theme:</h3>
 					<p>{user.theme}</p>
-					<button>Change theme</button>
+					<button onClick={() => setEditTheme(true)}>Change theme</button>
 				</div>
 			</div>
 		</>

@@ -21,6 +21,8 @@ html {
 	--orange: #ff9800;
 	--blurple: #5865f2;
 
+	--input: #14161a;
+
 	/* === RGB === */
 	--main-rgb: 44, 57, 166;
 	--alt-rgb: 115, 68, 226;
@@ -38,6 +40,45 @@ html {
 	--red-rgb: 255, 65, 65;
 	--orange-rgb: 255, 152, 0;
 	--blurple-rgb: 88, 101, 242;
+
+	&.light {
+		--main: #2c39a6;
+		--alt: #7344e2;
+
+		--bg1: #e4e5ec;
+		--bg2: #bbbdc4;
+		--bg3: #697285;
+
+		--bg2-border: #9b9da3;
+
+		--white: #000000;
+		--black: #ffffff;
+		--gray: #555555;
+		--green: #1f7e1f;
+		--red: #ff4141;
+		--orange: #ff9800;
+		--blurple: #5865f2;
+
+		--input: #9b9ea5;
+
+		/* === RGB === */
+		--main-rgb: 44, 57, 166;
+		--alt-rgb: 115, 68, 226;
+
+		--bg1-rgb: 228, 229, 236;
+		--bg2-rgb: 187, 189, 196;
+		--bg3-rgb: 105, 114, 133;
+
+		--bg2-border-rgb: 155, 157, 163;
+
+		--white-rgb: 0, 0, 0;
+		--black-rgb: 39, 39, 39;
+		--gray-rgb: 85, 85, 85;
+		--green-rgb: 119, 179, 0;
+		--red-rgb: 255, 65, 65;
+		--orange-rgb: 255, 152, 0;
+		--blurple-rgb: 88, 101, 242;
+	}
 }
 
 * {
@@ -86,7 +127,7 @@ textarea {
 	border-color: rgba(var(--white-rgb), 0.2);
 	border-style: solid;
 
-	background-color: #14161a;
+	background-color: var(--input);
 	transition: border-color 0.5s ease;
 
 	resize: vertical;
@@ -152,8 +193,8 @@ button {
 }
 
 .tippy-box.discord-theme {
-	background-color: black;
-	box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.5);
+	background-color: var(--black);
+	box-shadow: 0 2px 16px 0 rgba(var(--black-rgb), 0.5);
 }
 
 .tippy-box[data-inertia][data-state="visible"] {
@@ -182,15 +223,15 @@ button {
 }
 
 .tippy-box.discord-theme .tippy-arrow {
-	color: black;
-	filter: drop-shadow(0 2px 16px 0 rgba(0, 0, 0, 0.5));
+	color: var(--white);
+	filter: drop-shadow(0 2px 16px 0 rgba(var(--black-rgb), 0.5));
 }
 
 .tippy-box.discord-theme .tippy-content {
 	font-family: "Discord Font", sans-serif;
 	text-align: center;
 	padding: 10px 15px;
-	color: rgba(255, 255, 255, 0.95);
+	color: rgba(var(--white-rgb), 0.95);
 	font-weight: 500;
 	letter-spacing: 0.4px;
 	font-size: 1.1em;

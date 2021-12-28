@@ -5,12 +5,12 @@ const ReactSelectDropdown: React.FC<Props<{ label: string; value: any }, false>>
 	const setTheme = (theme: Theme): Theme => {
 		theme.colors = {
 			...theme.colors,
-			neutral0: "#14161A",
-			neutral10: "#333841",
-			neutral20: "rgba(255, 255, 255, 0.2)",
-			primary25: "#5865f2",
-			primary: "#5865f2",
-			neutral80: "#fbfdfe"
+			neutral0: "var(--input)",
+			neutral10: "var(--bg2-border)",
+			neutral20: "rgba(var(--white-rgb), 0.2)",
+			primary25: "var(--blurple)",
+			primary: "var(--blurple)",
+			neutral80: "var(--white)"
 		};
 
 		return theme;

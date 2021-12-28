@@ -9,16 +9,16 @@ import ReactNotificationsComponent from "react-notifications-component";
 import { defaultVariant } from "../lib/clientConstants";
 import { ProvideAuth } from "../lib/hooks/useAuth";
 
-const App = ({ Component, pageProps, router }: AppProps) => {
-	const variants = {
-		initial: { opacity: 0 },
-		exit: { opacity: 0 },
-		animate: {
-			opacity: 1,
-			...defaultVariant
-		}
-	};
+const variants = {
+	initial: { opacity: 0 },
+	exit: { opacity: 0 },
+	animate: {
+		opacity: 1,
+		...defaultVariant
+	}
+};
 
+const App = ({ Component, pageProps, router }: AppProps) => {
 	return (
 		<ProvideAuth>
 			<ReactNotificationsComponent />

@@ -35,6 +35,11 @@ const useProvideAuth = (): UseAuth => {
 		return () => cancel();
 	}, []);
 
+	useEffect(() => {
+		const html = document.getElementById("html") as HTMLHtmlElement;
+		html.className = user?.theme ?? "dark";
+	}, [user]);
+
 	const reFetch = (removeOnError = false) =>
 		fetch<User>("/api/user")
 			.then((res) => {

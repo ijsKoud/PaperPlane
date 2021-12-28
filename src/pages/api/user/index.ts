@@ -13,9 +13,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			password: ""
 		});
 	} else if (req.method === "PATCH") {
-		const body = req.body as { password?: string; username?: string };
-		if (typeof body.password !== "string" && typeof body.username !== "string")
-			return res.status(400).json({ message: "Password/username missing in request body" });
+		const body = req.body as { password?: string; username?: string; theme?: string };
+		if (typeof body.password !== "string" && typeof body.username !== "string" && typeof body.theme !== "string")
+			return res.status(400).json({ message: "Password/username/theme missing in request body" });
 
 		const user = await getUser(req);
 		if (!user) return res.status(401).json({ message: "You need to be logged in to perform this action" });
@@ -31,9 +31,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		} else if (body.username) {
 			const token = encryptToken(`${body.username}.${Date.now()}`);
 
-			await prisma.user.update({ where: { username: user.username }, data: { ...user, username: body.username } });
+			await prisma.user.update({ where: { username: user.username }, data: { username: body.username } });
 
 			return res.json({ token });
+		} else if (body.theme) {
+			await prisma.user.update({ where: { username: user.username }, data: { theme: body.theme } });
+
+			return res.status(204).send(null);
 		}
 	}
 
