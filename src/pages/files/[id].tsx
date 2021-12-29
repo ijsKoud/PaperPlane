@@ -12,7 +12,6 @@ interface ServerSideProps {
 		title: string;
 		description: string;
 		colour: string;
-		enabled: boolean;
 	};
 }
 
@@ -78,15 +77,16 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
 	const user = await prisma.user.findFirst();
 	const id = Array.isArray(ctx.query.id) ? ctx.query.id[0] : (ctx.query.id as string);
 
+	const parse = (str: string) => str.replace(new RegExp("{file_title}", "g"), id).replace(new RegExp("{user}", "g"), user?.username ?? "unknown");
+
 	return {
 		props: {
 			id,
 			url: `${process.env.NEXT_PUBLIC_DOMAIN}/files/${id}?raw=true`,
 			embed: {
-				title: user?.embedTitle ?? "",
+				title: parse(user?.embedTitle ?? ""),
 				colour: user?.embedColour ?? "#000000",
-				description: user?.embedDescription ?? "",
-				enabled: user?.embedEnabled ?? false
+				description: parse(user?.embedDescription ?? "")
 			}
 		}
 	};
