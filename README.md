@@ -24,11 +24,14 @@ PaperPlane is a file/shorturl upload server that is created for ShareX users. It
 
 ## Features
 
-- Discord embed settings
-- Customisable upload settings
-- Easy to use dashboard
-- File renaming
+- Fast rendering thanks to Next.js
+- Quick database using prisma and sqlite
+- Discord embed settings included
+- Customisable uploader (block file extensions, max upload size, etc)
+- Easy to use dashboard (Closable sections)
+- File renaming (using the dashboard!)
 - Shorturls
+- Frontend uploading page
 - Custom themes
 
 ## Install
