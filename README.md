@@ -36,7 +36,7 @@ PaperPlane is a file/shorturl upload server that is created for ShareX users. It
 
 ## Install
 
-This project is WIP, please come back later for a guide on how to host this project yourself.
+A Detailed installation guide can be found here: https://paperplane.daangamesdg.xyz
 
 ## Author
 
