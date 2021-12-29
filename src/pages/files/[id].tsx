@@ -59,7 +59,7 @@ const FileViewer: NextPage<ServerSideProps> = ({ id, url, embed }) => {
 		<main>
 			<Head>
 				<title>PaperPlane - {id}</title>
-				{embed.description && <meta property="og:site_name" content={embed.description} />}
+				{embed.description && <meta property="og:description" content={embed.description} />}
 				{embed.title && <meta property="og:title" content={embed.title} />}
 				<meta property="theme-color" content={embed.colour} />
 				<meta property="og:image" content={url} />
