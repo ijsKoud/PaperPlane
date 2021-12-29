@@ -5,6 +5,7 @@ import PulseLoader from "../components/general/PulseLoader";
 import { useAuth } from "../lib/hooks/useAuth";
 import Unauthorized from "../components/general/Unauthorized";
 import FileUpload from "../components/upload/FileUpload";
+import LinkCreation from "../components/upload/LinkCreation";
 
 const Upload: NextPage = () => {
 	const { user, loading } = useAuth();
@@ -21,6 +22,7 @@ const Upload: NextPage = () => {
 			) : user ? (
 				<>
 					<FileUpload />
+					<LinkCreation />
 				</>
 			) : (
 				<Unauthorized />

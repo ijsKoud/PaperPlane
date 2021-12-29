@@ -1539,7 +1539,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"body-parser@npm:1.19.1":
+"body-parser@npm:1.19.1, body-parser@npm:^1.19.1":
   version: 1.19.1
   resolution: "body-parser@npm:1.19.1"
   dependencies:
@@ -5625,6 +5625,7 @@ __metadata:
     "@types/react-color": ^3.0.6
     "@types/react-notifications-component": ^3.1.1
     axios: ^0.24.0
+    body-parser: ^1.19.1
     copy-to-clipboard: ^3.3.1
     dotenv: ^10.0.0
     eslint: 8.5.0
