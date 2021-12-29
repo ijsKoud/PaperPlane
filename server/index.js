@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-var-requires */
 require("dotenv").config();
 const express = require("express");
 const next = require("next");
 const nextHandler = require("./handlers/NextHandler");
 const dataHandler = require("./handlers/DataHandler");
+const { json } = require("body-parser");
 
 console.log(
 	[
@@ -24,7 +26,7 @@ const nextApp = next({
 	customServer: true
 });
 
-server.use(dataHandler(nextApp, server));
+server.use(json(), dataHandler(nextApp, server));
 void nextHandler(nextApp, server);
 
 const getPort = () => {

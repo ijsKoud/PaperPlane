@@ -5,7 +5,6 @@ import { FILE_DATA_DIR } from "../../lib/constants";
 import settings from "../../lib/settings";
 import { readdir } from "fs/promises";
 import { nanoid } from "nanoid";
-import prisma from "../../lib/prisma";
 
 const uploader = multer({
 	limits: {
@@ -41,22 +40,8 @@ export type NextApiReq = NextApiRequest & {
 	files?: Express.Multer.File[];
 };
 
-async function finalHandler(req: NextApiReq, res: NextApiResponse) {
+function finalHandler(req: NextApiReq, res: NextApiResponse) {
 	if (req.method === "POST") {
-		const { short, path: linkPath } = req.body;
-		if (typeof short === "string" && short.length > 0) {
-			const links = await prisma.url.findMany();
-			let path: string = linkPath;
-
-			if (!path || links.find((link) => link.id === linkPath)) {
-				path = nanoid(settings.fileNameLength);
-				while (links.find((link) => link.id === linkPath)) path = nanoid(settings.fileNameLength);
-			}
-
-			await prisma.url.create({ data: { date: new Date(), url: short, id: path } });
-			return res.send({ url: `${process.env.NEXT_PUBLIC_DOMAIN}/r/${path}` });
-		}
-
 		const files = (req.files ?? []).map((file) => `${process.env.NEXT_PUBLIC_DOMAIN}/files/${file.filename}`);
 		return res.json({ files, url: files[0] });
 	}
@@ -71,7 +56,7 @@ async function uploadHandler(req: NextApiReq, res: NextApiResponse) {
 	);
 	if (error instanceof Error) return res.status(500).send({ error: error.name, message: "Something went wrong, please try again later!" });
 
-	await finalHandler(req, res);
+	finalHandler(req, res);
 }
 
 export default async function handler(req: NextApiReq, res: NextApiResponse) {

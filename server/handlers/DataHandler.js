@@ -30,6 +30,22 @@ const client = new PrismaClient();
 
 module.exports = function DataHandler(nextApp) {
 	const router = Router();
+	router.post("/api/upload", async (req, res, next) => {
+		const { short, path: linkPath } = req.body ?? {};
+		if ((!linkPath || typeof linkPath !== "string") && (!short || typeof short !== "string")) return next();
+
+		const links = await prisma.url.findMany();
+		let path = linkPath;
+
+		if (!path || links.find((link) => link.id === linkPath)) {
+			path = nanoid(settings.fileNameLength);
+			while (links.find((link) => link.id === linkPath)) path = nanoid(settings.fileNameLength);
+		}
+
+		await prisma.url.create({ data: { date: new Date(), url: short, id: path } });
+		res.send({ url: `${process.env.NEXT_PUBLIC_DOMAIN}/r/${path}` });
+	});
+
 	router.get("/files/:id", async (req, res) => {
 		const { id } = req.params;
 		const { raw: rawQuery } = req.query;
