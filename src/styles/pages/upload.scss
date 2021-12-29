@@ -29,6 +29,10 @@
 
 	display: grid;
 	place-items: center;
+
+	> h1 {
+		text-align: center;
+	}
 }
 
 .file-upload-files {
@@ -131,5 +135,11 @@
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.link-upload .edit-container {
+		width: 100%;
 	}
 }
