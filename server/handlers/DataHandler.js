@@ -3,13 +3,12 @@
 const { PrismaClient } = require("@prisma/client");
 const { FILE_DATA_DIR } = require("../constants");
 const { readdir } = require("fs/promises");
-const Ratelimit = require("express-rate-limit");
+const limiter = require("express-rate-limit").default;
 const { Router } = require("express");
 const { join } = require("path");
 
 const client = new PrismaClient();
-
-const ratelimit = new Ratelimit({
+const ratelimit = limiter({
 	windowMs: 2e3,
 	max: 25
 });
