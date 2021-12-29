@@ -27,7 +27,7 @@ const tableVariants: Variants = {
 		...defaultVariant
 	},
 	animation: {
-		maxHeight: 2500,
+		maxHeight: 2000,
 		...defaultVariant
 	}
 };
@@ -98,9 +98,9 @@ const Statistics: React.FC<Props> = ({ fetchStats }) => {
 		const [type] = _type.split("/");
 		switch (type) {
 			case "image":
-				return <Image alt="" className="dashboard__table-preview" src={url} width={107} height={53} layout="responsive" />;
+				return <Image alt="" className="dashboard__table-preview" src={url} width={100} height={50} />;
 			case "video":
-				return <video className="dashboard__table-preview" controls src={url} style={{ maxWidth: 107, maxHeight: 53 }} />;
+				return <video className="dashboard__table-preview" controls src={url} style={{ maxWidth: 100, maxHeight: 50 }} />;
 			default:
 				return <i className="fas fa-file no-preview dashboard__table-preview" />;
 		}
