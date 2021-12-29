@@ -3127,6 +3127,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-rate-limit@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "express-rate-limit@npm:6.0.1"
+  peerDependencies:
+    express: ^4
+  checksum: ff47bfb818793f34a3f46ffec68fc7cbb36adeeeb4bc1e7fc73a1919daba774b0b02768dad66d9c7b2a399c780cf42140e409f562174429b1490fb1da4cf3d82
+  languageName: node
+  linkType: hard
+
 "express@npm:^4.17.2":
   version: 4.17.2
   resolution: "express@npm:4.17.2"
@@ -5631,6 +5640,7 @@ __metadata:
     eslint: 8.5.0
     eslint-config-next: 12.0.7
     express: ^4.17.2
+    express-rate-limit: ^6.0.1
     file-saver: ^2.0.5
     formik: ^2.2.9
     framer-motion: ^5.5.5

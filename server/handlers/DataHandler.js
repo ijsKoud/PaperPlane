@@ -3,14 +3,20 @@
 const { PrismaClient } = require("@prisma/client");
 const { FILE_DATA_DIR } = require("../constants");
 const { readdir } = require("fs/promises");
+const Ratelimit = require("express-rate-limit");
 const { Router } = require("express");
 const { join } = require("path");
 
 const client = new PrismaClient();
 
+const ratelimit = new Ratelimit({
+	windowMs: 2e3,
+	max: 25
+});
+
 module.exports = function DataHandler(nextApp) {
 	const router = Router();
-	router.post("/api/upload", async (req, res, next) => {
+	router.post("/api/upload", ratelimit, async (req, res, next) => {
 		const { short, path: linkPath } = req.body ?? {};
 		if ((!linkPath || typeof linkPath !== "string") && (!short || typeof short !== "string")) return next();
 
@@ -26,7 +32,7 @@ module.exports = function DataHandler(nextApp) {
 		res.send({ url: `${process.env.NEXT_PUBLIC_DOMAIN}/r/${path}` });
 	});
 
-	router.get("/files/:id", async (req, res) => {
+	router.get("/files/:id", ratelimit, async (req, res) => {
 		const { id } = req.params;
 		const { raw: rawQuery } = req.query;
 
@@ -43,12 +49,11 @@ module.exports = function DataHandler(nextApp) {
 
 		res.sendFile(path, (err) => {
 			if (err) {
-				console.error(err);
 				res.end();
 			}
 		});
 	});
-	router.get("/r/:id", async (req, res) => {
+	router.get("/r/:id", ratelimit, async (req, res) => {
 		const { id } = req.params;
 
 		try {
