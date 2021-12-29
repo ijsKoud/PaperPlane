@@ -16,9 +16,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		if (!url) return res.status(404).send({ message: "The requested shorturl was not found" });
 
 		try {
-			await prisma.url.delete({ where: url });
+			await prisma.url.delete({ where: { id: url.id } });
 			res.status(204).send(null);
 		} catch (err) {
+			console.error(err);
 			res.status(500).json({ message: "Something went wrong on our side, please try again later." });
 		}
 
