@@ -27,7 +27,7 @@ const tableVariants: Variants = {
 		...defaultVariant
 	},
 	animation: {
-		maxHeight: 2000,
+		maxHeight: 2100,
 		...defaultVariant
 	}
 };
