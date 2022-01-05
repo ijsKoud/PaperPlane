@@ -1,34 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+    <img src="https://daangamesdg.xyz/assets/svg/logo.svg" width="100px" />
+    <h1>nextjs-template</h1>
+  
+  <p>Just like an uncoloured drawing. For Next.js web applications!</p>
+  
+  <p align="center">
+    <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg" />
+    <a href="/LICENSE" target="_blank">
+      <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+    </a>
+  </p>
 
-## Getting Started
+  <a href="https://daangamesdg.xyz/discord" target="_blank">
+    <img src="https://daangamesdg.xyz/discord/banner" />
+  </a>
+</div>
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Information
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Information here**
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Install
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+This project is WIP, please come back later for a guide on how to host this bot yourself.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Author
 
-## Learn More
+👤 **DaanGamesDG**
 
-To learn more about Next.js, take a look at the following resources:
+- Website: https://daangamesdg.xyz/
+- Email: <daan@daangamesdg.xyz>
+- Twitter: [@DaanGamesDG](https://twitter.com/DaanGamesDG)
+- Github: [@DaanGamesDG](https://github.com/DaanGamesDG)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Donate
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+This will always be open source project, even if I don't receive donations. But there are still people out there that want to donate, so if you do here is the link [PayPal](https://paypal.me/daangamesdg) or to [Ko-Fi](https://daangamesdg.xyz/kofi). Thanks in advance! I really appriciate it <3
 
-## Deploy on Vercel
+## Lisence
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Project is licensed under the © [**MIT License**](/LICENSE)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
