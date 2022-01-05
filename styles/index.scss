@@ -1,0 +1,99 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+@import url("https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* --vars-- */
+$white: #fff;
+$gray: #232527;
+$dark: #101010;
+$black: #0a0a0a;
+
+* {
+	font-family: "Poppins", sans-serif;
+	padding: 0;
+	margin: 0;
+	color: $white;
+	box-sizing: border-box;
+}
+
+body {
+	background: rgba($black, 0.94);
+	min-height: 100vh;
+
+	/* hide scroll bar */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+a {
+	text-decoration: none;
+
+	user-select: none; /* standard syntax */
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+}
+
+/* == Tippy Theme */
+@font-face {
+	font-family: "Discord Font";
+	font-weight: 900;
+	src: url("https://daangamesdg.xyz/assets/fonts/discord.woff2") format("woff2");
+	font-style: normal;
+}
+
+.tippy-box.discord-theme {
+	background-color: black;
+	box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.5);
+}
+
+.tippy-box[data-inertia][data-state="visible"] {
+	transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.tippy-box[data-placement^="top"][data-animation="discord-anim"] {
+	transform-origin: center !important;
+	&[data-state="hidden"] {
+		opacity: 0;
+		transform: scale(0.9) translateY(-11px);
+	}
+	&[data-state="visible"] {
+		transform: scale(1);
+	}
+}
+
+.tippy-box[data-placement^="bottom"][data-animation="discord-anim"] {
+	&[data-state="hidden"] {
+		opacity: 0;
+		transform: scale(0.9) translateY(11px);
+	}
+	&[data-state="visible"] {
+		transform: scale(1);
+	}
+}
+
+.tippy-box.discord-theme .tippy-arrow {
+	color: black;
+	filter: drop-shadow(0 2px 16px 0 rgba(0, 0, 0, 0.5));
+}
+
+.tippy-box.discord-theme .tippy-content {
+	font-family: "Discord Font", sans-serif;
+	text-align: center;
+	padding: 10px 15px;
+	color: rgba(255, 255, 255, 0.95);
+	font-weight: 500;
+	letter-spacing: 0.4px;
+	font-size: 1.1em;
+
+	h2 {
+		margin: 0;
+		margin-bottom: 8px;
+	}
+}
