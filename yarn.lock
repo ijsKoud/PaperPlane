@@ -616,9 +616,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:^3.8.0":
-  version: 3.8.0
-  resolution: "@prisma/client@npm:3.8.0"
+"@prisma/client@npm:^3.8.1":
+  version: 3.8.1
+  resolution: "@prisma/client@npm:3.8.1"
   dependencies:
     "@prisma/engines-version": 3.8.0-43.34df67547cf5598f5a6cd3eb45f14ee70c3fb86f
   peerDependencies:
@@ -626,7 +626,7 @@ __metadata:
   peerDependenciesMeta:
     prisma:
       optional: true
-  checksum: 9808f78085f9f4b1717dec3e46b9e48cec4d23a94e4f40e64954578cdae3972721b4848881997c9bec83c786edff29b695824abe764f73f4c5c4f672d2929ccd
+  checksum: 7139bbfad7cc1c1e235b02925e171e68370f50c1112e72ecacca0d13651ba808f1a63391dbbb11916b459a6fe9de699a4f7a8a12e390aa3ba394747890729496
   languageName: node
   linkType: hard
 
@@ -2638,7 +2638,59 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.6.0, eslint@npm:^8.6.0":
+"eslint-visitor-keys@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "eslint-visitor-keys@npm:3.2.0"
+  checksum: fdadbb26f9e6417d3db7ad4f00bb0d573b6031c32fa72e8cdae32d038223faaeddff2ee443c90cb489bf774e75bff765c00912b8f9106d65e4f202ccd78c1b18
+  languageName: node
+  linkType: hard
+
+"eslint@npm:8.7.0":
+  version: 8.7.0
+  resolution: "eslint@npm:8.7.0"
+  dependencies:
+    "@eslint/eslintrc": ^1.0.5
+    "@humanwhocodes/config-array": ^0.9.2
+    ajv: ^6.10.0
+    chalk: ^4.0.0
+    cross-spawn: ^7.0.2
+    debug: ^4.3.2
+    doctrine: ^3.0.0
+    escape-string-regexp: ^4.0.0
+    eslint-scope: ^7.1.0
+    eslint-utils: ^3.0.0
+    eslint-visitor-keys: ^3.2.0
+    espree: ^9.3.0
+    esquery: ^1.4.0
+    esutils: ^2.0.2
+    fast-deep-equal: ^3.1.3
+    file-entry-cache: ^6.0.1
+    functional-red-black-tree: ^1.0.1
+    glob-parent: ^6.0.1
+    globals: ^13.6.0
+    ignore: ^5.2.0
+    import-fresh: ^3.0.0
+    imurmurhash: ^0.1.4
+    is-glob: ^4.0.0
+    js-yaml: ^4.1.0
+    json-stable-stringify-without-jsonify: ^1.0.1
+    levn: ^0.4.1
+    lodash.merge: ^4.6.2
+    minimatch: ^3.0.4
+    natural-compare: ^1.4.0
+    optionator: ^0.9.1
+    regexpp: ^3.2.0
+    strip-ansi: ^6.0.1
+    strip-json-comments: ^3.1.0
+    text-table: ^0.2.0
+    v8-compile-cache: ^2.0.3
+  bin:
+    eslint: bin/eslint.js
+  checksum: 1c80375a48b0fe3ccae3c6354323e4f0e92e970f23abc5b9705b90b7aef514b69ebd0a63e74962d30789986c91fa41c0e25cd2f98f19e9e2a2d36aafdfc9ccc9
+  languageName: node
+  linkType: hard
+
+"eslint@npm:^8.6.0":
   version: 8.6.0
   resolution: "eslint@npm:8.6.0"
   dependencies:
@@ -3497,7 +3549,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore@npm:^5.1.4, ignore@npm:^5.1.8":
+"ignore@npm:^5.1.4, ignore@npm:^5.1.8, ignore@npm:^5.2.0":
   version: 5.2.0
   resolution: "ignore@npm:5.2.0"
   checksum: 6b1f926792d614f64c6c83da3a1f9c83f6196c2839aa41e1e32dd7b8d174cef2e329d75caabb62cb61ce9dc432f75e67d07d122a037312db7caa73166a1bdb77
@@ -4990,7 +5042,7 @@ __metadata:
     "@commitlint/cli": ^16.0.2
     "@commitlint/config-angular": ^16.0.0
     "@daangamesdg/logger": ^1.1.0
-    "@prisma/client": ^3.8.0
+    "@prisma/client": ^3.8.1
     "@sapphire/eslint-config": ^4.0.9
     "@sapphire/prettier-config": ^1.2.8
     "@sapphire/ts-config": ^3.1.7
@@ -5006,7 +5058,7 @@ __metadata:
     body-parser: ^1.19.1
     copy-to-clipboard: ^3.3.1
     dotenv: ^12.0.4
-    eslint: 8.6.0
+    eslint: 8.7.0
     eslint-config-next: 12.0.8
     express: ^4.17.2
     express-rate-limit: ^6.1.0
@@ -5022,7 +5074,7 @@ __metadata:
     nanoid: ^3.1.32
     next: 12.0.8
     nodemon: ^2.0.15
-    prisma: ^3.8.0
+    prisma: ^3.8.1
     prompts: ^2.4.2
     react: 17.0.2
     react-color: ^2.19.3
@@ -5030,10 +5082,10 @@ __metadata:
     react-dom: 17.0.2
     react-dropzone: ^11.5.1
     react-notifications-component: ^3.1.0
-    react-select: ^5.2.1
+    react-select: ^5.2.2
     react-spinners: ^0.11.0
     react-switch: ^6.0.0
-    sass: ^1.47.0
+    sass: ^1.48.0
     typescript: 4.5.4
     yup: ^0.32.11
   languageName: unknown
@@ -5187,15 +5239,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^3.8.0":
-  version: 3.8.0
-  resolution: "prisma@npm:3.8.0"
+"prisma@npm:^3.8.1":
+  version: 3.8.1
+  resolution: "prisma@npm:3.8.1"
   dependencies:
     "@prisma/engines": 3.8.0-43.34df67547cf5598f5a6cd3eb45f14ee70c3fb86f
   bin:
     prisma: build/index.js
     prisma2: build/index.js
-  checksum: 018b667894fbb01e265566f1eb282b75da2493cd4e3cb450a0a01c40d379ada5749c420e9dd1731e9ac58094f374c90b59a19f67891c5d52c2cd17e6bef1d954
+  checksum: dfd6cefa70b953a49e5c447719d16ac6aea7ac7e7a30544c4a522c9563d2b476a09fecf420c77b6e44632cd1b7a8cb0dc59ac6247810ec78611ac3e883caec77
   languageName: node
   linkType: hard
 
@@ -5461,9 +5513,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-select@npm:^5.2.1":
-  version: 5.2.1
-  resolution: "react-select@npm:5.2.1"
+"react-select@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "react-select@npm:5.2.2"
   dependencies:
     "@babel/runtime": ^7.12.0
     "@emotion/cache": ^11.4.0
@@ -5475,7 +5527,7 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
     react-dom: ^16.8.0 || ^17.0.0
-  checksum: 014cde5d23ca466795bd7f02455769efda74522c41f11109ec2d6f0e3c77f401ea91ae23cdccce997efb653aa6ea88688a16f40e59bfdef2a2414d0cfd10f374
+  checksum: 02cf76a31df6d957b15e8664957ece85afb0e9538f0686f77e8dd7cdc47cb59b71e295cd373912f2dd641724f140a1f701c91e7e7f89bb7e845a04bf5d6c67ad
   languageName: node
   linkType: hard
 
@@ -5831,16 +5883,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.47.0":
-  version: 1.47.0
-  resolution: "sass@npm:1.47.0"
+"sass@npm:^1.48.0":
+  version: 1.48.0
+  resolution: "sass@npm:1.48.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: e725a37eb7360ad5f96e6e6209d81beeb22ecec70c6f01a1acdf237dbbb6e05e50cc0a0851b16ee1dbc63fbdd7a90405cbbd9911f56b2dba3d5f934f7e291f10
+  checksum: 0fa57d17a9ac9eff914719a3c9cf986cb81c6714cc09214ace65e9f1af0bd47f750793dfc39bbd1b199c9b8c12b1e4aba669ba08dfbd649cfb581c55d20a839f
   languageName: node
   linkType: hard
 
