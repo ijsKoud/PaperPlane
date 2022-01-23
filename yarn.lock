@@ -2248,10 +2248,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^12.0.4":
-  version: 12.0.4
-  resolution: "dotenv@npm:12.0.4"
-  checksum: d79a69fae72b5c5785906600ce42388b48bf7ab20bbac8346bac327cc87a68617a09b1b3cd39965210f011ab07ea4641d5952d46f67f4e40a66b9ad76cf456c0
+"dotenv@npm:^14.2.0":
+  version: 14.2.0
+  resolution: "dotenv@npm:14.2.0"
+  checksum: 85a0e44918ef49e64c278f757dab50a156b9a6ca67f708876fd81d265e575e35b67387fc681d910df99368d6c1edca66cd546edeb0f7db3b499cb876c999233e
   languageName: node
   linkType: hard
 
@@ -5041,7 +5041,7 @@ __metadata:
     axios: ^0.24.0
     body-parser: ^1.19.1
     copy-to-clipboard: ^3.3.1
-    dotenv: ^12.0.4
+    dotenv: ^14.2.0
     eslint: 8.7.0
     eslint-config-next: 12.0.8
     express: ^4.17.2
