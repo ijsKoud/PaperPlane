@@ -37,7 +37,7 @@
 		"react-device-detect": "^2.1.2",
 		"react-dom": "17.0.2",
 		"react-dropzone": "^11.5.3",
-		"react-notifications-component": "3.3.2",
+		"react-notifications-component": "3.1.0",
 		"react-select": "^5.2.2",
 		"react-spinners": "^0.11.0",
 		"react-switch": "^6.0.0",

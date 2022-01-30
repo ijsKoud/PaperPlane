@@ -4855,7 +4855,7 @@ __metadata:
     react-device-detect: ^2.1.2
     react-dom: 17.0.2
     react-dropzone: ^11.5.3
-    react-notifications-component: 3.3.2
+    react-notifications-component: 3.1.0
     react-select: ^5.2.2
     react-spinners: ^0.11.0
     react-switch: ^6.0.0
@@ -5248,12 +5248,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-notifications-component@npm:3.3.2":
-  version: 3.3.2
-  resolution: "react-notifications-component@npm:3.3.2"
+"react-notifications-component@npm:3.1.0":
+  version: 3.1.0
+  resolution: "react-notifications-component@npm:3.1.0"
   peerDependencies:
     react: ^17.0.1
-  checksum: eed8b2ce87155bfa1a134f0a995c7b0f63a4b16748dc4d1f73503a36cdcf4ac30c2ce693bb131d1af237f040eac8fa97fcfe4b3a01a5b731657985c477e79bdd
+  checksum: f841faccf627ea70d85756a0538e37230eb6f3cadcb75d6c6963c6928d4aa477939db01c44d375391619a2c76b8425fb33720aa3b18f99721c56fa68a7cfd5f8
   languageName: node
   linkType: hard
 
