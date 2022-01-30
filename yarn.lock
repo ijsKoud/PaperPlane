@@ -586,7 +586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.10.0":
+"@typescript-eslint/eslint-plugin@npm:^5.10.0, @typescript-eslint/eslint-plugin@npm:^5.10.1":
   version: 5.10.1
   resolution: "@typescript-eslint/eslint-plugin@npm:5.10.1"
   dependencies:
@@ -609,7 +609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.0.0, @typescript-eslint/parser@npm:^5.10.0":
+"@typescript-eslint/parser@npm:^5.0.0, @typescript-eslint/parser@npm:^5.10.0, @typescript-eslint/parser@npm:^5.10.1":
   version: 5.10.1
   resolution: "@typescript-eslint/parser@npm:5.10.1"
   dependencies:
@@ -1787,7 +1787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.8.0":
+"eslint@npm:^8.8.0":
   version: 8.8.0
   resolution: "eslint@npm:8.8.0"
   dependencies:
@@ -3273,8 +3273,12 @@ __metadata:
     "@sapphire/ts-config": ^3.2.0
     "@types/node": 17.0.8
     "@types/react": 17.0.38
-    eslint: 8.8.0
+    "@typescript-eslint/eslint-plugin": ^5.10.1
+    "@typescript-eslint/parser": ^5.10.1
+    eslint: ^8.8.0
     eslint-config-next: 12.0.9
+    eslint-config-prettier: ^8.3.0
+    eslint-plugin-prettier: ^4.0.0
     husky: ^7.0.4
     lint-staged: ^12.3.2
     next: 12.0.9
