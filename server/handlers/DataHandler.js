@@ -24,7 +24,7 @@ module.exports = function DataHandler(nextApp) {
 
 		if (!path || links.find((link) => link.id === linkPath)) {
 			path = nanoid(settings.fileNameLength);
-			while (links.find((link) => link.id === linkPath)) path = nanoid(settings.fileNameLength);
+			while (links.find((link) => link.id === path)) path = nanoid(settings.fileNameLength);
 		}
 
 		await prisma.url.create({ data: { date: new Date(), url: short, id: path } });
