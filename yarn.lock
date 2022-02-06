@@ -1344,7 +1344,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"attr-accept@npm:^2.2.1":
+"attr-accept@npm:^2.2.2":
   version: 2.2.2
   resolution: "attr-accept@npm:2.2.2"
   checksum: 496f7249354ab53e522510c1dc8f67a1887382187adde4dc205507d2f014836a247073b05e9d9ea51e2e9c7f71b0d2aa21730af80efa9af2d68303e5f0565c4d
@@ -2756,12 +2756,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-selector@npm:^0.2.2":
-  version: 0.2.4
-  resolution: "file-selector@npm:0.2.4"
+"file-selector@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "file-selector@npm:0.4.0"
   dependencies:
     tslib: ^2.0.3
-  checksum: 83341e7416352c7de0caf433b33c8d007d3c298c17d6ba0e70168af82bb045d905ddd6f4bc3ca764a2035c6f18eae7f52223dc6a784056f61b8391c351f88323
+  checksum: 1c9986e94bd033442cb4299d10d73d98fbc0b5f1af5b47d7a27b39f1e6bbd8d677f66c2628167da387166c652ad3c2429875042b453ba62f14945d903adf88d5
   languageName: node
   linkType: hard
 
@@ -4858,7 +4858,7 @@ __metadata:
     react-color: ^2.19.3
     react-device-detect: ^2.1.2
     react-dom: 17.0.2
-    react-dropzone: ^11.5.3
+    react-dropzone: ^12.0.0
     react-notifications-component: 3.1.0
     react-select: ^5.2.2
     react-spinners: ^0.11.0
@@ -5061,7 +5061,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.10, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -5225,16 +5225,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^11.5.3":
-  version: 11.5.3
-  resolution: "react-dropzone@npm:11.5.3"
+"react-dropzone@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "react-dropzone@npm:12.0.0"
   dependencies:
-    attr-accept: ^2.2.1
-    file-selector: ^0.2.2
-    prop-types: ^15.7.2
+    attr-accept: ^2.2.2
+    file-selector: ^0.4.0
+    prop-types: ^15.8.1
   peerDependencies:
     react: ">= 16.8"
-  checksum: 83486811ad8a951ca5c235cc3849ed967112c60f63fbbde6247b205cb232bb8165dd2df4fdfcd3b6d508ecc7bfbfbe9be6be606264fd5046b498f3135e4a79f2
+  checksum: 7830170f7d91f940797dc2add852a58e76f0e9a52341b327b641562209230dfec83e6a31a1df1d1e70d4cfd876ec04ddedf1ef1c0e6328021d29286049721171
   languageName: node
   linkType: hard
 
