@@ -635,13 +635,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/ts-config@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "@sapphire/ts-config@npm:3.3.1"
+"@sapphire/ts-config@npm:3.2.0":
+  version: 3.2.0
+  resolution: "@sapphire/ts-config@npm:3.2.0"
   dependencies:
     tslib: ^2.3.1
     typescript: ^4.5.5
-  checksum: c63c208dcd528a30a3799ca992553e029dc541580479ea6e7aca4bd0ef46ad103de1fe47fed9e6254a4fb348b769bf0a019d28e6cce05792eb51b69666811e78
+  checksum: a6631da9db30dc208623266f64420b610908ab3de052aadcb6523055a53e0618cb0023b4d4afc57b94fe1faf98cb50e6fcea9b149abf5391afcb327960f11ddd
   languageName: node
   linkType: hard
 
@@ -4871,7 +4871,7 @@ __metadata:
     "@prisma/client": ^3.9.2
     "@sapphire/eslint-config": ^4.2.1
     "@sapphire/prettier-config": ^1.3.0
-    "@sapphire/ts-config": ^3.3.1
+    "@sapphire/ts-config": 3.2.0
     "@tippyjs/react": ^4.2.6
     "@types/file-saver": ^2.0.5
     "@types/mime-types": ^2.1.1
@@ -4911,7 +4911,7 @@ __metadata:
     react-device-detect: ^2.1.2
     react-dom: 17.0.2
     react-dropzone: ^12.0.4
-    react-notifications-component: 3.4.1
+    react-notifications-component: 3.1.0
     react-select: ^5.2.2
     react-spinners: ^0.11.0
     react-switch: ^6.0.0
@@ -5304,12 +5304,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-notifications-component@npm:3.4.1":
-  version: 3.4.1
-  resolution: "react-notifications-component@npm:3.4.1"
+"react-notifications-component@npm:3.1.0":
+  version: 3.1.0
+  resolution: "react-notifications-component@npm:3.1.0"
   peerDependencies:
     react: ^17.0.1
-  checksum: 2bdfadfa23278137b14f70ecb2a5b0a6f5bee8a14d21749fe8fdbb23b10cf7c8b7f74a5d153ac73d80b70a63a57fd16706d32268e2c3d8f4cf17776c145c9570
+  checksum: f841faccf627ea70d85756a0538e37230eb6f3cadcb75d6c6963c6928d4aa477939db01c44d375391619a2c76b8425fb33720aa3b18f99721c56fa68a7cfd5f8
   languageName: node
   linkType: hard
 
