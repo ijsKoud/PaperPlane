@@ -4338,10 +4338,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minisearch@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "minisearch@npm:3.2.0"
-  checksum: 953ee407008f80db18b4696fee2bad3a6bbbd2b41879dcad68839896b12b38578e198c03add2366fc521ea54a0c81020e00f9ffd1f7767ef805de1aeb7cc2c11
+"minisearch@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "minisearch@npm:4.0.2"
+  checksum: 8ca50e8250480ffe093987525d277b7dd565c81db7b4b4f96553ce40186a07e6a2b451cacb3a6802919f19ad33eeb5a03f4c760546f66bf68cbf10e1a2163264
   languageName: node
   linkType: hard
 
@@ -4898,7 +4898,7 @@ __metadata:
     husky: ^7.0.4
     lint-staged: ^12.3.4
     mime-types: ^2.1.34
-    minisearch: ^3.2.0
+    minisearch: ^4.0.2
     moment: ^2.29.1
     multer: ^1.4.4
     nanoid: ^3.3.0
