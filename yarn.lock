@@ -2799,12 +2799,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-selector@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "file-selector@npm:0.4.0"
+"file-selector@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "file-selector@npm:0.5.0"
   dependencies:
     tslib: ^2.0.3
-  checksum: 1c9986e94bd033442cb4299d10d73d98fbc0b5f1af5b47d7a27b39f1e6bbd8d677f66c2628167da387166c652ad3c2429875042b453ba62f14945d903adf88d5
+  checksum: f95a06938123a2b765d136a4430cc8b19165f06a53e7ae1dcca4947716d61e9181453fcfeb2358c2660cbcecf96d7334f0528ba60071fed81f8bd358ea08454a
   languageName: node
   linkType: hard
 
@@ -4910,7 +4910,7 @@ __metadata:
     react-color: ^2.19.3
     react-device-detect: ^2.1.2
     react-dom: 17.0.2
-    react-dropzone: ^12.0.4
+    react-dropzone: ^13.0.0
     react-notifications-component: 3.1.0
     react-select: ^5.2.2
     react-spinners: ^0.11.0
@@ -5277,16 +5277,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dropzone@npm:^12.0.4":
-  version: 12.0.4
-  resolution: "react-dropzone@npm:12.0.4"
+"react-dropzone@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "react-dropzone@npm:13.0.0"
   dependencies:
     attr-accept: ^2.2.2
-    file-selector: ^0.4.0
+    file-selector: ^0.5.0
     prop-types: ^15.8.1
   peerDependencies:
     react: ">= 16.8"
-  checksum: cc8c2036c72cbe02ddea1e141de45aeee7b399321b5791174d04fb8c1f52eb2ee3ae2d3fb1240fc23008a435c4ceb437e85831f0388a6b34be2bc39417701096
+  checksum: 9cab6b87d6e05ec92ef499f21c5e6228f152ab01d877dbb1c634a7e0eb7d73d678f9e395f4c6f406a6cd3167ab4ea9c6f6572f7cd4ab924b497c77a282d74e7e
   languageName: node
   linkType: hard
 
