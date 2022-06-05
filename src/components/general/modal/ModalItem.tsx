@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
+import type { FC } from "../../../lib";
 import BackDrop from "./Backdrop";
 
 const variants = {
@@ -27,7 +28,7 @@ interface Props {
 	onClick: () => void;
 }
 
-const ModalItem: React.FC<Props> = ({ children, onClick }) => {
+const ModalItem: FC<Props> = ({ children, onClick }) => {
 	return (
 		<BackDrop onClick={onClick}>
 			<motion.div onClick={(e) => e.stopPropagation()} className="modal" variants={variants} initial="hidden" animate="visible" exit="exit">

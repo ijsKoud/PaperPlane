@@ -21,6 +21,7 @@ const variants = {
 const App = ({ Component, pageProps, router }: AppProps) => {
 	return (
 		<ProvideAuth>
+			{/* @ts-ignore fixed by external PR*/}
 			<ReactNotificationsComponent />
 			<Navbar />
 			<AnimatePresence exitBeforeEnter>

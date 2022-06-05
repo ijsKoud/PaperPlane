@@ -1,10 +1,11 @@
 import React from "react";
+import type { FC } from "../../../lib";
 
 interface Props {
 	listItems: string[];
 }
 
-const Table: React.FC<Props> = ({ listItems, children }) => {
+const Table: FC<Props> = ({ listItems, children }) => {
 	return (
 		<div className="dashboard-table-component">
 			<table>
