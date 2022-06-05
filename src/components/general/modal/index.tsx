@@ -1,5 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
+import type { FC } from "../../../lib";
 import ModalItem from "./ModalItem";
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 	isOpen: boolean;
 }
 
-const Modal: React.FC<Props> = ({ children, onClick, isOpen }) => {
+const Modal: FC<Props> = ({ children, onClick, isOpen }) => {
 	return <AnimatePresence exitBeforeEnter>{isOpen && <ModalItem onClick={onClick}>{children}</ModalItem>}</AnimatePresence>;
 };
 

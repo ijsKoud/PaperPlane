@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* == General == */
 export interface ApiError {
 	message: string;
 	error: string;
 }
+
+export type FC<Props extends Record<string, any> = {}> = React.FC<Props & { children?: React.ReactNode }>;
 
 /* == Stats == */
 export interface Stats {

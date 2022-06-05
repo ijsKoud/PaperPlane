@@ -1,6 +1,7 @@
 import type { User } from "@prisma/client";
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { fetch, getCancelToken } from "../fetch";
+import type { FC } from "../types";
 
 interface UseAuth {
 	user: User | null;
@@ -10,7 +11,7 @@ interface UseAuth {
 
 const authContext = createContext<UseAuth>({ user: null, loading: true, fetch: () => void 0 });
 
-export const ProvideAuth: React.FC = ({ children }) => {
+export const ProvideAuth: FC = ({ children }) => {
 	const auth = useProvideAuth();
 	return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };
