@@ -1,7 +1,7 @@
-import { store } from "react-notifications-component";
+import { Store } from "react-notifications-component";
 
 export const alert = (title: string, message: string, id?: string) => {
-	store.addNotification({
+	Store.addNotification({
 		id,
 		title,
 		message,
@@ -17,7 +17,7 @@ export const alert = (title: string, message: string, id?: string) => {
 };
 
 export const success = (title: string, message: string, id?: string) => {
-	store.addNotification({
+	Store.addNotification({
 		id,
 		title,
 		message,
@@ -33,7 +33,7 @@ export const success = (title: string, message: string, id?: string) => {
 };
 
 export const info = (title: string, message: string, id?: string) => {
-	store.addNotification({
+	Store.addNotification({
 		id,
 		title,
 		message,
