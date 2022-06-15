@@ -39,7 +39,7 @@ This project is WIP, please come back later for a guide on how to host this bot 
 
 This will always be open source project, even if I don't receive donations. But there are still people out there that want to donate, so if you do here is the link [PayPal](https://paypal.me/daangamesdg) or to [Ko-Fi](https://daangamesdg.xyz/kofi). Thanks in advance! I really appriciate it <3
 
-## Lisence
+## LICENSE
 
 Project is licensed under the © [**MIT License**](/LICENSE)
 
