@@ -1,10 +1,13 @@
 {
 	"name": "nextjs-template",
 	"version": "3.0.0",
+	"main": "dist/src/server",
 	"private": true,
 	"scripts": {
 		"dev": "NODE_ENV=development ts-node src/server",
-		"build": "next build",
+		"build": "yarn build:server && yarn build:app",
+		"build:server": "tsc --project src/server --outDir ./dist",
+		"build:app": "next build",
 		"start": "next start",
 		"lint": "next lint"
 	},
