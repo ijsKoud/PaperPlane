@@ -2,6 +2,9 @@ import next from "next";
 import express, { Express } from "express";
 import type { NextServer } from "next/dist/server/next";
 import { version } from "../../package.json";
+import { mkdir } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 export class Server {
 	public dev: boolean;
@@ -36,6 +39,13 @@ export class Server {
 		await this.next.prepare();
 		const handler = this.next.getRequestHandler();
 		this.express.use((req, res) => handler(req, res));
+
+		await this.initData();
+	}
+
+	private async initData() {
+		const dir = join(process.cwd(), "data", "files");
+		if (!existsSync(dir)) await mkdir(dir, { recursive: true }).catch(() => void 0);
 	}
 
 	private startupLog() {

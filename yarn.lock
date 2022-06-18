@@ -1422,7 +1422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:>=3.0.0 <4.0.0":
+"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -3911,6 +3911,7 @@ __metadata:
     "@types/react": 18.0.12
     "@typescript-eslint/eslint-plugin": ^5.27.1
     "@typescript-eslint/parser": ^5.27.1
+    chokidar: ^3.5.3
     dotenv: ^16.0.1
     eslint: ^8.17.0
     eslint-config-next: 12.1.6
