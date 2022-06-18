@@ -1,8 +1,8 @@
 FROM node:16-alpine
 
 # Create user PaperPlane
-RUN addgroup --system --gid 1001 paperplane
-RUN adduser --system --uid 1001 paperplane
+RUN addgroup --system --gid 1639 paperplane
+RUN adduser --system --uid 1639 paperplane
 
 # Create Directories with correct permissions
 RUN mkdir -p /paperplane/node_modules && chown -R paperplane:paperplane /paperplane/
@@ -14,15 +14,16 @@ WORKDIR /paperplane
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
+# Copy Existing Files
+COPY package.json yarn.lock .yarnrc.yml next.config.js next-env.d.ts tsconfig.json ./
+COPY .yarn ./.yarn
+COPY public ./public
+COPY src ./src
+
 # Install dependencies
-COPY .yarn .yarn
-COPY package.json yarn.lock .yarnrc.yml ./
 RUN yarn install --immutable
 
 # Build the application
-COPY src ./src
-COPY .yarn .yarn
-COPY package.json yarn.lock .yarnrc.yml next.config.js next-env.d.ts tsconfig.json ./
 RUN yarn build
 
 # Change User
