@@ -64,6 +64,9 @@ export class Server {
 	}
 
 	private async link(path: string) {
+		const file = await this.prisma.image.findUnique({ where: { path } });
+		if (file) return;
+
 		await this.prisma.image.create({ data: { date: new Date(), id: nanoid(10), path } });
 	}
 
