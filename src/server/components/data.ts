@@ -19,26 +19,26 @@ export class Data {
 	}
 
 	public async unlink(path: string) {
-		await this.server.prisma.image.delete({ where: { path } });
+		await this.server.prisma.file.delete({ where: { path } });
 	}
 
 	public async link(path: string) {
-		const file = await this.server.prisma.image.findUnique({ where: { path } });
+		const file = await this.server.prisma.file.findUnique({ where: { path } });
 		if (file) return;
 
-		await this.server.prisma.image.create({ data: { date: new Date(), id: nanoid(10), path } });
+		await this.server.prisma.file.create({ data: { date: new Date(), id: nanoid(10), path } });
 	}
 
 	public async migrate() {
 		const dir = join(process.cwd(), "data", "files");
-		const files = await readdir(dir);
-		const images = await this.server.prisma.image.findMany();
+		const _files = await readdir(dir);
+		const files = await this.server.prisma.file.findMany();
 
-		for await (const file of files) {
+		for await (const file of _files) {
 			const filePath = join(dir, file);
-			if (images.find((img) => img.path === filePath)) break;
+			if (files.find((f) => f.path === filePath)) break;
 
-			await this.server.prisma.image.create({ data: { date: new Date(), id: nanoid(10), path: filePath } });
+			await this.server.prisma.file.create({ data: { date: new Date(), id: nanoid(10), path: filePath } });
 		}
 
 		console.log("Database file migrations complete!");
