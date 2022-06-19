@@ -16,12 +16,14 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 # Copy Existing Files
 COPY package.json yarn.lock .yarnrc.yml next.config.js next-env.d.ts tsconfig.json ./
+copy prisma ./prisma
 COPY .yarn ./.yarn
 COPY public ./public
 COPY src ./src
 
 # Install dependencies
 RUN yarn install --immutable
+run yarn prisma db push
 
 # Build the application
 RUN yarn build

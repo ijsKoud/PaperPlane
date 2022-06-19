@@ -5,6 +5,7 @@ import { version } from "../../package.json";
 import { mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { PrismaClient } from "@prisma/client";
 
 export class Server {
 	public dev: boolean;
@@ -12,6 +13,8 @@ export class Server {
 
 	public express: Express;
 	public next!: NextServer;
+
+	public prisma: PrismaClient = new PrismaClient();
 
 	public constructor() {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
@@ -35,6 +38,7 @@ export class Server {
 		});
 
 		this.express.listen(this.port, () => this.startupLog());
+		await this.prisma.$connect().then(() => console.log("Prisma Database is up and running!"));
 
 		await this.next.prepare();
 		const handler = this.next.getRequestHandler();

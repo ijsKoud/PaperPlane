@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../data/data.db"
+}
+
+model User {
+  // User Config
+  username String @id
+  password String
+  token    String
+
+  // Embed Config
+  embedEnabled     Boolean
+  embedTitle       String?
+  embedDescription String?
+  embedColour      String?
+}
+
+model Url {
+  // URL Config
+  id   String   @id
+  url  String
+  date DateTime
+
+  // Stats Config
+  visits Int @default(0)
+}
+
+model Image {
+  // Image Config
+  id   String
+  path String
+  date DateTime
+
+  // Stats Config
+  views  Int     @default(0)
+  pinned Boolean @default(false)
+
+  // Privacy Config
+  password String?
+
+
+  @@id([id, path])
+}
