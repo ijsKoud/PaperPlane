@@ -2,12 +2,8 @@ import next from "next";
 import express, { Express } from "express";
 import type { NextServer } from "next/dist/server/next";
 import { version } from "../../package.json";
-import { mkdir, readdir } from "node:fs/promises";
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
-import { nanoid } from "nanoid";
-import { watch } from "chokidar";
+import { Data } from "./components";
 
 export class Server {
 	public dev: boolean;
@@ -17,6 +13,8 @@ export class Server {
 	public next!: NextServer;
 
 	public prisma: PrismaClient = new PrismaClient();
+
+	public data: Data;
 
 	public constructor() {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
@@ -30,6 +28,8 @@ export class Server {
 			return isNaN(port) ? 3e3 : port;
 		};
 		this.port = getPort();
+
+		this.data = new Data(this);
 	}
 
 	public async run() {
@@ -46,43 +46,7 @@ export class Server {
 		const handler = this.next.getRequestHandler();
 		this.express.use((req, res) => handler(req, res));
 
-		await this.initData();
-	}
-
-	private async initData() {
-		const dir = join(process.cwd(), "data", "files");
-		if (!existsSync(dir)) await mkdir(dir, { recursive: true }).catch(() => void 0);
-
-		await this.migrate();
-		watch(dir)
-			.on("unlink", (path) => this.unlink(path))
-			.on("add", (path) => this.link(path));
-	}
-
-	private async unlink(path: string) {
-		await this.prisma.image.delete({ where: { path } });
-	}
-
-	private async link(path: string) {
-		const file = await this.prisma.image.findUnique({ where: { path } });
-		if (file) return;
-
-		await this.prisma.image.create({ data: { date: new Date(), id: nanoid(10), path } });
-	}
-
-	private async migrate() {
-		const dir = join(process.cwd(), "data", "files");
-		const files = await readdir(dir);
-		const images = await this.prisma.image.findMany();
-
-		for await (const file of files) {
-			const filePath = join(dir, file);
-			if (images.find((img) => img.path === filePath)) break;
-
-			await this.prisma.image.create({ data: { date: new Date(), id: nanoid(10), path: filePath } });
-		}
-
-		console.log("Database file migrations complete!");
+		await this.data.init();
 	}
 
 	private startupLog() {
