@@ -35,8 +35,8 @@ model Url {
 
 model Image {
   // Image Config
-  id   String
-  path String
+  id   String   @id @unique
+  path String   @unique
   date DateTime
 
   // Stats Config
@@ -45,7 +45,4 @@ model Image {
 
   // Privacy Config
   password String?
-
-
-  @@id([id, path])
 }
