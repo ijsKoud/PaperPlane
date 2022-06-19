@@ -2,10 +2,12 @@ import next from "next";
 import express, { Express } from "express";
 import type { NextServer } from "next/dist/server/next";
 import { version } from "../../package.json";
-import { mkdir } from "node:fs/promises";
+import { mkdir, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
+import { nanoid } from "nanoid";
+import { watch } from "chokidar";
 
 export class Server {
 	public dev: boolean;
@@ -50,6 +52,34 @@ export class Server {
 	private async initData() {
 		const dir = join(process.cwd(), "data", "files");
 		if (!existsSync(dir)) await mkdir(dir, { recursive: true }).catch(() => void 0);
+
+		await this.migrate();
+		watch(dir)
+			.on("unlink", (path) => this.unlink(path))
+			.on("add", (path) => this.link(path));
+	}
+
+	private async unlink(path: string) {
+		await this.prisma.image.delete({ where: { path } });
+	}
+
+	private async link(path: string) {
+		await this.prisma.image.create({ data: { date: new Date(), id: nanoid(10), path } });
+	}
+
+	private async migrate() {
+		const dir = join(process.cwd(), "data", "files");
+		const files = await readdir(dir);
+		const images = await this.prisma.image.findMany();
+
+		for await (const file of files) {
+			const filePath = join(dir, file);
+			if (images.find((img) => img.path === filePath)) break;
+
+			await this.prisma.image.create({ data: { date: new Date(), id: nanoid(10), path: filePath } });
+		}
+
+		console.log("Database file migrations complete!");
 	}
 
 	private startupLog() {
