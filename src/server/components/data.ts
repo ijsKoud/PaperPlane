@@ -33,14 +33,25 @@ export class Data {
 	public async migrate() {
 		const dir = join(process.cwd(), "data", "files");
 		const _files = await readdir(dir);
+
+		const exist: string[] = [];
 		const files = await this.server.prisma.file.findMany();
 
 		for await (const file of _files) {
 			const filePath = join(dir, file);
-			if (files.find((f) => f.path === filePath)) break;
+			const dbFile = files.find((f) => f.path === filePath);
+			if (dbFile) {
+				exist.push(dbFile.id);
+				break;
+			}
 
-			await this.server.prisma.file.create({ data: { date: new Date(), id: nanoid(10), path: filePath } });
+			const id = nanoid(10);
+			await this.server.prisma.file.create({ data: { date: new Date(), id, path: filePath } });
+			exist.push(id);
 		}
+
+		const removed = files.filter((f) => !exist.includes(f.id)).map((f) => f.id);
+		await this.server.prisma.file.deleteMany({ where: { id: { in: removed } } });
 
 		console.log("Database file migrations complete!");
 	}
