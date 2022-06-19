@@ -3,13 +3,12 @@
 echo 'Installing PaperPlane...'
 
 # Variables
-DIRECTORY='~/paperplane'
 COMMAND="docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p 3000:3000 daangamesdg/paperplane"
 
 # Script
-echo "Creating a shared data directory: ${DIRECTORY}"
-mkdir -p $DIRECTORY
-chown 1639:1639 $DIRECTORY
+echo "Creating a shared data directory: ~/paperplane"
+mkdir -p ~/paperplane
+chown 1639:1639 ~/paperplane
 
 echo 'Pulling latest image from Docker'
 # TODO: update image to docker
