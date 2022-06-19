@@ -6,14 +6,15 @@ import { join } from "node:path";
 import type { Server } from "../Server";
 
 export class Data {
+	public filesDir = join(process.cwd(), "data", "files");
+
 	public constructor(public server: Server) {}
 
 	public async init() {
-		const dir = join(process.cwd(), "data", "files");
-		if (!existsSync(dir)) await mkdir(dir, { recursive: true }).catch(() => void 0);
+		if (!existsSync(this.filesDir)) await mkdir(this.filesDir, { recursive: true }).catch(() => void 0);
 
 		await this.migrate();
-		watch(dir)
+		watch(this.filesDir)
 			.on("unlink", (path) => this.unlink(path))
 			.on("add", (path) => this.link(path));
 	}

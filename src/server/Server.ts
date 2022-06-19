@@ -3,7 +3,7 @@ import express, { Express } from "express";
 import type { NextServer } from "next/dist/server/next";
 import { version } from "../../package.json";
 import { PrismaClient } from "@prisma/client";
-import { Data } from "./components";
+import { Data, Routes } from "./components";
 
 export class Server {
 	public dev: boolean;
@@ -15,6 +15,7 @@ export class Server {
 	public prisma: PrismaClient = new PrismaClient();
 
 	public data: Data;
+	public routes: Routes;
 
 	public constructor() {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
@@ -30,6 +31,7 @@ export class Server {
 		this.port = getPort();
 
 		this.data = new Data(this);
+		this.routes = new Routes(this);
 	}
 
 	public async run() {
@@ -42,11 +44,12 @@ export class Server {
 		this.express.listen(this.port, () => this.startupLog());
 		await this.prisma.$connect().then(() => console.log("Prisma Database is up and running!"));
 
+		await this.data.init();
+		this.routes.init();
+
 		await this.next.prepare();
 		const handler = this.next.getRequestHandler();
 		this.express.use((req, res) => handler(req, res));
-
-		await this.data.init();
 	}
 
 	private startupLog() {
