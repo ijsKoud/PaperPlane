@@ -101,11 +101,11 @@ export class Routes {
 			}
 
 			await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
-			res.send({ url: `https://${req.headers.host}/r/${path}` });
+			res.send({ url: `${req.protocol}://${req.headers.host}/r/${path}` });
 			return;
 		}
 
-		const files = ((req.files ?? []) as Express.Multer.File[]).map((f) => `https://${req.headers.host}/files/${f.filename}`);
+		const files = ((req.files ?? []) as Express.Multer.File[]).map((f) => `${req.protocol}://${req.headers.host}/files/${f.filename}`);
 		res.send({ files, url: files[0] });
 	}
 }
