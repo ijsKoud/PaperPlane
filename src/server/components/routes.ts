@@ -53,7 +53,7 @@ export class Routes {
 		const isUserAgent = req.headers["user-agent"] === this.DISCORD_IMAGE_AGENT;
 
 		const user = await this.server.prisma.user.findFirst();
-		const file = await this.server.prisma.file.findUnique({ where: { id } });
+		const file = await this.server.prisma.file.findUnique({ where: { id: id.split(".")[0] } });
 
 		if (!file) return this.server.next.render404(req, res);
 		if (file.password && !password && !isUserAgent) return this.server.next.render(req, res, `/files/${id}?type=password`);

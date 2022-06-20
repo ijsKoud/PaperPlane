@@ -27,7 +27,7 @@ export class Data {
 		const file = await this.server.prisma.file.findUnique({ where: { path } });
 		if (file) return;
 
-		await this.server.prisma.file.create({ data: { date: new Date(), id: generateId(), path } });
+		await this.server.prisma.file.create({ data: { date: new Date(), id: path.split("/").reverse()[0].split(".")[0], path } });
 	}
 
 	public async migrate() {
