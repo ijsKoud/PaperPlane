@@ -1,9 +1,9 @@
 import { watch } from "chokidar";
-import { nanoid } from "nanoid";
 import { existsSync } from "node:fs";
 import { mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import type { Server } from "../Server";
+import { generateId } from "../utils";
 
 export class Data {
 	public filesDir = join(process.cwd(), "data", "files");
@@ -27,7 +27,7 @@ export class Data {
 		const file = await this.server.prisma.file.findUnique({ where: { path } });
 		if (file) return;
 
-		await this.server.prisma.file.create({ data: { date: new Date(), id: nanoid(10), path } });
+		await this.server.prisma.file.create({ data: { date: new Date(), id: generateId(), path } });
 	}
 
 	public async migrate() {
@@ -45,7 +45,7 @@ export class Data {
 				break;
 			}
 
-			const id = nanoid(10);
+			const id = generateId();
 			await this.server.prisma.file.create({ data: { date: new Date(), id, path: filePath } });
 			exist.push(id);
 		}

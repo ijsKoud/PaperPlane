@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
-import { nanoid } from "nanoid";
 import { scryptSync, timingSafeEqual } from "node:crypto";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir } from "node:fs/promises";
+import { generateId } from "../utils";
 
 export class Routes {
 	public DISCORD_IMAGE_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.6; rv:92.0) Gecko/20100101 Firefox/92.0";
@@ -30,8 +30,8 @@ export class Routes {
 				const files = await readdir(this.server.data.filesDir);
 				// if (settings.customFileName && !files.includes(file.originalname)) return cl(null, file.originalname);
 
-				let id = nanoid(12);
-				while (files.includes(id)) id = nanoid(12);
+				let id = generateId();
+				while (files.includes(id)) id = generateId();
 
 				const [, ..._extension] = file.originalname.split(/\./g);
 				const extension = _extension.join(".");
@@ -45,7 +45,7 @@ export class Routes {
 
 	public init() {
 		this.server.express.get("/files/:id", this.getFile.bind(this));
-		this.server.express.post("/api/upload", this.upload.bind(multer), this.upload.bind(this));
+		this.server.express.post("/api/upload", this.multer.array("upload"), this.upload.bind(this));
 	}
 
 	private async getFile(req: Request, res: Response) {
@@ -76,14 +76,14 @@ export class Routes {
 	}
 
 	private async upload(req: Request, res: Response) {
-		const { short, path: linkPath } = req.body ?? {};
-		if (linkPath && typeof linkPath === "string" && short && typeof short === "string") {
+		const { short, path: linkPath } = (req.body ?? {}) as { short: string | undefined; path: string | undefined };
+		if (short && typeof short === "string") {
 			const links = await this.server.prisma.url.findMany();
 			let path = linkPath;
 
 			if (!path || links.find((link) => link.id === linkPath)) {
-				path = nanoid(12);
-				while (links.find((link) => link.id === path)) path = nanoid(12);
+				path = generateId();
+				while (links.find((link) => link.id === path)) path = generateId();
 			}
 
 			await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
