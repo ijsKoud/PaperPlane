@@ -4,6 +4,7 @@ import type { NextServer } from "next/dist/server/next";
 import { version } from "../../package.json";
 import { PrismaClient } from "@prisma/client";
 import { Data, Routes } from "./components";
+import bodyParser from "body-parser";
 
 export class Server {
 	public dev: boolean;
@@ -41,6 +42,7 @@ export class Server {
 			customServer: true
 		});
 
+		this.express.use(bodyParser.json(), bodyParser.urlencoded());
 		this.express.listen(this.port, () => this.startupLog());
 		await this.prisma.$connect().then(() => console.log("Prisma Database is up and running!"));
 

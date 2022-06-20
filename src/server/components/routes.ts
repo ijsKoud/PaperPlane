@@ -1,14 +1,51 @@
 import type { Request, Response } from "express";
+import { nanoid } from "nanoid";
 import { scryptSync, timingSafeEqual } from "node:crypto";
 import type { Server } from "../Server";
+import multer from "multer";
+import { readdir } from "node:fs/promises";
 
 export class Routes {
 	public DISCORD_IMAGE_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.6; rv:92.0) Gecko/20100101 Firefox/92.0";
+
+	public multer = multer({
+		// TODO: add this when settings are added
+
+		// limits: {
+		// 	files: settings.maxFilesPerRequest,
+		// 	fileSize: settings.maxFileSize
+		// },
+		// fileFilter: (req, file, cl) => {
+		// 	if (!settings.allowedExtensions.length) return cl(null, true);
+
+		// 	const [, ..._extension] = file.originalname.split(/\./g);
+		// 	const extension = `.${_extension.join(".")}`;
+		// 	if (settings.allowedExtensions.includes(extension)) return cl(null, false);
+
+		// 	cl(null, true);
+		// },
+		storage: multer.diskStorage({
+			destination: this.server.data.filesDir,
+			filename: async (req, file, cl) => {
+				const files = await readdir(this.server.data.filesDir);
+				// if (settings.customFileName && !files.includes(file.originalname)) return cl(null, file.originalname);
+
+				let id = nanoid(12);
+				while (files.includes(id)) id = nanoid(12);
+
+				const [, ..._extension] = file.originalname.split(/\./g);
+				const extension = _extension.join(".");
+
+				cl(null, `${id}.${extension}`);
+			}
+		})
+	});
 
 	public constructor(public server: Server) {}
 
 	public init() {
 		this.server.express.get("/files/:id", this.getFile.bind(this));
+		this.server.express.post("/api/upload", this.upload.bind(multer), this.upload.bind(this));
 	}
 
 	private async getFile(req: Request, res: Response) {
@@ -36,5 +73,25 @@ export class Routes {
 		}
 
 		res.sendFile(file.path, (err) => (err ? res.end() : null));
+	}
+
+	private async upload(req: Request, res: Response) {
+		const { short, path: linkPath } = req.body ?? {};
+		if (linkPath && typeof linkPath === "string" && short && typeof short === "string") {
+			const links = await this.server.prisma.url.findMany();
+			let path = linkPath;
+
+			if (!path || links.find((link) => link.id === linkPath)) {
+				path = nanoid(12);
+				while (links.find((link) => link.id === path)) path = nanoid(12);
+			}
+
+			await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
+			res.send({ url: `https://${req.headers.host}/r/${path}` });
+			return;
+		}
+
+		const files = ((req.files ?? []) as Express.Multer.File[]).map((f) => `https://${req.headers.host}/files/${f.filename}`);
+		res.send({ files, url: files[0] });
 	}
 }
