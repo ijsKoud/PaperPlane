@@ -44,12 +44,13 @@ export class Routes {
 	public constructor(public server: Server) {}
 
 	public init() {
-		this.server.express.get("/files/:id", this.getFile.bind(this));
+		this.server.express.get("/files/:id", this.getFile.bind(this)).get("/r/:id", this.getRedirect.bind(this));
 		this.server.express.post("/api/upload", this.multer.array("upload"), this.upload.bind(this));
 	}
 
 	private async getFile(req: Request, res: Response) {
-		const { id, password, check } = req.params;
+		const { id } = req.params;
+		const { password, check } = req.query;
 		const isUserAgent = req.headers["user-agent"] === this.DISCORD_IMAGE_AGENT;
 
 		const user = await this.server.prisma.user.findFirst();
@@ -58,11 +59,16 @@ export class Routes {
 		if (!file) return this.server.next.render404(req, res);
 		if (file.password && !password && !isUserAgent) return this.server.next.render(req, res, `/files/${id}?type=password`);
 		if (user?.embedEnabled && isUserAgent)
-			return this.server.next.render(req, res, `/files/${id}?type=discord&p=${encodeURIComponent(password)}`);
+			return this.server.next.render(
+				req,
+				res,
+				`/files/${id}?type=discord&p=${encodeURIComponent(typeof password === "string" ? password : "")}`
+			);
 
+		if (file.password && (!password || typeof password !== "string")) return res.status(401).send({ message: "Unauthorized" });
 		if (file.password) {
 			const [salt, key] = file.password.split(":");
-			const passwordBuffer = scryptSync(password, salt, 64);
+			const passwordBuffer = scryptSync(password as string, salt, 64);
 
 			const keyBuffer = Buffer.from(key, "hex");
 			const match = timingSafeEqual(passwordBuffer, keyBuffer);
@@ -73,6 +79,14 @@ export class Routes {
 		}
 
 		res.sendFile(file.path, (err) => (err ? res.end() : null));
+	}
+
+	private async getRedirect(req: Request, res: Response) {
+		const { id } = req.params;
+		const url = await this.server.prisma.url.findUnique({ where: { id } });
+
+		if (!url) return this.server.next.render404(req, res);
+		res.redirect(url.url);
 	}
 
 	private async upload(req: Request, res: Response) {
