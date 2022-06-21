@@ -35,10 +35,11 @@ export const getConfig = (): Config => {
 	};
 };
 
-export const generateId = (): string => {
-	const { nameType, nameLength: length } = getConfig();
+export const generateId = (overwrite?: boolean): string => {
+	let { nameType, nameLength: length } = getConfig();
 	let id: string;
 
+	if (overwrite) nameType = "id";
 	switch (nameType) {
 		case "id":
 		default:

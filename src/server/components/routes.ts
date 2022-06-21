@@ -3,7 +3,8 @@ import { scryptSync, timingSafeEqual } from "node:crypto";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir } from "node:fs/promises";
-import { decryptToken, generateId, getConfig } from "../utils";
+import { generateId, getConfig } from "../utils";
+import { join } from "node:path";
 
 const config = getConfig();
 
@@ -29,8 +30,8 @@ export class Routes {
 			filename: async (req, file, cl) => {
 				const files = await readdir(this.server.data.filesDir);
 
-				let id = generateId() || file.originalname.split(".")[0];
-				while (files.includes(id)) id = generateId();
+				let id = generateId(true);
+				while (files.includes(id)) id = generateId(true);
 
 				const [, ..._extension] = file.originalname.split(/\./g);
 				const extension = _extension.join(".");
@@ -55,8 +56,7 @@ export class Routes {
 		}
 
 		try {
-			const decrypted = decryptToken(authHeader);
-			const user = await this.server.prisma.user.findFirst({ where: { username: decrypted.split(".")[0] } });
+			const user = await this.server.prisma.user.findFirst({ where: { token: authHeader } });
 			if (!user) {
 				res.status(401).send({ message: "Unauthorized" });
 				return;
@@ -138,10 +138,17 @@ export class Routes {
 			return;
 		}
 
-		const files = ((req.files ?? []) as Express.Multer.File[]).map((f) => {
-			const name = config.nameType === "zerowidth" ? f.filename.split(".")[0] : f.filename;
-			return `${req.protocol}://${req.headers.host}/files/${name}`;
-		});
+		const files = await Promise.all(
+			((req.files ?? []) as Express.Multer.File[]).map(async (f) => {
+				const id = generateId() || f.originalname.split(".")[0];
+				const file = await this.server.prisma.file.create({
+					data: { id, date: new Date(), path: join(this.server.data.filesDir, f.filename) }
+				});
+				const fileExt = f.filename.split(".").slice(1).join(".");
+
+				return `${req.protocol}://${req.headers.host}/files/${file.id}${config.nameType === "zerowidth" ? "" : `.${fileExt}`}`;
+			})
+		);
 		res.send({ files, url: files[0] });
 	}
 }
