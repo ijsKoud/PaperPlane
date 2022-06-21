@@ -53,6 +53,6 @@ export class Data {
 		const removed = files.filter((f) => !exist.includes(f.id)).map((f) => f.id);
 		await this.server.prisma.file.deleteMany({ where: { id: { in: removed } } });
 
-		console.log("Database file migrations complete!");
+		this.server.logger.info("Database file migrations complete!");
 	}
 }

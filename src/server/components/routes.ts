@@ -81,7 +81,7 @@ export class Routes {
 		res.sendFile(file.path, async (err) => {
 			if (err) {
 				res.end();
-				console.error(err);
+				this.server.logger.error(err);
 				return;
 			}
 
