@@ -53,7 +53,9 @@ export class Routes {
 		const isUserAgent = req.headers["user-agent"] === this.DISCORD_IMAGE_AGENT;
 
 		const user = await this.server.prisma.user.findFirst();
-		const file = await this.server.prisma.file.findUnique({ where: { id: id.split(".")[0] } });
+
+		const fileId = id.includes(".") ? id.split(".")[0] : id;
+		const file = await this.server.prisma.file.findUnique({ where: { id: fileId } });
 
 		if (!file) return this.server.next.render404(req, res);
 		if (file.password && !password && !isUserAgent) return this.server.next.render(req, res, `/files/${id}?type=password`);
@@ -84,7 +86,7 @@ export class Routes {
 				return;
 			}
 
-			await this.server.prisma.file.update({ where: { id }, data: { views: { increment: 1 } } });
+			await this.server.prisma.file.update({ where: { id: fileId }, data: { views: { increment: 1 } } });
 		});
 	}
 
@@ -114,7 +116,10 @@ export class Routes {
 			return;
 		}
 
-		const files = ((req.files ?? []) as Express.Multer.File[]).map((f) => `${req.protocol}://${req.headers.host}/files/${f.filename}`);
+		const files = ((req.files ?? []) as Express.Multer.File[]).map((f) => {
+			const name = config.nameType === "zerowidth" ? f.filename.split(".")[0] : f.filename;
+			return `${req.protocol}://${req.headers.host}/files/${name}`;
+		});
 		res.send({ files, url: files[0] });
 	}
 }
