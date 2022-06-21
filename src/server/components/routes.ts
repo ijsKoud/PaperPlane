@@ -78,7 +78,15 @@ export class Routes {
 			if (check) return res.sendStatus(204);
 		}
 
-		res.sendFile(file.path, (err) => (err ? res.end() : null));
+		res.sendFile(file.path, async (err) => {
+			if (err) {
+				res.end();
+				console.error(err);
+				return;
+			}
+
+			await this.server.prisma.file.update({ where: { id }, data: { views: { increment: 1 } } });
+		});
 	}
 
 	private async getRedirect(req: Request, res: Response) {
@@ -87,6 +95,8 @@ export class Routes {
 
 		if (!url) return this.server.next.render404(req, res);
 		res.redirect(url.url);
+
+		await this.server.prisma.url.update({ where: { id }, data: { visits: { increment: 1 } } });
 	}
 
 	private async upload(req: Request, res: Response) {
