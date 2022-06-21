@@ -1,9 +1,9 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { scryptSync, timingSafeEqual } from "node:crypto";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir } from "node:fs/promises";
-import { generateId, getConfig } from "../utils";
+import { decryptToken, generateId, getConfig } from "../utils";
 
 const config = getConfig();
 
@@ -44,7 +44,29 @@ export class Routes {
 
 	public init() {
 		this.server.express.get("/files/:id", this.getFile.bind(this)).get("/r/:id", this.getRedirect.bind(this));
-		this.server.express.post("/api/upload", this.multer.array("upload"), this.upload.bind(this));
+		this.server.express.post("/api/upload", this.auth.bind(this), this.multer.array("upload"), this.upload.bind(this));
+	}
+
+	private async auth(req: Request, res: Response, next: NextFunction) {
+		const authHeader = req.headers.authorization;
+		if (!authHeader) {
+			res.status(401).send({ message: "Unauthorized" });
+			return;
+		}
+
+		try {
+			const decrypted = decryptToken(authHeader);
+			const user = await this.server.prisma.user.findFirst({ where: { username: decrypted.split(".")[0] } });
+			if (!user) {
+				res.status(401).send({ message: "Unauthorized" });
+				return;
+			}
+		} catch (err) {
+			res.status(401).send({ message: "Unauthorized" });
+			return;
+		}
+
+		next();
 	}
 
 	private async getFile(req: Request, res: Response) {

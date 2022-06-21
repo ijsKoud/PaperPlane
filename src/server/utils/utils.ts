@@ -1,4 +1,4 @@
-import { randomBytes, scryptSync } from "node:crypto";
+import { createDecipheriv, randomBytes, scryptSync } from "node:crypto";
 import ShortUniqueId from "short-unique-id";
 import type { Config, NameType } from "./types";
 
@@ -96,4 +96,15 @@ export function encryptPassword(password: string): string {
 	const pwd = scryptSync(password, salt, 64).toString("hex");
 
 	return `${salt}:${pwd}`;
+}
+
+export function decryptToken(hash: string): string {
+	const secretKey = process.env.ENCRYPTION_KEY as string;
+	const [iv, encrypted] = hash.split(":");
+
+	const decipher = createDecipheriv("aes-256-ctr", secretKey, Buffer.from(iv, "hex"));
+	const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted, "hex")), decipher.final()]);
+	const token = decrypted.toString();
+
+	return token;
 }
