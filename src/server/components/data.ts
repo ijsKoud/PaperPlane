@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import type { Server } from "../Server";
-import { generateId } from "../utils";
+import { createToken, encryptPassword, generateId } from "../utils";
 
 export class Data {
 	public filesDir = join(process.cwd(), "data", "files");
@@ -17,6 +17,8 @@ export class Data {
 		watch(this.filesDir)
 			.on("unlink", (path) => this.unlink(path))
 			.on("add", (path) => this.link(path));
+
+		await this.createUser();
 	}
 
 	public async unlink(path: string) {
@@ -54,5 +56,16 @@ export class Data {
 		await this.server.prisma.file.deleteMany({ where: { id: { in: removed } } });
 
 		this.server.logger.info("Database file migrations complete!");
+	}
+
+	private async createUser() {
+		const users = await this.server.prisma.user.count();
+		if (users) return;
+
+		const password = encryptPassword("password");
+		await this.server.prisma.user.create({ data: { embedEnabled: false, password, token: createToken(), username: "username" } });
+		console.log(
+			`[LOCAL]: New user created with username: 'username' and password: 'password'. Please login and change both credentials immediately!`
+		);
 	}
 }
