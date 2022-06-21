@@ -95,7 +95,7 @@ export class Routes {
 
 			const keyBuffer = Buffer.from(key, "hex");
 			const match = timingSafeEqual(passwordBuffer, keyBuffer);
-			if (!match) return res.status(404).send({ message: "Incorrect password provided" });
+			if (!match) return res.status(401).send({ message: "Incorrect password provided" });
 
 			// check if a check param is present -> send 204 success res back
 			if (check) return res.sendStatus(204);
