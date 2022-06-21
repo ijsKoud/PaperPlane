@@ -110,7 +110,7 @@ export class Logger {
 					await appendFile(filePath, this.fileContents.join("\n"));
 					this.fileContents = [];
 				}
-			}, 5e3);
+			}, 1e3);
 
 			this.timer = timer;
 		}

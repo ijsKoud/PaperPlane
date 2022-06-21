@@ -13,7 +13,7 @@ export interface Config {
 	 * @default 3000
 	 */
 	port: number;
-	/** The extensions which are allowed to be uploaded
+	/** The extensions which are not allowed to be uploaded
 	 * @default all extensions
 	 */
 	extensions: string[];
@@ -21,7 +21,7 @@ export interface Config {
 	 * @default infinity
 	 */
 	maxFilesPerRequest: number;
-	/** The max size a file can be
+	/** The max size a file can be in bytes
 	 * @default infinity
 	 */
 	maxFileSize: number;

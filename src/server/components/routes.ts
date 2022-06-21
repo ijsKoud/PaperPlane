@@ -3,34 +3,33 @@ import { scryptSync, timingSafeEqual } from "node:crypto";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir } from "node:fs/promises";
-import { generateId } from "../utils";
+import { generateId, getConfig } from "../utils";
+
+const config = getConfig();
 
 export class Routes {
 	public DISCORD_IMAGE_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.6; rv:92.0) Gecko/20100101 Firefox/92.0";
 
 	public multer = multer({
-		// TODO: add this when settings are added
+		limits: {
+			files: config.maxFilesPerRequest,
+			fileSize: config.maxFileSize
+		},
+		fileFilter: (req, file, cl) => {
+			if (!config.extensions.length) return cl(null, true);
 
-		// limits: {
-		// 	files: settings.maxFilesPerRequest,
-		// 	fileSize: settings.maxFileSize
-		// },
-		// fileFilter: (req, file, cl) => {
-		// 	if (!settings.allowedExtensions.length) return cl(null, true);
+			const [, ..._extension] = file.originalname.split(/\./g);
+			const extension = `.${_extension.join(".")}`;
+			if (config.extensions.includes(extension)) return cl(null, false);
 
-		// 	const [, ..._extension] = file.originalname.split(/\./g);
-		// 	const extension = `.${_extension.join(".")}`;
-		// 	if (settings.allowedExtensions.includes(extension)) return cl(null, false);
-
-		// 	cl(null, true);
-		// },
+			cl(null, true);
+		},
 		storage: multer.diskStorage({
 			destination: this.server.data.filesDir,
 			filename: async (req, file, cl) => {
 				const files = await readdir(this.server.data.filesDir);
-				// if (settings.customFileName && !files.includes(file.originalname)) return cl(null, file.originalname);
 
-				let id = generateId();
+				let id = generateId() || file.originalname.split(".")[0];
 				while (files.includes(id)) id = generateId();
 
 				const [, ..._extension] = file.originalname.split(/\./g);

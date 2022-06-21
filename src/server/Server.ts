@@ -5,6 +5,7 @@ import { version } from "../../package.json";
 import { PrismaClient } from "@prisma/client";
 import { Data, Routes, Logger } from "./components";
 import { json, urlencoded } from "body-parser";
+import { formatBytes, getConfig } from "./utils";
 
 export class Server {
 	public dev: boolean;
@@ -23,15 +24,7 @@ export class Server {
 	public constructor() {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
 		this.express = express();
-
-		const getPort = () => {
-			const env = process.env.PORT;
-			if (!env) return 3e3;
-
-			const port = Number(env);
-			return isNaN(port) ? 3e3 : port;
-		};
-		this.port = getPort();
+		this.port = getConfig().port;
 
 		this.data = new Data(this);
 		this.routes = new Routes(this);
@@ -69,7 +62,20 @@ export class Server {
 				"            |_|                                              "
 			].join("\n")
 		);
-		this.logger.info(`Starting Paperplane v${version} - NodeJS ${process.version}`);
+		this.logger.debug(`Starting Paperplane v${version} - NodeJS ${process.version}`);
+
+		const config = getConfig();
+		const configStr = [
+			`Extensions: [${config.extensions.join(", ")}]`,
+			`EncryptionKey: ${config.encryptionKey.length} characters long`,
+			`Port: ${config.port}`,
+			`Name Type: ${config.nameType}`,
+			`Name Length: ${config.nameLength}`,
+			`Max File Size: ${formatBytes(config.maxFileSize)}`,
+			`Max Files Per Request: ${config.maxFilesPerRequest}`
+		].join("\n");
+		this.logger.debug(`The following configuration is used for this build:\n${configStr}`);
+
 		this.logger.info(`Server is listening to port ${this.port}`);
 	}
 }

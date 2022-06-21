@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import ShortUniqueId from "short-unique-id";
 import type { Config, NameType } from "./types";
 
@@ -35,8 +36,45 @@ export const getConfig = (): Config => {
 };
 
 export const generateId = (): string => {
-	// TODO: switch case for multiple different id types
+	const { nameType, nameLength: length } = getConfig();
+	let id: string;
 
-	const id = new ShortUniqueId({ length: 10 });
-	return id();
+	switch (nameType) {
+		case "id":
+		default:
+			{
+				const genId = new ShortUniqueId({ length });
+				id = genId();
+			}
+			break;
+		case "zerowidth":
+			{
+				const invisibleCharset = ["\u200B", "\u2060", "\u200C", "\u200D"];
+				id = [...randomBytes(length)]
+					.map((byte) => invisibleCharset[Number(byte) % invisibleCharset.length])
+					.join("")
+					.slice(1)
+					.concat(invisibleCharset[0]);
+			}
+			break;
+		case "name":
+			id = "";
+			break;
+	}
+
+	return id;
 };
+
+export function formatBytes(bytes: number) {
+	if (bytes === Infinity) return "Infinity";
+
+	const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+	let num = 0;
+
+	while (bytes > 1024) {
+		bytes /= 1024;
+		++num;
+	}
+
+	return `${bytes.toFixed(1)} ${units[num]}`;
+}

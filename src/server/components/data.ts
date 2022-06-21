@@ -45,7 +45,7 @@ export class Data {
 				break;
 			}
 
-			const id = generateId();
+			const id = generateId() || file.split(".")[0];
 			await this.server.prisma.file.create({ data: { date: new Date(), id, path: filePath } });
 			exist.push(id);
 		}
