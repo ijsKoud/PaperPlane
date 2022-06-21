@@ -1,0 +1,10 @@
+{
+	"extends": "@sapphire/ts-config",
+	"compilerOptions": {
+		"noUnusedParameters": false,
+		"useUnknownInCatchVariables": false,
+		"skipLibCheck": true
+	},
+	"exclude": ["node_modules"],
+	"include": ["./**/*.ts"]
+}
