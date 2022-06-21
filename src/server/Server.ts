@@ -3,7 +3,7 @@ import express, { Express } from "express";
 import type { NextServer } from "next/dist/server/next";
 import { version } from "../../package.json";
 import { PrismaClient } from "@prisma/client";
-import { Data, Routes } from "./components";
+import { Data, Routes, Logger } from "./components";
 import { json, urlencoded } from "body-parser";
 
 export class Server {
@@ -17,6 +17,8 @@ export class Server {
 
 	public data: Data;
 	public routes: Routes;
+
+	public logger: Logger = new Logger(`${Date.now()}-v${version}-paperplane.log`, "SERVER");
 
 	public constructor() {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
@@ -44,7 +46,7 @@ export class Server {
 
 		this.express.use(json(), urlencoded({ extended: true }));
 		this.express.listen(this.port, () => this.startupLog());
-		await this.prisma.$connect().then(() => console.log("Prisma Database is up and running!"));
+		await this.prisma.$connect().then(() => this.logger.info("Prisma Database is up and running!"));
 
 		await this.data.init();
 		this.routes.init();
@@ -67,7 +69,7 @@ export class Server {
 				"            |_|                                              "
 			].join("\n")
 		);
-		console.log(`Starting Paperplane v${version} - NodeJS ${process.version}`);
-		console.log(`Server is listening to port ${this.port}`);
+		this.logger.info(`Starting Paperplane v${version} - NodeJS ${process.version}`);
+		this.logger.info(`Server is listening to port ${this.port}`);
 	}
 }
