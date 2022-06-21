@@ -3,7 +3,7 @@ import { scryptSync, timingSafeEqual } from "node:crypto";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir } from "node:fs/promises";
-import { generateId } from "../utils";
+import { generateId } from "../utils/utils";
 
 export class Routes {
 	public DISCORD_IMAGE_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.6; rv:92.0) Gecko/20100101 Firefox/92.0";

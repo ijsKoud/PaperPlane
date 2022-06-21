@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import type { Server } from "../Server";
-import { generateId } from "../utils";
+import { generateId } from "../utils/utils";
 
 export class Data {
 	public filesDir = join(process.cwd(), "data", "files");
