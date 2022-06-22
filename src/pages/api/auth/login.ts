@@ -1,6 +1,7 @@
 import { scryptSync, timingSafeEqual } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { encryptToken } from "../../lib/utils";
+import { encryptToken } from "../../../lib/utils";
+import prisma from "../../../lib/prisma";
 
 interface ReqBody {
 	password: string;

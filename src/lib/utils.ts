@@ -1,6 +1,6 @@
-import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "node:crypto";
-import { readdir, stat } from "node:fs/promises";
-import { join } from "node:path";
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypto";
+import { readdir, stat } from "fs/promises";
+import { join } from "path";
 
 export function randomChars(length: number) {
 	const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
