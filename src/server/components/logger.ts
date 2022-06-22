@@ -2,8 +2,8 @@ import { inspect, InspectOptions } from "node:util";
 import { bgRed, dim, magenta, red, white, yellow, blue, gray, bold } from "colorette";
 import moment from "moment";
 import { join } from "node:path";
-import { existsSync } from "node:fs";
-import { appendFile, mkdir, writeFile } from "node:fs/promises";
+import { existsSync, writeFileSync, mkdirSync } from "node:fs";
+import { appendFile } from "node:fs/promises";
 
 export class Logger {
 	public name?: string;
@@ -71,44 +71,45 @@ export class Logger {
 		} ${logMessage}`;
 		const fileItem = `${date} ${loglevel.padEnd(5, " ")} ${this.name ? `[${this.name}] =>` : "=>"} ${fileMessage}`;
 
-		void this.writeFile(fileItem);
+		this.writeFile(fileItem);
 		console.log(consoleItem);
 	}
 
-	private async writeFile(message: string) {
+	private writeFile(message: string) {
 		const dir = join(process.cwd(), "data", "logs");
-		const filePath = join(dir, this.file);
+		if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
 
-		if (!existsSync(dir)) await mkdir(dir, { recursive: true });
-		if (!existsSync(filePath)) await this.startWrite();
-
+		this.startWrite();
 		this.fileContents.push(message);
 	}
 
-	private async startWrite() {
+	private startWrite() {
 		if (!this.timer) {
 			const dir = join(process.cwd(), "data", "logs");
 			const filePath = join(dir, this.file);
 
-			await writeFile(
-				filePath,
-				[
-					"______                         ______  _                     ",
-					"| ___ \\                        | ___ \\| |                    ",
-					"| |_/ /__ _  _ __    ___  _ __ | |_/ /| |  __ _  _ __    ___ ",
-					"|  __// _` || '_ \\  / _ \\| '__||  __/ | | / _` || '_ \\  / _ \\",
-					"| |  | (_| || |_) ||  __/| |   | |    | || (_| || | | ||  __/",
-					"\\_|   \\__,_|| .__/  \\___||_|   \\_|    |_| \\__,_||_| |_| \\___|",
-					"            | |                                              ",
-					"            |_|                                              ",
-					""
-				].join("\n")
-			);
+			if (!existsSync(filePath))
+				writeFileSync(
+					filePath,
+					[
+						"______                         ______  _                     ",
+						"| ___ \\                        | ___ \\| |                    ",
+						"| |_/ /__ _  _ __    ___  _ __ | |_/ /| |  __ _  _ __    ___ ",
+						"|  __// _` || '_ \\  / _ \\| '__||  __/ | | / _` || '_ \\  / _ \\",
+						"| |  | (_| || |_) ||  __/| |   | |    | || (_| || | | ||  __/",
+						"\\_|   \\__,_|| .__/  \\___||_|   \\_|    |_| \\__,_||_| |_| \\___|",
+						"            | |                                              ",
+						"            |_|                                              ",
+						""
+					].join("\n")
+				);
 
 			const timer = setInterval(async () => {
 				if (this.fileContents.length) {
-					await appendFile(filePath, this.fileContents.join("\n"));
+					const contents = `${this.fileContents.join("\n")}\n`;
 					this.fileContents = [];
+
+					await appendFile(filePath, contents);
 				}
 			}, 1e3);
 

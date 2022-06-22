@@ -3,7 +3,7 @@ import { scryptSync, timingSafeEqual } from "node:crypto";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir } from "node:fs/promises";
-import { generateId, getConfig } from "../utils";
+import { formatBytes, generateId, getConfig } from "../utils";
 import { join } from "node:path";
 
 const config = getConfig();
@@ -135,6 +135,8 @@ export class Routes {
 
 			await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
 			res.send({ url: `${req.protocol}://${req.headers.host}/r/${path}` });
+
+			this.server.logger.info(`[FILES]: New URL uploaded - URL: ${short} & URL Code: ${path}`);
 			return;
 		}
 
@@ -146,9 +148,11 @@ export class Routes {
 				});
 				const fileExt = f.filename.split(".").slice(1).join(".");
 
+				this.server.logger.info(`[FILES]: New file uploaded - File: ${f.filename}, Id: ${id} & size: ${formatBytes(f.size)}`);
 				return `${req.protocol}://${req.headers.host}/files/${file.id}${config.nameType === "zerowidth" ? "" : `.${fileExt}`}`;
 			})
 		);
+
 		res.send({ files, url: files[0] });
 	}
 }
