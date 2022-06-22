@@ -7,6 +7,8 @@ import { Data, Routes, Logger } from "./components";
 import { json, urlencoded } from "body-parser";
 import { formatBytes, getConfig } from "./utils";
 
+process.env.VERSION = version;
+
 export class Server {
 	public dev: boolean;
 	public port: number;

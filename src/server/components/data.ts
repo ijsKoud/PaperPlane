@@ -30,7 +30,7 @@ export class Data {
 		if (file) return;
 
 		const id = generateId() || path.split("/").reverse()[0].split(".")[0];
-		await this.server.prisma.file.create({ data: { date: new Date(), id, path } });
+		await this.server.prisma.file.create({ data: { date: new Date(), id, path } }).catch(() => void 0);
 	}
 
 	public async migrate() {
@@ -38,6 +38,7 @@ export class Data {
 		const _files = await readdir(dir);
 
 		const exist: string[] = [];
+		const newFiles: string[] = [];
 		const files = await this.server.prisma.file.findMany();
 
 		for await (const file of _files) {
@@ -52,12 +53,13 @@ export class Data {
 			const id = generateId() || file.split(".")[0];
 			await this.server.prisma.file.create({ data: { date: new Date(), id, path: filePath } });
 			exist.push(id);
+			newFiles.push(id);
 		}
 
 		const removed = files.filter((f) => !exist.includes(f.id)).map((f) => f.id);
 		await this.server.prisma.file.deleteMany({ where: { id: { in: removed } } });
 
-		this.server.logger.info("Database file migrations complete!");
+		this.server.logger.info(`Database file migrations complete - ${newFiles.length} files added & ${removed.length} files removed`);
 	}
 
 	private async createUser() {
