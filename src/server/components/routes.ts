@@ -5,11 +5,17 @@ import multer from "multer";
 import { readdir } from "node:fs/promises";
 import { formatBytes, generateId, getConfig } from "../utils";
 import { join } from "node:path";
+import { rateLimit } from "express-rate-limit";
 
 const config = getConfig();
 
 export class Routes {
 	public DISCORD_IMAGE_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.6; rv:92.0) Gecko/20100101 Firefox/92.0";
+
+	public ratelimit = rateLimit({
+		windowMs: 2e3,
+		max: 25
+	});
 
 	public multer = multer({
 		limits: {
@@ -44,8 +50,8 @@ export class Routes {
 	public constructor(public server: Server) {}
 
 	public init() {
-		this.server.express.get("/files/:id", this.getFile.bind(this)).get("/r/:id", this.getRedirect.bind(this));
-		this.server.express.post("/api/upload", this.auth.bind(this), this.multer.array("upload"), this.upload.bind(this));
+		this.server.express.get("/files/:id", this.ratelimit, this.getFile.bind(this)).get("/r/:id", this.ratelimit, this.getRedirect.bind(this));
+		this.server.express.post("/api/upload", this.ratelimit, this.auth.bind(this), this.multer.array("upload"), this.upload.bind(this));
 	}
 
 	private async auth(req: Request, res: Response, next: NextFunction) {
