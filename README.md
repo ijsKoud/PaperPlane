@@ -22,6 +22,8 @@
 
 PaperPlane is a file/shorturl upload server that is created for ShareX users. It comes with a lot of cool features such as a clean dashboard, file renaming, frontend file/url uploading and a lot more.
 
+**This version is indev and very unstable. Using this may end up deleting your files, use it at your own risk. For the v2 stable version please refer to [this branch](https://github.com/ijsKoud/PaperPlane/tree/legacy-v2)**
+
 ## Features
 
 -   Fast rendering thanks to Next.js
