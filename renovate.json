@@ -1,4 +1,4 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["github>DaanGamesDG/DaanGamesDG:renovate-config"]
+	"extends": ["github>ijsKoud/ijsKoud:renovate-config"]
 }
