@@ -2480,6 +2480,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-rate-limit@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "express-rate-limit@npm:6.4.0"
+  peerDependencies:
+    express: ^4 || ^5
+  checksum: 3125332fc3a73f0c50eaece169fa8d956d212f7b5c4dcaaa713fbe00fea6edc1a030705a71b60b8c8b5734c5b03004be38f843336e0bba4116a51726297f35e4
+  languageName: node
+  linkType: hard
+
 "express@npm:^4.18.1":
   version: 4.18.1
   resolution: "express@npm:4.18.1"
@@ -4350,6 +4359,7 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.0.0
     express: ^4.18.1
+    express-rate-limit: ^6.4.0
     husky: ^8.0.1
     lint-staged: ^13.0.1
     moment: ^2.29.3
