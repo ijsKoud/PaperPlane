@@ -43,7 +43,7 @@ A Detailed installation guide can be found here: https://paperplane.ijskoud.dev
 👤 **DaanGamesDG**
 
 -   Website: https://ijskoud.dev/
--   Email: <daan@daangamesdg.xyz>
+-   Email: <github@ijskoud.dev>
 -   Twitter: [@ijsKoud](https://twitter.com/ijs_Koud)
 -   Github: [@ijsKoud](https://github.com/ijsKoud)
 
