@@ -4023,45 +4023,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nextjs-template@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "nextjs-template@workspace:."
-  dependencies:
-    "@commitlint/cli": ^17.0.2
-    "@commitlint/config-angular": ^17.0.0
-    "@prisma/client": ^3.15.2
-    "@sapphire/eslint-config": ^4.3.6
-    "@sapphire/prettier-config": ^1.4.3
-    "@sapphire/ts-config": ^3.3.4
-    "@types/express": ^4.17.13
-    "@types/multer": ^1.4.7
-    "@types/node": 17.0.8
-    "@types/react": 18.0.12
-    "@typescript-eslint/eslint-plugin": ^5.27.1
-    "@typescript-eslint/parser": ^5.27.1
-    body-parser: ^1.20.0
-    chokidar: ^3.5.3
-    colorette: ^2.0.19
-    dotenv: ^16.0.1
-    eslint: ^8.17.0
-    eslint-config-next: 12.1.6
-    eslint-config-prettier: ^8.5.0
-    eslint-plugin-prettier: ^4.0.0
-    express: ^4.18.1
-    husky: ^8.0.1
-    lint-staged: ^13.0.1
-    moment: ^2.29.3
-    multer: ^1.4.5-lts.1
-    next: 12.1.6
-    prisma: ^3.15.2
-    react: 18.1.0
-    react-dom: 18.1.0
-    sass: ^1.52.3
-    short-unique-id: ^4.4.4
-    typescript: 4.7.3
-  languageName: unknown
-  linkType: soft
-
 "node-gyp@npm:latest":
   version: 8.4.1
   resolution: "node-gyp@npm:8.4.1"
@@ -4363,6 +4324,45 @@ __metadata:
   checksum: f8a8e9a7693659383f06aec604ad5ead237c7a261c18048a6e1b5b85a5f8a067e469aa24f5bc009b991ea3b058a87f5065ef4176793a200d4917349881216cae
   languageName: node
   linkType: hard
+
+"paperplane@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "paperplane@workspace:."
+  dependencies:
+    "@commitlint/cli": ^17.0.2
+    "@commitlint/config-angular": ^17.0.0
+    "@prisma/client": ^3.15.2
+    "@sapphire/eslint-config": ^4.3.6
+    "@sapphire/prettier-config": ^1.4.3
+    "@sapphire/ts-config": ^3.3.4
+    "@types/express": ^4.17.13
+    "@types/multer": ^1.4.7
+    "@types/node": 17.0.8
+    "@types/react": 18.0.12
+    "@typescript-eslint/eslint-plugin": ^5.27.1
+    "@typescript-eslint/parser": ^5.27.1
+    body-parser: ^1.20.0
+    chokidar: ^3.5.3
+    colorette: ^2.0.19
+    dotenv: ^16.0.1
+    eslint: ^8.17.0
+    eslint-config-next: 12.1.6
+    eslint-config-prettier: ^8.5.0
+    eslint-plugin-prettier: ^4.0.0
+    express: ^4.18.1
+    husky: ^8.0.1
+    lint-staged: ^13.0.1
+    moment: ^2.29.3
+    multer: ^1.4.5-lts.1
+    next: 12.1.6
+    prisma: ^3.15.2
+    react: 18.1.0
+    react-dom: 18.1.0
+    sass: ^1.52.3
+    short-unique-id: ^4.4.4
+    typescript: 4.7.3
+  languageName: unknown
+  linkType: soft
 
 "parent-module@npm:^1.0.0":
   version: 1.0.1

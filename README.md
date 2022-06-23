@@ -1,18 +1,18 @@
 <div align="center">
-    <img src="https://daangamesdg.xyz/assets/svg/logo.svg" width="100px" />
-    <h1>nextjs-template</h1>
+    <img src="public/assets/images/paperplane.png" width="100px" />
+    <h1>PaperPlane</h1>
   
-  <p>Just like an uncoloured drawing. For Next.js web applications!</p>
+  <p>A fast file/shorturl upload server packed with lots of cool features!</p>
   
   <p align="center">
-    <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg" />
+    <img alt="Version" src="https://img.shields.io/badge/version-3.0.0-blue.svg" />
     <a href="/LICENSE" target="_blank">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
     </a>
   </p>
 
-  <a href="https://daangamesdg.xyz/discord" target="_blank">
-    <img src="https://daangamesdg.xyz/discord/banner" />
+  <a href="https://ijskoud.dev/discord" target="_blank">
+    <img src="https://ijskoud.dev/discord/banner" />
   </a>
 </div>
 
@@ -20,26 +20,40 @@
 
 ## Information
 
-**Information here**
+PaperPlane is a file/shorturl upload server that is created for ShareX users. It comes with a lot of cool features such as a clean dashboard, file renaming, frontend file/url uploading and a lot more.
+
+**This version is indev and very unstable. Using this may end up deleting your files, use it at your own risk. For the v2 stable version please refer to [this branch](https://github.com/ijsKoud/PaperPlane/tree/legacy-v2)**
+
+## Features
+
+-   Fast rendering thanks to Next.js
+-   Quick database using prisma and sqlite
+-   Discord embed settings included
+-   Customisable uploader (block file extensions, max upload size, etc)
+-   Easy to use dashboard (Closable sections)
+-   File renaming (using the dashboard!)
+-   Shorturls
+-   Frontend uploading page
+-   Custom themes
 
 ## Install
 
-This project is WIP, please come back later for a guide on how to host this bot yourself.
+A Detailed installation guide can be found here: https://paperplane.ijskoud.dev
 
 ## Author
 
 👤 **DaanGamesDG**
 
-- Website: https://daangamesdg.xyz/
-- Email: <daan@daangamesdg.xyz>
-- Twitter: [@DaanGamesDG](https://twitter.com/DaanGamesDG)
-- Github: [@DaanGamesDG](https://github.com/DaanGamesDG)
+-   Website: https://ijskoud.dev/
+-   Email: <github@ijskoud.dev>
+-   Twitter: [@ijsKoud](https://twitter.com/ijs_Koud)
+-   Github: [@ijsKoud](https://github.com/ijsKoud)
 
 ## Donate
 
-This will always be open source project, even if I don't receive donations. But there are still people out there that want to donate, so if you do here is the link [PayPal](https://paypal.me/daangamesdg) or to [Ko-Fi](https://daangamesdg.xyz/kofi). Thanks in advance! I really appriciate it <3
+This will always be open source project, even if I don't receive donations. But there are still people out there that want to donate, so if you do here is the link [PayPal](https://paypal.me/daangamesdg) or to [Ko-Fi](https://ijskoud.dev/kofi). Thanks in advance! I really appriciate it <3
 
-## LICENSE
+## Lisence
 
 Project is licensed under the © [**MIT License**](/LICENSE)
 

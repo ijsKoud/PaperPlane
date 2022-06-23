@@ -1,5 +1,5 @@
 {
-	"name": "nextjs-template",
+	"name": "paperplane",
 	"version": "3.0.0",
 	"main": "dist/src/server",
 	"private": true,
@@ -8,6 +8,7 @@
 		"build": "yarn build:server && yarn build:app",
 		"build:server": "tsc --project src/server --outDir ./dist",
 		"build:app": "next build",
+		"prisma:generate": "prisma generate",
 		"start": "next start",
 		"lint": "next lint"
 	},
