@@ -1,6 +1,7 @@
 name: "CD(Docker): Publish stable image"
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
     branches: [main]
