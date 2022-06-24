@@ -14,6 +14,7 @@
 	},
 	"dependencies": {
 		"@prisma/client": "^3.15.2",
+		"@tippyjs/react": "^4.2.6",
 		"axios": "^0.27.2",
 		"body-parser": "^1.20.0",
 		"chokidar": "^3.5.3",
@@ -21,12 +22,15 @@
 		"dotenv": "^16.0.1",
 		"express": "^4.18.1",
 		"express-rate-limit": "^6.4.0",
+		"formik": "^2.2.9",
 		"moment": "^2.29.3",
 		"multer": "^1.4.5-lts.1",
 		"next": "12.1.6",
 		"react": "18.1.0",
 		"react-dom": "18.1.0",
-		"short-unique-id": "^4.4.4"
+		"react-spinners": "^0.12.0",
+		"short-unique-id": "^4.4.4",
+		"yup": "^0.32.11"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.2",
