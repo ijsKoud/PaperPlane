@@ -1,9 +1,12 @@
 .button {
 	padding: 10px;
-	border-radius: 10px;
+	background: none;
 
 	font-size: 25px;
 	font-weight: 500;
+
+	border: none;
+	border-radius: 10px;
 }
 
 .button.button-black {

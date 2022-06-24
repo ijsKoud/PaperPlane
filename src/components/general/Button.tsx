@@ -2,26 +2,49 @@ import Link from "next/link";
 import React from "react";
 import type { FC } from "../../lib/types";
 
-interface Props {
+interface LinkProps {
 	type: "link";
-	style: "black";
+	style: ButtonStyle;
 
-	text: string;
+	text?: string;
 	url: string;
 
 	newWindow?: boolean;
 	external?: boolean;
 }
 
-const Button: FC<Props> = ({ text, url, style, external, newWindow }) => {
+interface ButtonProps {
+	style: ButtonStyle;
+	type: "button";
+
+	text?: string;
+	onClick: () => void;
+}
+
+type ButtonStyle = "black";
+type Props = ButtonProps | LinkProps;
+
+const Button: FC<Props> = (props) => {
+	const { type, style, children, text } = props;
 	const className = `button button-${style}`;
 
+	if (type === "link") {
+		const { url, newWindow, external } = props;
+
+		return (
+			<Link href={url}>
+				<a target={newWindow ? "_blank" : "_self"} rel="noopener noreferrer" className={className}>
+					{text ?? children} {external && <i className="fa-solid fa-arrow-up-right-from-square" />}
+				</a>
+			</Link>
+		);
+	}
+
+	const { onClick } = props;
 	return (
-		<Link href={url}>
-			<a target={newWindow ? "_blank" : "_self"} rel="noopener noreferrer" className={className}>
-				{text} {external && <i className="fa-solid fa-arrow-up-right-from-square" />}
-			</a>
-		</Link>
+		<button className={className} onClick={onClick}>
+			{text ?? children}
+		</button>
 	);
 };
 
