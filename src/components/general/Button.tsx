@@ -11,12 +11,14 @@ interface Props {
 	external?: boolean;
 }
 
-const Button: FC<Props> = ({ text, url, style }) => {
+const Button: FC<Props> = ({ text, url, style, external }) => {
 	const className = `button button-${style}`;
 
 	return (
 		<Link href={url}>
-			<a className={className}>{text}</a>
+			<a className={className}>
+				{text} {external && <i className="fa-solid fa-arrow-up-right-from-square" />}
+			</a>
 		</Link>
 	);
 };
