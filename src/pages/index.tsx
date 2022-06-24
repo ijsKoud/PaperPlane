@@ -10,8 +10,9 @@ const Home: NextPage = () => {
 					<h1>PAPERPLANE</h1>
 				</div>
 				<p>File uploading. URL Shortening. Protected views.</p>
-				<div>
-					<Button style="black" type="link" text="GitHub" url="https://ijskoud.dev/github/paperplane" />
+				<div className="home-buttons">
+					<Button external style="black" type="link" text="GitHub" url="https://ijskoud.dev/github/paperplane" />
+					<Button style="black" type="link" text="Dashboard" url="/dashboard" />
 				</div>
 			</div>
 		</main>

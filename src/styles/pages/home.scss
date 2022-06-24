@@ -33,3 +33,16 @@
 		font-size: 30px;
 	}
 }
+
+.home-buttons {
+	margin-top: 10px;
+	width: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.button:not(:last-child) {
+		margin-right: 10px;
+	}
+}
