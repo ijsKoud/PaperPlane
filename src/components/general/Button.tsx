@@ -8,15 +8,17 @@ interface Props {
 
 	text: string;
 	url: string;
+
+	newWindow?: boolean;
 	external?: boolean;
 }
 
-const Button: FC<Props> = ({ text, url, style, external }) => {
+const Button: FC<Props> = ({ text, url, style, external, newWindow }) => {
 	const className = `button button-${style}`;
 
 	return (
 		<Link href={url}>
-			<a className={className}>
+			<a target={newWindow ? "_blank" : "_self"} rel="noopener noreferrer" className={className}>
 				{text} {external && <i className="fa-solid fa-arrow-up-right-from-square" />}
 			</a>
 		</Link>
