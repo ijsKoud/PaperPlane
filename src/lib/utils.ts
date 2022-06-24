@@ -1,6 +1,9 @@
+import type { User } from "@prisma/client";
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypto";
 import { readdir, stat } from "fs/promises";
+import type { NextApiRequest } from "next";
 import { join } from "path";
+import prisma from "./prisma";
 
 export function randomChars(length: number) {
 	const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
@@ -64,4 +67,23 @@ export function formatBytes(bytes: number): string {
 	}
 
 	return `${bytes.toFixed(1)} ${units[num]}`;
+}
+
+export async function getUser(req: NextApiRequest): Promise<User | null> {
+	const { authorization } = req.headers;
+	if (!authorization || !authorization.startsWith("Bearer ") || authorization.includes("null")) return null;
+
+	const [username] = decryptToken(authorization.replace("Bearer ", "")).split(".");
+	const user = await prisma.user.findFirst({ where: { username } });
+
+	return user;
+}
+
+export async function getUserWithToken(req: NextApiRequest): Promise<User | null> {
+	const { authorization } = req.headers;
+	if (!authorization?.length) return null;
+
+	const user = await prisma.user.findFirst({ where: { token: authorization } });
+
+	return user;
 }
