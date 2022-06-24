@@ -1,5 +1,11 @@
-name: General Tests
-on: [push, pull_request]
+name: "Ci: Eslint & Build Testing"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+
 jobs:
   lint:
     name: ESLint
