@@ -4,9 +4,10 @@
 
 /* --vars-- */
 $white: #fff;
-$gray: #232527;
-$dark: #101010;
-$black: #0a0a0a;
+$page-background: #242526;
+
+$buttons-black: #1c1d1e;
+$buttons-black-active: #131415;
 
 * {
 	font-family: "Poppins", sans-serif;
@@ -17,7 +18,7 @@ $black: #0a0a0a;
 }
 
 body {
-	background: rgba($black, 0.94);
+	background: $page-background;
 	min-height: 100vh;
 
 	/* hide scroll bar */
@@ -44,7 +45,7 @@ a {
 @font-face {
 	font-family: "Discord Font";
 	font-weight: 900;
-	src: url("https://daangamesdg.xyz/assets/fonts/discord.woff2") format("woff2");
+	src: url("https://ijskoud.dev/assets/fonts/discord.woff2") format("woff2");
 	font-style: normal;
 }
 
