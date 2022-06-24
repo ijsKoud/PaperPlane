@@ -46,3 +46,29 @@
 		margin-right: 10px;
 	}
 }
+
+@media screen and (max-width: 800px) {
+	.home-title {
+		h1 {
+			font-size: 60px;
+			line-height: 50px;
+		}
+
+		img {
+			width: 40px;
+			height: 40px;
+
+			margin-right: 10px;
+		}
+	}
+
+	.home-content {
+		p {
+			font-size: 20px;
+		}
+
+		.button {
+			font-size: 20px;
+		}
+	}
+}
