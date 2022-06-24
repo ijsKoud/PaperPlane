@@ -63,12 +63,33 @@
 	}
 
 	.home-content {
-		p {
-			font-size: 20px;
-		}
-
+		p,
 		.button {
 			font-size: 20px;
+		}
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.home-title {
+		h1 {
+			font-size: 40px;
+			line-height: 30px;
+		}
+
+		img {
+			width: 30px;
+			height: 30px;
+
+			margin-right: 10px;
+		}
+	}
+
+	.home-content {
+		p,
+		.button {
+			font-size: 15px;
+			text-align: center;
 		}
 	}
 }
