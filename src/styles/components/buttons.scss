@@ -1,0 +1,21 @@
+.button {
+	padding: 10px;
+	background: none;
+
+	font-size: 25px;
+	font-weight: 500;
+
+	border: none;
+	border-radius: 10px;
+}
+
+.button.button-black {
+	background-color: $button-black;
+	transition: background-color 0.3s ease;
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		background-color: $button-black-active;
+	}
+}
