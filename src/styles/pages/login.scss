@@ -40,23 +40,23 @@
 	border: none;
 
 	border-radius: 5px;
-	background-color: $button-blue;
+	background-color: $button-blurple;
 	transition: all 0.5s ease;
 	cursor: pointer;
-	font-size: 1.5rem;
+	font-size: 30px;
 
 	&:hover,
 	&:focus-visible {
-		background-color: $button-blue-active;
+		background-color: $button-blurple-active;
 	}
 
 	&.disabled {
 		cursor: not-allowed;
-		background-color: rgba($button-blue, 0.1);
+		background-color: rgba($button-blurple, 0.1);
 
 		&:hover,
 		&:focus-visible {
-			background-color: rgba($button-blue, 0.1) !important;
+			background-color: rgba($button-blurple, 0.1) !important;
 		}
 	}
 }

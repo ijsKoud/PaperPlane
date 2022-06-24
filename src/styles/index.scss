@@ -5,7 +5,7 @@
 /* --vars-- */
 $white: #fff;
 $red: #f72a2d;
-$blue: #3083ff;
+$blurple: #6666ff;
 
 $comp-background1: #1c1d1e;
 $page-background: #242526;
@@ -13,8 +13,8 @@ $page-background: #242526;
 $button-black: #1c1d1e;
 $button-black-active: #131415;
 
-$button-blue: $blue;
-$button-blue-active: #2069d6;
+$button-blurple: $blurple;
+$button-blurple-active: #333366;
 
 * {
 	font-family: "Poppins", sans-serif;
@@ -48,7 +48,7 @@ input {
 
 	&:focus-visible,
 	&:hover {
-		border: 1px solid $blue;
+		border: 1px solid $blurple;
 		outline: none;
 	}
 }
