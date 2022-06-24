@@ -6,8 +6,8 @@
 $white: #fff;
 $page-background: #242526;
 
-$buttons-black: #1c1d1e;
-$buttons-black-active: #131415;
+$button-black: #1c1d1e;
+$button-black-active: #131415;
 
 * {
 	font-family: "Poppins", sans-serif;
@@ -100,3 +100,5 @@ a {
 }
 
 @import "./pages/home.scss";
+
+@import "./components/buttons.scss";
