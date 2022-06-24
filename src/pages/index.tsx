@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Button from "../components/general/Button";
 
 const Home: NextPage = () => {
 	return (
@@ -9,6 +10,9 @@ const Home: NextPage = () => {
 					<h1>PAPERPLANE</h1>
 				</div>
 				<p>File uploading. URL Shortening. Protected views.</p>
+				<div>
+					<Button style="black" type="link" text="GitHub" url="https://ijskoud.dev/github/paperplane" />
+				</div>
 			</div>
 		</main>
 	);
