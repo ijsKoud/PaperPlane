@@ -15,7 +15,7 @@ ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Copy Existing Files
-COPY package.json yarn.lock .yarnrc.yml next.config.js next-env.d.ts tsconfig.json ./
+COPY package.json yarn.lock .yarnrc.yml next.config.js global.d.ts next-env.d.ts tsconfig.json ./
 copy prisma ./prisma
 COPY .yarn ./.yarn
 COPY public ./public
