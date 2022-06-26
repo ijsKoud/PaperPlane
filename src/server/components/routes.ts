@@ -144,7 +144,7 @@ export class Routes {
 				res.send({ url: `${req.protocol}://${req.headers.host}/r/${path}` });
 				this.server.logger.info(`[FILES]: New URL uploaded - URL: ${short} & URL Code: ${path}`);
 			} catch (err) {
-				res.status(500).send({ message: "A URL with that code already exists, please use another code for this URL." });
+				res.status(500).send({ message: "An unknown error occurred while processing your request, please try again later." });
 			}
 
 			return;
