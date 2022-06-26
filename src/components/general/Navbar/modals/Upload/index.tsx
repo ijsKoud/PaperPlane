@@ -13,12 +13,17 @@ interface Props {
 const UploadModal: FC<Props> = (props) => {
 	const [files, setFiles] = useState<File[]>([]);
 
+	const onClick = () => {
+		props.onClick();
+		setFiles([]);
+	};
+
 	return (
-		<Modal {...props}>
+		<Modal isOpen={props.isOpen} onClick={onClick}>
 			<div className="upload-modal-content">
 				<div className="upload-modal-top">
 					<h1 className="upload-modal-title">Upload a file</h1>
-					<Button type="button" style="text" onClick={props.onClick}>
+					<Button type="button" style="text" onClick={onClick}>
 						<i className="fa-solid fa-times" />
 					</Button>
 				</div>
@@ -38,48 +43,6 @@ const UploadModal: FC<Props> = (props) => {
 						{files.map((file, key) => (
 							<UploadItem key={key} file={file} />
 						))}
-						<div className="upload-modal-uploaded-file">
-							<i className="fa-solid fa-file-lines" />
-							<div className="uploaded-modal-uploaded-file-details">
-								<p className="uploaded-modal-uploaded-file-title">
-									<p>test</p>
-									<p>.mp4</p>
-									<p id="state">• Uploading</p>
-								</p>
-								<div className="upload-modal-progressbar">
-									<div style={{ width: "75%" }} />
-								</div>
-							</div>
-							<p>75%</p>
-						</div>
-						<div className="upload-modal-uploaded-file">
-							<i className="fa-solid fa-file-lines" />
-							<div className="uploaded-modal-uploaded-file-details">
-								<p className="uploaded-modal-uploaded-file-title">
-									<p>test</p>
-									<p>.mp4</p>
-									<p id="state">• Error</p>
-								</p>
-								<p>2.4 MB</p>
-							</div>
-							<p>
-								<i className="fa-solid fa-arrows-rotate" />
-							</p>
-						</div>
-						<div className="upload-modal-uploaded-file">
-							<i className="fa-solid fa-file-lines" />
-							<div className="uploaded-modal-uploaded-file-details">
-								<p className="uploaded-modal-uploaded-file-title">
-									<p>test</p>
-									<p>.mp4</p>
-									<p id="state">• Uploaded</p>
-								</p>
-								<p>2.4 MB</p>
-							</div>
-							<p>
-								<i className="fa-solid fa-check" />
-							</p>
-						</div>
 					</div>
 				</div>
 			</div>
