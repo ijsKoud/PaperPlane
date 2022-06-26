@@ -2,10 +2,33 @@ import React, { useEffect, useState } from "react";
 import type { FC } from "../../../lib/types";
 import Button from "../Button";
 import MenuButton from "./MenuButton";
+import { motion, useAnimation, Variants } from "framer-motion";
+
+const variants: Variants = {
+	hidden: {
+		pointerEvents: "none",
+		opacity: 0,
+		transform: "translateY(-10px)",
+		transition: {
+			duration: 0.5,
+			ease: [0.6, 0, 0.17, 1]
+		}
+	},
+	visible: {
+		pointerEvents: "all",
+		opacity: 1,
+		transform: "translateY(0px)",
+		transition: {
+			duration: 0.5,
+			ease: [0.6, 0, 0.17, 1]
+		}
+	}
+};
 
 const Navbar: FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isMobile, setIsMobile] = useState(false);
+	const controller = useAnimation();
 
 	const toggleMenu = () => setIsOpen(!isOpen);
 	// const closeMenu = () => setIsOpen(false);
@@ -16,6 +39,13 @@ const Navbar: FC = () => {
 
 		return () => window.removeEventListener("resize", update);
 	}, []);
+
+	useEffect(() => {
+		if (isOpen) void controller.start("visible");
+		else void controller.start("hidden");
+
+		return () => controller.stop();
+	}, [isOpen]);
 
 	return (
 		<div className="navbar-container-wrapper">
@@ -31,7 +61,7 @@ const Navbar: FC = () => {
 				</div>
 				<div className="navbar-dropdown">
 					<MenuButton onClick={toggleMenu} isOpen={isOpen} />
-					<div className="navbar-dropdown-content">
+					<motion.div variants={variants} initial="hidden" animate={controller} className="navbar-dropdown-content">
 						{isMobile && (
 							<>
 								<Button type="link" style="text" url="/dasboard">
@@ -52,7 +82,7 @@ const Navbar: FC = () => {
 						<Button type="link" style="text" url="/settings">
 							<i className="fa-solid fa-arrow-right-from-bracket" /> Logout
 						</Button>
-					</div>
+					</motion.div>
 				</div>
 			</div>
 		</div>

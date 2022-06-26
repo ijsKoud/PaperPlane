@@ -72,6 +72,7 @@
 
 .navbar-dropdown {
 	position: relative;
+	height: 36px;
 }
 
 .navbar-dropdown-content {
@@ -87,7 +88,6 @@
 
 	display: flex;
 	flex-direction: column;
-	// align-items: center;
 
 	> .button {
 		padding: 0px;
