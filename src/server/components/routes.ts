@@ -139,26 +139,33 @@ export class Routes {
 				while (links.find((link) => link.id === path)) path = generateId();
 			}
 
-			await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
-			res.send({ url: `${req.protocol}://${req.headers.host}/r/${path}` });
+			try {
+				await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
+				res.send({ url: `${req.protocol}://${req.headers.host}/r/${path}` });
+				this.server.logger.info(`[FILES]: New URL uploaded - URL: ${short} & URL Code: ${path}`);
+			} catch (err) {
+				res.status(500).send({ message: "A URL with that code already exists, please use another code for this URL." });
+			}
 
-			this.server.logger.info(`[FILES]: New URL uploaded - URL: ${short} & URL Code: ${path}`);
 			return;
 		}
 
-		const files = await Promise.all(
-			((req.files ?? []) as Express.Multer.File[]).map(async (f) => {
-				const id = generateId() || f.originalname.split(".")[0];
-				const file = await this.server.prisma.file.create({
-					data: { id, date: new Date(), path: join(this.server.data.filesDir, f.filename) }
-				});
-				const fileExt = f.filename.split(".").slice(1).join(".");
+		try {
+			const files = await Promise.all(
+				((req.files ?? []) as Express.Multer.File[]).map(async (f) => {
+					const id = generateId() || f.originalname.split(".")[0];
+					const file = await this.server.prisma.file.create({
+						data: { id, date: new Date(), path: join(this.server.data.filesDir, f.filename) }
+					});
+					const fileExt = f.filename.split(".").slice(1).join(".");
 
-				this.server.logger.info(`[FILES]: New file uploaded - File: ${f.filename}, Id: ${id} & size: ${formatBytes(f.size)}`);
-				return `${req.protocol}://${req.headers.host}/files/${file.id}${config.nameType === "zerowidth" ? "" : `.${fileExt}`}`;
-			})
-		);
-
-		res.send({ files, url: files[0] });
+					this.server.logger.info(`[FILES]: New file uploaded - File: ${f.filename}, Id: ${id} & size: ${formatBytes(f.size)}`);
+					return `${req.protocol}://${req.headers.host}/files/${file.id}${config.nameType === "zerowidth" ? "" : `.${fileExt}`}`;
+				})
+			);
+			res.send({ files, url: files[0] });
+		} catch (err) {
+			res.status(500).send({ message: "An unknown error occurred while processing your request, please try again later." });
+		}
 	}
 }
