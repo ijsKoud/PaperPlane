@@ -11,6 +11,7 @@ interface LinkProps {
 
 	newWindow?: boolean;
 	external?: boolean;
+	onClick?: () => void;
 }
 
 interface ButtonProps {
@@ -21,11 +22,11 @@ interface ButtonProps {
 	onClick: () => void;
 }
 
-type ButtonStyle = "black";
+type ButtonStyle = "black" | "text";
 type Props = ButtonProps | LinkProps;
 
 const Button: FC<Props> = (props) => {
-	const { type, style, children, text } = props;
+	const { type, style, children, text, onClick } = props;
 	const className = `button button-${style}`;
 
 	if (type === "link") {
@@ -33,14 +34,13 @@ const Button: FC<Props> = (props) => {
 
 		return (
 			<Link href={url}>
-				<a target={newWindow ? "_blank" : "_self"} rel="noopener noreferrer" className={className}>
+				<a onClick={onClick} target={newWindow ? "_blank" : "_self"} rel="noopener noreferrer" className={className}>
 					{text ?? children} {external && <i className="fa-solid fa-arrow-up-right-from-square" />}
 				</a>
 			</Link>
 		);
 	}
 
-	const { onClick } = props;
 	return (
 		<button className={className} onClick={onClick}>
 			{text ?? children}
