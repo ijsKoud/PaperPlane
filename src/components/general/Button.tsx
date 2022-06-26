@@ -21,7 +21,7 @@ interface ButtonProps {
 	onClick: () => void;
 }
 
-type ButtonStyle = "black";
+type ButtonStyle = "black" | "text";
 type Props = ButtonProps | LinkProps;
 
 const Button: FC<Props> = (props) => {

@@ -19,3 +19,13 @@
 		background-color: $button-black-active;
 	}
 }
+
+.button.button-text {
+	transition: color 0.3s ease;
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		color: rgba($white, 0.5);
+	}
+}
