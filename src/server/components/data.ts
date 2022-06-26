@@ -14,23 +14,13 @@ export class Data {
 		if (!existsSync(this.filesDir)) await mkdir(this.filesDir, { recursive: true }).catch(() => void 0);
 
 		await this.migrate();
-		watch(this.filesDir)
-			.on("unlink", (path) => this.unlink(path))
-			.on("add", (path) => this.link(path));
+		watch(this.filesDir).on("unlink", (path) => this.unlink(path));
 
 		await this.createUser();
 	}
 
 	public async unlink(path: string) {
 		await this.server.prisma.file.delete({ where: { path } });
-	}
-
-	public async link(path: string) {
-		const file = await this.server.prisma.file.findUnique({ where: { path } });
-		if (file) return;
-
-		const id = generateId() || path.split("/").reverse()[0].split(".")[0];
-		await this.server.prisma.file.create({ data: { date: new Date(), id, path } }).catch(() => void 0);
 	}
 
 	public async migrate() {

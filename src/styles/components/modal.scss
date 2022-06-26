@@ -18,6 +18,7 @@
 .modal {
 	width: clamp(50%, 700px, 90%);
 	max-height: 90vh;
+	overflow: hidden;
 
 	margin: auto;
 	padding: 0 2rem;
