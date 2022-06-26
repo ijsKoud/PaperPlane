@@ -5,7 +5,7 @@ import MenuButton from "./MenuButton";
 import { motion, useAnimation, Variants } from "framer-motion";
 import { useRouter } from "next/router";
 import { useAuth } from "../../../lib/hooks/useAuth";
-import UploadModal from "./modals/UploadModal";
+import UploadModal from "./modals/Upload";
 
 const variants: Variants = {
 	hidden: {

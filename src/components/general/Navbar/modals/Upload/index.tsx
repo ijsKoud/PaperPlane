@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropzone from "react-dropzone";
-import type { FC } from "../../../../lib/types";
-import Button from "../../Button";
-import Modal from "../../Modal";
+import type { FC } from "../../../../../lib/types";
+import Button from "../../../Button";
+import Modal from "../../../Modal";
+import UploadItem from "./UploadItem";
 
 interface Props {
 	onClick: () => void;
@@ -10,6 +11,8 @@ interface Props {
 }
 
 const UploadModal: FC<Props> = (props) => {
+	const [files, setFiles] = useState<File[]>([]);
+
 	return (
 		<Modal {...props}>
 			<div className="upload-modal-content">
@@ -20,7 +23,7 @@ const UploadModal: FC<Props> = (props) => {
 					</Button>
 				</div>
 				<div className="upload-modal-upload">
-					<Dropzone onDropAccepted={(f) => console.log(f.map((fl) => fl.name))}>
+					<Dropzone onDropAccepted={(f) => setFiles([...files, ...f])}>
 						{({ getRootProps, getInputProps }) => (
 							<div {...getRootProps()} className="upload-modal-dropzone">
 								<input {...getInputProps()} />
@@ -32,6 +35,9 @@ const UploadModal: FC<Props> = (props) => {
 						)}
 					</Dropzone>
 					<div className="upload-modal-uploaded-list">
+						{files.map((file, key) => (
+							<UploadItem key={key} file={file} />
+						))}
 						<div className="upload-modal-uploaded-file">
 							<i className="fa-solid fa-file-lines" />
 							<div className="uploaded-modal-uploaded-file-details">
