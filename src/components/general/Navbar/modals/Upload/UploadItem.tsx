@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { fetch, getCancelToken } from "../../../../../lib/fetch";
 import { useAuth } from "../../../../../lib/hooks/useAuth";
 import type { ApiError, FC } from "../../../../../lib/types";
+import Button from "../../../Button";
 
 interface Props {
 	file: File;
@@ -14,7 +15,7 @@ const UploadItem: FC<Props> = ({ file }) => {
 
 	const [progress, setProgress] = useState(0);
 	const [uploaded, setUploaded] = useState(false);
-	const [fileData] = useState({ name: file.name.split(".")[0], extension: file.name.split(".").slice(1).join(".") });
+	const [isError, setIsError] = useState(false);
 
 	const formatBytes = (bytes: number): string => {
 		const units = ["B", "kB", "MB", "GB", "TB", "PB"];
@@ -51,8 +52,17 @@ const UploadItem: FC<Props> = ({ file }) => {
 
 			const err = error as AxiosError<ApiError>;
 			console.error(err);
+			setIsError(true);
 			// alert("Something went wrong while uploading a file", err.response?.data.message ?? "Unknown error, please try again later.");
 		}
+	};
+
+	const runAgain = () => {
+		setProgress(0);
+		setUploaded(false);
+		setIsError(false);
+
+		void func();
 	};
 
 	useEffect(() => {
@@ -64,12 +74,10 @@ const UploadItem: FC<Props> = ({ file }) => {
 		<div className="upload-modal-uploaded-file">
 			<i className="fa-solid fa-file-lines" />
 			<div className="uploaded-modal-uploaded-file-details">
-				<span className="uploaded-modal-uploaded-file-title">
-					<p>{fileData.name}</p>
-					<p>.{fileData.extension}</p>
-					<p id="state">• {uploaded ? "Uploaded" : "Uploading"}</p>
-				</span>
-				{uploaded ? (
+				<p className="uploaded-modal-uploaded-file-title">{file.name}</p>
+				{isError ? (
+					<p>ERROR - TRY AGAIN</p>
+				) : uploaded ? (
 					<p>{formatBytes(file.size)}</p>
 				) : (
 					<div className="upload-modal-progressbar">
@@ -77,7 +85,11 @@ const UploadItem: FC<Props> = ({ file }) => {
 					</div>
 				)}
 			</div>
-			{uploaded ? (
+			{isError ? (
+				<Button type="button" style="text" onClick={runAgain}>
+					<i className="fa-solid fa-arrows-rotate" />
+				</Button>
+			) : uploaded ? (
 				<p>
 					<i className="fa-solid fa-check" />
 				</p>
