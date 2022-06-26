@@ -6,6 +6,7 @@ import { motion, useAnimation, Variants } from "framer-motion";
 import { useRouter } from "next/router";
 import { useAuth } from "../../../lib/hooks/useAuth";
 import UploadModal from "./modals/Upload";
+import CreateModal from "./modals/Create";
 
 const variants: Variants = {
 	hidden: {
@@ -36,6 +37,13 @@ const Navbar: FC = () => {
 	const closeUpload = () => setIsUploadOpen(false);
 	const openUpload = () => {
 		setIsUploadOpen(true);
+		setIsOpen(false);
+	};
+
+	const [isCreateOpen, setIsCreateOpen] = useState(false);
+	const closeCreate = () => setIsCreateOpen(false);
+	const openCreate = () => {
+		setIsCreateOpen(true);
 		setIsOpen(false);
 	};
 
@@ -71,6 +79,7 @@ const Navbar: FC = () => {
 	return (
 		<>
 			<UploadModal isOpen={isUploadOpen} onClick={closeUpload} />
+			<CreateModal isOpen={isCreateOpen} onClick={closeCreate} />
 			<div className="navbar-container-wrapper">
 				<div className="navbar-container">
 					<div className="navbar-content">
@@ -98,7 +107,7 @@ const Navbar: FC = () => {
 							<Button onClick={openUpload} type="button" style="text">
 								<i className="fa-solid fa-cloud-arrow-up" /> Upload
 							</Button>
-							<Button onClick={closeMenu} type="button" style="text">
+							<Button onClick={openCreate} type="button" style="text">
 								<i className="fa-solid fa-link" /> Create
 							</Button>
 							<div className="navbar-dropdown-border" />
