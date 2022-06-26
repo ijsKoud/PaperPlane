@@ -3,6 +3,8 @@ import type { FC } from "../../../lib/types";
 import Button from "../Button";
 import MenuButton from "./MenuButton";
 import { motion, useAnimation, Variants } from "framer-motion";
+import { useRouter } from "next/router";
+import { useAuth } from "../../../lib/hooks/useAuth";
 
 const variants: Variants = {
 	hidden: {
@@ -28,10 +30,21 @@ const variants: Variants = {
 const Navbar: FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isMobile, setIsMobile] = useState(false);
+
 	const controller = useAnimation();
+	const router = useRouter();
+	const { fetch } = useAuth();
 
 	const toggleMenu = () => setIsOpen(!isOpen);
-	// const closeMenu = () => setIsOpen(false);
+	const closeMenu = () => setIsOpen(false);
+
+	const logout = () => {
+		closeMenu();
+		localStorage.removeItem("PAPERPLANE_AUTH");
+
+		fetch();
+		void router.push("/");
+	};
 
 	useEffect(() => {
 		const update = () => setIsMobile(window.innerWidth < 600);
@@ -64,22 +77,22 @@ const Navbar: FC = () => {
 					<motion.div variants={variants} initial="hidden" animate={controller} className="navbar-dropdown-content">
 						{isMobile && (
 							<>
-								<Button type="link" style="text" url="/dasboard">
+								<Button onClick={closeMenu} type="link" style="text" url="/dasboard">
 									<i className="fa-solid fa-chart-line" /> Dashboard
 								</Button>
-								<Button type="link" style="text" url="/settings">
+								<Button onClick={closeMenu} type="link" style="text" url="/settings">
 									<i className="fa-solid fa-gear" /> Settings
 								</Button>
 							</>
 						)}
-						<Button type="link" style="text" url="/settings">
+						<Button onClick={closeMenu} type="button" style="text">
 							<i className="fa-solid fa-cloud-arrow-up" /> Upload
 						</Button>
-						<Button type="link" style="text" url="/settings">
+						<Button onClick={closeMenu} type="button" style="text">
 							<i className="fa-solid fa-link" /> Create
 						</Button>
 						<div className="navbar-dropdown-border" />
-						<Button type="link" style="text" url="/settings">
+						<Button onClick={logout} type="button" style="text">
 							<i className="fa-solid fa-arrow-right-from-bracket" /> Logout
 						</Button>
 					</motion.div>
