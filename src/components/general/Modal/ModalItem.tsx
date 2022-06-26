@@ -1,7 +1,6 @@
 import { motion, Variants } from "framer-motion";
 import React from "react";
 import type { FC } from "../../../lib/types";
-import Button from "../Button";
 import BackDrop from "./BackDrop";
 
 const variants: Variants = {
