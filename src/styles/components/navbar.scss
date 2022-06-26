@@ -223,13 +223,27 @@
 	}
 }
 
+.upload-modal-uploaded-file {
+	min-width: 100%;
+	overflow-x: auto;
+}
+
 .upload-modal-uploaded-file,
 .uploaded-modal-uploaded-file-details,
 .uploaded-modal-uploaded-file-title {
 	width: 100%;
+	margin-right: 10px;
 
 	display: flex;
 	align-items: center;
+}
+
+.uploaded-modal-uploaded-file-title {
+	width: 100%;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .upload-modal-uploaded-file {
@@ -259,6 +273,10 @@
 .uploaded-modal-uploaded-file-details {
 	flex-direction: column;
 	align-items: unset;
+
+	> p {
+		max-width: fit-content;
+	}
 }
 
 .uploaded-modal-uploaded-file-title {
