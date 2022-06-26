@@ -9,6 +9,7 @@ $blurple: #6666ff;
 
 $comp-background1: #1c1d1e;
 $page-background: #242526;
+$navbar-background: #1e1f21;
 
 $button-black: #1c1d1e;
 $button-black-active: #131415;
@@ -126,4 +127,5 @@ a {
 @import "./pages/home.scss";
 @import "./pages/login.scss";
 
+@import "./components/navbar.scss";
 @import "./components/buttons.scss";
