@@ -142,7 +142,7 @@ export class Routes {
 			try {
 				await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
 				res.send({ url: `${req.protocol}://${req.headers.host}/r/${path}` });
-				this.server.logger.info(`[FILES]: New URL uploaded - URL: ${short} & URL Code: ${path}`);
+				this.server.logger.info(`[CREATE]: New URL uploaded - URL: ${short} & URL Code: ${path}`);
 			} catch (err) {
 				res.status(500).send({ message: "An unknown error occurred while processing your request, please try again later." });
 			}
