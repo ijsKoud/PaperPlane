@@ -1,17 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { encryptPassword, getUser, encryptToken } from "../../../lib/utils";
 import prisma from "../../../lib/prisma";
+import type { CleanUser } from "../../../lib/types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === "GET") {
 		const user = await getUser(req);
 		if (!user) return res.status(200).send(null);
 
-		return res.status(200).json({
-			...user,
-			twoAuthToken: null,
-			password: ""
-		});
+		const cleanUser = { ...user } as CleanUser & { password?: string };
+		delete cleanUser.password;
+
+		return res.status(200).json(cleanUser);
 	} else if (req.method === "PATCH") {
 		const body = req.body as { password?: string; username?: string; theme?: string };
 		if (typeof body.password !== "string" && typeof body.username !== "string" && typeof body.theme !== "string")

@@ -1,10 +1,9 @@
-import type { User } from "@prisma/client";
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { fetch, getCancelToken } from "../fetch";
-import type { FC } from "../types";
+import type { CleanUser, FC } from "../types";
 
 interface UseAuth {
-	user: User | null;
+	user: CleanUser | null;
 	loading: boolean;
 	fetch: (removeOnError?: boolean) => void;
 }
@@ -21,12 +20,12 @@ export const useAuth = () => {
 };
 
 const useProvideAuth = (): UseAuth => {
-	const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<CleanUser | null>(null);
 	const [loading, setLoading] = useState<true | false>(true);
 
 	useEffect(() => {
 		const { cancel, token } = getCancelToken();
-		fetch<User>("/api/user", token)
+		fetch<CleanUser>("/api/user", token)
 			.then((res) => {
 				setUser(res.data);
 				setLoading(false);
@@ -37,7 +36,7 @@ const useProvideAuth = (): UseAuth => {
 	}, []);
 
 	const reFetch = (removeOnError = false) =>
-		fetch<User>("/api/user")
+		fetch<CleanUser>("/api/user")
 			.then((res) => {
 				setUser(res.data);
 				setLoading(false);
