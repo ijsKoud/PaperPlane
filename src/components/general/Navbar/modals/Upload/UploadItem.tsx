@@ -1,5 +1,6 @@
 import type { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { fetch, getCancelToken } from "../../../../../lib/fetch";
 import { useAuth } from "../../../../../lib/hooks/useAuth";
 import type { ApiError, FC } from "../../../../../lib/types";
@@ -51,9 +52,11 @@ const UploadItem: FC<Props> = ({ file }) => {
 			if (!("isAxiosError" in error)) return;
 
 			const err = error as AxiosError<ApiError>;
-			console.error(err);
+			const errMsg = err.response?.data.message ?? "Unknown error, please try again later.";
+
+			toast.error(`UPLOAD ERROR: ${errMsg}`);
+			console.error("Something went wrong while uploading a file", errMsg);
 			setIsError(true);
-			// alert("Something went wrong while uploading a file", err.response?.data.message ?? "Unknown error, please try again later.");
 		}
 	};
 

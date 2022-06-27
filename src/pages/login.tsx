@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import Form from "../components/page/login/Form";
 import { fetch } from "../lib/fetch";
 import { useAuth } from "../lib/hooks/useAuth";
@@ -13,7 +14,10 @@ const Login: NextPage = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (user) void router.replace("/dashboard");
+		if (user) {
+			toast.success(`Login Successful! Welcome back, ${user.username}.`);
+			void router.replace("/dashboard");
+		}
 	}, [user]);
 
 	const onSubmit = async (data: LoginCreds) => {
@@ -28,7 +32,10 @@ const Login: NextPage = () => {
 			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
 
 			const err = error as AxiosError<ApiError>;
-			console.error("Error while logging in", `${err.response?.data.message ?? "Unknown error, please try again later!"}`);
+			const errMsg = err.response?.data.message ?? "Unknown error, please try again later!";
+
+			toast.error(`LOGIN ERROR: ${errMsg}`);
+			console.error("Error while logging in", errMsg);
 		}
 	};
 

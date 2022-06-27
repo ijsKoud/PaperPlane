@@ -6,6 +6,7 @@ import type { ApiError, FC } from "../../../../../lib/types";
 import { fetch } from "../../../../../lib/fetch";
 import { useAuth } from "../../../../../lib/hooks/useAuth";
 import type { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 const Form: FC = () => {
 	const [error, setError] = useState("");
@@ -22,21 +23,26 @@ const Form: FC = () => {
 		data.append("path", path);
 
 		try {
-			// TODO: ADD NOTIFICATION WITH CORRECT URL
-			await fetch("/api/upload", undefined, {
+			const res = await fetch<{ url: string }>("/api/upload", undefined, {
 				method: "POST",
 				data,
 				headers: { Authorization: user?.token ?? "", "Content-Type": "multipart/form-data" }
 			});
+
+			const code = res.data.url.split("/").reverse()[0];
+			toast.success(`CREATE SUCCESS: New URL created with code: ${code}`);
 		} catch (err) {
 			if (!err || typeof err !== "object") return;
 			if (err instanceof Error && err.message === "cancelled") return;
 			if (!("isAxiosError" in err)) return;
 
 			const _err = err as AxiosError<ApiError>;
+			const _errMsg = _err.response?.data.message ?? "An unknown error occurred, please try again later.";
 			console.error(_err);
-			setError(_err.response?.data.message ?? "An unknown error occurred, please try again later.");
-			// alert("Something went wrong while uploading a file", err.response?.data.message ?? "Unknown error, please try again later.");
+
+			toast.error(`CREATE ERROR: ${_errMsg}`);
+			setError(_errMsg);
+			console.error(_errMsg);
 		}
 	};
 
