@@ -44,5 +44,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 	const sortedArr = sortFilesArray(apiRes, sortType);
 	const chunks = chunk(sortedArr, 25);
-	res.send({ files: chunks[isNaN(page) ? page - 1 : 0] ?? [], pages: chunks.length });
+	res.send({ files: chunks[isNaN(page) ? 0 : page - 1] ?? [], pages: chunks.length });
 }
