@@ -1,9 +1,9 @@
 import { watch } from "chokidar";
-import { existsSync } from "node:fs";
-import { mkdir, readdir } from "node:fs/promises";
+import { existsSync, Stats } from "node:fs";
+import { mkdir, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import type { Server } from "../Server";
-import { createToken, encryptPassword, generateId } from "../utils";
+import { createToken, encryptPassword, formatBytes, generateId } from "../utils";
 
 export class Data {
 	public filesDir = join(process.cwd(), "data", "files");
@@ -14,13 +14,19 @@ export class Data {
 		if (!existsSync(this.filesDir)) await mkdir(this.filesDir, { recursive: true }).catch(() => void 0);
 
 		await this.migrate();
-		watch(this.filesDir).on("unlink", (path) => this.unlink(path));
+		watch(this.filesDir, { alwaysStat: true })
+			.on("unlink", (path) => this.unlink(path))
+			.on("change", (path, stats) => this.change(path, stats!));
 
 		await this.createUser();
 	}
 
 	public async unlink(path: string) {
 		await this.server.prisma.file.delete({ where: { path } });
+	}
+
+	public async change(path: string, stats: Stats) {
+		await this.server.prisma.file.update({ where: { path }, data: { size: formatBytes(stats.size) } });
 	}
 
 	public async migrate() {
@@ -41,7 +47,8 @@ export class Data {
 			}
 
 			const id = generateId() || file.split(".")[0];
-			await this.server.prisma.file.create({ data: { date: new Date(), id, path: filePath } });
+			const stats = await stat(filePath);
+			await this.server.prisma.file.create({ data: { date: new Date(), id, path: filePath, size: formatBytes(stats.size) } });
 			exist.push(id);
 			newFiles.push(id);
 		}

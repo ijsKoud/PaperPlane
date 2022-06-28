@@ -155,7 +155,7 @@ export class Routes {
 				((req.files ?? []) as Express.Multer.File[]).map(async (f) => {
 					const id = generateId() || f.originalname.split(".")[0];
 					const file = await this.server.prisma.file.create({
-						data: { id, date: new Date(), path: join(this.server.data.filesDir, f.filename) }
+						data: { id, date: new Date(), path: join(this.server.data.filesDir, f.filename), size: formatBytes(f.size) }
 					});
 					const fileExt = f.filename.split(".").slice(1).join(".");
 
