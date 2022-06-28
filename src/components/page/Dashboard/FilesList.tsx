@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { fetch, getCancelToken } from "../../../lib/fetch";
 import { ApiFile, FC, FilesApiRes, FILE_SORT_OPTIONS } from "../../../lib/types";
 import Table from "./base/Table";
-import FileTableContent from "./base/FileTableContent";
+import FileTableContent from "./content/FileTableContent";
 import FilterBar from "./base/FilterBar";
 import CollapseTable from "./base/CollapseTable";
 import { useFormik } from "formik";
