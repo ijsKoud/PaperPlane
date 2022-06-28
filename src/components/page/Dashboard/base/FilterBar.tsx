@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { FC } from "../../../../lib/types";
+import Button from "../../../general/Button";
 import SelectMenu from "../../../general/SelectMenu";
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 
 const FilterBar: FC<Props> = ({ page, pages, setPage, setSearchQuery, sortOptions, setSort }) => {
 	const options = Object.keys(sortOptions).map((opt) => ({ label: sortOptions[opt], value: opt }));
+	const [searchTerm, setSearchTerm] = useState("");
 
 	const onSortChange = (value: { label: string; value: any } | null) => {
 		if (!value) return;
@@ -37,34 +39,39 @@ const FilterBar: FC<Props> = ({ page, pages, setPage, setSearchQuery, sortOption
 		setPage(previous);
 	};
 
+	useEffect(() => {
+		const delayDebounceFn = setTimeout(() => setSearchQuery(searchTerm), 1e3);
+		return () => clearTimeout(delayDebounceFn);
+	}, [searchTerm]);
+
 	return (
-		<div className="dashboard__stats-navigation">
-			<div className="dashboard__files-search">
-				<input type="search" placeholder="Search..." onChange={(e) => setSearchQuery(e.target.value.trim())} />
+		<div className="dashboard-table-navigation">
+			<div className="dashboard-table-search">
+				<input type="search" placeholder="Search..." onChange={(e) => setSearchTerm(e.target.value.trim())} />
 			</div>
-			<div className="dashboard__page-selection">
-				<button onClick={previousPage} className={page - 1 <= 0 ? "dashboard__page-button disabled" : "dashboard__page-button"}>
-					<i className="fas fa-angle-left" /> Previous
-				</button>
+			<div className="dashboard-table-page-select">
+				<Button type="button" style="grey" onClick={previousPage}>
+					<i className="fa-solid fa-angle-left" /> Previous
+				</Button>
 				<SelectMenu
 					instanceId="page"
 					onChange={(v) => setPage(v?.value ?? 1)}
 					options={Array(pages)
 						.fill(null)
 						.map((_, i) => ({ label: `Page ${i + 1}`, value: i + 1 }))}
-					className="dashboard__page-dropdown"
+					className="dashboard-table-dropdown"
 					value={{ label: `Page ${page}`, value: page }}
 				/>
-				<button onClick={nextPage} className={pages < page + 1 ? "dashboard__page-button disabled" : "dashboard__page-button"}>
-					Next <i className="fas fa-angle-right" />
-				</button>
+				<Button type="button" style="grey" onClick={nextPage}>
+					Next <i className="fa-solid fa-angle-right" />
+				</Button>
 			</div>
 			<SelectMenu
 				instanceId="sort-type"
 				onChange={onSortChange}
 				options={options}
 				defaultValue={options[0]}
-				className="dashboard__page-dropdown2"
+				className="dashboard-table-dropdown big"
 			/>
 		</div>
 	);

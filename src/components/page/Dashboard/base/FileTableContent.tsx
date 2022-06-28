@@ -4,7 +4,6 @@ import React from "react";
 import type { ApiFile, FC } from "../../../../lib/types";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
-import Button from "../../../general/Button";
 
 interface Props {
 	file: ApiFile;
