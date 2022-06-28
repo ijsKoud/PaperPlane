@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Loader: React.FC<Props> = ({ size }) => {
-	return <ReactLoader size={size} color={"#fff"} />;
+	return <ReactLoader style={{ display: "unset" }} size={size} color={"#fff"} />;
 };
 
 export default Loader;
