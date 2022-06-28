@@ -1,20 +1,43 @@
 .dashboard-list {
 	border-radius: 7px;
+	height: fit-content;
+	padding: 10px;
+	padding-bottom: 0px;
 	width: 90%;
 
-	padding: 1rem;
-	margin-bottom: 1rem;
-
+	overflow: hidden;
 	background-color: $comp-background2;
+}
 
-	overflow-y: auto;
-	overflow-x: hidden;
+.dashboard-table-container {
+	overflow: auto;
+}
+
+.dashboard-table-title {
+	display: flex;
+	align-items: center;
+
+	margin-left: 5px;
+
+	h1 {
+		font-size: 50px;
+		padding-bottom: 5px;
+		padding-left: 10px;
+	}
+
+	.button {
+		padding: 0px;
+	}
+
+	i {
+		font-size: 30px;
+	}
 }
 
 .dashboard-table {
 	width: 100%;
-	border-spacing: 0;
 
+	border-spacing: 0;
 	td,
 	th {
 		vertical-align: top;
@@ -70,7 +93,7 @@
 
 .dashboard-table-navigation {
 	width: 100%;
-	margin: 10px 0px 20px 0px;
+	margin-bottom: 20px;
 
 	display: flex;
 	justify-content: space-between;
