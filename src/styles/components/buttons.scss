@@ -1,12 +1,12 @@
 .button {
-	padding: 10px;
+	padding: 5px 10px;
 	background: none;
 
-	font-size: 25px;
+	font-size: 20px;
 	font-weight: 500;
 
 	border: none;
-	border-radius: 10px;
+	border-radius: 7px;
 
 	cursor: pointer;
 }
@@ -19,6 +19,17 @@
 	&:focus-visible {
 		outline: none;
 		background-color: $button-black-active;
+	}
+}
+
+.button.button-grey {
+	background-color: $button-grey;
+	transition: background-color 0.3s ease;
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		background-color: $button-grey-active;
 	}
 }
 

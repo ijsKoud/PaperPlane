@@ -22,7 +22,7 @@ interface ButtonProps {
 	onClick: () => void;
 }
 
-type ButtonStyle = "black" | "text";
+type ButtonStyle = "black" | "grey" | "text";
 type Props = ButtonProps | LinkProps;
 
 const Button: FC<Props> = (props) => {
