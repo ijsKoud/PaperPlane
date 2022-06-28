@@ -123,6 +123,10 @@ export function sortFilesArray(array: ApiFile[], type: string): ApiFile[] {
 			return array.sort((a, b) => b.date.getTime() - a.date.getTime());
 		case "date-old":
 			return array.sort((a, b) => a.date.getTime() - b.date.getTime());
+		case "views-up":
+			return array.sort((a, b) => b.views - a.views);
+		case "views-down":
+			return array.sort((a, b) => a.views - b.views);
 		case "bytes-small":
 			return array.sort((a, b) => StringToBytes(b.size) - StringToBytes(a.size));
 		case "bytes-large":
