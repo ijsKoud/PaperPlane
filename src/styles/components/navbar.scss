@@ -68,6 +68,10 @@
 		width: 40px;
 		margin-right: 10px;
 	}
+
+	> a {
+		font-size: 25px;
+	}
 }
 
 .navbar-dropdown {
@@ -186,24 +190,10 @@
 
 .upload-modal-upload {
 	overflow-y: auto;
+	height: 500px;
 
-	&::-webkit-scrollbar {
-		width: 10px;
-	}
-
-	/* Track */
-	&::-webkit-scrollbar-track {
-		background: #323436;
-	}
-
-	/* Handle */
 	&::-webkit-scrollbar-thumb {
-		background: $button-blurple;
-	}
-
-	/* Handle on hover */
-	&::-webkit-scrollbar-thumb:hover {
-		background: $button-blurple-active;
+		background-color: $blurple;
 	}
 }
 
