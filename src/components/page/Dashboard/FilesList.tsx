@@ -43,7 +43,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 		return () => token.cancel("cancelled");
 	}, [page, searchQuery, sort, update]);
 
-	const updateFileList = () => setUpdate(!update);
+	const updateFileList = () => setTimeout(() => setUpdate(!update), 1e2);
 	const selectFile = (id: string) => {
 		const field = formik.values[id];
 		if (field) {
