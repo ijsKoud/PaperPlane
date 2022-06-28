@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import type { ApiFile } from "../../../../lib/types";
 import { getFileExt, getUser, parseQuery, sortFilesArray } from "../../../../lib/utils";
+import { lookup } from "mime-types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const user = await getUser(req);
@@ -28,6 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			date: f.date,
 			pinned: f.pinned,
 			views: f.views,
+			isImage: (lookup(`name${fileExt}`) || "").includes("image"),
 			pwdProtection: Boolean(f.password),
 			url: `${req.headers.host}/files/${apiFileName}`
 		};

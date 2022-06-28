@@ -22,6 +22,7 @@ export interface ApiFile {
 
 	pwdProtection: boolean;
 	size: string;
+	isImage: boolean;
 
 	date: Date;
 	views: number;

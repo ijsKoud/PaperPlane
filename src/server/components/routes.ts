@@ -114,7 +114,7 @@ export class Routes {
 				return;
 			}
 
-			await this.server.prisma.file.update({ where: { id: fileId }, data: { views: { increment: 1 } } });
+			if (!req.query.preview) await this.server.prisma.file.update({ where: { id: fileId }, data: { views: { increment: 1 } } });
 		});
 	}
 
