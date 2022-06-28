@@ -22,7 +22,7 @@ export class Data {
 	}
 
 	public async unlink(path: string) {
-		await this.server.prisma.file.delete({ where: { path } });
+		await this.server.prisma.file.delete({ where: { path } }).catch(() => void 0);
 	}
 
 	public async change(path: string, stats: Stats) {
