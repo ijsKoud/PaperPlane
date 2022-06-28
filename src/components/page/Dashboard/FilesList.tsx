@@ -7,6 +7,8 @@ import Table from "./base/Table";
 import FileTableContent from "./base/FileTableContent";
 import FilterBar from "./base/FilterBar";
 import CollapseTable from "./base/CollapseTable";
+import { useFormik } from "formik";
+import DeleteItemsPopup from "./base/DeleteItemsPopup";
 
 interface Props {
 	protocol: string;
@@ -21,7 +23,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [sort, setSort] = useState("default");
 
-	const [showDelete, setShowDelete] = useState(false);
+	const formik = useFormik<Record<string, boolean>>({ initialValues: {}, onSubmit: () => void 0 });
 
 	const getURL = (partialUrl: string): string => `${protocol}//${partialUrl}`;
 
@@ -41,11 +43,20 @@ const FilesList: FC<Props> = ({ protocol }) => {
 		return () => token.cancel("cancelled");
 	}, [page, searchQuery, sort, update]);
 
-	const selectFile = () => void 0;
 	const updateFileList = () => setUpdate(!update);
+	const selectFile = (id: string) => {
+		const field = formik.values[id];
+		if (field) {
+			const values = { ...formik.values };
+
+			delete values[id];
+			void formik.setValues(values);
+		} else void formik.setFieldValue(id, true);
+	};
 
 	return (
 		<CollapseTable title="Files">
+			<DeleteItemsPopup {...{ formik, updateFileList }} />
 			<FilterBar
 				page={page}
 				pages={pages}
@@ -56,7 +67,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 			/>
 			<div className="dashboard-table-container">
 				<Table
-					columns={[250, 250, 150, 120, 150, 150, 150, 100]}
+					columns={[250, 250, 150, 120, 150, 150, 150, 150]}
 					keys={["Preview", "Name", "Size", "Password", "Views", "Date", "Actions", "Delete"]}
 				>
 					{files.map((file) => (

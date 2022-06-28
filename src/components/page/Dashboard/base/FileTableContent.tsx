@@ -11,7 +11,7 @@ interface Props {
 	file: ApiFile;
 
 	updateFileList: () => void;
-	selectFile: () => void;
+	selectFile: (id: string) => void;
 }
 
 const FileTableContent: FC<Props> = ({ file, updateFileList, selectFile }) => {
@@ -74,7 +74,7 @@ const FileTableContent: FC<Props> = ({ file, updateFileList, selectFile }) => {
 			</td>
 			<td className="dashboard-table-buttons">
 				<div>
-					<input type={"checkbox"} />
+					<input type="checkbox" onChange={() => selectFile(file.name.split(".")[0])} />
 					<Button type="button" onClick={deleteFile} style="danger">
 						<i className="fa-solid fa-trash-can" />
 					</Button>

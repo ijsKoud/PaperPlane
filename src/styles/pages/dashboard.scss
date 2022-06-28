@@ -102,6 +102,14 @@
 		height: 39px;
 		text-align: center;
 	}
+
+	input {
+		filter: invert(100%) hue-rotate(18deg) brightness(1.7);
+
+		&:checked {
+			filter: none;
+		}
+	}
 }
 
 .dashboard-table-navigation {
@@ -153,5 +161,31 @@
 		button:last-child {
 			margin-bottom: 0px;
 		}
+	}
+}
+
+.dashboard-delete-items {
+	position: fixed;
+	z-index: 9999;
+
+	bottom: 20px;
+	left: 0;
+
+	width: 100%;
+
+	display: grid;
+	place-items: center;
+
+	> div {
+		background-color: $navbar-background;
+		filter: drop-shadow(5px 10px 10px rgba(0, 0, 0, 0.25));
+		border-radius: 7px;
+
+		width: 95%;
+		padding: 1rem;
+
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 }
