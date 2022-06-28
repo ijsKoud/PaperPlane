@@ -6,6 +6,7 @@ import { ApiFile, FC, FilesApiRes, FILE_SORT_OPTIONS } from "../../../lib/types"
 import Table from "./base/Table";
 import FileTableContent from "./base/FileTableContent";
 import FilterBar from "./base/FilterBar";
+import CollapseTable from "./base/CollapseTable";
 
 interface Props {
 	protocol: string;
@@ -37,7 +38,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 	}, [page, searchQuery, sort]);
 
 	return (
-		<div className="dashboard-list">
+		<CollapseTable title="Files">
 			<FilterBar
 				page={page}
 				pages={pages}
@@ -46,15 +47,17 @@ const FilesList: FC<Props> = ({ protocol }) => {
 				setSort={setSort}
 				sortOptions={FILE_SORT_OPTIONS}
 			/>
-			<Table
-				columns={[250, 250, 150, 120, 150, 150, 150, 150]}
-				keys={["Preview", "Name", "Size", "Password", "Views", "Date", "Actions", "Delete"]}
-			>
-				{files.map((file) => (
-					<FileTableContent key={file.name} file={file} />
-				))}
-			</Table>
-		</div>
+			<div className="dashboard-table-container">
+				<Table
+					columns={[250, 250, 150, 120, 150, 150, 150, 150]}
+					keys={["Preview", "Name", "Size", "Password", "Views", "Date", "Actions", "Delete"]}
+				>
+					{files.map((file) => (
+						<FileTableContent key={file.name} file={file} />
+					))}
+				</Table>
+			</div>
+		</CollapseTable>
 	);
 };
 
