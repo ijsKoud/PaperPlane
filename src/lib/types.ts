@@ -28,3 +28,19 @@ export interface ApiFile {
 	views: number;
 	pinned: boolean;
 }
+
+export interface FilesApiRes {
+	files: ApiFile[];
+	pages: number;
+}
+
+export const FILE_SORT_OPTIONS = {
+	"date-new": "Date: New - Old",
+	"date-old": "Date: Old - New",
+	"views-up": "Views: High - Small",
+	"views-down": "Views: Small - High",
+	"bytes-small": "Size: High - Small",
+	"bytes-large": "Size: Small - High",
+	name: "Name: A - Z",
+	"name-reverse": "Name: Z - A"
+};

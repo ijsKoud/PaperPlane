@@ -2,14 +2,15 @@ import Fuse from "fuse.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import type { ApiFile } from "../../../../lib/types";
-import { getFileExt, getUser, parseQuery, sortFilesArray } from "../../../../lib/utils";
+import { chunk, getFileExt, getUser, parseQuery, sortFilesArray } from "../../../../lib/utils";
 import { lookup } from "mime-types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const user = await getUser(req);
 	if (!user) return res.status(401).send({ message: "You need to be logged in to view this content." });
 
-	const sortType = parseQuery(req.query.sortType ?? "default");
+	const page = Number(parseQuery(req.query.page ?? 1));
+	const sortType = parseQuery(req.query.sort ?? "default");
 	const searchQ = parseQuery(req.query.search ?? "");
 
 	const dbFiles = await prisma.file.findMany();
@@ -41,5 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		apiRes = search.search(searchQ).map((sr) => sr.item);
 	}
 
-	res.send(sortFilesArray(apiRes, sortType));
+	const sortedArr = sortFilesArray(apiRes, sortType);
+	const chunks = chunk(sortedArr, 25);
+	res.send({ files: chunks[isNaN(page) ? page - 1 : 0] ?? [], pages: chunks.length });
 }

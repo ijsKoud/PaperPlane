@@ -9,12 +9,14 @@ interface Props {
 
 	setSearchQuery: (query: string) => void;
 
-	sortOptions: string[];
+	sortOptions: {
+		[x: string]: string;
+	};
 	setSort: (option: string) => void;
 }
 
 const FilterBar: FC<Props> = ({ page, pages, setPage, setSearchQuery, sortOptions, setSort }) => {
-	const options = sortOptions.map((opt) => ({ label: opt.replace(/-/g, " "), value: opt }));
+	const options = Object.keys(sortOptions).map((opt) => ({ label: sortOptions[opt], value: opt }));
 
 	const onSortChange = (value: { label: string; value: any } | null) => {
 		if (!value) return;
@@ -49,7 +51,7 @@ const FilterBar: FC<Props> = ({ page, pages, setPage, setSearchQuery, sortOption
 					onChange={(v) => setPage(v?.value ?? 1)}
 					options={Array(pages)
 						.fill(null)
-						.map((_, i) => ({ label: `Page ${i}`, value: i }))}
+						.map((_, i) => ({ label: `Page ${i + 1}`, value: i + 1 }))}
 					className="dashboard__page-dropdown"
 					value={{ label: `Page ${page}`, value: page }}
 				/>
