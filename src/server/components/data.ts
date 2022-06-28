@@ -26,6 +26,9 @@ export class Data {
 	}
 
 	public async change(path: string, stats: Stats) {
+		const file = await this.server.prisma.file.findFirst({ where: { path } });
+		if (!file) return;
+
 		await this.server.prisma.file.update({ where: { path }, data: { size: formatBytes(stats.size) } });
 	}
 
