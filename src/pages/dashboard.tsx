@@ -18,7 +18,15 @@ const Home: NextPage = () => {
 		setProtocol(window.location.protocol);
 	}, []);
 
-	return <main className="home-page-container">{userLoading ? <Loader size={20} /> : <Dashboard protocol={protocol} />}</main>;
+	return userLoading ? (
+		<main className="home-page-container">
+			<Loader size={20} />
+		</main>
+	) : (
+		<main className="home-page-container" style={{ minHeight: "unset" }}>
+			<Dashboard protocol={protocol} />
+		</main>
+	);
 };
 
 export default Home;
