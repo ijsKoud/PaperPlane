@@ -15,3 +15,15 @@ export interface LoginCreds {
 }
 
 export type CleanUser = Omit<User, "password">;
+
+export interface ApiFile {
+	name: string;
+	url: string;
+
+	pwdProtection: boolean;
+	size: string;
+
+	date: Date;
+	views: number;
+	pinned: boolean;
+}

@@ -1,9 +1,10 @@
-import type { User } from "@prisma/client";
+import type { Url, User } from "@prisma/client";
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypto";
 import { readdir, stat } from "fs/promises";
 import type { NextApiRequest } from "next";
 import { join } from "path";
 import prisma from "./prisma";
+import type { ApiFile } from "./types";
 
 export function randomChars(length: number) {
 	const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
@@ -69,6 +70,17 @@ export function formatBytes(bytes: number): string {
 	return `${bytes.toFixed(1)} ${units[num]}`;
 }
 
+export function StringToBytes(str: string): number {
+	const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+	const unit = units.reverse().find((u) => str.includes(u)) ?? "B";
+
+	const times = units.indexOf(unit) * 3;
+	const bytes = Number(str.split(" ")[0]);
+	if (isNaN(bytes)) return 0;
+
+	return bytes * times;
+}
+
 export async function getUser(req: NextApiRequest): Promise<User | null> {
 	const { authorization } = req.headers;
 	if (!authorization || !authorization.startsWith("Bearer ") || authorization.includes("null")) return null;
@@ -86,4 +98,49 @@ export async function getUserWithToken(req: NextApiRequest): Promise<User | null
 	const user = await prisma.user.findFirst({ where: { token: authorization } });
 
 	return user;
+}
+
+export function getFileExt(file: string): string {
+	return `.${file.split(".").slice(1).join(".")}`;
+}
+
+export function parseQuery(query: any): string {
+	return Array.isArray(query) ? query[0] : query;
+}
+
+export function sortFilesArray(array: ApiFile[], type: string): ApiFile[] {
+	const sortByName = (a: ApiFile, b: ApiFile) => {
+		if (a.name < b.name) return -1;
+		if (a.name > b.name) return 1;
+
+		return 0;
+	};
+
+	switch (type) {
+		default:
+		case "default":
+		case "date-new":
+			return array.sort((a, b) => b.date.getTime() - a.date.getTime());
+		case "date-old":
+			return array.sort((a, b) => a.date.getTime() - b.date.getTime());
+		case "bytes-small":
+			return array.sort((a, b) => StringToBytes(b.size) - StringToBytes(a.size));
+		case "bytes-large":
+			return array.sort((a, b) => StringToBytes(a.size) - StringToBytes(b.size));
+		case "name":
+			return array.sort(sortByName);
+		case "name-reverse":
+			return array.sort(sortByName).reverse();
+	}
+}
+
+export function sortLinksArray(array: Url[], type: string): Url[] {
+	switch (type) {
+		default:
+		case "default":
+		case "date-new":
+			return array.sort((a, b) => b.date.getTime() - a.date.getTime());
+		case "date-old":
+			return array.sort((a, b) => a.date.getTime() - b.date.getTime());
+	}
 }
