@@ -11,6 +11,10 @@
 	cursor: pointer;
 }
 
+a.button {
+	font-size: 21px;
+}
+
 .button.button-black {
 	background-color: $button-black;
 	transition: background-color 0.3s ease;
@@ -30,6 +34,50 @@
 	&:focus-visible {
 		outline: none;
 		background-color: $button-grey-active;
+	}
+}
+
+.button.button-blurple {
+	background-color: $button-blurple;
+	transition: background-color 0.3s ease;
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		background-color: $button-blurple-active;
+	}
+}
+
+.button.button-danger {
+	background-color: $button-danger;
+	transition: background-color 0.3s ease;
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		background-color: $button-danger-active;
+	}
+}
+
+.button.button-success {
+	background-color: $button-success;
+	transition: background-color 0.3s ease;
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		background-color: $button-success-active;
+	}
+}
+
+.button.button-yellow {
+	background-color: $button-yellow;
+	transition: background-color 0.3s ease;
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		background-color: $button-yellow-active;
 	}
 }
 

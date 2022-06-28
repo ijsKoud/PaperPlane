@@ -91,6 +91,12 @@
 	border-radius: 5px;
 }
 
+.dashboard-table-buttons {
+	.button {
+		border-radius: 0px;
+	}
+}
+
 .dashboard-table-navigation {
 	width: 100%;
 	margin-bottom: 20px;
