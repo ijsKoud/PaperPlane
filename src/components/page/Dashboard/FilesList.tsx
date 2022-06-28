@@ -14,10 +14,14 @@ interface Props {
 
 const FilesList: FC<Props> = ({ protocol }) => {
 	const [files, setFiles] = useState<ApiFile[]>([]);
+	const [update, setUpdate] = useState(false); // used to trigger useEffect hook
+
 	const [page, setPage] = useState(1);
 	const [pages, setPages] = useState(1);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [sort, setSort] = useState("default");
+
+	const [showDelete, setShowDelete] = useState(false);
 
 	const getURL = (partialUrl: string): string => `${protocol}//${partialUrl}`;
 
@@ -35,7 +39,10 @@ const FilesList: FC<Props> = ({ protocol }) => {
 			.catch(() => void 0);
 
 		return () => token.cancel("cancelled");
-	}, [page, searchQuery, sort]);
+	}, [page, searchQuery, sort, update]);
+
+	const selectFile = () => void 0;
+	const updateFileList = () => setUpdate(!update);
 
 	return (
 		<CollapseTable title="Files">
@@ -53,7 +60,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 					keys={["Preview", "Name", "Size", "Password", "Views", "Date", "Actions", "Delete"]}
 				>
 					{files.map((file) => (
-						<FileTableContent key={file.name} file={file} />
+						<FileTableContent key={file.name} {...{ file, selectFile, updateFileList }} />
 					))}
 				</Table>
 			</div>

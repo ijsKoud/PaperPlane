@@ -5,18 +5,35 @@ import type { ApiFile, FC } from "../../../../lib/types";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
 import Button from "../../../general/Button";
+import { fetch } from "../../../../lib/fetch";
 
 interface Props {
 	file: ApiFile;
+
+	updateFileList: () => void;
+	selectFile: () => void;
 }
 
-const FileTableContent: FC<Props> = ({ file }) => {
+const FileTableContent: FC<Props> = ({ file, updateFileList, selectFile }) => {
 	const getImageURL = (name: string): string => `/files/${name}`;
 	const getDate = (date: Date): string => moment(date).format("DD/MM/YYYY HH:mm:ss");
 
 	const copyUrl = () => {
 		copy(file.url);
 		toast.info("URL copied to your clipboard");
+	};
+
+	const deleteFile = async () => {
+		try {
+			const deletePromise = fetch("/api/dashboard/files/update", undefined, { method: "DELETE", data: { id: file.name } });
+			await toast.promise(deletePromise, {
+				error: "Unable to delete the file, please try again later.",
+				success: `Successfully deleted ${file.name}`,
+				pending: `Attempting to delete ${file.name}`
+			});
+		} catch (err) {}
+
+		updateFileList();
 	};
 
 	return (
@@ -53,15 +70,15 @@ const FileTableContent: FC<Props> = ({ file }) => {
 					<Button type="button" onClick={() => void 0} style="yellow">
 						<i className="fa-solid fa-pen-to-square" />
 					</Button>
-					<Button type="button" onClick={() => void 0} style="danger">
+				</div>
+			</td>
+			<td className="dashboard-table-buttons">
+				<div>
+					<input type={"checkbox"} />
+					<Button type="button" onClick={deleteFile} style="danger">
 						<i className="fa-solid fa-trash-can" />
 					</Button>
 				</div>
-			</td>
-			<td>
-				<Button type="button" onClick={() => void 0} style="danger">
-					<i className="fa-solid fa-trash-can" />
-				</Button>
 			</td>
 		</tr>
 	);
