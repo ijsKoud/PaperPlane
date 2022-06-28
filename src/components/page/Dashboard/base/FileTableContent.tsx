@@ -4,6 +4,7 @@ import React from "react";
 import type { ApiFile, FC } from "../../../../lib/types";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
+import Button from "../../../general/Button";
 
 interface Props {
 	file: ApiFile;
@@ -41,8 +42,27 @@ const FileTableContent: FC<Props> = ({ file }) => {
 				{file.views} {file.views === 1 ? "view" : "views"}
 			</td>
 			<td>{getDate(file.date)}</td>
-			<td>open, copy, edit, delete</td>
-			<td>Select button</td>
+			<td className="dashboard-table-buttons">
+				<div>
+					<Button type="link" url={file.url} style="blurple" newWindow>
+						<i className="fa-solid fa-square-arrow-up-right" />
+					</Button>
+					<Button type="button" onClick={copyUrl} style="success">
+						<i className="fa-solid fa-link" />
+					</Button>
+					<Button type="button" onClick={() => void 0} style="yellow">
+						<i className="fa-solid fa-pen-to-square" />
+					</Button>
+					<Button type="button" onClick={() => void 0} style="danger">
+						<i className="fa-solid fa-trash-can" />
+					</Button>
+				</div>
+			</td>
+			<td>
+				<Button type="button" onClick={() => void 0} style="danger">
+					<i className="fa-solid fa-trash-can" />
+				</Button>
+			</td>
 		</tr>
 	);
 };

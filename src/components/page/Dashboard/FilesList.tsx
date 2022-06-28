@@ -49,7 +49,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 			/>
 			<div className="dashboard-table-container">
 				<Table
-					columns={[250, 250, 150, 120, 150, 150, 150, 150]}
+					columns={[250, 250, 150, 120, 150, 150, 150, 100]}
 					keys={["Preview", "Name", "Size", "Password", "Views", "Date", "Actions", "Delete"]}
 				>
 					{files.map((file) => (

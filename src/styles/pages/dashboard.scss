@@ -92,8 +92,15 @@
 }
 
 .dashboard-table-buttons {
+	> div {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, 45px);
+		grid-gap: 10px;
+	}
+
 	.button {
-		border-radius: 0px;
+		height: 39px;
+		text-align: center;
 	}
 }
 

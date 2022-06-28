@@ -60,14 +60,14 @@ const CollapseTable: FC<Props> = ({ title, children }) => {
 					className="button button-text"
 					onClick={toggleOpen}
 					variants={carrotButtonVariants}
-					initial="init"
+					initial="animation"
 					animate={controller}
 				>
 					<i className="fa fa-chevron-right" />
 				</motion.button>
 				<h1>{title}</h1>
 			</div>
-			<motion.div variants={tableVariants} initial="init" animate={controller}>
+			<motion.div variants={tableVariants} initial="animation" animate={controller}>
 				{children}
 			</motion.div>
 		</div>
