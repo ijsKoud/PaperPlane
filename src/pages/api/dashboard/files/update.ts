@@ -31,8 +31,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			return res.status(204).send(undefined);
 		}
 	} else if (req.method === "POST") {
-		const { name, newName, password } = req.body;
-		if (typeof name !== "string" || typeof newName !== "string" || typeof password !== "string")
+		const { name, newName, password, visible } = req.body;
+		if (typeof name !== "string" || typeof newName !== "string" || typeof password !== "string" || typeof visible !== "boolean")
 			return res.status(400).send({ message: "Invalid body provided." });
 
 		const id = name.split(".")[0];
@@ -42,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		try {
 			const pswd = password.length ? encryptPassword(password) : null;
 			const n = newName.split(".")[0] || id;
-			await prisma.file.update({ where: { id }, data: { id: n, password: pswd } });
+			await prisma.file.update({ where: { id }, data: { id: n, password: pswd, visible } });
 
 			res.status(204).send(undefined);
 		} catch (err) {

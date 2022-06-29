@@ -189,3 +189,12 @@
 		align-items: center;
 	}
 }
+
+.dashboard-table-visibility {
+	display: flex;
+	align-items: center;
+
+	i:first-child {
+		margin-right: 10px;
+	}
+}

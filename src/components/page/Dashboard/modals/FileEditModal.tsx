@@ -1,7 +1,8 @@
-import { Field, Formik, Form as FormikForm } from "formik";
+import { Field, Formik, Form as FormikForm, FastFieldProps } from "formik";
 import React from "react";
+import ReactSwitch from "react-switch";
 import { toast } from "react-toastify";
-import { object, string } from "yup";
+import { boolean, object, string } from "yup";
 import { fetch } from "../../../../lib/fetch";
 import type { FC } from "../../../../lib/types";
 import Button from "../../../general/Button";
@@ -14,23 +15,27 @@ interface Props {
 
 	isOpen: boolean;
 	name: string;
+	visible: boolean;
 }
 
 interface FormProps {
 	name: string;
+	visible: boolean;
+
 	onClick: () => void;
 	updateFileList: () => void;
 }
 
-const Form: FC<FormProps> = ({ name, updateFileList, onClick }) => {
+const Form: FC<FormProps> = ({ name, visible, updateFileList, onClick }) => {
 	const validationSchema = object({
 		name: string().required("Required"),
+		visible: boolean().required(),
 		password: string().optional()
 	});
 
-	const onSubmit = async ({ name: newName, password }: { name: string; password: string }) => {
+	const onSubmit = async ({ name: newName, password, visible }: { name: string; password: string; visible: boolean }) => {
 		try {
-			const deletePromise = fetch("/api/dashboard/files/update", undefined, { method: "POST", data: { name, newName, password } });
+			const deletePromise = fetch("/api/dashboard/files/update", undefined, { method: "POST", data: { name, newName, password, visible } });
 			await toast.promise(deletePromise, {
 				error: "Unable to update the file, please try again later.",
 				success: `Successfully updated ${name}`,
@@ -50,6 +55,7 @@ const Form: FC<FormProps> = ({ name, updateFileList, onClick }) => {
 			onSubmit={onSubmit}
 			initialValues={{
 				name,
+				visible,
 				password: ""
 			}}
 		>
@@ -62,6 +68,22 @@ const Form: FC<FormProps> = ({ name, updateFileList, onClick }) => {
 					<div className="credentials-item">
 						<Field as="input" type="password" id="password" name="password" placeholder="super secret password" />
 						<p className="credentials-error">{errors.password ?? <wbr />}</p>
+					</div>
+					<div className="credentials-item">
+						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+							<p style={{ fontSize: 25 }}>Visible to everyone:</p>
+							<Field id="visible" name="visible">
+								{({ form, field }: FastFieldProps<boolean>) => (
+									<ReactSwitch
+										checkedIcon={false}
+										uncheckedIcon={false}
+										onChange={(checked) => form.setFieldValue("visible", checked)}
+										checked={field.value}
+									/>
+								)}
+							</Field>
+						</div>
+						<p className="credentials-error">{errors.visible ?? <wbr />}</p>
 					</div>
 					{isSubmitting ? (
 						<Loader size={30} />
@@ -76,7 +98,7 @@ const Form: FC<FormProps> = ({ name, updateFileList, onClick }) => {
 	);
 };
 
-const FileEditModal: FC<Props> = ({ onClick, isOpen, name, updateFileList }) => {
+const FileEditModal: FC<Props> = ({ onClick, isOpen, name, visible, updateFileList }) => {
 	return (
 		<Modal {...{ onClick, isOpen }}>
 			<div className="upload-modal-content">
@@ -86,7 +108,7 @@ const FileEditModal: FC<Props> = ({ onClick, isOpen, name, updateFileList }) => 
 						<i className="fa-solid fa-times" />
 					</Button>
 				</div>
-				<Form {...{ name, updateFileList, onClick }} />
+				<Form {...{ name, visible, updateFileList, onClick }} />
 			</div>
 		</Modal>
 	);

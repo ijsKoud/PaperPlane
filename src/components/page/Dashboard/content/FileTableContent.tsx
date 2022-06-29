@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Button from "../../../general/Button";
 import { fetch } from "../../../../lib/fetch";
 import FileEditModal from "../modals/FileEditModal";
+import ToolTip from "../../../general/ToolTip";
 
 interface Props {
 	file: ApiFile;
@@ -44,7 +45,7 @@ const FileTableContent: FC<Props> = ({ file, updateFileList, selectFile }) => {
 
 	return (
 		<>
-			<FileEditModal {...{ isOpen: showModal, onClick, name: file.name, updateFileList }} />
+			<FileEditModal {...{ isOpen: showModal, onClick, name: file.name, visible: file.visible, updateFileList }} />
 			<tr>
 				<td>
 					{file.isImage ? (
@@ -62,7 +63,16 @@ const FileTableContent: FC<Props> = ({ file, updateFileList, selectFile }) => {
 				</td>
 				<td>{file.name}</td>
 				<td>{file.size}</td>
-				<td>{file.pwdProtection ? <i className="fa-solid fa-check" /> : <i className="fa-solid fa-times" />}</td>
+				<td>
+					<div className="dashboard-table-visibility">
+						<ToolTip content={`Password Protection: ${file.pwdProtection ? "on" : "off"}`}>
+							<i className={file.pwdProtection ? "fa-solid fa-lock" : "fa-solid fa-lock-open"} />
+						</ToolTip>
+						<ToolTip content={`Visibility: ${file.visible ? "everyone" : "you"}`}>
+							<i className={file.visible ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"} />
+						</ToolTip>
+					</div>
+				</td>
 				<td>
 					{file.views} {file.views === 1 ? "view" : "views"}
 				</td>

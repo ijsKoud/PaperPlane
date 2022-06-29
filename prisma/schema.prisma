@@ -46,4 +46,5 @@ model File {
 
   // Privacy Config
   password String?
+  visible  Boolean @default(true)
 }

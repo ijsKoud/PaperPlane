@@ -32,6 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			views: f.views,
 			isImage: (lookup(`name${fileExt}`) || "").includes("image"),
 			pwdProtection: Boolean(f.password),
+			visible: f.visible,
 			url: `${req.headers.host}/files/${apiFileName}`
 		};
 	});

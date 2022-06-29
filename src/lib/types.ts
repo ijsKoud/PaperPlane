@@ -20,6 +20,7 @@ export interface ApiFile {
 	name: string;
 	url: string;
 
+	visible: boolean;
 	pwdProtection: boolean;
 	size: string;
 	isImage: boolean;
