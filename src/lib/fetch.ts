@@ -1,4 +1,5 @@
 import type { AxiosPromise, AxiosRequestConfig, CancelToken } from "axios";
+import { getCookie } from "cookies-next";
 import axios from "axios";
 
 export function getCancelToken() {
@@ -10,7 +11,7 @@ export function fetch<V = unknown>(path: string, cancelToken?: CancelToken, opti
 	options.cancelToken ??= cancelToken;
 
 	options.headers ??= {};
-	options.headers["Authorization"] ??= `Bearer ${localStorage.getItem("PAPERPLANE_AUTH")}`;
+	options.headers["Authorization"] ??= `Bearer ${getCookie("PAPERPLANE_AUTH")}`;
 
 	if (options.method !== "get" && options.method !== "GET") options.headers["Content-Type"] ??= "application/json";
 

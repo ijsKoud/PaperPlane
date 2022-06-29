@@ -8,6 +8,7 @@ import Form from "../components/page/login/Form";
 import { fetch } from "../lib/fetch";
 import { useAuth } from "../lib/hooks/useAuth";
 import type { ApiError, LoginCreds } from "../lib/types";
+import { setCookies } from "cookies-next";
 
 const Login: NextPage = () => {
 	const { user, fetch: userFetch } = useAuth();
@@ -26,7 +27,7 @@ const Login: NextPage = () => {
 				method: "POST",
 				data
 			});
-			localStorage.setItem("PAPERPLANE_AUTH", token.data.token);
+			setCookies("PAPERPLANE_AUTH", token.data.token, { maxAge: 31556952e3 });
 			userFetch();
 		} catch (error) {
 			if (!error || typeof error !== "object" || !("isAxiosError" in error)) return;
