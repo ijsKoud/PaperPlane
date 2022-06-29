@@ -8,7 +8,7 @@ import FileTableContent from "./content/FileTableContent";
 import FilterBar from "./base/FilterBar";
 import CollapseTable from "./base/CollapseTable";
 import { useFormik } from "formik";
-import DeleteItemsPopup from "./base/DeleteItemsPopup";
+import DeleteFilePopup from "./content/DeleteFilePopup";
 import { toast } from "react-toastify";
 import Loader from "../../general/Loader";
 
@@ -59,7 +59,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 
 	return (
 		<CollapseTable title="Files">
-			<DeleteItemsPopup {...{ formik, updateFileList }} />
+			<DeleteFilePopup {...{ formik, updateFileList }} />
 			<FilterBar
 				page={page}
 				pages={pages}

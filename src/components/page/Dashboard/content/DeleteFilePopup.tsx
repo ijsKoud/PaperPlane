@@ -11,7 +11,7 @@ interface Props {
 	updateFileList: () => void;
 }
 
-const DeleteItemsPopup: FC<Props> = ({ formik, updateFileList }) => {
+const DeleteFilePopup: FC<Props> = ({ formik, updateFileList }) => {
 	const controller = useAnimation();
 	const variants: Variants = {
 		show: {
@@ -69,4 +69,4 @@ const DeleteItemsPopup: FC<Props> = ({ formik, updateFileList }) => {
 	);
 };
 
-export default DeleteItemsPopup;
+export default DeleteFilePopup;
