@@ -19,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			name: url.id,
 			redirect: url.url,
 			url: `${req.headers.host}/r/${url.id}`,
-			pinned: url.pinned,
 			visible: url.visible,
 			visits: url.visits
 		};

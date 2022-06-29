@@ -27,7 +27,6 @@ export interface ApiFile {
 
 	date: Date;
 	views: number;
-	pinned: boolean;
 }
 
 export interface ApiURL {
@@ -38,7 +37,6 @@ export interface ApiURL {
 	visible: boolean;
 	date: Date;
 	visits: number;
-	pinned: boolean;
 }
 
 export interface FilesApiRes {
