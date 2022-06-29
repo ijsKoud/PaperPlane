@@ -113,9 +113,13 @@ export class Routes {
 
 	private async getRedirect(req: Request, res: Response) {
 		const { id } = req.params;
-		const url = await this.server.prisma.url.findUnique({ where: { id } });
 
+		const url = await this.server.prisma.url.findUnique({ where: { id } });
 		if (!url) return this.server.next.render404(req, res);
+
+		const authToken = req.cookies["PAPERPLANE_AUTH"];
+		const cookieUser = await getUser(authToken, this.server.prisma);
+		if (!url.visible && !cookieUser) return this.server.next.render404(req, res);
 		res.redirect(url.url);
 
 		await this.server.prisma.url.update({ where: { id }, data: { visits: { increment: 1 } } });
