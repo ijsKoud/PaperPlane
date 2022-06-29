@@ -9,6 +9,7 @@ import FilterBar from "./base/FilterBar";
 import CollapseTable from "./base/CollapseTable";
 import { useFormik } from "formik";
 import DeleteItemsPopup from "./base/DeleteItemsPopup";
+import { toast } from "react-toastify";
 
 interface Props {
 	protocol: string;
@@ -38,7 +39,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 
 		fetch<FilesApiRes>(`/api/dashboard/files?${params}`, token.token)
 			.then((res) => updateStates(res.data))
-			.catch(() => void 0);
+			.catch(() => toast.error("Unable to load the files list, please try again later."));
 
 		return () => token.cancel("cancelled");
 	}, [page, searchQuery, sort, update]);
