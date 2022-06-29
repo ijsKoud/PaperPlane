@@ -1,10 +1,10 @@
-import type { Url, User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypto";
 import { readdir, stat } from "fs/promises";
 import type { NextApiRequest } from "next";
 import { join } from "path";
 import prisma from "./prisma";
-import type { ApiFile } from "./types";
+import type { ApiFile, ApiURL } from "./types";
 
 export function randomChars(length: number) {
 	const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
@@ -138,7 +138,7 @@ export function sortFilesArray(array: ApiFile[], type: string): ApiFile[] {
 	}
 }
 
-export function sortLinksArray(array: Url[], type: string): Url[] {
+export function sortLinksArray(array: ApiURL[], type: string): ApiURL[] {
 	switch (type) {
 		default:
 		case "default":
@@ -146,6 +146,10 @@ export function sortLinksArray(array: Url[], type: string): Url[] {
 			return array.sort((a, b) => b.date.getTime() - a.date.getTime());
 		case "date-old":
 			return array.sort((a, b) => a.date.getTime() - b.date.getTime());
+		case "visits-up":
+			return array.sort((a, b) => b.visits - a.visits);
+		case "visits-down":
+			return array.sort((a, b) => a.visits - b.visits);
 	}
 }
 

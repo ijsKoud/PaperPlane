@@ -30,6 +30,17 @@ export interface ApiFile {
 	pinned: boolean;
 }
 
+export interface ApiURL {
+	name: string;
+	url: string;
+	redirect: string;
+
+	visible: boolean;
+	date: Date;
+	visits: number;
+	pinned: boolean;
+}
+
 export interface FilesApiRes {
 	files: ApiFile[];
 	pages: number;
