@@ -61,6 +61,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 		<CollapseTable title="Files">
 			<DeleteFilePopup {...{ formik, updateFileList }} />
 			<FilterBar
+				id="files"
 				page={page}
 				pages={pages}
 				setPage={setPage}

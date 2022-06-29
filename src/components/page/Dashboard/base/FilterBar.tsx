@@ -4,6 +4,7 @@ import Button from "../../../general/Button";
 import SelectMenu from "../../../general/SelectMenu";
 
 interface Props {
+	id: string;
 	page: number;
 	pages: number;
 	setPage: (page: number) => void;
@@ -16,7 +17,7 @@ interface Props {
 	setSort: (option: string) => void;
 }
 
-const FilterBar: FC<Props> = ({ page, pages, setPage, setSearchQuery, sortOptions, setSort }) => {
+const FilterBar: FC<Props> = ({ id, page, pages, setPage, setSearchQuery, sortOptions, setSort }) => {
 	const options = Object.keys(sortOptions).map((opt) => ({ label: sortOptions[opt], value: opt }));
 	const [searchTerm, setSearchTerm] = useState("");
 
@@ -54,7 +55,7 @@ const FilterBar: FC<Props> = ({ page, pages, setPage, setSearchQuery, sortOption
 					<i className="fa-solid fa-angle-left" /> Previous
 				</Button>
 				<SelectMenu
-					instanceId="page"
+					instanceId={`page-${id}`}
 					onChange={(v) => setPage(v?.value ?? 1)}
 					options={Array(pages)
 						.fill(null)
@@ -67,7 +68,7 @@ const FilterBar: FC<Props> = ({ page, pages, setPage, setSearchQuery, sortOption
 				</Button>
 			</div>
 			<SelectMenu
-				instanceId="sort-type"
+				instanceId={`sort-type-${id}`}
 				onChange={onSortChange}
 				options={options}
 				defaultValue={options[0]}
