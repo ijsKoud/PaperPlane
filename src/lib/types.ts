@@ -51,6 +51,14 @@ export interface URLApiRes {
 	pages: number;
 }
 
+export interface StatsApi {
+	files: {
+		bytes: string;
+		size: number;
+	};
+	links: number;
+}
+
 export const LINK_SORT_OPTIONS = {
 	"date-new": "Date: New - Old",
 	"date-old": "Date: Old - New",
