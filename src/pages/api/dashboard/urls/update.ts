@@ -24,8 +24,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			if (!url) return res.status(404).send({ message: "URL was not found on the server." });
 
 			try {
-				await prisma.url.delete({ where: url });
-			} catch (err) {}
+				await prisma.url.delete({ where: { id: url.id } });
+			} catch (err) {
+				return res.status(404).send({ message: "URL was not found on the server." });
+			}
 
 			return res.status(204).send(undefined);
 		}
