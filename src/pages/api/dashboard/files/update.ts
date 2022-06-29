@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			const n = newName.split(".")[0] || id;
 			await prisma.file.update({ where: { id }, data: { id: n, password: pswd, visible } });
 
-			res.status(204).send(undefined);
+			return res.status(204).send(undefined);
 		} catch (err) {
 			console.error(err);
 			res.status(500).send({ message: "Internal error, please try again later." });

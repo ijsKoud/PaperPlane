@@ -97,7 +97,7 @@ const Navbar: FC = () => {
 						<motion.div variants={variants} initial="hidden" animate={controller} className="navbar-dropdown-content">
 							{isMobile && (
 								<>
-									<Button onClick={closeMenu} type="link" style="text" url="/dasboard">
+									<Button onClick={closeMenu} type="link" style="text" url="/dashboard">
 										<i className="fa-solid fa-chart-line" /> Dashboard
 									</Button>
 									<Button onClick={closeMenu} type="link" style="text" url="/settings">
