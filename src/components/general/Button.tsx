@@ -22,7 +22,7 @@ interface ButtonProps {
 	onClick: () => void;
 }
 
-type ButtonStyle = "black" | "text";
+type ButtonStyle = "black" | "grey" | "blurple" | "yellow" | "danger" | "success" | "text";
 type Props = ButtonProps | LinkProps;
 
 const Button: FC<Props> = (props) => {
@@ -35,7 +35,8 @@ const Button: FC<Props> = (props) => {
 		return (
 			<Link href={url}>
 				<a onClick={onClick} target={newWindow ? "_blank" : "_self"} rel="noopener noreferrer" className={className}>
-					{text ?? children} {external && <i className="fa-solid fa-arrow-up-right-from-square" />}
+					{text ?? children}
+					{external && <i className="fa-solid fa-arrow-up-right-from-square" />}
 				</a>
 			</Link>
 		);

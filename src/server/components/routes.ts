@@ -114,7 +114,9 @@ export class Routes {
 				return;
 			}
 
-			await this.server.prisma.file.update({ where: { id: fileId }, data: { views: { increment: 1 } } });
+			// most unfullfill error comes from a timed out query, mainly due to a cancelled view request. This bug will be fixed later
+			if (!req.query.preview)
+				await this.server.prisma.file.update({ where: { id: fileId }, data: { views: { increment: 1 } } }).catch(() => void 0);
 		});
 	}
 
@@ -155,7 +157,7 @@ export class Routes {
 				((req.files ?? []) as Express.Multer.File[]).map(async (f) => {
 					const id = generateId() || f.originalname.split(".")[0];
 					const file = await this.server.prisma.file.create({
-						data: { id, date: new Date(), path: join(this.server.data.filesDir, f.filename) }
+						data: { id, date: new Date(), path: join(this.server.data.filesDir, f.filename), size: BigInt(f.size) }
 					});
 					const fileExt = f.filename.split(".").slice(1).join(".");
 

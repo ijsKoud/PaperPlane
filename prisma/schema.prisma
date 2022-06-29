@@ -31,6 +31,9 @@ model Url {
 
   // Stats Config
   visits Int @default(0)
+
+  // Privacy Config
+  visible Boolean @default(true)
 }
 
 model File {
@@ -40,9 +43,10 @@ model File {
   date DateTime
 
   // Stats Config
-  views  Int     @default(0)
-  pinned Boolean @default(false)
+  views Int    @default(0)
+  size  BigInt // size in bigint 
 
   // Privacy Config
   password String?
+  visible  Boolean @default(true)
 }

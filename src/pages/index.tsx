@@ -1,11 +1,9 @@
 import type { NextPage } from "next";
 import Button from "../components/general/Button";
-import Navbar from "../components/general/Navbar";
 
 const Home: NextPage = () => {
 	return (
 		<main className="home-page-container">
-			<Navbar />
 			<div className="home-content">
 				<div className="home-title">
 					<img alt="PaperPlane logo" src="assets/svg/paperplane_nobg.svg" />

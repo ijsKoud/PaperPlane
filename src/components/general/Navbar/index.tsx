@@ -80,6 +80,7 @@ const Navbar: FC = () => {
 		<>
 			<UploadModal isOpen={isUploadOpen} onClick={closeUpload} />
 			<CreateModal isOpen={isCreateOpen} onClick={closeCreate} />
+			<div style={{ height: 120, width: "100vw" }} />
 			<div className="navbar-container-wrapper">
 				<div className="navbar-container">
 					<div className="navbar-content">
