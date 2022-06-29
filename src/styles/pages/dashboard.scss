@@ -138,34 +138,6 @@
 	align-items: center;
 }
 
-@media screen and (max-width: 970px) {
-	.dashboard-table-navigation,
-	.dashboard-table-page-select {
-		flex-direction: column;
-	}
-
-	.dashboard-table-search,
-	.dashboard-table-page-select,
-	.dashboard-table-dropdown,
-	.dashboard-table-search input,
-	.dashboard-table-page-select button {
-		width: 100% !important;
-	}
-
-	.dashboard-table-search,
-	.dashboard-table-page-select,
-	.dashboard-table-dropdown,
-	.dashboard-table-page-select button {
-		margin-bottom: 10px;
-	}
-
-	.dashboard-table-page-select {
-		button:last-child {
-			margin-bottom: 0px;
-		}
-	}
-}
-
 .dashboard-delete-items {
 	position: fixed;
 	z-index: 9999;
@@ -198,5 +170,94 @@
 
 	i:first-child {
 		margin-right: 10px;
+	}
+}
+
+.dashboard-stats {
+	background-color: $comp-background2;
+
+	margin-bottom: 1rem;
+	padding: 10px;
+	border-radius: 7px;
+	width: 90%;
+}
+
+.dashboard-stats-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	h2 {
+		font-size: 30px;
+		font-weight: 500;
+	}
+
+	p {
+		font-size: 22px;
+	}
+
+	div {
+		width: 100%;
+		margin: 0px 10px;
+		border-radius: 5px;
+
+		background-color: $page-background;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		&:first-child {
+			margin-left: 0px;
+		}
+
+		&:last-child {
+			margin-right: 0px;
+		}
+	}
+}
+
+@media screen and (max-width: 970px) {
+	.dashboard-table-navigation,
+	.dashboard-table-page-select {
+		flex-direction: column;
+	}
+
+	.dashboard-table-search,
+	.dashboard-table-page-select,
+	.dashboard-table-dropdown,
+	.dashboard-table-search input,
+	.dashboard-table-page-select button {
+		width: 100% !important;
+	}
+
+	.dashboard-table-search,
+	.dashboard-table-page-select,
+	.dashboard-table-dropdown,
+	.dashboard-table-page-select button {
+		margin-bottom: 10px;
+	}
+
+	.dashboard-table-page-select {
+		button:last-child {
+			margin-bottom: 0px;
+		}
+	}
+
+	.dashboard-stats-content {
+		flex-direction: column;
+
+		div {
+			margin: 10px 10px !important;
+
+			&:first-child {
+				margin-bottom: 0px !important;
+			}
+
+			&:last-child {
+				margin-top: 0px !important;
+			}
+		}
 	}
 }
