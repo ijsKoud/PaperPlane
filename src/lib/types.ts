@@ -46,6 +46,11 @@ export interface FilesApiRes {
 	pages: number;
 }
 
+export interface URLApiRes {
+	urls: ApiURL[];
+	pages: number;
+}
+
 export const LINK_SORT_OPTIONS = {
 	"date-new": "Date: New - Old",
 	"date-old": "Date: Old - New",
