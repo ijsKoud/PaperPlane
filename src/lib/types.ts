@@ -46,6 +46,15 @@ export interface FilesApiRes {
 	pages: number;
 }
 
+export const LINK_SORT_OPTIONS = {
+	"date-new": "Date: New - Old",
+	"date-old": "Date: Old - New",
+	"visits-up": "Visits: High - Small",
+	"visits-down": "Visits: Small - High",
+	name: "Name: A - Z",
+	"name-reverse": "Name: Z - A"
+};
+
 export const FILE_SORT_OPTIONS = {
 	"date-new": "Date: New - Old",
 	"date-old": "Date: Old - New",

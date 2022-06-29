@@ -139,6 +139,13 @@ export function sortFilesArray(array: ApiFile[], type: string): ApiFile[] {
 }
 
 export function sortLinksArray(array: ApiURL[], type: string): ApiURL[] {
+	const sortByName = (a: ApiURL, b: ApiURL) => {
+		if (a.name < b.name) return -1;
+		if (a.name > b.name) return 1;
+
+		return 0;
+	};
+
 	switch (type) {
 		default:
 		case "default":
@@ -150,6 +157,10 @@ export function sortLinksArray(array: ApiURL[], type: string): ApiURL[] {
 			return array.sort((a, b) => b.visits - a.visits);
 		case "visits-down":
 			return array.sort((a, b) => a.visits - b.visits);
+		case "name":
+			return array.sort(sortByName);
+		case "name-reverse":
+			return array.sort(sortByName).reverse();
 	}
 }
 
