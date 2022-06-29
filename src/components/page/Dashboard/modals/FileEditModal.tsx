@@ -16,26 +16,32 @@ interface Props {
 	isOpen: boolean;
 	name: string;
 	visible: boolean;
+	password: string;
 }
 
 interface FormProps {
 	name: string;
 	visible: boolean;
+	password: string;
 
 	onClick: () => void;
 	updateFileList: () => void;
 }
 
-const Form: FC<FormProps> = ({ name, visible, updateFileList, onClick }) => {
+const Form: FC<FormProps> = ({ name, password, visible, updateFileList, onClick }) => {
 	const validationSchema = object({
 		name: string().required("Required"),
 		visible: boolean().required(),
 		password: string().optional()
 	});
 
-	const onSubmit = async ({ name: newName, password, visible }: { name: string; password: string; visible: boolean }) => {
+	const onSubmit = async ({ name: newName, password: pwd, visible }: { name: string; password: string; visible: boolean }) => {
 		try {
-			const deletePromise = fetch("/api/dashboard/files/update", undefined, { method: "POST", data: { name, newName, password, visible } });
+			pwd ??= "";
+			const deletePromise = fetch("/api/dashboard/files/update", undefined, {
+				method: "POST",
+				data: { name, newName, password: pwd, visible }
+			});
 			await toast.promise(deletePromise, {
 				error: "Unable to update the file, please try again later.",
 				success: `Successfully updated ${name}`,
@@ -56,7 +62,7 @@ const Form: FC<FormProps> = ({ name, visible, updateFileList, onClick }) => {
 			initialValues={{
 				name,
 				visible,
-				password: ""
+				password
 			}}
 		>
 			{({ errors, isValid, isSubmitting }) => (
@@ -98,7 +104,7 @@ const Form: FC<FormProps> = ({ name, visible, updateFileList, onClick }) => {
 	);
 };
 
-const FileEditModal: FC<Props> = ({ onClick, isOpen, name, visible, updateFileList }) => {
+const FileEditModal: FC<Props> = ({ onClick, isOpen, name, password, visible, updateFileList }) => {
 	return (
 		<Modal {...{ onClick, isOpen }}>
 			<div className="upload-modal-content">
@@ -108,7 +114,7 @@ const FileEditModal: FC<Props> = ({ onClick, isOpen, name, visible, updateFileLi
 						<i className="fa-solid fa-times" />
 					</Button>
 				</div>
-				<Form {...{ name, visible, updateFileList, onClick }} />
+				<Form {...{ name, password, visible, updateFileList, onClick }} />
 			</div>
 		</Modal>
 	);

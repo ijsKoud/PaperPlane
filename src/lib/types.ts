@@ -21,9 +21,11 @@ export interface ApiFile {
 	url: string;
 
 	visible: boolean;
-	pwdProtection: boolean;
 	size: string;
 	isImage: boolean;
+
+	pwdProtection: boolean;
+	password: string | null;
 
 	date: Date;
 	views: number;

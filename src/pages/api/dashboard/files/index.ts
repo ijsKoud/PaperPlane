@@ -2,7 +2,7 @@ import Fuse from "fuse.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import type { ApiFile } from "../../../../lib/types";
-import { chunk, formatBytes, getFileExt, getUser, parseQuery, sortFilesArray } from "../../../../lib/utils";
+import { chunk, decryptToken, formatBytes, getFileExt, getUser, parseQuery, sortFilesArray } from "../../../../lib/utils";
 import { lookup } from "mime-types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -32,6 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			views: f.views,
 			isImage: (lookup(`name${fileExt}`) || "").includes("image"),
 			pwdProtection: Boolean(f.password),
+			password: f.password ? decryptToken(f.password) : null,
 			visible: f.visible,
 			url: `${req.headers.host}/files/${apiFileName}`
 		};
