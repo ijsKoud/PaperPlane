@@ -10,6 +10,7 @@ import CollapseTable from "./base/CollapseTable";
 import { useFormik } from "formik";
 import DeleteItemsPopup from "./base/DeleteItemsPopup";
 import { toast } from "react-toastify";
+import Loader from "../../general/Loader";
 
 interface Props {
 	protocol: string;
@@ -18,6 +19,7 @@ interface Props {
 const FilesList: FC<Props> = ({ protocol }) => {
 	const [files, setFiles] = useState<ApiFile[]>([]);
 	const [update, setUpdate] = useState(false); // used to trigger useEffect hook
+	const [loading, setLoading] = useState(false);
 
 	const [page, setPage] = useState(1);
 	const [pages, setPages] = useState(1);
@@ -25,7 +27,6 @@ const FilesList: FC<Props> = ({ protocol }) => {
 	const [sort, setSort] = useState("default");
 
 	const formik = useFormik<Record<string, boolean>>({ initialValues: {}, onSubmit: () => void 0 });
-
 	const getURL = (partialUrl: string): string => `${protocol}//${partialUrl}`;
 
 	useEffect(() => {
@@ -39,6 +40,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 
 		fetch<FilesApiRes>(`/api/dashboard/files?${params}`, token.token)
 			.then((res) => updateStates(res.data))
+			.then(() => setLoading(false))
 			.catch(() => toast.error("Unable to load the files list, please try again later."));
 
 		return () => token.cancel("cancelled");
@@ -67,14 +69,20 @@ const FilesList: FC<Props> = ({ protocol }) => {
 				sortOptions={FILE_SORT_OPTIONS}
 			/>
 			<div className="dashboard-table-container">
-				<Table
-					columns={[250, 250, 150, 120, 150, 150, 150, 130]}
-					keys={["Preview", "Name", "Size", "Visibility", "Views", "Date", "Actions", "Delete"]}
-				>
-					{files.map((file) => (
-						<FileTableContent key={file.name} {...{ file, selectFile, updateFileList }} />
-					))}
-				</Table>
+				{loading ? (
+					<div style={{ display: "grid", placeItems: "center", width: "100%" }}>
+						<Loader size={30} />
+					</div>
+				) : (
+					<Table
+						columns={[250, 250, 150, 120, 150, 150, 150, 130]}
+						keys={["Preview", "Name", "Size", "Visibility", "Views", "Date", "Actions", "Delete"]}
+					>
+						{files.map((file) => (
+							<FileTableContent key={file.name} {...{ file, selectFile, updateFileList }} />
+						))}
+					</Table>
+				)}
 			</div>
 		</CollapseTable>
 	);
