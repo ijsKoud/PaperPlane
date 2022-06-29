@@ -30,7 +30,11 @@ model Url {
   date DateTime
 
   // Stats Config
-  visits Int @default(0)
+  visits Int     @default(0)
+  pinned Boolean @default(false)
+
+  // Privacy Config
+  visible Boolean @default(true)
 }
 
 model File {
