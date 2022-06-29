@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
-import { encryptPassword, getUser } from "../../../../lib/utils";
+import { encryptToken, getUser } from "../../../../lib/utils";
 import { unlink } from "fs/promises";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -40,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		if (!file) return res.status(404).send({ message: "No file found on the server." });
 
 		try {
-			const pswd = password.length ? encryptPassword(password) : null;
+			const pswd = password.length ? encryptToken(password) : null;
 			const n = newName.split(".")[0] || id;
 			await prisma.file.update({ where: { id }, data: { id: n, password: pswd, visible } });
 

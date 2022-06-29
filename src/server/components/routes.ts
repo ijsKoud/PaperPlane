@@ -1,9 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
-import { scryptSync, timingSafeEqual } from "node:crypto";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir } from "node:fs/promises";
-import { formatBytes, generateId, getConfig } from "../utils";
+import { decryptToken, formatBytes, generateId, getConfig, getUser } from "../utils";
 import { join } from "node:path";
 import { rateLimit } from "express-rate-limit";
 
@@ -77,34 +76,26 @@ export class Routes {
 
 	private async getFile(req: Request, res: Response) {
 		const { id } = req.params;
-		const { password, check } = req.query;
-		const isUserAgent = req.headers["user-agent"] === this.DISCORD_IMAGE_AGENT;
 
+		const isUserAgent = req.headers["user-agent"] === this.DISCORD_IMAGE_AGENT;
 		const user = await this.server.prisma.user.findFirst();
 
 		const fileId = id.includes(".") ? id.split(".")[0] : id;
+		const password = req.cookies[fileId];
+		const authToken = req.cookies["PAPERPLANE_AUTH"];
+
 		const file = await this.server.prisma.file.findUnique({ where: { id: fileId } });
-
 		if (!file) return this.server.next.render404(req, res);
-		if (file.password && !password && !isUserAgent) return this.server.next.render(req, res, `/files/${id}?type=password`);
-		if (user?.embedEnabled && isUserAgent)
-			return this.server.next.render(
-				req,
-				res,
-				`/files/${id}?type=discord&p=${encodeURIComponent(typeof password === "string" ? password : "")}`
-			);
+		if (user?.embedEnabled && isUserAgent) return this.server.next.render(req, res, `/files/${id}?type=discord`);
 
-		if (file.password && (!password || typeof password !== "string")) return res.status(401).send({ message: "Unauthorized" });
-		if (file.password) {
-			const [salt, key] = file.password.split(":");
-			const passwordBuffer = scryptSync(password as string, salt, 64);
+		const cookieUser = await getUser(authToken, this.server.prisma);
+		if (file.visible && !cookieUser) return this.server.next.render(req, res, "/notfound");
+		if (file.password && !cookieUser) {
+			if (!password || typeof password !== "string") return this.server.next.render(req, res, `/files/${id}?type=password`);
 
-			const keyBuffer = Buffer.from(key, "hex");
-			const match = timingSafeEqual(passwordBuffer, keyBuffer);
-			if (!match) return res.status(401).send({ message: "Incorrect password provided" });
-
-			// check if a check param is present -> send 204 success res back
-			if (check) return res.sendStatus(204);
+			const [decrypted] = decryptToken(password).split(".");
+			const [fileDecrypted] = decryptToken(file.password).split(".");
+			if (decrypted !== fileDecrypted) return this.server.next.render(req, res, `/files/${id}?type=password`);
 		}
 
 		res.sendFile(file.path, async (err) => {
