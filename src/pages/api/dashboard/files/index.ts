@@ -29,7 +29,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			size: formatBytes(Number(f.size)),
 			_size: f.size,
 			date: f.date,
-			pinned: f.pinned,
 			views: f.views,
 			isImage: (lookup(`name${fileExt}`) || "").includes("image"),
 			pwdProtection: Boolean(f.password),
