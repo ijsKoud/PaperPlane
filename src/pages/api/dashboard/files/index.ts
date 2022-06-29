@@ -2,7 +2,7 @@ import Fuse from "fuse.js";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import type { ApiFile } from "../../../../lib/types";
-import { chunk, getFileExt, getUser, parseQuery, sortFilesArray } from "../../../../lib/utils";
+import { chunk, formatBytes, getFileExt, getUser, parseQuery, sortFilesArray } from "../../../../lib/utils";
 import { lookup } from "mime-types";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -26,7 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 		return {
 			name: apiFileName,
-			size: f.size,
+			size: formatBytes(Number(f.size)),
+			_size: f.size,
 			date: f.date,
 			pinned: f.pinned,
 			views: f.views,
@@ -43,6 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		apiRes = search.search(searchQ).map((sr) => sr.item);
 	}
 
+	// @ts-ignore prop is there but not in types
 	const sortedArr = sortFilesArray(apiRes, sortType);
 	const chunks = chunk(sortedArr, 25);
 	res.send({ files: chunks[isNaN(page) ? 0 : page - 1] ?? [], pages: chunks.length });

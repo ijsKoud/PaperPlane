@@ -70,17 +70,6 @@ export function formatBytes(bytes: number): string {
 	return `${bytes.toFixed(1)} ${units[num]}`;
 }
 
-export function StringToBytes(str: string): number {
-	const units = ["B", "kB", "MB", "GB", "TB", "PB"];
-	const unit = units.reverse().find((u) => str.includes(u)) ?? "B";
-
-	const times = units.indexOf(unit) * 3;
-	const bytes = Number(str.split(" ")[0]);
-	if (isNaN(bytes)) return 0;
-
-	return bytes * times;
-}
-
 export async function getUser(req: NextApiRequest): Promise<User | null> {
 	const { authorization } = req.headers;
 	if (!authorization || !authorization.startsWith("Bearer ") || authorization.includes("null")) return null;
@@ -108,8 +97,9 @@ export function parseQuery(query: any): string {
 	return Array.isArray(query) ? query[0] : query;
 }
 
-export function sortFilesArray(array: ApiFile[], type: string): ApiFile[] {
-	const sortByName = (a: ApiFile, b: ApiFile) => {
+type AltApiFile = ApiFile & { _size: bigint };
+export function sortFilesArray(array: AltApiFile[], type: string): AltApiFile[] {
+	const sortByName = (a: AltApiFile, b: AltApiFile) => {
 		if (a.name < b.name) return -1;
 		if (a.name > b.name) return 1;
 
@@ -120,22 +110,36 @@ export function sortFilesArray(array: ApiFile[], type: string): ApiFile[] {
 		default:
 		case "default":
 		case "date-new":
-			return array.sort((a, b) => b.date.getTime() - a.date.getTime());
+			array = array.sort((a, b) => b.date.getTime() - a.date.getTime());
+			break;
 		case "date-old":
-			return array.sort((a, b) => a.date.getTime() - b.date.getTime());
+			array = array.sort((a, b) => a.date.getTime() - b.date.getTime());
+			break;
 		case "views-up":
-			return array.sort((a, b) => b.views - a.views);
+			array = array.sort((a, b) => b.views - a.views);
+			break;
 		case "views-down":
-			return array.sort((a, b) => a.views - b.views);
+			array = array.sort((a, b) => a.views - b.views);
+			break;
 		case "bytes-small":
-			return array.sort((a, b) => StringToBytes(b.size) - StringToBytes(a.size));
+			array = array.sort((a, b) => Number(b._size) - Number(a._size));
+			break;
 		case "bytes-large":
-			return array.sort((a, b) => StringToBytes(a.size) - StringToBytes(b.size));
+			array = array.sort((a, b) => Number(a._size) - Number(b._size));
+			break;
 		case "name":
-			return array.sort(sortByName);
+			array = array.sort(sortByName);
+			break;
 		case "name-reverse":
-			return array.sort(sortByName).reverse();
+			array = array.sort(sortByName).reverse();
+			break;
 	}
+
+	return array.map((v) => {
+		// @ts-ignore no it does not
+		delete v._size;
+		return v;
+	});
 }
 
 export function sortLinksArray(array: ApiURL[], type: string): ApiURL[] {

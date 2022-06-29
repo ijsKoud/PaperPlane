@@ -46,7 +46,7 @@ model File {
   // Stats Config
   views  Int     @default(0)
   pinned Boolean @default(false)
-  size   String // size in string e.x.: 1.2 MB
+  size   BigInt // size in bigint 
 
   // Privacy Config
   password String?

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { formatBytes, getUser, StringToBytes } from "../../../lib/utils";
+import { formatBytes, getUser } from "../../../lib/utils";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const user = await getUser(req);
@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	const links = await prisma.url.findMany();
 	const size = files
 		.map((f) => f.size)
-		.map((size) => StringToBytes(size))
+		.map((size) => Number(size))
 		.reduce((a, b) => a + b, 0);
 
 	res.json({

@@ -3,7 +3,7 @@ import { existsSync, Stats } from "node:fs";
 import { mkdir, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import type { Server } from "../Server";
-import { createToken, encryptPassword, formatBytes, generateId } from "../utils";
+import { createToken, encryptPassword, generateId } from "../utils";
 
 export class Data {
 	public filesDir = join(process.cwd(), "data", "files");
@@ -29,7 +29,7 @@ export class Data {
 		const file = await this.server.prisma.file.findFirst({ where: { path } });
 		if (!file) return;
 
-		await this.server.prisma.file.update({ where: { path }, data: { size: formatBytes(stats.size) } });
+		await this.server.prisma.file.update({ where: { path }, data: { size: BigInt(stats.size) } });
 	}
 
 	public async migrate() {
@@ -51,7 +51,7 @@ export class Data {
 
 			const id = generateId() || file.split(".")[0];
 			const stats = await stat(filePath);
-			await this.server.prisma.file.create({ data: { date: new Date(), id, path: filePath, size: formatBytes(stats.size) } });
+			await this.server.prisma.file.create({ data: { date: new Date(), id, path: filePath, size: BigInt(stats.size) } });
 			exist.push(id);
 			newFiles.push(id);
 		}
