@@ -89,7 +89,7 @@ export class Routes {
 		if (user?.embedEnabled && isUserAgent) return this.server.next.render(req, res, `/files/${id}?type=discord`);
 
 		const cookieUser = await getUser(authToken, this.server.prisma);
-		if (file.visible && !cookieUser) return this.server.next.render(req, res, "/notfound");
+		if (!file.visible && !cookieUser) return this.server.next.render(req, res, "/notfound");
 		if (file.password && !cookieUser) {
 			if (!password || typeof password !== "string") return this.server.next.render(req, res, `/files/${id}?type=password`);
 
