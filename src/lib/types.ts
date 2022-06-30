@@ -16,6 +16,7 @@ export interface LoginCreds {
 
 export interface LoginFileRes {
 	name: string;
+	id: string;
 	size: string;
 	date: Date;
 }
