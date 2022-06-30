@@ -14,6 +14,12 @@ export interface LoginCreds {
 	password: string;
 }
 
+export interface LoginFileRes {
+	name: string;
+	size: string;
+	date: Date;
+}
+
 export type CleanUser = Omit<User, "password">;
 
 export interface ApiFile {

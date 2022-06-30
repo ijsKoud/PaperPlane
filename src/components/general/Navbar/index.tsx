@@ -88,7 +88,7 @@ const Navbar: FC = () => {
 						<img alt="paperplane logo" src="assets/svg/paperplane_nobg.svg" />
 						{!isMobile && (
 							<>
-								<Button type="link" style="text" url="/dasboard" text="Dashboard" />
+								<Button type="link" style="text" url="/dashboard" text="Dashboard" />
 								<Button type="link" style="text" url="/settings" text="Settings" />
 							</>
 						)}

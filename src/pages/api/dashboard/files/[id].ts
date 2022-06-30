@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import { decryptToken, encryptToken, formatBytes } from "../../../../lib/utils";
-import { serialize } from "cookie";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const id = req.query.id as string;
@@ -22,12 +21,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		const [filePassword] = decryptToken(file.password).split(".");
 		if (filePassword === req.body.password) {
 			const token = encryptToken(`${filePassword}.${Date.now()}`);
-			res.setHeader("Set-Cookie", serialize(fileId, token, { maxAge: 6048e5 }));
-
-			return res.status(204).send(undefined);
+			return res.status(200).send({ token });
 		}
 
-		return res.send({ message: "Incorrect password provided." });
+		return res.status(400).send({ message: "Incorrect password provided." });
 	}
 
 	res.status(403).send({ message: "Forbidden method used." });
