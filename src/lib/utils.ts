@@ -71,13 +71,17 @@ export function formatBytes(bytes: number): string {
 }
 
 export async function getUser(req: NextApiRequest): Promise<User | null> {
-	const { authorization } = req.headers;
-	if (!authorization || !authorization.startsWith("Bearer ") || authorization.includes("null")) return null;
+	try {
+		const { authorization } = req.headers;
+		if (!authorization || !authorization.startsWith("Bearer ") || authorization.includes("null")) return null;
 
-	const [username] = decryptToken(authorization.replace("Bearer ", "")).split(".");
-	const user = await prisma.user.findFirst({ where: { username } });
+		const [username] = decryptToken(authorization.replace("Bearer ", "")).split(".");
+		const user = await prisma.user.findFirst({ where: { username } });
 
-	return user;
+		return user;
+	} catch (err) {}
+
+	return null;
 }
 
 export async function getUserWithToken(req: NextApiRequest): Promise<User | null> {

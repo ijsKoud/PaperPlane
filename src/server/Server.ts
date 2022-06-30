@@ -6,6 +6,7 @@ import { PrismaClient } from "@prisma/client";
 import { Data, Routes, Logger } from "./components";
 import { json, urlencoded } from "body-parser";
 import { formatBytes, getConfig } from "./utils";
+import cookieParser from "cookie-parser";
 
 process.env.VERSION = version;
 
@@ -39,7 +40,7 @@ export class Server {
 			customServer: true
 		});
 
-		this.express.use(json(), urlencoded({ extended: true }));
+		this.express.use(cookieParser(), json(), urlencoded({ extended: true }));
 		this.express.listen(this.port, () => this.startupLog());
 		await this.prisma.$connect().then(() => this.logger.info("Prisma Database is up and running!"));
 

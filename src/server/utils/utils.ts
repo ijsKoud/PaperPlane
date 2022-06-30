@@ -1,3 +1,4 @@
+import type { PrismaClient, User } from "@prisma/client";
 import { createDecipheriv, randomBytes, scryptSync } from "node:crypto";
 import ShortUniqueId from "short-unique-id";
 import type { Config, NameType } from "./types";
@@ -108,4 +109,13 @@ export function decryptToken(hash: string): string {
 	const token = decrypted.toString();
 
 	return token;
+}
+
+export async function getUser(token: string, prisma: PrismaClient): Promise<User | null> {
+	if (!token) return null;
+
+	const [username] = decryptToken(token).split(".");
+	const user = await prisma.user.findFirst({ where: { username } });
+
+	return user;
 }

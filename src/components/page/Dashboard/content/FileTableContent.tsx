@@ -78,7 +78,9 @@ const FileTableContent: FC<Props> = ({ file, updateFileList, selectFile }) => {
 				<td>{getDate(file.date)}</td>
 				<td className="dashboard-table-buttons">
 					<div>
-						<FileEditModal {...{ isOpen: showModal, onClick, name: file.name, visible: file.visible, updateFileList }} />
+						<FileEditModal
+							{...{ isOpen: showModal, onClick, name: file.name, visible: file.visible, password: file.password ?? "", updateFileList }}
+						/>
 						<Button type="link" url={file.url} style="blurple" newWindow>
 							<i className="fa-solid fa-square-arrow-up-right" />
 						</Button>

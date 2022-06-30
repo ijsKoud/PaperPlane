@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useAuth } from "../../../lib/hooks/useAuth";
 import UploadModal from "./modals/Upload";
 import CreateModal from "./modals/Create";
+import { removeCookies } from "cookies-next";
 
 const variants: Variants = {
 	hidden: {
@@ -56,7 +57,7 @@ const Navbar: FC = () => {
 
 	const logout = () => {
 		closeMenu();
-		localStorage.removeItem("PAPERPLANE_AUTH");
+		removeCookies("PAPERPLANE_AUTH");
 
 		fetch();
 		void router.push("/");
@@ -87,7 +88,7 @@ const Navbar: FC = () => {
 						<img alt="paperplane logo" src="assets/svg/paperplane_nobg.svg" />
 						{!isMobile && (
 							<>
-								<Button type="link" style="text" url="/dasboard" text="Dashboard" />
+								<Button type="link" style="text" url="/dashboard" text="Dashboard" />
 								<Button type="link" style="text" url="/settings" text="Settings" />
 							</>
 						)}
