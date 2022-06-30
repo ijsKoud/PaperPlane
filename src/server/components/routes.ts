@@ -9,7 +9,12 @@ import { rateLimit } from "express-rate-limit";
 const config = getConfig();
 
 export class Routes {
-	public DISCORD_IMAGE_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11.6; rv:92.0) Gecko/20100101 Firefox/92.0";
+	public USER_AGENTS = [
+		"discord",
+		"Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)",
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 11.6; rv:92.0) Gecko/20100101 Firefox/92.0",
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0"
+	];
 
 	public ratelimit = rateLimit({
 		windowMs: 2e3,
@@ -76,8 +81,9 @@ export class Routes {
 
 	private async getFile(req: Request, res: Response) {
 		const { id } = req.params;
+		const { force, test } = req.query;
 
-		const isUserAgent = req.headers["user-agent"] === this.DISCORD_IMAGE_AGENT;
+		const isUserAgent = this.USER_AGENTS.includes(req.headers["user-agent"] ?? "");
 		const user = await this.server.prisma.user.findFirst();
 
 		const fileId = id.includes(".") ? id.split(".")[0] : id;
@@ -86,16 +92,16 @@ export class Routes {
 
 		const file = await this.server.prisma.file.findUnique({ where: { id: fileId } });
 		if (!file) return this.server.next.render404(req, res);
-		if (user?.embedEnabled && isUserAgent) return this.server.next.render(req, res, `/files/${id}?type=discord`);
+		if ((user?.embedEnabled && isUserAgent && !force) || test) return this.server.next.render(req, res, `/files/${id}`);
 
 		const cookieUser = await getUser(authToken, this.server.prisma);
 		if (!file.visible && !cookieUser) return this.server.next.render(req, res, "/notfound");
 		if (file.password && !cookieUser) {
-			if (!password || typeof password !== "string") return this.server.next.render(req, res, `/files/${id}?type=password`);
+			if (!password || typeof password !== "string") return this.server.next.render(req, res, `/files/${id}`);
 
 			const [decrypted] = decryptToken(password).split(".");
 			const [fileDecrypted] = decryptToken(file.password).split(".");
-			if (decrypted !== fileDecrypted) return this.server.next.render(req, res, `/files/${id}?type=password`);
+			if (decrypted !== fileDecrypted) return this.server.next.render(req, res, `/files/${id}`);
 		}
 
 		res.sendFile(file.path, async (err) => {

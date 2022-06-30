@@ -4,11 +4,12 @@ import { decryptToken, encryptToken, formatBytes } from "../../../../lib/utils";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const id = req.query.id as string;
-	const [fileId, ...ext] = id.split(".");
+	const [fileId] = id.split(".");
 
 	const file = await prisma.file.findFirst({ where: { id: fileId } });
 	if (!file) return res.status(404).send({ message: "File not found on server." });
 
+	const ext = file.path.split("/").reverse()[0].split(".").slice(1);
 	if (req.method === "GET")
 		return res.send({
 			size: formatBytes(Number(file.size)),
