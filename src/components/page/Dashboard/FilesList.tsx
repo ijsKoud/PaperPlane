@@ -27,7 +27,7 @@ const FilesList: FC<Props> = ({ protocol }) => {
 	const [sort, setSort] = useState("default");
 
 	const formik = useFormik<Record<string, boolean>>({ initialValues: {}, onSubmit: () => void 0 });
-	const getURL = (partialUrl: string): string => `${protocol}//${partialUrl}`;
+	const getURL = (partialUrl: string): string => `${protocol}${partialUrl}`;
 
 	useEffect(() => {
 		const token = getCancelToken();
