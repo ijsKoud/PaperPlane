@@ -6,7 +6,7 @@ import Dashboard from "../components/page/Dashboard";
 import { useAuth } from "../lib/hooks/useAuth";
 
 const Home: NextPage = () => {
-	const [protocol, setProtocol] = useState("http");
+	const [protocol, setProtocol] = useState("http:");
 	const { user, loading: userLoading } = useAuth();
 	const router = useRouter();
 

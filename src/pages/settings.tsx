@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Loader from "../components/general/Loader";
 import Navbar from "../components/general/Navbar";
+import UserSettings from "../components/page/Settings/UserSettings";
 import EmbedSettings from "../components/page/Settings/Embed";
 import { useAuth } from "../lib/hooks/useAuth";
 
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
 	) : (
 		<main className="home-page-container" style={{ minHeight: "unset" }}>
 			<Navbar />
+			<UserSettings />
 			<EmbedSettings />
 		</main>
 	);

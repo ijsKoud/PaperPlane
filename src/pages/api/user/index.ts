@@ -13,8 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 		return res.status(200).json(cleanUser);
 	} else if (req.method === "PATCH") {
-		const body = req.body as { password?: string; username?: string; theme?: string };
-		if (typeof body.password !== "string" && typeof body.username !== "string" && typeof body.theme !== "string")
+		const body = req.body as { password?: string; username?: string };
+		if (typeof body.password !== "string" && typeof body.username !== "string")
 			return res.status(400).json({ message: "Password/username/theme missing in request body" });
 
 		const user = await getUser(req);

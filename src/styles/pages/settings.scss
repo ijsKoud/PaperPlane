@@ -72,6 +72,24 @@
 	place-items: center;
 }
 
+/* === USER SETTINGS === */
+.user-settings-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.user-settings {
+	background-color: $comp-background2;
+	padding: 1rem 1.5rem;
+	border-radius: 7px;
+
+	form:first-child {
+		margin-bottom: 1rem;
+	}
+}
+
 /* === EMBED SETTINGS === */
 .embed-settings-container,
 .embed-settings-wrapper {
