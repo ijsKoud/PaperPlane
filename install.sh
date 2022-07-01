@@ -11,7 +11,7 @@ mkdir -p ~/paperplane
 chown 1639:1639 ~/paperplane
 
 echo 'Pulling latest image from Docker'
-docker pull ghcr.io/ijskoud/paperplane:v1
+docker pull ghcr.io/ijskoud/paperplane:v3
 
 echo 'Running Docker container'
 if [[ -n "$1" ]]; then
