@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
 import Button from "../components/general/Button";
+import Title from "../components/general/Title";
 
 const Home: NextPage = () => {
 	return (
 		<main className="home-page-container">
+			<Title>Paperplane - File uploading. URL Shortening. Protected views.</Title>
 			<div className="home-content">
 				<div className="home-title">
 					<img alt="PaperPlane logo" src="assets/svg/paperplane_nobg.svg" />

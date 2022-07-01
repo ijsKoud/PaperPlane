@@ -1,6 +1,5 @@
 import type { AxiosError } from "axios";
 import type { NextPage } from "next";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -9,6 +8,7 @@ import { fetch } from "../lib/fetch";
 import { useAuth } from "../lib/hooks/useAuth";
 import type { ApiError, LoginCreds } from "../lib/types";
 import { setCookies } from "cookies-next";
+import Title from "../components/general/Title";
 
 const Login: NextPage = () => {
 	const { user, fetch: userFetch } = useAuth();
@@ -42,9 +42,7 @@ const Login: NextPage = () => {
 
 	return (
 		<main className="login">
-			<Head>
-				<title>PaperPlane - Login</title>
-			</Head>
+			<Title>Paperplane - Login</Title>
 			<Form onSubmit={onSubmit} />
 		</main>
 	);
