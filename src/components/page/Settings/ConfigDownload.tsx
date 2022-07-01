@@ -7,14 +7,18 @@ const ConfigDownload: React.FC = () => {
 	const { user } = useAuth();
 
 	const downloadShareX = () => {
-		const _protocol = location?.protocol ?? "";
-		const protocol = _protocol.includes("https") ? "https://" : "http://";
+		const getProtocol = () => {
+			const env = process.env.SECURE;
+			if (env && env === "false") return "http://";
+
+			return "https://";
+		};
 
 		const config = {
 			Name: "PaperPlane",
 			DestinationType: "ImageUploader, TextUploader, FileUploader, URLShortener",
 			RequestMethod: "POST",
-			RequestURL: `${protocol}${location?.host}/api/upload`,
+			RequestURL: `${getProtocol()}${location?.host}/api/upload`,
 			Headers: {
 				Authorization: user?.token
 			},

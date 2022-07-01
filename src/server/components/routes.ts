@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir } from "node:fs/promises";
-import { decryptToken, formatBytes, generateId, getConfig, getUser } from "../utils";
+import { decryptToken, formatBytes, generateId, getConfig, getProtocol, getUser } from "../utils";
 import { join } from "node:path";
 import { rateLimit } from "express-rate-limit";
 
@@ -144,7 +144,7 @@ export class Routes {
 
 			try {
 				await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
-				res.send({ url: `${req.protocol}://${req.headers.host}/r/${path}` });
+				res.send({ url: `${getProtocol()}${req.headers.host}/r/${path}` });
 				this.server.logger.info(`[CREATE]: New URL uploaded - URL: ${short} & URL Code: ${path}`);
 			} catch (err) {
 				res.status(500).send({ message: "An unknown error occurred while processing your request, please try again later." });
@@ -163,7 +163,7 @@ export class Routes {
 					const fileExt = f.filename.split(".").slice(1).join(".");
 
 					this.server.logger.info(`[FILES]: New file uploaded - File: ${f.filename}, Id: ${id} & size: ${formatBytes(f.size)}`);
-					return `${req.protocol}://${req.headers.host}/files/${file.id}${config.nameType === "zerowidth" ? "" : `.${fileExt}`}`;
+					return `${getProtocol()}${req.headers.host}/files/${file.id}${config.nameType === "zerowidth" ? "" : `.${fileExt}`}`;
 				})
 			);
 			res.send({ files, url: files[0] });

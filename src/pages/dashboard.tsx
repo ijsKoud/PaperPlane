@@ -1,13 +1,12 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Loader from "../components/general/Loader";
 import Title from "../components/general/Title";
 import Dashboard from "../components/page/Dashboard";
 import { useAuth } from "../lib/hooks/useAuth";
 
 const Home: NextPage = () => {
-	const [protocol, setProtocol] = useState("http:");
 	const { user, loading: userLoading } = useAuth();
 	const router = useRouter();
 
@@ -15,9 +14,12 @@ const Home: NextPage = () => {
 		if (!user && !userLoading) void router.push("/login");
 	}, [user, userLoading]);
 
-	useEffect(() => {
-		setProtocol(window.location.protocol);
-	}, []);
+	const getProtocol = () => {
+		const env = process.env.SECURE;
+		if (env && env === "false") return "http://";
+
+		return "https://";
+	};
 
 	return (
 		<>
@@ -28,7 +30,7 @@ const Home: NextPage = () => {
 				</main>
 			) : (
 				<main className="home-page-container" style={{ minHeight: "unset" }}>
-					<Dashboard protocol={protocol} />
+					<Dashboard protocol={getProtocol()} />
 				</main>
 			)}
 		</>
