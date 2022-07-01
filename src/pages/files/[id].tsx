@@ -14,8 +14,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const fileId = id.split(".")[0];
 
 	try {
-		const protocol = ctx.req.headers.host?.includes("localhost") ? "http" : "https";
-		const baseURL = `${protocol}://${ctx.req.headers.host}`;
+		const getProtocol = () => {
+			const env = process.env.SECURE;
+			if (env && env === "false") return "http://";
+
+			return "https://";
+		};
+
+		const baseURL = `${getProtocol()}${ctx.req.headers.host}`;
 
 		const file = await fetch<LoginFileRes>(`${baseURL}/api/dashboard/files/${fileId}`);
 		const user = await prisma.user.findFirst();

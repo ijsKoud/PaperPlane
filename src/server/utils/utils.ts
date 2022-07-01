@@ -119,3 +119,10 @@ export async function getUser(token: string, prisma: PrismaClient): Promise<User
 
 	return user;
 }
+
+export const getProtocol = () => {
+	const env = process.env.SECURE;
+	if (env && env === "false") return "http://";
+
+	return "https://";
+};
