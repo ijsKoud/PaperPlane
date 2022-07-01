@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Loader from "../components/general/Loader";
+import Title from "../components/general/Title";
 import Dashboard from "../components/page/Dashboard";
 import { useAuth } from "../lib/hooks/useAuth";
 
@@ -18,14 +19,19 @@ const Home: NextPage = () => {
 		setProtocol(window.location.protocol);
 	}, []);
 
-	return userLoading ? (
-		<main className="home-page-container">
-			<Loader size={20} />
-		</main>
-	) : (
-		<main className="home-page-container" style={{ minHeight: "unset" }}>
-			<Dashboard protocol={protocol} />
-		</main>
+	return (
+		<>
+			<Title>Paperplane - Dashboard</Title>
+			{userLoading ? (
+				<main className="home-page-container">
+					<Loader size={20} />
+				</main>
+			) : (
+				<main className="home-page-container" style={{ minHeight: "unset" }}>
+					<Dashboard protocol={protocol} />
+				</main>
+			)}
+		</>
 	);
 };
 
