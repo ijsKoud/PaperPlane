@@ -3,7 +3,7 @@
 echo 'Installing PaperPlane...'
 
 # Variables
-COMMAND="docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p 3000:3000 ghcr.io/ijskoud/paperplane"
+COMMAND="docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p 3000:3000 ghcr.io/ijskoud/paperplane:v3"
 
 # Script
 echo "Creating a shared data directory: ~/paperplane"
@@ -15,7 +15,7 @@ docker pull ghcr.io/ijskoud/paperplane:v3
 
 echo 'Running Docker container'
 if [[ -n "$1" ]]; then
-	COMMAND="docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p 3000:$1 ghcr.io/ijskoud/paperplane"
+	COMMAND="docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p $1:3000 ghcr.io/ijskoud/paperplane:v3"
 fi
 
 eval $COMMAND
