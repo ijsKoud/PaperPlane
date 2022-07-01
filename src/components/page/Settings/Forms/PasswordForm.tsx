@@ -23,7 +23,7 @@ const PasswordForm: FC = () => {
 			const embedPromise = fetch<{ token: string }>("/api/user", undefined, { method: "PATCH", data });
 			await toast.promise(embedPromise, {
 				error: "Unable to update the password, please try again later.",
-				success: "Successfully the password",
+				success: "Successfully update the password",
 				pending: "Attempting to update the password"
 			});
 

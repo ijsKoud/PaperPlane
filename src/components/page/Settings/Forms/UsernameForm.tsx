@@ -23,7 +23,7 @@ const UsernameForm: FC = () => {
 			const embedPromise = fetch<{ token: string }>("/api/user", undefined, { method: "PATCH", data });
 			await toast.promise(embedPromise, {
 				error: "Unable to update the username, please try again later.",
-				success: `Successfully the username to ${data.username}`,
+				success: `Successfully updated the username to ${data.username}`,
 				pending: "Attempting to update the username"
 			});
 

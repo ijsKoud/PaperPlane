@@ -2,6 +2,7 @@ import React from "react";
 import type { FC } from "../../../lib/types";
 import ConfigDownload from "./ConfigDownload";
 import PasswordForm from "./Forms/PasswordForm";
+import TokenRegen from "./Forms/TokenRegen";
 import UsernameForm from "./Forms/UsernameForm";
 
 const UserSettings: FC = () => {
@@ -11,6 +12,7 @@ const UserSettings: FC = () => {
 			<div className="user-settings">
 				<UsernameForm />
 				<PasswordForm />
+				<TokenRegen />
 				<ConfigDownload />
 			</div>
 		</div>
