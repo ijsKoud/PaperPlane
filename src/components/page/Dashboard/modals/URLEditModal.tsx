@@ -97,7 +97,7 @@ const URLEditModal: FC<Props> = ({ onClick, isOpen, name, visible, updateURLList
 		<Modal {...{ onClick, isOpen }}>
 			<div className="upload-modal-content">
 				<div className="upload-modal-top">
-					<h1 className="upload-modal-title">Update a file</h1>
+					<h1 className="upload-modal-title">Update a URL</h1>
 					<Button type="button" style="text" onClick={onClick}>
 						<i className="fa-solid fa-times" />
 					</Button>
