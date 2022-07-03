@@ -1,3 +1,6 @@
+import type { WebSocket } from "ws";
+
+/* eslint-disable @typescript-eslint/ban-types */
 export interface Config {
 	/** Encryption key which is used to encrypt all cookies with */
 	encryptionKey: string;
@@ -28,3 +31,30 @@ export interface Config {
 }
 
 export type NameType = "id" | "zerowidth" | "name";
+
+export enum WebsocketMessageType {
+	PING,
+	INIT,
+	USER_UPDATE,
+	FILES_UPDATE,
+	URL_UPDATE,
+	STATS_UPDATE,
+	SEARCH_FILE_UPDATE,
+	SEARCH_URL_UPDATE
+}
+
+export interface WebsocketMessagePing {
+	t: WebsocketMessageType.PING;
+	d: {};
+}
+
+export interface WebsocketMessageInit {
+	t: WebsocketMessageType.INIT;
+	d: {
+		hello: string;
+	};
+}
+
+export type WebsocketMessage = WebsocketMessagePing | WebsocketMessageInit;
+
+export type iWebsocket = WebSocket & { id: string };

@@ -120,6 +120,13 @@ export async function getUser(token: string, prisma: PrismaClient): Promise<User
 	return user;
 }
 
+export async function getUserFromAuth(token: string | undefined, prisma: PrismaClient): Promise<User | null> {
+	if (!token || !token.startsWith("Bearer ") || ["null", "undefined"].some((str) => token?.includes(str))) return null;
+	token = token.replace("Bearer", "").trim();
+
+	return getUser(token, prisma);
+}
+
 export const getProtocol = () => {
 	const env = process.env.SECURE;
 	if (env && env === "false") return "http://";

@@ -810,7 +810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-serve-static-core@npm:^4.17.18":
+"@types/express-serve-static-core@npm:*, @types/express-serve-static-core@npm:^4.17.18":
   version: 4.17.29
   resolution: "@types/express-serve-static-core@npm:4.17.29"
   dependencies:
@@ -818,6 +818,17 @@ __metadata:
     "@types/qs": "*"
     "@types/range-parser": "*"
   checksum: ec4194dc59276ec6dd906887fc377be0cadf4aaa4d535d9052ab9624937ef2b984a8d9da2c11c96979e21f3d9f78f1da93e767dbcec637f7f13d2e3003151145
+  languageName: node
+  linkType: hard
+
+"@types/express-ws@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@types/express-ws@npm:3.0.1"
+  dependencies:
+    "@types/express": "*"
+    "@types/express-serve-static-core": "*"
+    "@types/ws": "*"
+  checksum: fe0979f0c4ae6ce1d3cd6e9e5a99882d7dd461a774b3ad67066965db058bc9cc90ec9deed6bb4ee8414cf50b800ab84d6d042d375ee3b0b31483a3ec91647146
   languageName: node
   linkType: hard
 
@@ -1007,6 +1018,15 @@ __metadata:
     "@types/mime": ^1
     "@types/node": "*"
   checksum: eaca858739483e3ded254cad7d7a679dc2c8b3f52c8bb0cd845b3b7eb1984bde0371fdcb0a5c83aa12e6daf61b6beb762545021f520f08a1fe882a3fa4ea5554
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:*":
+  version: 8.5.3
+  resolution: "@types/ws@npm:8.5.3"
+  dependencies:
+    "@types/node": "*"
+  checksum: 0ce46f850d41383fcdc2149bcacc86d7232fa7a233f903d2246dff86e31701a02f8566f40af5f8b56d1834779255c04ec6ec78660fe0f9b2a69cf3d71937e4ae
   languageName: node
   linkType: hard
 
@@ -2813,6 +2833,17 @@ __metadata:
   peerDependencies:
     express: ^4 || ^5
   checksum: 3125332fc3a73f0c50eaece169fa8d956d212f7b5c4dcaaa713fbe00fea6edc1a030705a71b60b8c8b5734c5b03004be38f843336e0bba4116a51726297f35e4
+  languageName: node
+  linkType: hard
+
+"express-ws@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "express-ws@npm:5.0.2"
+  dependencies:
+    ws: ^7.4.6
+  peerDependencies:
+    express: ^4.0.0 || ^5.0.0-alpha.1
+  checksum: a7134c51b6a630a369bbc7e06b6fad9ec174d535dd76c990ea6285e6cb08abad408ddb1162ba347ec5725fc483ae9f035f2eecb22ea91f3ecebff05772f62f0b
   languageName: node
   linkType: hard
 
@@ -4840,6 +4871,7 @@ __metadata:
     "@tippyjs/react": ^4.2.6
     "@types/cookie-parser": ^1.4.3
     "@types/express": ^4.17.13
+    "@types/express-ws": ^3.0.1
     "@types/file-saver": ^2.0.5
     "@types/mime-types": ^2.1.1
     "@types/multer": ^1.4.7
@@ -4862,6 +4894,7 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     express: ^4.18.1
     express-rate-limit: ^6.4.0
+    express-ws: ^5.0.2
     file-saver: ^2.0.5
     formik: ^2.2.9
     framer-motion: ^6.3.15
@@ -6546,6 +6579,21 @@ __metadata:
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
   checksum: 159da4805f7e84a3d003d8841557196034155008f817172d4e986bd591f74aa82aa7db55929a54222309e01079a65a92a9e6414da5a6aa4b01ee44a511ac3ee5
+  languageName: node
+  linkType: hard
+
+"ws@npm:^7.4.6":
+  version: 7.5.8
+  resolution: "ws@npm:7.5.8"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 49479ccf3ddab6500c5906fbcc316e9c8cd44b0ffb3903a6c1caf9b38cb9e06691685722a4c642cfa7d4c6eb390424fc3142cd4f8b940cfc7a9ce9761b1cd65b
   languageName: node
   linkType: hard
 

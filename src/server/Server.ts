@@ -3,10 +3,11 @@ import express, { Express } from "express";
 import type { NextServer } from "next/dist/server/next";
 import { version } from "../../package.json";
 import { PrismaClient } from "@prisma/client";
-import { Data, Routes, Logger } from "./components";
+import { Data, Routes, Logger, Websocket } from "./components";
 import { json, urlencoded } from "body-parser";
 import { formatBytes, getConfig } from "./utils";
 import cookieParser from "cookie-parser";
+import expressWs from "express-ws";
 
 process.env.VERSION = version;
 
@@ -14,23 +15,34 @@ export class Server {
 	public dev: boolean;
 	public port: number;
 
-	public express: Express;
+	public _express: Express;
+	public express: expressWs.Application;
 	public next!: NextServer;
 
-	public prisma: PrismaClient = new PrismaClient();
+	public prisma = new PrismaClient({
+		log: [
+			{
+				emit: "event",
+				level: "query"
+			}
+		]
+	});
 
 	public data: Data;
 	public routes: Routes;
+	public websocket: Websocket;
 
 	public logger: Logger = new Logger(`${Date.now()}-v${version}-paperplane.log`, "SERVER");
 
 	public constructor() {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
-		this.express = express();
+		this._express = express();
+		this.express = expressWs(this._express).app;
 		this.port = getConfig().port;
 
 		this.data = new Data(this);
 		this.routes = new Routes(this);
+		this.websocket = new Websocket(this);
 	}
 
 	public async run() {
