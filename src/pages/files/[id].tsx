@@ -1,4 +1,4 @@
-import { setCookies } from "cookies-next";
+import { setCookie } from "cookies-next";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -67,7 +67,7 @@ const FilePage: NextPage<Props> = ({ file, baseURL, embed }) => {
 			});
 
 			void pwdPromise
-				.then((res) => setCookies(file.id, res.data.token, { maxAge: 6048e5 }))
+				.then((res) => setCookie(file.id, res.data.token, { maxAge: 6048e5 }))
 				.then(() => router.reload())
 				.catch(() => void 0);
 			await toast.promise(pwdPromise, {
