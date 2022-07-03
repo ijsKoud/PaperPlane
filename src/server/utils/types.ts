@@ -1,3 +1,4 @@
+import type { User } from "@prisma/client";
 import type { WebSocket } from "ws";
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -31,6 +32,7 @@ export interface Config {
 }
 
 export type NameType = "id" | "zerowidth" | "name";
+export type CleanUser = Omit<User, "password">;
 
 export enum WebsocketMessageType {
 	PING,
@@ -51,7 +53,7 @@ export interface WebsocketMessagePing {
 export interface WebsocketMessageInit {
 	t: WebsocketMessageType.INIT;
 	d: {
-		hello: string;
+		user: CleanUser;
 	};
 }
 

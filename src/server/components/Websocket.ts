@@ -1,28 +1,46 @@
 import type { Server } from "../Server";
-import { getUserFromAuth, iWebsocket, WebsocketMessage, WebsocketMessageType } from "../utils";
-import type { MessageEvent } from "ws";
-import type { Request } from "express";
+import { getUser, iWebsocket, WebsocketMessage, WebsocketMessageType } from "../utils";
+import { MessageEvent, Server as WebSocketServer } from "ws";
 import ShortUniqueId from "short-unique-id";
+import { URL } from "node:url";
+import type { IncomingMessage } from "node:http";
+import { parse } from "cookie";
 
 export class Websocket {
 	public timeouts: Record<string, NodeJS.Timeout> = {};
+	public socketServer: WebSocketServer;
 
-	public constructor(public server: Server) {}
-
-	public init() {
-		// @ts-ignore types still correct, only added a custom id prop to it
-		this.server.express.ws("/websocket", this.onWebsocket.bind(this));
+	public constructor(public server: Server) {
+		this.socketServer = new WebSocketServer({ noServer: true, path: "/websocket" });
 	}
 
-	private async onWebsocket(ws: iWebsocket, req: Request) {
-		const { authorization } = req.headers;
-		const user = await getUserFromAuth(authorization, this.server.prisma);
-		if (!user) return ws.close(3000); // Close connection when no user is found
+	public init() {
+		this.server._server.on("upgrade", (request, socket, head) => {
+			if (new URL(request.url ?? "", "http://localhost:3000").pathname !== "/websocket") return;
+			this.socketServer.handleUpgrade(request, socket, head, (socket) => this.socketServer.emit("connection", socket, request));
+		});
 
-		this.server.prisma.$on("query", (ev) => void 0); // TODO: send user update pkg when user is update
+		this.socketServer.on("connection", (ws, req) => this.onWebsocket(ws as iWebsocket, req));
+	}
+
+	private async onWebsocket(ws: iWebsocket, req: IncomingMessage) {
+		const cookies = parse(req.headers.cookie ?? "");
+		const cookie = cookies["PAPERPLANE_AUTH"];
+
+		const user = await getUser(cookie, this.server.prisma);
+		if (!user) return ws.close(3000); // Close connection when no user is found
 		this.setData(ws);
 
 		ws.onmessage = (ev) => this.onMessage(ev, ws);
+		ws.onclose = () => {
+			const timeout = this.timeouts[ws.id];
+			if (timeout) {
+				clearTimeout(timeout);
+				delete this.timeouts[ws.id];
+			}
+		};
+
+		ws.send(this.send({ t: WebsocketMessageType.INIT, d: { user } }));
 	}
 
 	private setData(ws: iWebsocket) {
@@ -31,6 +49,10 @@ export class Websocket {
 
 		ws.id = genId();
 		this.timeouts[ws.id] = timeout;
+	}
+
+	private send(data: WebsocketMessage): string {
+		return JSON.stringify(data);
 	}
 
 	private onMessage({ data }: MessageEvent, ws: iWebsocket) {

@@ -7,16 +7,17 @@ import { Data, Routes, Logger, Websocket } from "./components";
 import { json, urlencoded } from "body-parser";
 import { formatBytes, getConfig } from "./utils";
 import cookieParser from "cookie-parser";
-import expressWs from "express-ws";
+import type { Server as HttpServer } from "node:http";
 
 process.env.VERSION = version;
+process.env.NEXT_PUBLIC_SECURE = process.env.SECURE;
 
 export class Server {
 	public dev: boolean;
 	public port: number;
 
-	public _express: Express;
-	public express: expressWs.Application;
+	public _server!: HttpServer;
+	public express: Express;
 	public next!: NextServer;
 
 	public prisma = new PrismaClient({
@@ -36,8 +37,7 @@ export class Server {
 
 	public constructor() {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
-		this._express = express();
-		this.express = expressWs(this._express).app;
+		this.express = express();
 		this.port = getConfig().port;
 
 		this.data = new Data(this);
@@ -53,11 +53,12 @@ export class Server {
 		});
 
 		this.express.use(cookieParser(), json(), urlencoded({ extended: true }));
-		this.express.listen(this.port, () => this.startupLog());
+		this._server = this.express.listen(this.port, () => this.startupLog());
 		await this.prisma.$connect().then(() => this.logger.info("Prisma Database is up and running!"));
 
 		await this.data.init();
 		this.routes.init();
+		this.websocket.init();
 
 		await this.next.prepare();
 		const handler = this.next.getRequestHandler();

@@ -95,7 +95,7 @@ export class Routes {
 		if ((user?.embedEnabled && isUserAgent && !force) || test) return this.server.next.render(req, res, `/files/${id}`);
 
 		const cookieUser = await getUser(authToken, this.server.prisma);
-		if (!file.visible && !cookieUser) return this.server.next.render(req, res, "/notfound");
+		if (!file.visible && !cookieUser) return this.server.next.render404(req, res);
 		if (file.password && !cookieUser) {
 			if (!password || typeof password !== "string") return this.server.next.render(req, res, `/files/${id}`);
 

@@ -1,7 +1,7 @@
-import type { PrismaClient, User } from "@prisma/client";
+import type { PrismaClient } from "@prisma/client";
 import { createDecipheriv, randomBytes, scryptSync } from "node:crypto";
 import ShortUniqueId from "short-unique-id";
-import type { Config, NameType } from "./types";
+import type { CleanUser, Config, NameType } from "./types";
 
 export const getConfig = (): Config => {
 	const encryptionKey = process.env.ENCRYPTION_KEY ?? "";
@@ -111,20 +111,15 @@ export function decryptToken(hash: string): string {
 	return token;
 }
 
-export async function getUser(token: string, prisma: PrismaClient): Promise<User | null> {
+export async function getUser(token: string, prisma: PrismaClient): Promise<CleanUser | null> {
 	if (!token) return null;
 
 	const [username] = decryptToken(token).split(".");
 	const user = await prisma.user.findFirst({ where: { username } });
 
+	// @ts-ignore removing password cuz not needed
+	delete user?.password;
 	return user;
-}
-
-export async function getUserFromAuth(token: string | undefined, prisma: PrismaClient): Promise<User | null> {
-	if (!token || !token.startsWith("Bearer ") || ["null", "undefined"].some((str) => token?.includes(str))) return null;
-	token = token.replace("Bearer", "").trim();
-
-	return getUser(token, prisma);
 }
 
 export const getProtocol = () => {

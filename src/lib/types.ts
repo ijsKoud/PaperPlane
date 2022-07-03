@@ -85,3 +85,28 @@ export const FILE_SORT_OPTIONS = {
 	name: "Name: A - Z",
 	"name-reverse": "Name: Z - A"
 };
+
+export enum WebsocketMessageType {
+	PING,
+	INIT,
+	USER_UPDATE,
+	FILES_UPDATE,
+	URL_UPDATE,
+	STATS_UPDATE,
+	SEARCH_FILE_UPDATE,
+	SEARCH_URL_UPDATE
+}
+
+export interface WebsocketMessagePing {
+	t: WebsocketMessageType.PING;
+	d: {};
+}
+
+export interface WebsocketMessageInit {
+	t: WebsocketMessageType.INIT;
+	d: {
+		hello: string;
+	};
+}
+
+export type WebsocketMessage = WebsocketMessagePing | WebsocketMessageInit;
