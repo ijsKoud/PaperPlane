@@ -1,4 +1,4 @@
-import { setCookies } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { toast } from "react-toastify";
@@ -28,7 +28,7 @@ const UsernameForm: FC = () => {
 			});
 
 			embedPromise
-				.then((res) => setCookies("PAPERPLANE_AUTH", res.data.token, { maxAge: 31556952e3 }))
+				.then((res) => setCookie("PAPERPLANE_AUTH", res.data.token, { maxAge: 31556952e3 }))
 				.then(() => setTimeout(() => refetch(), 1e3))
 				.catch(() => void 0);
 		} catch (err) {}
