@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 	}, [user, userLoading]);
 
 	const getProtocol = () => {
-		const env = process.env.SECURE;
+		const env = process.env.NEXT_PUBLIC_SECURE;
 		if (env && env === "false") return "http://";
 
 		return "https://";

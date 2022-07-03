@@ -23,6 +23,13 @@ const useProvideAuth = (): UseAuth => {
 	const [user, setUser] = useState<CleanUser | null>(null);
 	const [loading, setLoading] = useState<true | false>(true);
 
+	const getProtocol = () => {
+		const env = process.env.NEXT_PUBLIC_SECURE;
+		if (env && env === "false") return "ws://";
+
+		return "wss://";
+	};
+
 	useEffect(() => {
 		const { cancel, token } = getCancelToken();
 		fetch<CleanUser>("/api/user", token)
@@ -31,6 +38,10 @@ const useProvideAuth = (): UseAuth => {
 				setLoading(false);
 			})
 			.catch(() => setLoading(false));
+
+		const url = `${getProtocol()}${location.host}/dashboard-ws`;
+		const websocket = new WebSocket(url);
+		websocket.onopen = () => console.log("ws connection established");
 
 		return () => cancel();
 	}, []);
