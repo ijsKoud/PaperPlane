@@ -21,12 +21,16 @@ import type { IncomingMessage } from "node:http";
 import { parse } from "cookie";
 import { lookup } from "mime-types";
 import Fuse from "fuse.js";
+import EventEmitter from "node:events";
+
 export class Websocket {
 	public timeouts: Record<string, NodeJS.Timeout> = {};
 	public socketServer: WebSocketServer;
+	public events: EventEmitter;
 
 	public constructor(public server: Server) {
-		this.socketServer = new WebSocketServer({ noServer: true, path: "/websocket" });
+		this.socketServer = new WebSocketServer({ noServer: true });
+		this.events = new EventEmitter();
 	}
 
 	public init() {
@@ -44,10 +48,9 @@ export class Websocket {
 
 		const user = await getUser(cookie, this.server.prisma);
 		if (!user) return ws.close(3000); // Close connection when no user is found
+
 		this.setData(ws);
-
 		ws.baseURL = `${getProtocol()}${req.headers.host}`;
-
 		ws.search = {
 			files: {
 				page: 1,
@@ -60,11 +63,20 @@ export class Websocket {
 				sortType: "default"
 			}
 		};
-
 		ws.data = {
 			user,
 			files: await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType),
 			urls: await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType)
+		};
+
+		const fileUpdateListener = async () => {
+			ws.data.files = await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType);
+			this.send(WebsocketMessageType.FILES_UPDATE, ws);
+		};
+
+		const urlUpdateListener = async () => {
+			ws.data.urls = await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType);
+			this.send(WebsocketMessageType.URL_UPDATE, ws);
 		};
 
 		ws.onmessage = (ev) => this.onMessage(ev, ws);
@@ -74,6 +86,9 @@ export class Websocket {
 				clearTimeout(timeout);
 				delete this.timeouts[ws.id];
 			}
+
+			this.events.removeListener("file_update", fileUpdateListener);
+			this.events.removeListener("url_update", urlUpdateListener);
 		};
 
 		ws.send(
@@ -87,6 +102,9 @@ export class Websocket {
 				}
 			})
 		);
+
+		this.events.on("file_update", fileUpdateListener);
+		this.events.on("url_update", urlUpdateListener);
 	}
 
 	private setData(ws: iWebsocket) {

@@ -5,17 +5,13 @@ import LinksList from "./LinksList";
 import FilesList from "./FilesList";
 import StatsContainer from "./StatsContainer";
 
-interface Props {
-	protocol: string;
-}
-
-const Dashboard: FC<Props> = ({ protocol }) => {
+const Dashboard: FC = () => {
 	return (
 		<>
 			<Navbar />
 			<StatsContainer />
-			<FilesList protocol={protocol} />
-			<LinksList protocol={protocol} />
+			<FilesList />
+			<LinksList />
 		</>
 	);
 };

@@ -80,7 +80,11 @@ const useProvideAuth = (): UseAuth => {
 	useEffect(() => {
 		setLoading(true);
 		const ws = connectWebsocket();
-		return () => ws.close();
+
+		return () => {
+			if (websocket) websocket.close();
+			ws.close();
+		};
 	}, []);
 
 	return {

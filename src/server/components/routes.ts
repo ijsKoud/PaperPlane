@@ -145,6 +145,8 @@ export class Routes {
 			try {
 				await this.server.prisma.url.create({ data: { date: new Date(), url: short, id: path } });
 				res.send({ url: `${getProtocol()}${req.headers.host}/r/${path}` });
+
+				this.server.websocket.events.emit("url_update");
 				this.server.logger.info(`[CREATE]: New URL uploaded - URL: ${short} & URL Code: ${path}`);
 			} catch (err) {
 				res.status(500).send({ message: "An unknown error occurred while processing your request, please try again later." });
@@ -166,6 +168,8 @@ export class Routes {
 					return `${getProtocol()}${req.headers.host}/files/${file.id}${config.nameType === "zerowidth" ? "" : `.${fileExt}`}`;
 				})
 			);
+
+			this.server.websocket.events.emit("file_update");
 			res.send({ files, url: files[0] });
 		} catch (err) {
 			res.status(500).send({ message: "An unknown error occurred while processing your request, please try again later." });

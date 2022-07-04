@@ -11,11 +11,7 @@ import DeleteFilePopup from "./content/DeleteFilePopup";
 import { useAuth } from "../../../lib/hooks/useAuth";
 import { stringify } from "../../../lib/WebsocketHandler";
 
-interface Props {
-	protocol: string;
-}
-
-const FilesList: FC<Props> = ({ protocol }) => {
+const FilesList: FC = () => {
 	const [update, setUpdate] = useState(false); // used to trigger useEffect hook
 	const [page, setPage] = useState(1);
 	const auth = useAuth();
