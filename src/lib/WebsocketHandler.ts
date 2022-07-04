@@ -3,15 +3,19 @@ import { ApiFile, ApiStats, ApiURL, CleanUser, WebsocketMessage, WebsocketMessag
 /* eslint-disable @typescript-eslint/ban-types */
 interface Props {
 	websocket: WebSocket;
+
 	setFiles: (files: ApiFile[]) => void;
 	setUrls: (urls: ApiURL[]) => void;
 	setStats: (stats: ApiStats) => void;
+
 	setUser: (user: CleanUser) => void;
+	setLoading: (loading: boolean) => void;
+
 	setFilePages: (pages: number) => void;
 	setUrlPages: (pages: number) => void;
 }
 
-export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setUrlPages, setFilePages, setStats }: Props) => {
+export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setLoading, setUrlPages, setFilePages, setStats }: Props) => {
 	let interval: NodeJS.Timeout | undefined;
 
 	const onOpen = () => {
@@ -36,8 +40,10 @@ export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setUrlPages, 
 			case WebsocketMessageType.INIT:
 				setFiles(data.d.files);
 				setUrls(data.d.urls);
-				setUser(data.d.user);
 				setStats(data.d.stats);
+
+				setUser(data.d.user);
+				setLoading(false);
 
 				setUrlPages(data.d.pages.urls);
 				setFilePages(data.d.pages.files);

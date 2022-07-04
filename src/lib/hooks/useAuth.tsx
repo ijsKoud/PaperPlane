@@ -60,13 +60,10 @@ const useProvideAuth = (): UseAuth => {
 	const connectWebsocket = () => {
 		const url = `${getProtocol()}${location.host}/websocket`;
 		const ws = new WebSocket(url);
-		const handler = handlerWs({ websocket: ws, setFiles, setUrls, setUser, setUrlPages, setFilePages, setStats });
+		const handler = handlerWs({ websocket: ws, setFiles, setUrls, setUser, setLoading, setUrlPages, setFilePages, setStats });
 		setWebsocket(ws);
 
-		ws.onopen = () => {
-			setLoading(false);
-			handler.onOpen();
-		};
+		ws.onopen = handler.onOpen.bind(handler);
 		ws.onmessage = (ev) => handler.onMessage(ev.data);
 		ws.onclose = (ev) => {
 			setWebsocket(undefined);
