@@ -1,5 +1,4 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
-import { fetch, getCancelToken } from "../fetch";
 import type { ApiFile, ApiURL, CleanUser, FC } from "../types";
 import { handlerWs } from "../WebsocketHandler";
 
@@ -61,7 +60,10 @@ const useProvideAuth = (): UseAuth => {
 		const handler = handlerWs({ websocket: ws, setFiles, setUrls, setUser, setUrlPages, setFilePages });
 		setWebsocket(ws);
 
-		ws.onopen = handler.onOpen.bind(handler);
+		ws.onopen = () => {
+			setLoading(false);
+			handler.onOpen();
+		};
 		ws.onmessage = (ev) => handler.onMessage(ev.data);
 		ws.onclose = (ev) => {
 			setWebsocket(undefined);
@@ -76,31 +78,10 @@ const useProvideAuth = (): UseAuth => {
 	};
 
 	useEffect(() => {
-		const { cancel, token } = getCancelToken();
-		fetch<CleanUser>("/api/user", token)
-			.then((res) => {
-				setUser(res.data);
-				setLoading(false);
-			})
-			.catch(() => setLoading(false));
-
+		setLoading(true);
 		const ws = connectWebsocket();
-		return () => {
-			ws.close();
-			cancel();
-		};
+		return () => ws.close();
 	}, []);
-
-	const reFetch = (removeOnError = false) =>
-		fetch<CleanUser>("/api/user")
-			.then((res) => {
-				setUser(res.data);
-				setLoading(false);
-			})
-			.catch(() => {
-				if (removeOnError) setUser(null);
-				setLoading(false);
-			});
 
 	return {
 		user,
@@ -110,6 +91,6 @@ const useProvideAuth = (): UseAuth => {
 		websocket,
 		urlPages,
 		filePages,
-		fetch: reFetch
+		fetch: () => connectWebsocket()
 	};
 };
