@@ -41,22 +41,30 @@ export class Websocket {
 	private async onWebsocket(ws: iWebsocket, req: IncomingMessage) {
 		const cookies = parse(req.headers.cookie ?? "");
 		const cookie = cookies["PAPERPLANE_AUTH"];
-		const baseURL = `${getProtocol}${req.headers.host}`;
 
 		const user = await getUser(cookie, this.server.prisma);
 		if (!user) return ws.close(3000); // Close connection when no user is found
 		this.setData(ws);
 
+		ws.baseURL = `${getProtocol()}${req.headers.host}`;
+
 		ws.search = {
-			page: 1,
-			query: "",
-			sortType: "default"
+			files: {
+				page: 1,
+				query: "",
+				sortType: "default"
+			},
+			urls: {
+				page: 1,
+				query: "",
+				sortType: "default"
+			}
 		};
 
 		ws.data = {
 			user,
-			files: await this.getFiles(baseURL, ws.search.query, ws.search.sortType),
-			urls: await this.getUrls(baseURL, ws.search.query, ws.search.sortType)
+			files: await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType),
+			urls: await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType)
 		};
 
 		ws.onmessage = (ev) => this.onMessage(ev, ws);
@@ -68,7 +76,17 @@ export class Websocket {
 			}
 		};
 
-		ws.send(this.stringify({ t: WebsocketMessageType.INIT, d: { user, files: ws.data.files[0], urls: ws.data.urls[0] } }));
+		ws.send(
+			this.stringify({
+				t: WebsocketMessageType.INIT,
+				d: {
+					user,
+					files: ws.data.files[0] ?? [],
+					urls: ws.data.urls[0] ?? [],
+					pages: { files: ws.data.files.length, urls: ws.data.urls.length }
+				}
+			})
+		);
 	}
 
 	private setData(ws: iWebsocket) {
@@ -83,7 +101,20 @@ export class Websocket {
 		return JSON.stringify(data);
 	}
 
-	private onMessage({ data }: MessageEvent, ws: iWebsocket) {
+	private send(t: WebsocketMessageType, ws: iWebsocket) {
+		switch (t) {
+			default:
+				break;
+			case WebsocketMessageType.FILES_UPDATE:
+				ws.send(this.stringify({ t, d: { files: ws.data.files[ws.search.files.page - 1] ?? [], pages: ws.data.files.length } }));
+				break;
+			case WebsocketMessageType.URL_UPDATE:
+				ws.send(this.stringify({ t, d: { urls: ws.data.urls[ws.search.urls.page - 1] ?? [], pages: ws.data.urls.length } }));
+				break;
+		}
+	}
+
+	private async onMessage({ data }: MessageEvent, ws: iWebsocket) {
 		if (data instanceof ArrayBuffer) data = Buffer.from(data);
 		else if (Array.isArray(data)) data = Buffer.concat(data);
 		if (!data) return;
@@ -98,6 +129,20 @@ export class Websocket {
 
 					const newTimeout = setTimeout(() => ws.close(), 5e3 + 1e3);
 					this.timeouts[ws.id] = newTimeout;
+				}
+				break;
+			case WebsocketMessageType.SEARCH_FILE_UPDATE:
+				{
+					ws.search.files = { ...ws.search.files, ...payload.d };
+					ws.data.files = await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType);
+					this.send(WebsocketMessageType.FILES_UPDATE, ws);
+				}
+				break;
+			case WebsocketMessageType.SEARCH_URL_UPDATE:
+				{
+					ws.search.urls = { ...ws.search.urls, ...payload.d };
+					ws.data.urls = await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType);
+					this.send(WebsocketMessageType.URL_UPDATE, ws);
 				}
 				break;
 			default:
@@ -132,7 +177,7 @@ export class Websocket {
 		});
 
 		let apiRes: ApiFile[] = files;
-		if (searchQ) {
+		if (searchQ.length) {
 			const search = new Fuse(files, { keys: ["name"], isCaseSensitive: false });
 			apiRes = search.search(searchQ).map((sr) => sr.item);
 		}
@@ -157,7 +202,7 @@ export class Websocket {
 		});
 
 		let apiRes: ApiURL[] = urls;
-		if (searchQ) {
+		if (searchQ.length) {
 			const search = new Fuse(urls, { keys: ["name", "url"], isCaseSensitive: false });
 			apiRes = search.search(searchQ).map((sr) => sr.item);
 		}

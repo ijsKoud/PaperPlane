@@ -1,15 +1,20 @@
-import { WebsocketMessage, WebsocketMessageType } from "./types";
+import { ApiFile, ApiURL, CleanUser, WebsocketMessage, WebsocketMessageType } from "./types";
 
 /* eslint-disable @typescript-eslint/ban-types */
 interface Props {
 	websocket: WebSocket;
+	setFiles: (files: ApiFile[]) => void;
+	setUrls: (urls: ApiURL[]) => void;
+	setUser: (user: CleanUser) => void;
+	setFilePages: (pages: number) => void;
+	setUrlPages: (pages: number) => void;
 }
 
-export const handlerWs = ({ websocket }: Props) => {
+export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setUrlPages, setFilePages }: Props) => {
 	let interval: NodeJS.Timeout | undefined;
 
 	const onOpen = () => {
-		const pingMessage = send({ t: WebsocketMessageType.PING, d: {} });
+		const pingMessage = stringify({ t: WebsocketMessageType.PING, d: {} });
 		websocket.send(pingMessage);
 
 		console.log("[WS] => Connection established with remote server.");
@@ -28,7 +33,20 @@ export const handlerWs = ({ websocket }: Props) => {
 		const data = parse(_data);
 		switch (data.t) {
 			case WebsocketMessageType.INIT:
-				console.log(data.d);
+				setFiles(data.d.files);
+				setUrls(data.d.urls);
+				setUser(data.d.user);
+
+				setUrlPages(data.d.pages.urls);
+				setFilePages(data.d.pages.files);
+				break;
+			case WebsocketMessageType.FILES_UPDATE:
+				setFiles(data.d.files);
+				setFilePages(data.d.pages);
+				break;
+			case WebsocketMessageType.URL_UPDATE:
+				setUrls(data.d.urls);
+				setUrlPages(data.d.pages);
 				break;
 			default:
 				break;
@@ -42,7 +60,7 @@ export const handlerWs = ({ websocket }: Props) => {
 	};
 };
 
-const send = (data: WebsocketMessage): string => {
+export const stringify = (data: WebsocketMessage): string => {
 	return JSON.stringify(data);
 };
 

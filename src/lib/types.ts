@@ -105,8 +105,39 @@ export interface WebsocketMessagePing {
 export interface WebsocketMessageInit {
 	t: WebsocketMessageType.INIT;
 	d: {
-		hello: string;
+		user: CleanUser;
+		files: ApiFile[];
+		urls: ApiURL[];
+		pages: {
+			files: number;
+			urls: number;
+		};
 	};
 }
 
-export type WebsocketMessage = WebsocketMessagePing | WebsocketMessageInit;
+export interface WebsocketMessageFiles {
+	t: WebsocketMessageType.FILES_UPDATE;
+	d: {
+		files: ApiFile[];
+		pages: number;
+	};
+}
+
+export interface WebsocketMessageUrls {
+	t: WebsocketMessageType.URL_UPDATE;
+	d: {
+		urls: ApiURL[];
+		pages: number;
+	};
+}
+
+export interface WebsocketMessageSearch {
+	t: WebsocketMessageType.SEARCH_FILE_UPDATE | WebsocketMessageType.SEARCH_URL_UPDATE;
+	d: Partial<{
+		query: string;
+		sortType: string;
+		page: number;
+	}>;
+}
+
+export type WebsocketMessage = WebsocketMessagePing | WebsocketMessageInit | WebsocketMessageFiles | WebsocketMessageUrls | WebsocketMessageSearch;
