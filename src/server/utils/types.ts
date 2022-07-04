@@ -54,9 +54,49 @@ export interface WebsocketMessageInit {
 	t: WebsocketMessageType.INIT;
 	d: {
 		user: CleanUser;
+		files: ApiFile[];
+		urls: ApiURL[];
 	};
 }
 
 export type WebsocketMessage = WebsocketMessagePing | WebsocketMessageInit;
 
-export type iWebsocket = WebSocket & { id: string };
+export interface iWebsocketExt {
+	id: string;
+	data: {
+		user: CleanUser;
+		files: ApiFile[][];
+		urls: ApiURL[][];
+	};
+	search: {
+		query: string;
+		sortType: string;
+		page: number;
+	};
+}
+export type iWebsocket = WebSocket & iWebsocketExt;
+
+export interface ApiFile {
+	name: string;
+	url: string;
+
+	visible: boolean;
+	size: string;
+	isImage: boolean;
+
+	pwdProtection: boolean;
+	password: string | null;
+
+	date: Date;
+	views: number;
+}
+
+export interface ApiURL {
+	name: string;
+	url: string;
+	redirect: string;
+
+	visible: boolean;
+	date: Date;
+	visits: number;
+}
