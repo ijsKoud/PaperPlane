@@ -1,16 +1,17 @@
-import { ApiFile, ApiURL, CleanUser, WebsocketMessage, WebsocketMessageType } from "./types";
+import { ApiFile, ApiStats, ApiURL, CleanUser, WebsocketMessage, WebsocketMessageType } from "./types";
 
 /* eslint-disable @typescript-eslint/ban-types */
 interface Props {
 	websocket: WebSocket;
 	setFiles: (files: ApiFile[]) => void;
 	setUrls: (urls: ApiURL[]) => void;
+	setStats: (stats: ApiStats) => void;
 	setUser: (user: CleanUser) => void;
 	setFilePages: (pages: number) => void;
 	setUrlPages: (pages: number) => void;
 }
 
-export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setUrlPages, setFilePages }: Props) => {
+export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setUrlPages, setFilePages, setStats }: Props) => {
 	let interval: NodeJS.Timeout | undefined;
 
 	const onOpen = () => {
@@ -36,6 +37,7 @@ export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setUrlPages, 
 				setFiles(data.d.files);
 				setUrls(data.d.urls);
 				setUser(data.d.user);
+				setStats(data.d.stats);
 
 				setUrlPages(data.d.pages.urls);
 				setFilePages(data.d.pages.files);
@@ -43,10 +45,12 @@ export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setUrlPages, 
 			case WebsocketMessageType.FILES_UPDATE:
 				setFiles(data.d.files);
 				setFilePages(data.d.pages);
+				setStats(data.d.stats);
 				break;
 			case WebsocketMessageType.URL_UPDATE:
 				setUrls(data.d.urls);
 				setUrlPages(data.d.pages);
+				setStats(data.d.stats);
 				break;
 			default:
 				break;

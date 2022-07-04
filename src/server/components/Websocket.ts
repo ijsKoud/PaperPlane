@@ -68,14 +68,19 @@ export class Websocket {
 			files: await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType),
 			urls: await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType)
 		};
+		ws.stats = await this.getStats();
 
 		const fileUpdateListener = async () => {
 			ws.data.files = await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType);
+			ws.stats = await this.getStats();
+
 			this.send(WebsocketMessageType.FILES_UPDATE, ws);
 		};
 
 		const urlUpdateListener = async () => {
 			ws.data.urls = await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType);
+			ws.stats = await this.getStats();
+
 			this.send(WebsocketMessageType.URL_UPDATE, ws);
 		};
 
@@ -98,6 +103,7 @@ export class Websocket {
 					user,
 					files: ws.data.files[0] ?? [],
 					urls: ws.data.urls[0] ?? [],
+					stats: ws.stats,
 					pages: { files: ws.data.files.length, urls: ws.data.urls.length }
 				}
 			})
@@ -124,10 +130,12 @@ export class Websocket {
 			default:
 				break;
 			case WebsocketMessageType.FILES_UPDATE:
-				ws.send(this.stringify({ t, d: { files: ws.data.files[ws.search.files.page - 1] ?? [], pages: ws.data.files.length } }));
+				ws.send(
+					this.stringify({ t, d: { files: ws.data.files[ws.search.files.page - 1] ?? [], pages: ws.data.files.length, stats: ws.stats } })
+				);
 				break;
 			case WebsocketMessageType.URL_UPDATE:
-				ws.send(this.stringify({ t, d: { urls: ws.data.urls[ws.search.urls.page - 1] ?? [], pages: ws.data.urls.length } }));
+				ws.send(this.stringify({ t, d: { urls: ws.data.urls[ws.search.urls.page - 1] ?? [], pages: ws.data.urls.length, stats: ws.stats } }));
 				break;
 		}
 	}
@@ -166,6 +174,23 @@ export class Websocket {
 			default:
 				break;
 		}
+	}
+
+	private async getStats() {
+		const files = await this.server.prisma.file.findMany();
+		const links = await this.server.prisma.url.count();
+		const size = files
+			.map((f) => f.size)
+			.map((size) => Number(size))
+			.reduce((a, b) => a + b, 0);
+
+		return {
+			links,
+			files: {
+				size: files.length,
+				bytes: formatBytes(size)
+			}
+		};
 	}
 
 	private async getFiles(baseURL: string, searchQ: string, sortType: string) {

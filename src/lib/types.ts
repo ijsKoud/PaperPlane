@@ -108,6 +108,7 @@ export interface WebsocketMessageInit {
 		user: CleanUser;
 		files: ApiFile[];
 		urls: ApiURL[];
+		stats: ApiStats;
 		pages: {
 			files: number;
 			urls: number;
@@ -119,6 +120,7 @@ export interface WebsocketMessageFiles {
 	t: WebsocketMessageType.FILES_UPDATE;
 	d: {
 		files: ApiFile[];
+		stats: ApiStats;
 		pages: number;
 	};
 }
@@ -127,6 +129,7 @@ export interface WebsocketMessageUrls {
 	t: WebsocketMessageType.URL_UPDATE;
 	d: {
 		urls: ApiURL[];
+		stats: ApiStats;
 		pages: number;
 	};
 }
@@ -141,3 +144,35 @@ export interface WebsocketMessageSearch {
 }
 
 export type WebsocketMessage = WebsocketMessagePing | WebsocketMessageInit | WebsocketMessageFiles | WebsocketMessageUrls | WebsocketMessageSearch;
+
+export interface iWebsocketExt {
+	id: string;
+	baseURL: string;
+	data: {
+		user: CleanUser;
+		files: ApiFile[][];
+		urls: ApiURL[][];
+	};
+	search: {
+		files: {
+			query: string;
+			sortType: string;
+			page: number;
+		};
+		urls: {
+			query: string;
+			sortType: string;
+			page: number;
+		};
+	};
+	stats: ApiStats;
+}
+export type iWebsocket = WebSocket & iWebsocketExt;
+
+export interface ApiStats {
+	files: {
+		bytes: string;
+		size: number;
+	};
+	links: number;
+}

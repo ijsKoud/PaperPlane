@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext, useEffect } from "react";
-import type { ApiFile, ApiURL, CleanUser, FC } from "../types";
+import type { ApiFile, ApiStats, ApiURL, CleanUser, FC } from "../types";
 import { handlerWs } from "../WebsocketHandler";
 
 interface UseAuth {
@@ -8,6 +8,7 @@ interface UseAuth {
 
 	files: ApiFile[];
 	urls: ApiURL[];
+	stats: ApiStats;
 
 	urlPages: number;
 	filePages: number;
@@ -23,6 +24,7 @@ const authContext = createContext<UseAuth>({
 	websocket: undefined,
 	urls: [],
 	files: [],
+	stats: { files: { bytes: "0 B", size: 0 }, links: 0 },
 	loading: true,
 	fetch: () => void 0
 });
@@ -40,6 +42,7 @@ const useProvideAuth = (): UseAuth => {
 	const [user, setUser] = useState<CleanUser | null>(null);
 	const [files, setFiles] = useState<ApiFile[]>([]);
 	const [urls, setUrls] = useState<ApiURL[]>([]);
+	const [stats, setStats] = useState<ApiStats>({ files: { bytes: "0 B", size: 0 }, links: 0 });
 
 	const [filePages, setFilePages] = useState(1);
 	const [urlPages, setUrlPages] = useState(1);
@@ -57,7 +60,7 @@ const useProvideAuth = (): UseAuth => {
 	const connectWebsocket = () => {
 		const url = `${getProtocol()}${location.host}/websocket`;
 		const ws = new WebSocket(url);
-		const handler = handlerWs({ websocket: ws, setFiles, setUrls, setUser, setUrlPages, setFilePages });
+		const handler = handlerWs({ websocket: ws, setFiles, setUrls, setUser, setUrlPages, setFilePages, setStats });
 		setWebsocket(ws);
 
 		ws.onopen = () => {
@@ -91,6 +94,7 @@ const useProvideAuth = (): UseAuth => {
 		user,
 		files,
 		urls,
+		stats,
 		loading,
 		websocket,
 		urlPages,
