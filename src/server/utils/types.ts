@@ -29,6 +29,10 @@ export interface Config {
 	 * @default infinity
 	 */
 	maxFileSize: number;
+	/** The amount of time between migrations
+	 * @default infinity
+	 */
+	migration: number;
 }
 
 export type NameType = "id" | "zerowidth" | "name";

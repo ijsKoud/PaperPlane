@@ -35,7 +35,8 @@ export class Data {
 			`Name Type: ${_config.nameType}`,
 			`Name Length: ${_config.nameLength}`,
 			`Max File Size: ${formatBytes(_config.maxFileSize)}`,
-			`Max Files Per Request: ${_config.maxFilesPerRequest}`
+			`Max Files Per Request: ${_config.maxFilesPerRequest}`,
+			`Migrations every: ${_config.migration / 1e3} seconds`
 		].join("\n");
 		this.server.logger.debug(`[ENV]: .env file changes detected. Updating the configuration with the following data:\n${configStr}`);
 

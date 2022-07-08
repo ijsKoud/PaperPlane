@@ -25,6 +25,10 @@ export const getConfig = (): Config => {
 	let maxFilesPerRequest = Number(process.env.MAX_FILES_PER_REQUEST);
 	if (isNaN(maxFilesPerRequest)) maxFilesPerRequest = Infinity;
 
+	let migration = Number(process.env.AUTO_MIGRATION);
+	if (isNaN(migration)) migration = 6e2; // 10 minutes = 600 seconds
+	migration *= 1e3;
+
 	return {
 		encryptionKey,
 		port,
@@ -32,7 +36,8 @@ export const getConfig = (): Config => {
 		extensions,
 		maxFileSize,
 		maxFilesPerRequest,
-		nameLength
+		nameLength,
+		migration
 	};
 };
 
