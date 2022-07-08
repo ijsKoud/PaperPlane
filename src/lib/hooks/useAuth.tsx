@@ -17,6 +17,7 @@ interface UseAuth {
 	fetch: (removeOnError?: boolean) => void;
 }
 
+const mockStats = { files: { bytes: "0 B", size: 0 }, links: 0 };
 const authContext = createContext<UseAuth>({
 	user: null,
 	urlPages: 1,
@@ -24,7 +25,7 @@ const authContext = createContext<UseAuth>({
 	websocket: undefined,
 	urls: [],
 	files: [],
-	stats: { files: { bytes: "0 B", size: 0 }, links: 0 },
+	stats: mockStats,
 	loading: true,
 	fetch: () => void 0
 });
@@ -42,7 +43,7 @@ const useProvideAuth = (): UseAuth => {
 	const [user, setUser] = useState<CleanUser | null>(null);
 	const [files, setFiles] = useState<ApiFile[]>([]);
 	const [urls, setUrls] = useState<ApiURL[]>([]);
-	const [stats, setStats] = useState<ApiStats>({ files: { bytes: "0 B", size: 0 }, links: 0 });
+	const [stats, setStats] = useState<ApiStats>(mockStats);
 
 	const [filePages, setFilePages] = useState(1);
 	const [urlPages, setUrlPages] = useState(1);
@@ -58,6 +59,19 @@ const useProvideAuth = (): UseAuth => {
 	};
 
 	const connectWebsocket = () => {
+		if (websocket) {
+			// close an existing websocket
+			websocket.close();
+			setUser(null);
+			setFiles([]);
+			setUrls([]);
+			setStats(mockStats);
+			setFilePages(0);
+			setUrlPages(0);
+			setWebsocket(undefined);
+			setLoading(true);
+		}
+
 		const url = `${getProtocol()}${location.host}/websocket`;
 		const ws = new WebSocket(url);
 		const handler = handlerWs({ websocket: ws, setFiles, setUrls, setUser, setLoading, setUrlPages, setFilePages, setStats });
@@ -70,7 +84,11 @@ const useProvideAuth = (): UseAuth => {
 			handler.onClose();
 			console.log("ws connection closed", ev.code);
 
-			if (ev.code === 3000) return;
+			if (ev.code === 3000) {
+				setLoading(false);
+				return;
+			}
+
 			setTimeout(() => connectWebsocket(), 5e3);
 		};
 
