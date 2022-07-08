@@ -8,7 +8,7 @@ const Home: NextPage = () => {
 			<Title>Paperplane - File uploading. URL Shortening. Protected views.</Title>
 			<div className="home-content">
 				<div className="home-title">
-					<img alt="PaperPlane logo" src="assets/svg/paperplane_nobg.svg" />
+					<img alt="PaperPlane logo" src="assets/svg/paperplane.svg" />
 					<h1>PAPERPLANE</h1>
 				</div>
 				<p>File uploading. URL Shortening. Protected views.</p>
