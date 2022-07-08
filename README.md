@@ -5,7 +5,7 @@
   <p>A fast file/shorturl upload server packed with lots of cool features!</p>
   
   <p align="center">
-    <img alt="Version" src="https://img.shields.io/badge/version-3.0.0-blue.svg" />
+    <img alt="Version" src="https://img.shields.io/badge/version-3.1.0-blue.svg" />
     <a href="/LICENSE" target="_blank">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
     </a>
@@ -34,7 +34,6 @@ PaperPlane is a file/shorturl upload server that is created for ShareX users. It
 -   File renaming (using the dashboard!)
 -   Shorturls
 -   Frontend uploading page
--   Custom themes
 
 ## Install
 
@@ -42,7 +41,7 @@ A Detailed installation guide can be found here: https://paperplane.ijskoud.dev
 
 ## Author
 
-👤 **DaanGamesDG**
+👤 **ijsKoud**
 
 -   Website: https://ijskoud.dev/
 -   Email: <github@ijskoud.dev>
@@ -53,7 +52,7 @@ A Detailed installation guide can be found here: https://paperplane.ijskoud.dev
 
 This will always be open source project, even if I don't receive donations. But there are still people out there that want to donate, so if you do here is the link [PayPal](https://paypal.me/daangamesdg) or to [Ko-Fi](https://ijskoud.dev/kofi). Thanks in advance! I really appriciate it <3
 
-## Lisence
+## License
 
 Project is licensed under the © [**MIT License**](/LICENSE)
 
