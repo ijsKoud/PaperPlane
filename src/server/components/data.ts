@@ -1,5 +1,6 @@
 import { watch } from "chokidar";
 import { config } from "dotenv";
+import ms from "ms";
 import { existsSync, Stats } from "node:fs";
 import { mkdir, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
@@ -42,7 +43,7 @@ export class Data {
 			`Name Length: ${_config.nameLength}`,
 			`Max File Size: ${formatBytes(_config.maxFileSize)}`,
 			`Max Files Per Request: ${_config.maxFilesPerRequest}`,
-			`Migrations every: ${_config.migration / 1e3} seconds`
+			`Migrations every: ${ms(_config.migration, { long: true })}`
 		].join("\n");
 		this.server.logger.debug(`[ENV]: .env file changes detected. Updating the configuration with the following data:\n${configStr}`);
 

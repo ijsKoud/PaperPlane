@@ -8,6 +8,7 @@ import { json, urlencoded } from "body-parser";
 import { formatBytes, getConfig } from "./utils";
 import cookieParser from "cookie-parser";
 import type { Server as HttpServer } from "node:http";
+import ms from "ms";
 
 process.env.VERSION = version;
 process.env.NEXT_PUBLIC_SECURE = process.env.SECURE;
@@ -89,7 +90,7 @@ export class Server {
 			`Name Length: ${config.nameLength}`,
 			`Max File Size: ${formatBytes(config.maxFileSize)}`,
 			`Max Files Per Request: ${config.maxFilesPerRequest}`,
-			`Migrations every: ${config.migration / 1e3} seconds`
+			`Migrations every: ${ms(config.migration, { long: true })}`
 		].join("\n");
 		this.logger.debug(`The following configuration is used for this build:\n${configStr}`);
 

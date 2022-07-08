@@ -905,6 +905,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ms@npm:^0.7.31":
+  version: 0.7.31
+  resolution: "@types/ms@npm:0.7.31"
+  checksum: daadd354aedde024cce6f5aa873fefe7b71b22cd0e28632a69e8b677aeb48ae8caa1c60e5919bb781df040d116b01cb4316335167a3fc0ef6a63fa3614c0f6da
+  languageName: node
+  linkType: hard
+
 "@types/multer@npm:^1.4.7":
   version: 1.4.7
   resolution: "@types/multer@npm:1.4.7"
@@ -4579,7 +4586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ms@npm:2.1.3, ms@npm:^2.0.0, ms@npm:^2.1.1":
+"ms@npm:2.1.3, ms@npm:^2.0.0, ms@npm:^2.1.1, ms@npm:^2.1.3":
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
   checksum: aa92de608021b242401676e35cfa5aa42dd70cbdc082b916da7fb925c542173e36bce97ea3e804923fe92c0ad991434e4a38327e15a1b5b5f945d66df615ae6d
@@ -5018,6 +5025,7 @@ __metadata:
     "@types/express": ^4.17.13
     "@types/file-saver": ^2.0.5
     "@types/mime-types": ^2.1.1
+    "@types/ms": ^0.7.31
     "@types/multer": ^1.4.7
     "@types/node": 17.0.8
     "@types/react": 18.0.14
@@ -5049,6 +5057,7 @@ __metadata:
     mime-types: ^2.1.35
     moment: 2.29.4
     moment-timezone: ^0.5.34
+    ms: ^2.1.3
     multer: ^1.4.5-lts.1
     next: 12.2.0
     prisma: ^4.0.0
