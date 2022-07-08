@@ -1,9 +1,10 @@
 import { watch } from "chokidar";
+import { config } from "dotenv";
 import { existsSync, Stats } from "node:fs";
 import { mkdir, readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import type { Server } from "../Server";
-import { createToken, encryptPassword, generateId } from "../utils";
+import { createToken, encryptPassword, formatBytes, generateId, getConfig } from "../utils";
 
 export class Data {
 	public filesDir = join(process.cwd(), "data", "files");
@@ -18,7 +19,27 @@ export class Data {
 			.on("unlink", (path) => this.unlink(path))
 			.on("change", (path, stats) => this.change(path, stats!));
 
+		watch(join(this.filesDir, "..", ".env")).on("change", this.updateEnv.bind(this));
+
 		await this.createUser();
+	}
+
+	public updateEnv(path: string) {
+		config({ path, override: true });
+
+		const _config = getConfig();
+		const configStr = [
+			`Extensions: [${_config.extensions.join(", ")}]`,
+			`EncryptionKey: ${_config.encryptionKey.length} characters long`,
+			`Port: ${_config.port}`,
+			`Name Type: ${_config.nameType}`,
+			`Name Length: ${_config.nameLength}`,
+			`Max File Size: ${formatBytes(_config.maxFileSize)}`,
+			`Max Files Per Request: ${_config.maxFilesPerRequest}`
+		].join("\n");
+		this.server.logger.debug(`[ENV]: .env file changes detected. Updating the configuration with the following data:\n${configStr}`);
+
+		process.env.NEXT_PUBLIC_SECURE = process.env.SECURE;
 	}
 
 	public async unlink(path: string) {
