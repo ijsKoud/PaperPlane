@@ -235,8 +235,6 @@ export class Routes {
 
 			res.sendStatus(204);
 		}
-
-		this.server.websocket.events.emit("file_update");
 	}
 
 	private async updateFile(req: Request, res: Response) {
