@@ -2,16 +2,24 @@ import { scryptSync, timingSafeEqual } from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { encryptToken } from "../../../lib/utils";
 import prisma from "../../../lib/prisma";
+import { object, string, ValidationError } from "yup";
 
 interface ReqBody {
 	password: string;
 	username: string;
 }
 
+const validation = object({
+	password: string().required("Password is a required field").min(5, "Password must be 5 characters or longer"),
+	username: string().max(32).required("Username is a required field").min(5, "Username must not be longer than 32 characters")
+});
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method !== "POST") return res.status(403).json({ error: "Invalid method used" });
-	if (typeof req.body.password !== "string" || typeof req.body.username !== "string")
-		return res.status(400).json({ message: "Missing password or username in the request body" });
+	await validation.validate(req.body, { abortEarly: false }).catch((err: ValidationError) => {
+		const message = err.errors.join("; ");
+		return res.status(400).send({ message });
+	});
 
 	const body = req.body as ReqBody;
 	const user = await prisma.user.findFirst({ where: { username: body.username } });
