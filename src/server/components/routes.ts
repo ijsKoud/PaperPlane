@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import type { Server } from "../Server";
 import multer from "multer";
 import { readdir, unlink } from "node:fs/promises";
-import { decryptToken, encryptToken, formatBytes, generateId, getConfig, getProtocol, getUser } from "../utils";
+import { createToken, decryptToken, encryptPassword, encryptToken, formatBytes, generateId, getConfig, getProtocol, getUser } from "../utils";
 import { join } from "node:path";
 import { rateLimit } from "express-rate-limit";
 
@@ -62,6 +62,10 @@ export class Routes {
 		this.server.express
 			.delete("/api/dashboard/urls/update", this.ratelimit, this.userAuth.bind(this), this.deleteUrl.bind(this))
 			.post("/api/dashboard/urls/update", this.ratelimit, this.userAuth.bind(this), this.updateUrl.bind(this));
+		this.server.express
+			.patch("/api/user", this.ratelimit, this.userAuth.bind(this), this.updateUser.bind(this))
+			.patch("/api/user/embed", this.ratelimit, this.userAuth.bind(this), this.userEmbed.bind(this))
+			.post("/api/user/token", this.ratelimit, this.userAuth.bind(this), this.userToken.bind(this));
 	}
 
 	private async auth(req: Request, res: Response, next: NextFunction) {
@@ -85,22 +89,22 @@ export class Routes {
 		next();
 	}
 
+	private async getUser(req: Request) {
+		try {
+			const { authorization } = req.headers;
+			if (!authorization || !authorization.startsWith("Bearer ") || authorization.includes("null")) return null;
+
+			const [username] = decryptToken(authorization.replace("Bearer ", "")).split(".");
+			const user = await this.server.prisma.user.findFirst({ where: { username } });
+
+			return user;
+		} catch (err) {}
+
+		return null;
+	}
+
 	private async userAuth(req: Request, res: Response, next: NextFunction) {
-		const checkUser = async () => {
-			try {
-				const { authorization } = req.headers;
-				if (!authorization || !authorization.startsWith("Bearer ") || authorization.includes("null")) return null;
-
-				const [username] = decryptToken(authorization.replace("Bearer ", "")).split(".");
-				const user = await this.server.prisma.user.findFirst({ where: { username } });
-
-				return user;
-			} catch (err) {}
-
-			return null;
-		};
-
-		const user = await checkUser();
+		const user = await this.getUser(req);
 		if (!user) {
 			res.status(401).send({ message: "You need to be logged in to view this content." });
 			return;
@@ -330,5 +334,73 @@ export class Routes {
 		}
 
 		this.server.websocket.events.emit("url_update");
+	}
+
+	private async updateUser(req: Request, res: Response) {
+		const body = req.body as { password?: string; username?: string };
+		if (typeof body.password !== "string" && typeof body.username !== "string") {
+			res.status(400).json({ message: "Password/username/theme missing in request body" });
+			return;
+		}
+
+		const user = await this.getUser(req);
+		if (!user) {
+			res.status(401).json({ message: "You need to be logged in to perform this action" });
+			return;
+		}
+
+		if (body.password) {
+			const password = encryptPassword(body.password);
+			const token = encryptToken(`${user.username}.${Date.now()}`);
+
+			user.password = password;
+			await this.server.prisma.user.update({ where: { username: user.username }, data: user });
+
+			res.json({ token });
+		} else if (body.username) {
+			const token = encryptToken(`${body.username}.${Date.now()}`);
+			await this.server.prisma.user.update({ where: { username: user.username }, data: { username: body.username } });
+
+			res.json({ token });
+		}
+
+		this.server.websocket.events.emit("user_update");
+	}
+
+	private async userEmbed(req: Request, res: Response) {
+		const body = req.body as { embedColour: string; embedTitle: string; embedDescription: string; embedEnabled: boolean };
+		if (
+			(!body.embedColour || typeof body.embedColour !== "string") &&
+			(!body.embedTitle || typeof body.embedTitle !== "string") &&
+			(!body.embedDescription || typeof body.embedDescription !== "string") &&
+			typeof body.embedEnabled !== "boolean"
+		) {
+			res.status(400).json({ message: "embedColour/embedTitle/embedDescription/embedEnabled missing in request body" });
+			return;
+		}
+
+		let user = await this.getUser(req);
+		if (!user) {
+			res.status(401).json({ message: "You need to be logged in to perform this action" });
+			return;
+		}
+
+		user = { ...user, ...body };
+		await this.server.prisma.user.update({ where: { username: user.username }, data: user });
+		res.sendStatus(204);
+	}
+
+	private async userToken(req: Request, res: Response) {
+		const user = await this.getUser(req);
+		if (!user) {
+			res.status(401).json({ message: "You need to be logged in to perform this action" });
+			return;
+		}
+
+		user.token = createToken();
+		await this.server.prisma.user.update({ where: { username: user.username }, data: user });
+		res.sendStatus(204);
+
+		this.server.websocket.events.emit("user_update");
 	}
 }
