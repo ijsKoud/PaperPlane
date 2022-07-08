@@ -5,6 +5,7 @@ import { readdir, unlink } from "node:fs/promises";
 import { createToken, decryptToken, encryptPassword, encryptToken, formatBytes, generateId, getConfig, getProtocol, getUser } from "../utils";
 import { join } from "node:path";
 import { rateLimit } from "express-rate-limit";
+import { boolean, object, string, ValidationError } from "yup";
 
 const config = getConfig();
 
@@ -242,16 +243,29 @@ export class Routes {
 
 			res.sendStatus(204);
 		}
+
+		res.status(400).send({ message: "bad request" });
 	}
 
 	private async updateFile(req: Request, res: Response) {
-		const { name, newName, password, visible } = req.body;
-		if (typeof name !== "string" || typeof newName !== "string" || typeof password !== "string" || typeof visible !== "boolean") {
-			res.status(400).send({ message: "Invalid body provided." });
+		const schema = object({
+			name: string().required("Name is a required field"),
+			newName: string().required("newName is a required field"),
+			password: string(),
+			visible: boolean().required("visible is a required field")
+		});
+		let message = "";
+		await schema.validate(req.body, { abortEarly: false }).catch((err: ValidationError) => {
+			message = err.errors.join("; ");
+		});
+		if (message) {
+			res.status(400).send({ message });
 			return;
 		}
 
+		const { name, newName, password, visible } = req.body;
 		const id = name.split(".")[0];
+
 		const file = await this.server.prisma.file.findFirst({ where: { id } });
 		if (!file) {
 			res.status(404).send({ message: "No file found on the server." });
@@ -311,12 +325,21 @@ export class Routes {
 	}
 
 	private async updateUrl(req: Request, res: Response) {
-		const { name, newName, visible } = req.body;
-		if (typeof name !== "string" || typeof newName !== "string" || typeof visible !== "boolean") {
-			res.status(400).send({ message: "Invalid body provided." });
+		const schema = object({
+			name: string().required("Name is a required field"),
+			newName: string().required("newName is a required field"),
+			visible: boolean().required("visible is a required field")
+		});
+		let message = "";
+		await schema.validate(req.body, { abortEarly: false }).catch((err: ValidationError) => {
+			message = err.errors.join("; ");
+		});
+		if (message) {
+			res.status(400).send({ message });
 			return;
 		}
 
+		const { name, newName, visible } = req.body;
 		const url = await this.server.prisma.url.findFirst({ where: { id: name } });
 		if (!url) {
 			res.status(404).send({ message: "No url found on the server." });
@@ -368,17 +391,24 @@ export class Routes {
 	}
 
 	private async userEmbed(req: Request, res: Response) {
-		const body = req.body as { embedColour: string; embedTitle: string; embedDescription: string; embedEnabled: boolean };
-		if (
-			(!body.embedColour || typeof body.embedColour !== "string") &&
-			(!body.embedTitle || typeof body.embedTitle !== "string") &&
-			(!body.embedDescription || typeof body.embedDescription !== "string") &&
-			typeof body.embedEnabled !== "boolean"
-		) {
-			res.status(400).json({ message: "embedColour/embedTitle/embedDescription/embedEnabled missing in request body" });
+		const schema = object({
+			embedColour: string()
+				.required("embedColour is a required field")
+				.test({ test: (v) => (v ? v.includes("#") : false), message: "embedColour must be a hex colour" }),
+			embedTitle: string().max(256, "Embed title must not be longer than 256 characters"),
+			embedDescription: string().max(4096, "Embed title must not be longer than 4096 characters"),
+			embedEnabled: boolean().required("embedEnabled is a required field")
+		});
+		let message = "";
+		await schema.validate(req.body, { abortEarly: false }).catch((err: ValidationError) => {
+			message = err.errors.join("; ");
+		});
+		if (message) {
+			res.status(400).send({ message });
 			return;
 		}
 
+		const body = req.body as { embedColour: string; embedTitle: string; embedDescription: string; embedEnabled: boolean };
 		let user = await this.getUser(req);
 		if (!user) {
 			res.status(401).json({ message: "You need to be logged in to perform this action" });
