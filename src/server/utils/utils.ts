@@ -1,5 +1,5 @@
 import type { PrismaClient } from "@prisma/client";
-import { createDecipheriv, randomBytes, scryptSync } from "node:crypto";
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "node:crypto";
 import ShortUniqueId from "short-unique-id";
 import type { ApiFile, ApiURL, CleanUser, Config, NameType } from "./types";
 
@@ -35,6 +35,16 @@ export const getConfig = (): Config => {
 		nameLength
 	};
 };
+
+export function encryptToken(str: string): string {
+	const secretKey = process.env.ENCRYPTION_KEY as string;
+	const iv = randomBytes(16);
+
+	const cipher = createCipheriv("aes-256-ctr", secretKey, iv);
+	const encrypted = Buffer.concat([cipher.update(str), cipher.final()]);
+
+	return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+}
 
 export const generateId = (overwrite?: boolean): string => {
 	let { nameType, nameLength: length } = getConfig();
