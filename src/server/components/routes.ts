@@ -59,6 +59,9 @@ export class Routes {
 		this.server.express
 			.delete("/api/dashboard/files/update", this.ratelimit, this.userAuth.bind(this), this.deleteFile.bind(this))
 			.post("/api/dashboard/files/update", this.ratelimit, this.userAuth.bind(this), this.updateFile.bind(this));
+		this.server.express
+			.delete("/api/dashboard/urls/update", this.ratelimit, this.userAuth.bind(this), this.deleteUrl.bind(this))
+			.post("/api/dashboard/urls/update", this.ratelimit, this.userAuth.bind(this), this.updateUrl.bind(this));
 	}
 
 	private async auth(req: Request, res: Response, next: NextFunction) {
@@ -263,5 +266,69 @@ export class Routes {
 		}
 
 		this.server.websocket.events.emit("file_update");
+	}
+
+	private async deleteUrl(req: Request, res: Response) {
+		const { id } = req.body;
+		if (!id) {
+			res.status(400).send({ message: "No urlId provided." });
+			return;
+		}
+
+		if (Array.isArray(id)) {
+			const urls = await this.server.prisma.url.findMany({ where: { id: { in: id } } });
+			if (!urls) {
+				res.status(404).send({ message: "No urls found on the server." });
+				return;
+			}
+
+			try {
+				await this.server.prisma.url.deleteMany({ where: { id: { in: urls.map((url) => url.id) } } });
+			} catch (err) {}
+
+			res.sendStatus(204);
+		} else if (typeof id === "string") {
+			const url = await this.server.prisma.url.findFirst({ where: { id: id.split(".")[0] } });
+			if (!url) {
+				res.status(404).send({ message: "URL was not found on the server." });
+				return;
+			}
+
+			try {
+				await this.server.prisma.url.delete({ where: { id: url.id } });
+			} catch (err) {
+				res.status(404).send({ message: "URL was not found on the server." });
+				return;
+			}
+
+			res.sendStatus(204);
+			this.server.websocket.events.emit("url_update");
+		}
+	}
+
+	private async updateUrl(req: Request, res: Response) {
+		const { name, newName, visible } = req.body;
+		if (typeof name !== "string" || typeof newName !== "string" || typeof visible !== "boolean") {
+			res.status(400).send({ message: "Invalid body provided." });
+			return;
+		}
+
+		const url = await this.server.prisma.url.findFirst({ where: { id: name } });
+		if (!url) {
+			res.status(404).send({ message: "No url found on the server." });
+			return;
+		}
+
+		try {
+			const id = newName || name;
+			await this.server.prisma.url.update({ where: { id: name }, data: { id, visible } });
+
+			res.sendStatus(204);
+		} catch (err) {
+			this.server.logger.fatal("[URL UPDATE]: ", err);
+			res.status(500).send({ message: "Internal error, please try again later." });
+		}
+
+		this.server.websocket.events.emit("url_update");
 	}
 }
