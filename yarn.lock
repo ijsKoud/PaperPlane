@@ -725,13 +725,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/shapeshift@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "@sapphire/shapeshift@npm:3.4.1"
-  checksum: 97006b34941136c26dd1a8259c1838df08e7e15e869e515a3e4e844d2c5757c4bb92d79eeec72c73ff856e9be00876c88bf71142d11f4b55e043ec76153365cd
-  languageName: node
-  linkType: hard
-
 "@sapphire/ts-config@npm:^3.3.4":
   version: 3.3.4
   resolution: "@sapphire/ts-config@npm:3.3.4"
@@ -5025,7 +5018,6 @@ __metadata:
     "@prisma/client": ^4.0.0
     "@sapphire/eslint-config": ^4.3.7
     "@sapphire/prettier-config": ^1.4.3
-    "@sapphire/shapeshift": ^3.4.1
     "@sapphire/ts-config": ^3.3.4
     "@tippyjs/react": ^4.2.6
     "@types/cookie": ^0.5.1
