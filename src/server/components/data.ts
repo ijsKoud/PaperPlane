@@ -23,6 +23,7 @@ export class Data {
 
 	public async unlink(path: string) {
 		await this.server.prisma.file.delete({ where: { path } }).catch(() => void 0);
+		this.server.websocket.events.emit("file_update");
 	}
 
 	public async change(path: string, stats: Stats) {
@@ -30,6 +31,7 @@ export class Data {
 		if (!file) return;
 
 		await this.server.prisma.file.update({ where: { path }, data: { size: BigInt(stats.size) } });
+		this.server.websocket.events.emit("file_update");
 	}
 
 	public async migrate() {

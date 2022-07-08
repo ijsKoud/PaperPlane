@@ -69,8 +69,8 @@ export interface StatsApi {
 export const LINK_SORT_OPTIONS = {
 	"date-new": "Date: New - Old",
 	"date-old": "Date: Old - New",
-	"visits-up": "Visits: High - Small",
-	"visits-down": "Visits: Small - High",
+	"visits-up": "Visits: High - Low",
+	"visits-down": "Visits: Low - High",
 	name: "Name: A - Z",
 	"name-reverse": "Name: Z - A"
 };
@@ -78,10 +78,90 @@ export const LINK_SORT_OPTIONS = {
 export const FILE_SORT_OPTIONS = {
 	"date-new": "Date: New - Old",
 	"date-old": "Date: Old - New",
-	"views-up": "Views: High - Small",
-	"views-down": "Views: Small - High",
-	"bytes-small": "Size: High - Small",
-	"bytes-large": "Size: Small - High",
+	"views-up": "Views: High - Low",
+	"views-down": "Views: Low - High",
+	"bytes-small": "Size: Large - Small",
+	"bytes-large": "Size: Small - Large",
 	name: "Name: A - Z",
 	"name-reverse": "Name: Z - A"
 };
+
+export enum WebsocketMessageType {
+	PING,
+	INIT,
+	USER_UPDATE,
+	FILES_UPDATE,
+	URL_UPDATE,
+	STATS_UPDATE,
+	SEARCH_FILE_UPDATE,
+	SEARCH_URL_UPDATE
+}
+
+export interface WebsocketMessagePing {
+	t: WebsocketMessageType.PING;
+	d: {};
+}
+
+export interface WebsocketMessageInit {
+	t: WebsocketMessageType.INIT;
+	d: {
+		user: CleanUser;
+		files: ApiFile[];
+		urls: ApiURL[];
+		stats: ApiStats;
+		pages: {
+			files: number;
+			urls: number;
+		};
+	};
+}
+
+export interface WebsocketMessageFiles {
+	t: WebsocketMessageType.FILES_UPDATE;
+	d: {
+		files: ApiFile[];
+		stats: ApiStats;
+		pages: number;
+	};
+}
+
+export interface WebsocketMessageUrls {
+	t: WebsocketMessageType.URL_UPDATE;
+	d: {
+		urls: ApiURL[];
+		stats: ApiStats;
+		pages: number;
+	};
+}
+
+export interface WebsocketMessageUser {
+	t: WebsocketMessageType.USER_UPDATE;
+	d: {
+		user: CleanUser;
+	};
+}
+
+export interface WebsocketMessageSearch {
+	t: WebsocketMessageType.SEARCH_FILE_UPDATE | WebsocketMessageType.SEARCH_URL_UPDATE;
+	d: Partial<{
+		query: string;
+		sortType: string;
+		page: number;
+	}>;
+}
+
+export type WebsocketMessage =
+	| WebsocketMessagePing
+	| WebsocketMessageInit
+	| WebsocketMessageFiles
+	| WebsocketMessageUrls
+	| WebsocketMessageSearch
+	| WebsocketMessageUser;
+
+export interface ApiStats {
+	files: {
+		bytes: string;
+		size: number;
+	};
+	links: number;
+}

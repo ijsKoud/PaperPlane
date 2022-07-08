@@ -1,7 +1,7 @@
-import type { PrismaClient, User } from "@prisma/client";
-import { createDecipheriv, randomBytes, scryptSync } from "node:crypto";
+import type { PrismaClient } from "@prisma/client";
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "node:crypto";
 import ShortUniqueId from "short-unique-id";
-import type { Config, NameType } from "./types";
+import type { ApiFile, ApiURL, CleanUser, Config, NameType } from "./types";
 
 export const getConfig = (): Config => {
 	const encryptionKey = process.env.ENCRYPTION_KEY ?? "";
@@ -35,6 +35,16 @@ export const getConfig = (): Config => {
 		nameLength
 	};
 };
+
+export function encryptToken(str: string): string {
+	const secretKey = process.env.ENCRYPTION_KEY as string;
+	const iv = randomBytes(16);
+
+	const cipher = createCipheriv("aes-256-ctr", secretKey, iv);
+	const encrypted = Buffer.concat([cipher.update(str), cipher.final()]);
+
+	return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+}
 
 export const generateId = (overwrite?: boolean): string => {
 	let { nameType, nameLength: length } = getConfig();
@@ -111,12 +121,14 @@ export function decryptToken(hash: string): string {
 	return token;
 }
 
-export async function getUser(token: string, prisma: PrismaClient): Promise<User | null> {
+export async function getUser(token: string, prisma: PrismaClient): Promise<CleanUser | null> {
 	if (!token) return null;
 
 	const [username] = decryptToken(token).split(".");
 	const user = await prisma.user.findFirst({ where: { username } });
 
+	// @ts-ignore removing password cuz not needed
+	delete user?.password;
 	return user;
 }
 
@@ -126,3 +138,88 @@ export const getProtocol = () => {
 
 	return "https://";
 };
+
+export function getFileExt(file: string): string {
+	return `.${file.split(".").slice(1).join(".")}`;
+}
+
+type AltApiFile = ApiFile & { _size: bigint };
+export function sortFilesArray(array: AltApiFile[], type: string): ApiFile[] {
+	const sortByName = (a: AltApiFile, b: AltApiFile) => {
+		if (a.name < b.name) return -1;
+		if (a.name > b.name) return 1;
+
+		return 0;
+	};
+
+	switch (type) {
+		default:
+		case "default":
+		case "date-new":
+			array = array.sort((a, b) => b.date.getTime() - a.date.getTime());
+			break;
+		case "date-old":
+			array = array.sort((a, b) => a.date.getTime() - b.date.getTime());
+			break;
+		case "views-up":
+			array = array.sort((a, b) => b.views - a.views);
+			break;
+		case "views-down":
+			array = array.sort((a, b) => a.views - b.views);
+			break;
+		case "bytes-small":
+			array = array.sort((a, b) => Number(b._size) - Number(a._size));
+			break;
+		case "bytes-large":
+			array = array.sort((a, b) => Number(a._size) - Number(b._size));
+			break;
+		case "name":
+			array = array.sort(sortByName);
+			break;
+		case "name-reverse":
+			array = array.sort(sortByName).reverse();
+			break;
+	}
+
+	return array.map((v) => {
+		// @ts-ignore no it does not
+		delete v._size;
+		return v;
+	}) as any;
+}
+
+export function sortLinksArray(array: ApiURL[], type: string): ApiURL[] {
+	const sortByName = (a: ApiURL, b: ApiURL) => {
+		if (a.name < b.name) return -1;
+		if (a.name > b.name) return 1;
+
+		return 0;
+	};
+
+	switch (type) {
+		default:
+		case "default":
+		case "date-new":
+			return array.sort((a, b) => b.date.getTime() - a.date.getTime());
+		case "date-old":
+			return array.sort((a, b) => a.date.getTime() - b.date.getTime());
+		case "visits-up":
+			return array.sort((a, b) => b.visits - a.visits);
+		case "visits-down":
+			return array.sort((a, b) => a.visits - b.visits);
+		case "name":
+			return array.sort(sortByName);
+		case "name-reverse":
+			return array.sort(sortByName).reverse();
+	}
+}
+
+export function chunk<T>(arr: T[], size: number): T[][] {
+	const result = [];
+	const L = arr.length;
+	let i = 0;
+
+	while (i < L) result.push(arr.slice(i, (i += size)));
+
+	return result;
+}

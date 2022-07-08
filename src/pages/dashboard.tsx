@@ -14,13 +14,6 @@ const Home: NextPage = () => {
 		if (!user && !userLoading) void router.push("/login");
 	}, [user, userLoading]);
 
-	const getProtocol = () => {
-		const env = process.env.SECURE;
-		if (env && env === "false") return "http://";
-
-		return "https://";
-	};
-
 	return (
 		<>
 			<Title>Paperplane - Dashboard</Title>
@@ -30,7 +23,7 @@ const Home: NextPage = () => {
 				</main>
 			) : (
 				<main className="home-page-container" style={{ minHeight: "unset" }}>
-					<Dashboard protocol={getProtocol()} />
+					<Dashboard />
 				</main>
 			)}
 		</>

@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 	try {
 		const getProtocol = () => {
-			const env = process.env.SECURE;
+			const env = process.env.NEXT_PUBLIC_SECURE;
 			if (env && env === "false") return "http://";
 
 			return "https://";
@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 		const baseURL = `${getProtocol()}${ctx.req.headers.host}`;
 
-		const file = await fetch<LoginFileRes>(`${baseURL}/api/dashboard/files/${fileId}`);
+		const file = await fetch<LoginFileRes>(`${baseURL}/api/files/${fileId}`);
 		const user = await prisma.user.findFirst();
 
 		return {
@@ -61,7 +61,7 @@ const FilePage: NextPage<Props> = ({ file, baseURL, embed }) => {
 
 	const onSubmit = async ({ password }: { password: string }) => {
 		try {
-			const pwdPromise = fetch<{ token: string }>(`/api/dashboard/files/${file.id}`, undefined, {
+			const pwdPromise = fetch<{ token: string }>(`/api/files/${file.id}`, undefined, {
 				method: "POST",
 				data: { password }
 			});
