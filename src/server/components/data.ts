@@ -37,7 +37,7 @@ export class Data {
 			`Max File Size: ${formatBytes(_config.maxFileSize)}`,
 			`Max Files Per Request: ${_config.maxFilesPerRequest}`
 		].join("\n");
-		this.server.logger.debug(`The following configuration is used for this build:\n${configStr}`);
+		this.server.logger.debug(`[ENV]: .env file changes detected. Updating the configuration with the following data:\n${configStr}`);
 
 		process.env.NEXT_PUBLIC_SECURE = process.env.SECURE;
 	}
