@@ -16,10 +16,12 @@ const validation = object({
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method !== "POST") return res.status(403).json({ error: "Invalid method used" });
+
+	let message = "";
 	await validation.validate(req.body, { abortEarly: false }).catch((err: ValidationError) => {
-		const message = err.errors.join("; ");
-		return res.status(400).send({ message });
+		message = err.errors.join("; ");
 	});
+	if (message) return res.status(400).send({ message });
 
 	const body = req.body as ReqBody;
 	const user = await prisma.user.findFirst({ where: { username: body.username } });
