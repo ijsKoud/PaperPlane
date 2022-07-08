@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../lib/prisma";
-import { decryptToken, encryptToken, formatBytes } from "../../../../lib/utils";
+import prisma from "../../../lib/prisma";
+import { decryptToken, encryptToken, formatBytes } from "../../../lib/utils";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const id = req.query.id as string;
