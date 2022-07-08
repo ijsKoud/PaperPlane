@@ -8,13 +8,19 @@ import { createToken, encryptPassword, formatBytes, generateId, getConfig } from
 
 export class Data {
 	public filesDir = join(process.cwd(), "data", "files");
+	public migrationInterval!: NodeJS.Timer;
 
 	public constructor(public server: Server) {}
 
 	public async init() {
 		if (!existsSync(this.filesDir)) await mkdir(this.filesDir, { recursive: true }).catch(() => void 0);
 
+		const config = getConfig();
 		await this.migrate();
+
+		const interval = setInterval(this.migrate.bind(this), config.migration);
+		this.migrationInterval = interval;
+
 		watch(this.filesDir, { alwaysStat: true })
 			.on("unlink", (path) => this.unlink(path))
 			.on("change", (path, stats) => this.change(path, stats!));
@@ -41,6 +47,12 @@ export class Data {
 		this.server.logger.debug(`[ENV]: .env file changes detected. Updating the configuration with the following data:\n${configStr}`);
 
 		process.env.NEXT_PUBLIC_SECURE = process.env.SECURE;
+
+		if (this.migrationInterval) {
+			clearInterval(this.migrationInterval);
+			const interval = setInterval(this.migrate.bind(this), _config.migration);
+			this.migrationInterval = interval;
+		}
 	}
 
 	public async unlink(path: string) {
