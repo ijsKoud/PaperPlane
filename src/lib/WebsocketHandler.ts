@@ -58,6 +58,9 @@ export const handlerWs = ({ websocket, setFiles, setUrls, setUser, setLoading, s
 				setUrlPages(data.d.pages);
 				setStats(data.d.stats);
 				break;
+			case WebsocketMessageType.USER_UPDATE:
+				setUser(data.d.user);
+				break;
 			default:
 				break;
 		}

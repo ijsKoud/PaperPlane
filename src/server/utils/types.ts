@@ -34,6 +34,13 @@ export interface Config {
 export type NameType = "id" | "zerowidth" | "name";
 export type CleanUser = Omit<User, "password">;
 
+export interface WebsocketData {
+	user: CleanUser;
+	files: ApiFile[];
+	urls: ApiURL[];
+	stats: ApiStats;
+}
+
 export enum WebsocketMessageType {
 	PING,
 	INIT,
@@ -82,6 +89,13 @@ export interface WebsocketMessageUrls {
 	};
 }
 
+export interface WebsocketMessageUser {
+	t: WebsocketMessageType.USER_UPDATE;
+	d: {
+		user: CleanUser;
+	};
+}
+
 export interface WebsocketMessageSearch {
 	t: WebsocketMessageType.SEARCH_FILE_UPDATE | WebsocketMessageType.SEARCH_URL_UPDATE;
 	d: Partial<{
@@ -91,16 +105,17 @@ export interface WebsocketMessageSearch {
 	}>;
 }
 
-export type WebsocketMessage = WebsocketMessagePing | WebsocketMessageInit | WebsocketMessageFiles | WebsocketMessageUrls | WebsocketMessageSearch;
+export type WebsocketMessage =
+	| WebsocketMessagePing
+	| WebsocketMessageInit
+	| WebsocketMessageFiles
+	| WebsocketMessageUrls
+	| WebsocketMessageSearch
+	| WebsocketMessageUser;
 
 export interface iWebsocketExt {
 	id: string;
 	baseURL: string;
-	data: {
-		user: CleanUser;
-		files: ApiFile[][];
-		urls: ApiURL[][];
-	};
 	search: {
 		files: {
 			query: string;
@@ -113,7 +128,6 @@ export interface iWebsocketExt {
 			page: number;
 		};
 	};
-	stats: ApiStats;
 }
 export type iWebsocket = WebSocket & iWebsocketExt;
 

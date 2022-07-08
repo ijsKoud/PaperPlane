@@ -57,8 +57,8 @@ export class Server {
 		await this.prisma.$connect().then(() => this.logger.info("Prisma Database is up and running!"));
 
 		await this.data.init();
+		await this.websocket.init();
 		this.routes.init();
-		this.websocket.init();
 
 		await this.next.prepare();
 		const handler = this.next.getRequestHandler();

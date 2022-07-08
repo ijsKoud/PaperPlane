@@ -3,6 +3,7 @@ import {
 	ApiFile,
 	ApiURL,
 	chunk,
+	CleanUser,
 	decryptToken,
 	formatBytes,
 	getFileExt,
@@ -11,6 +12,7 @@ import {
 	iWebsocket,
 	sortFilesArray,
 	sortLinksArray,
+	WebsocketData,
 	WebsocketMessage,
 	WebsocketMessageType
 } from "../utils";
@@ -28,18 +30,50 @@ export class Websocket {
 	public socketServer: WebSocketServer;
 	public events: EventEmitter;
 
+	public data!: WebsocketData;
+
 	public constructor(public server: Server) {
 		this.socketServer = new WebSocketServer({ noServer: true });
 		this.events = new EventEmitter();
 	}
 
-	public init() {
+	public async init() {
+		this.socketServer.on("connection", (ws, req) => this.onWebsocket(ws as iWebsocket, req));
 		this.server._server.on("upgrade", (request, socket, head) => {
 			if (new URL(request.url ?? "", "http://localhost:3000").pathname !== "/websocket") return;
 			this.socketServer.handleUpgrade(request, socket, head, (socket) => this.socketServer.emit("connection", socket, request));
 		});
 
-		this.socketServer.on("connection", (ws, req) => this.onWebsocket(ws as iWebsocket, req));
+		const user = await this.getUser();
+		const files = await this._getFiles();
+		const urls = await this._getUrls();
+		const stats = await this.getStats();
+		this.data = {
+			user,
+			files,
+			urls,
+			stats
+		};
+
+		this.events
+			.on("file_update", async () => {
+				const files = await this._getFiles();
+				this.data.files = files;
+
+				this.events.emit("file_update_child");
+			})
+			.on("url_update", async () => {
+				const urls = await this._getUrls();
+				this.data.urls = urls;
+
+				this.events.emit("url_update_child");
+			})
+			.on("user_update", async () => {
+				const user = await this.getUser();
+				this.data.user = user;
+
+				this.events.emit("user_update_child");
+			});
 	}
 
 	private async onWebsocket(ws: iWebsocket, req: IncomingMessage) {
@@ -63,25 +97,17 @@ export class Websocket {
 				sortType: "default"
 			}
 		};
-		ws.data = {
-			user,
-			files: await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType),
-			urls: await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType)
-		};
-		ws.stats = await this.getStats();
 
-		const fileUpdateListener = async () => {
-			ws.data.files = await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType);
-			ws.stats = await this.getStats();
-
+		const fileUpdateListener = () => {
 			this.send(WebsocketMessageType.FILES_UPDATE, ws);
 		};
 
-		const urlUpdateListener = async () => {
-			ws.data.urls = await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType);
-			ws.stats = await this.getStats();
-
+		const urlUpdateListener = () => {
 			this.send(WebsocketMessageType.URL_UPDATE, ws);
+		};
+
+		const userUpdateListener = () => {
+			this.send(WebsocketMessageType.USER_UPDATE, ws);
 		};
 
 		ws.onmessage = (ev) => this.onMessage(ev, ws);
@@ -92,25 +118,29 @@ export class Websocket {
 				delete this.timeouts[ws.id];
 			}
 
-			this.events.removeListener("file_update", fileUpdateListener);
-			this.events.removeListener("url_update", urlUpdateListener);
+			this.events.removeListener("file_update_child", fileUpdateListener);
+			this.events.removeListener("url_update_child", urlUpdateListener);
+			this.events.removeListener("user_update_child", userUpdateListener);
 		};
 
+		const files = this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType);
+		const urls = this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType);
 		ws.send(
 			this.stringify({
 				t: WebsocketMessageType.INIT,
 				d: {
 					user,
-					files: ws.data.files[0] ?? [],
-					urls: ws.data.urls[0] ?? [],
-					stats: ws.stats,
-					pages: { files: ws.data.files.length, urls: ws.data.urls.length }
+					files: files[0] ?? [],
+					urls: urls[0] ?? [],
+					stats: this.data.stats,
+					pages: { files: files.length, urls: urls.length }
 				}
 			})
 		);
 
-		this.events.on("file_update", fileUpdateListener);
-		this.events.on("url_update", urlUpdateListener);
+		this.events.on("file_update_child", fileUpdateListener);
+		this.events.on("url_update_child", urlUpdateListener);
+		this.events.on("user_update_child", userUpdateListener);
 	}
 
 	private setData(ws: iWebsocket) {
@@ -130,17 +160,41 @@ export class Websocket {
 			default:
 				break;
 			case WebsocketMessageType.FILES_UPDATE:
-				ws.send(
-					this.stringify({ t, d: { files: ws.data.files[ws.search.files.page - 1] ?? [], pages: ws.data.files.length, stats: ws.stats } })
-				);
+				{
+					const files = this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType);
+					const data = this.stringify({
+						t,
+						d: { files: files[ws.search.files.page - 1] ?? [], pages: files.length, stats: this.data.stats }
+					});
+
+					ws.send(data);
+				}
 				break;
 			case WebsocketMessageType.URL_UPDATE:
-				ws.send(this.stringify({ t, d: { urls: ws.data.urls[ws.search.urls.page - 1] ?? [], pages: ws.data.urls.length, stats: ws.stats } }));
+				{
+					const urls = this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType);
+					const data = this.stringify({
+						t,
+						d: { urls: urls[ws.search.urls.page - 1] ?? [], pages: urls.length, stats: this.data.stats }
+					});
+
+					ws.send(data);
+				}
+				break;
+			case WebsocketMessageType.USER_UPDATE:
+				{
+					const data = this.stringify({
+						t,
+						d: { user: this.data.user }
+					});
+
+					ws.send(data);
+				}
 				break;
 		}
 	}
 
-	private async onMessage({ data }: MessageEvent, ws: iWebsocket) {
+	private onMessage({ data }: MessageEvent, ws: iWebsocket) {
 		if (data instanceof ArrayBuffer) data = Buffer.from(data);
 		else if (Array.isArray(data)) data = Buffer.concat(data);
 		if (!data) return;
@@ -160,14 +214,12 @@ export class Websocket {
 			case WebsocketMessageType.SEARCH_FILE_UPDATE:
 				{
 					ws.search.files = { ...ws.search.files, ...payload.d };
-					ws.data.files = await this.getFiles(ws.baseURL, ws.search.files.query, ws.search.files.sortType);
 					this.send(WebsocketMessageType.FILES_UPDATE, ws);
 				}
 				break;
 			case WebsocketMessageType.SEARCH_URL_UPDATE:
 				{
 					ws.search.urls = { ...ws.search.urls, ...payload.d };
-					ws.data.urls = await this.getUrls(ws.baseURL, ws.search.urls.query, ws.search.urls.sortType);
 					this.send(WebsocketMessageType.URL_UPDATE, ws);
 				}
 				break;
@@ -193,7 +245,43 @@ export class Websocket {
 		};
 	}
 
-	private async getFiles(baseURL: string, searchQ: string, sortType: string) {
+	private getFiles(baseURL: string, searchQ: string, sortType: string) {
+		const files = this.data.files.map<ApiFile>((f) => ({
+			...f,
+			url: f.url.replace("{BASE_URL}", baseURL)
+		}));
+
+		let apiRes: ApiFile[] = files;
+		if (searchQ.length) {
+			const search = new Fuse(files, { keys: ["name"], isCaseSensitive: false });
+			apiRes = search.search(searchQ).map((sr) => sr.item);
+		}
+
+		const sortedArr = sortFilesArray(apiRes as any, sortType);
+		const chunks = chunk(sortedArr, 25);
+
+		return chunks;
+	}
+
+	private getUrls(baseURL: string, searchQ: string, sortType: string) {
+		const urls = this.data.urls.map<ApiURL>((url) => ({
+			...url,
+			url: url.url.replace("{BASE_URL}", baseURL)
+		}));
+
+		let apiRes: ApiURL[] = urls;
+		if (searchQ.length) {
+			const search = new Fuse(urls, { keys: ["name", "url"], isCaseSensitive: false });
+			apiRes = search.search(searchQ).map((sr) => sr.item);
+		}
+
+		const sortedArr = sortLinksArray(apiRes, sortType);
+		const chunks = chunk(sortedArr, 25);
+
+		return chunks;
+	}
+
+	private async _getFiles() {
 		const dbFiles = await this.server.prisma.file.findMany();
 		const files = dbFiles.map<ApiFile>((f) => {
 			const fileName = f.path.split("/").reverse()[0];
@@ -215,44 +303,34 @@ export class Websocket {
 				pwdProtection: Boolean(f.password),
 				password: f.password ? decryptToken(f.password) : null,
 				visible: f.visible,
-				url: `${baseURL}/files/${apiFileName}`
+				url: `{BASE_URL}/files/${apiFileName}`
 			};
 		});
 
-		let apiRes: ApiFile[] = files;
-		if (searchQ.length) {
-			const search = new Fuse(files, { keys: ["name"], isCaseSensitive: false });
-			apiRes = search.search(searchQ).map((sr) => sr.item);
-		}
-
-		const sortedArr = sortFilesArray(apiRes as any, sortType);
-		const chunks = chunk(sortedArr, 25);
-
-		return chunks;
+		return files;
 	}
 
-	private async getUrls(baseURL: string, searchQ: string, sortType: string) {
+	private async _getUrls() {
 		const dbUrls = await this.server.prisma.url.findMany();
 		const urls = dbUrls.map<ApiURL>((url) => {
 			return {
 				date: url.date,
 				name: url.id,
 				redirect: url.url,
-				url: `${baseURL}/r/${url.id}`,
+				url: `{BASE_URL}/r/${url.id}`,
 				visible: url.visible,
 				visits: url.visits
 			};
 		});
 
-		let apiRes: ApiURL[] = urls;
-		if (searchQ.length) {
-			const search = new Fuse(urls, { keys: ["name", "url"], isCaseSensitive: false });
-			apiRes = search.search(searchQ).map((sr) => sr.item);
-		}
+		return urls;
+	}
 
-		const sortedArr = sortLinksArray(apiRes, sortType);
-		const chunks = chunk(sortedArr, 25);
+	private async getUser() {
+		const user = (await this.server.prisma.user.findFirst()) as CleanUser;
+		// @ts-ignore yes does exist
+		delete user.password;
 
-		return chunks;
+		return user;
 	}
 }

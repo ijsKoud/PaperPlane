@@ -388,6 +388,8 @@ export class Routes {
 		user = { ...user, ...body };
 		await this.server.prisma.user.update({ where: { username: user.username }, data: user });
 		res.sendStatus(204);
+
+		this.server.websocket.events.emit("user_update");
 	}
 
 	private async userToken(req: Request, res: Response) {
