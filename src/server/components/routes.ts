@@ -22,6 +22,9 @@ export class Routes {
 		max: 25
 	});
 
+	public views: Record<string, number[]> = {};
+	public visits: Record<string, number[]> = {};
+
 	public multer = multer({
 		limits: {
 			files: config.maxFilesPerRequest,
@@ -55,6 +58,8 @@ export class Routes {
 	public constructor(public server: Server) {}
 
 	public init() {
+		this.updateStats();
+
 		this.server.express.get("/files/:id", this.ratelimit, this.getFile.bind(this)).get("/r/:id", this.ratelimit, this.getRedirect.bind(this));
 		this.server.express.post("/api/upload", this.ratelimit, this.auth.bind(this), this.multer.array("upload"), this.upload.bind(this));
 		this.server.express
@@ -139,16 +144,19 @@ export class Routes {
 			if (decrypted !== fileDecrypted) return this.server.next.render(req, res, `/files/${id}`);
 		}
 
-		res.sendFile(file.path, async (err) => {
+		res.sendFile(file.path, (err) => {
 			if (err) {
 				res.end();
 				this.server.logger.error(err);
 				return;
 			}
 
-			// most unfullfill error comes from a timed out query, mainly due to a cancelled view request. This bug will be fixed later
-			if (!req.query.preview)
-				await this.server.prisma.file.update({ where: { id: fileId }, data: { views: { increment: 1 } } }).catch(() => void 0);
+			if (!req.query.preview) {
+				const views = this.views[file.id] ?? [];
+				views.push(1);
+
+				this.views[file.id] = views;
+			}
 		});
 	}
 
@@ -163,7 +171,10 @@ export class Routes {
 		if (!url.visible && !cookieUser) return this.server.next.render404(req, res);
 		res.redirect(url.url);
 
-		await this.server.prisma.url.update({ where: { id }, data: { visits: { increment: 1 } } });
+		const visits = this.visits[url.id] ?? [];
+		visits.push(1);
+
+		this.visits[url.id] = visits;
 	}
 
 	private async upload(req: Request, res: Response) {
@@ -434,5 +445,32 @@ export class Routes {
 		res.sendStatus(204);
 
 		this.server.websocket.events.emit("user_update");
+	}
+
+	private updateStats() {
+		const updateViewsFn = async () => {
+			for await (const file of Object.keys(this.views)) {
+				const views = this.views[file].length;
+				await this.server.prisma.file.update({ where: { id: file }, data: { views: { increment: views } } });
+
+				delete this.views[views];
+			}
+
+			this.server.websocket.events.emit("file_update");
+		};
+
+		const updateVisitsFn = async () => {
+			for await (const url of Object.keys(this.visits)) {
+				const visits = this.visits[url].length;
+				await this.server.prisma.url.update({ where: { id: url }, data: { visits: { increment: visits } } });
+
+				delete this.visits[visits];
+			}
+
+			this.server.websocket.events.emit("url_update");
+		};
+
+		setInterval(updateViewsFn.bind(this), 6e3);
+		setInterval(updateVisitsFn.bind(this), 6e3);
 	}
 }
