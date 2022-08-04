@@ -453,7 +453,7 @@ export class Routes {
 				const views = this.views[file].length;
 				await this.server.prisma.file.update({ where: { id: file }, data: { views: { increment: views } } });
 
-				delete this.views[views];
+				delete this.views[file];
 			}
 
 			this.server.websocket.events.emit("file_update");
@@ -464,7 +464,7 @@ export class Routes {
 				const visits = this.visits[url].length;
 				await this.server.prisma.url.update({ where: { id: url }, data: { visits: { increment: visits } } });
 
-				delete this.visits[visits];
+				delete this.visits[url];
 			}
 
 			this.server.websocket.events.emit("url_update");
