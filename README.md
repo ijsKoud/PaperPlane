@@ -5,7 +5,7 @@
   <p>A fast file/shorturl upload server packed with lots of cool features!</p>
   
   <p align="center">
-    <img alt="Version" src="https://img.shields.io/badge/version-3.2.0-blue.svg" />
+    <img alt="Version" src="https://img.shields.io/badge/version-3.1.4-blue.svg" />
     <a href="/LICENSE" target="_blank">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
     </a>
