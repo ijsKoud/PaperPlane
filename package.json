@@ -17,7 +17,7 @@
 		"@tippyjs/react": "^4.2.6",
 		"@types/ms": "^0.7.31",
 		"@types/ws": "^8.5.3",
-		"axios": "^0.27.2",
+		"axios": "^1.1.2",
 		"body-parser": "^1.20.1",
 		"chokidar": "^3.5.3",
 		"colorette": "^2.0.19",

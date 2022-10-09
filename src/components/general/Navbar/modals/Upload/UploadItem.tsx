@@ -42,7 +42,7 @@ const UploadItem: FC<Props> = ({ file }) => {
 				data,
 				cancelToken: token,
 				headers: { Authorization: user?.token ?? "", "Content-Type": "multipart/form-data" },
-				onUploadProgress: (ev) => setProgress(Math.round((100 * ev.loaded) / ev.total))
+				onUploadProgress: (ev) => setProgress(Math.round((100 * ev.loaded) / (ev.total ?? ev.bytes)))
 			});
 
 			setUploaded(true);
