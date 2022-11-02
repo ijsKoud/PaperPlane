@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:19-alpine
 
 # Create user PaperPlane
 RUN addgroup --system --gid 1639 paperplane
