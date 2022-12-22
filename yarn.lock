@@ -3534,9 +3534,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^7.10.3":
-  version: 7.10.3
-  resolution: "framer-motion@npm:7.10.3"
+"framer-motion@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "framer-motion@npm:8.0.1"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     "@motionone/dom": ^10.15.3
@@ -3548,7 +3548,7 @@ __metadata:
   dependenciesMeta:
     "@emotion/is-prop-valid":
       optional: true
-  checksum: 20ce8459e7e3c631af5261215acd2217f57f15d64448e2bd64eecf74d3406552523082c182211af086e01b44daad7a0c216d5135a3f8ae56fb63e152e54233aa
+  checksum: ca8a8a94ad5b44b5e24d6d1bfd4de62e16b20e7d664d10609adb5d78d6c5d4f7571a9d63c7225df1131afc2ce4fe1312b8756ca71839aa35e2e86244b872a482
   languageName: node
   linkType: hard
 
@@ -5601,7 +5601,7 @@ __metadata:
     express-rate-limit: ^6.7.0
     file-saver: ^2.0.5
     formik: ^2.2.9
-    framer-motion: ^7.10.3
+    framer-motion: ^8.0.1
     fuse.js: ^6.6.2
     husky: ^8.0.2
     lint-staged: ^13.1.0
