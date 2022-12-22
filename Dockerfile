@@ -23,6 +23,7 @@ COPY src ./src
 
 # Install dependencies
 RUN yarn install --immutable
+RUN yarn prisma generate
 
 # Build the application
 RUN yarn build
