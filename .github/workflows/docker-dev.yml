@@ -8,7 +8,7 @@ on:
 jobs:
   ghcr:
     name: Push Image to GitHub Packages
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3
@@ -33,3 +33,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/ijskoud/paperplane:dev
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
