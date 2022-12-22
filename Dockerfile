@@ -23,7 +23,6 @@ COPY src ./src
 
 # Install dependencies
 RUN yarn install --immutable
-RUN yarn prisma db push
 
 # Build the application
 RUN yarn build
