@@ -31,5 +31,10 @@ jobs:
       - name: Build Docker Image
         uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5 # tag=v3
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/ijskoud/paperplane:v3
+          tags: |
+            ghcr.io/ijskoud/paperplane:v4
+            ghcr.io/ijskoud/paperplane:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
