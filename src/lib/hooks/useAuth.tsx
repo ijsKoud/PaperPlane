@@ -52,10 +52,8 @@ const useProvideAuth = (): UseAuth => {
 	const [websocket, setWebsocket] = useState<WebSocket>();
 
 	const getProtocol = () => {
-		const env = process.env.NEXT_PUBLIC_SECURE;
-		if (env && env === "false") return "ws://";
-
-		return "wss://";
+		if (location?.protocol === "https:") return "wss://";
+		return "ws://";
 	};
 
 	const connectWebsocket = () => {
