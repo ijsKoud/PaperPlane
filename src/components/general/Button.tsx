@@ -33,11 +33,9 @@ const Button: FC<Props> = (props) => {
 		const { url, newWindow, external } = props;
 
 		return (
-			<Link href={url}>
-				<a onClick={onClick} target={newWindow ? "_blank" : "_self"} rel="noopener noreferrer" className={className}>
-					{text ?? children}
-					{external && <i className="fa-solid fa-arrow-up-right-from-square" />}
-				</a>
+			<Link href={url} onClick={onClick} target={newWindow ? "_blank" : "_self"} rel="noopener noreferrer" className={className}>
+				{text ?? children}
+				{external && <i className="fa-solid fa-arrow-up-right-from-square" />}
 			</Link>
 		);
 	}
