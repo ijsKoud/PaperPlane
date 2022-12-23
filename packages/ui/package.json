@@ -1,5 +1,5 @@
 {
-	"name": "@monorepo/ui",
+	"name": "@paperplane/ui",
 	"version": "0.0.0",
 	"main": "./src/index.tsx",
 	"types": "./src/index.tsx",

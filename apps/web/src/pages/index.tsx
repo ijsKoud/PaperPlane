@@ -1,4 +1,4 @@
-import { Button } from "@monorepo/ui";
+import { Button } from "@paperplane/ui";
 
 export default function Web() {
 	return (
