@@ -853,14 +853,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paperplane/ui@workspace:packages/ui":
+"@paperplane/buttons@workspace:packages/ui":
   version: 0.0.0-use.local
-  resolution: "@paperplane/ui@workspace:packages/ui"
+  resolution: "@paperplane/buttons@workspace:packages/ui"
   dependencies:
-    "@types/react": ^17.0.37
+    "@types/react": ^18.0.22
     "@types/react-dom": ^17.0.11
     eslint: ^7.32.0
     eslint-config-custom: "*"
+    next.js: ^1.0.3
     react: ^18.2.0
     tsconfig: "*"
     typescript: ^4.5.2
@@ -1058,7 +1059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17, @types/react@npm:^17.0.37":
+"@types/react@npm:^17":
   version: 17.0.52
   resolution: "@types/react@npm:17.0.52"
   dependencies:
@@ -4827,6 +4828,13 @@ __metadata:
   version: 0.6.3
   resolution: "negotiator@npm:0.6.3"
   checksum: b8ffeb1e262eff7968fc90a2b6767b04cfd9842582a9d0ece0af7049537266e7b2506dfb1d107a32f06dd849ab2aea834d5830f7f4d0e5cb7d36e1ae55d021d9
+  languageName: node
+  linkType: hard
+
+"next.js@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "next.js@npm:1.0.3"
+  checksum: e4a620b705898126b0d3eb11ad48e39e11e21acf535bc59a646c9694da2ad4580344d4e1c12e7b12aaab36db521665b4716ba4764f955c2f195b6a25fede069d
   languageName: node
   linkType: hard
 

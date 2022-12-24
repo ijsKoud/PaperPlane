@@ -1,5 +1,5 @@
 {
-	"name": "@paperplane/ui",
+	"name": "@paperplane/buttons",
 	"version": "0.0.0",
 	"main": "./src/index.tsx",
 	"types": "./src/index.tsx",
@@ -8,12 +8,15 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"devDependencies": {
-		"@types/react": "^17.0.37",
+		"@types/react": "^18.0.22",
 		"@types/react-dom": "^17.0.11",
 		"eslint": "^7.32.0",
 		"eslint-config-custom": "*",
 		"react": "^18.2.0",
 		"tsconfig": "*",
 		"typescript": "^4.5.2"
+	},
+	"dependencies": {
+		"next.js": "^1.0.3"
 	}
 }
