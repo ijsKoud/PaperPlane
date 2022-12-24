@@ -7,7 +7,7 @@ const poppins = Poppins({ weight: ["400"], subsets: ["latin"] });
 
 const App = ({ Component, pageProps }: AppProps) => {
 	return (
-		<main className={poppins.className}>
+		<main className={`bg-bg-dark min-h-screen min-w-full ${poppins.className}`}>
 			<Component {...pageProps} />
 		</main>
 	);
