@@ -17,6 +17,19 @@ module.exports = {
 				"4xl": ["54.9x", { fontWeight: 700, lineHeight: "50px" }]
 			},
 			colors: {
+				// main
+				"main-100": "rgba(36,37,38,0.1)",
+				"main-200": "rgba(36,37,38,0.2)",
+				"main-300": "rgba(36,37,38,0.3)",
+				"main-400": "rgba(36,37,38,0.4)",
+				"main-500": "rgba(36,37,38,0.5)",
+				"main-600": "rgba(36,37,38,0.6)",
+				"main-700": "rgba(36,37,38,0.7)",
+				"main-800": "rgba(36,37,38,0.8)",
+				"main-900": "rgba(36,37,38,0.9)",
+				main: "rgba(36,37,38,1)",
+
+				// white
 				white: "rgba(225, 225, 225, 1)",
 				"white-900": "rgba(225, 225, 225, .9)",
 				"white-800": "rgba(225, 225, 225, .8)",
@@ -27,7 +40,69 @@ module.exports = {
 				"white-300": "rgba(225, 225, 225, .3)",
 				"white-200": "rgba(225, 225, 225, .2)",
 				"white-100": "rgba(225, 225, 225, .1)",
-				"bg-dark": "#1F2021"
+
+				// bg
+				"bg-dark": "#1F2021",
+
+				// primary
+				"primary-100": "rgba(75,95,115,0.1)",
+				"primary-200": "rgba(75,95,115,0.2)",
+				"primary-300": "rgba(75,95,115,0.3)",
+				"primary-400": "rgba(75,95,115,0.4)",
+				"primary-500": "rgba(75,95,115,0.5)",
+				"primary-600": "rgba(75,95,115,0.6)",
+				"primary-700": "rgba(75,95,115,0.7)",
+				"primary-800": "rgba(75,95,115,0.8)",
+				"primary-900": "rgba(75,95,115,0.9)",
+				primary: "rgba(75,95,115,1)",
+
+				// secondary
+				"secondary-100": "rgba(41,53,64,0.1)",
+				"secondary-200": "rgba(41,53,64,0.2)",
+				"secondary-300": "rgba(41,53,64,0.3)",
+				"secondary-400": "rgba(41,53,64,0.4)",
+				"secondary-500": "rgba(41,53,64,0.5)",
+				"secondary-600": "rgba(41,53,64,0.6)",
+				"secondary-700": "rgba(41,53,64,0.7)",
+				"secondary-800": "rgba(41,53,64,0.8)",
+				"secondary-900": "rgba(41,53,64,0.9)",
+				secondary: "rgba(41,53,64,1)",
+
+				// highlight
+				"highlight-100": "rgba(79,77,140,0.1)",
+				"highlight-200": "rgba(79,77,140,0.2)",
+				"highlight-300": "rgba(79,77,140,0.3)",
+				"highlight-400": "rgba(79,77,140,0.4)",
+				"highlight-500": "rgba(79,77,140,0.5)",
+				"highlight-600": "rgba(79,77,140,0.6)",
+				"highlight-700": "rgba(79,77,140,0.7)",
+				"highlight-800": "rgba(79,77,140,0.8)",
+				"highlight-900": "rgba(79,77,140,0.9)",
+				highlight: "rgba(79,77,140,1)",
+
+				// blue
+				"blue-100": "rgba(0,112,243,0.1)",
+				"blue-200": "rgba(0,112,243,0.2)",
+				"blue-300": "rgba(0,112,243,0.3)",
+				"blue-400": "rgba(0,112,243,0.4)",
+				"blue-500": "rgba(0,112,243,0.5)",
+				"blue-600": "rgba(0,112,243,0.6)",
+				"blue-700": "rgba(0,112,243,0.7)",
+				"blue-800": "rgba(0,112,243,0.8)",
+				"blue-900": "rgba(0,112,243,0.9)",
+				blue: "rgba(0,112,243,1)",
+
+				// green
+				"green-100": "rgba(12,205,107,0.1)",
+				"green-200": "rgba(12,205,107,0.2)",
+				"green-300": "rgba(12,205,107,0.3)",
+				"green-400": "rgba(12,205,107,0.4)",
+				"green-500": "rgba(12,205,107,0.5)",
+				"green-600": "rgba(12,205,107,0.6)",
+				"green-700": "rgba(12,205,107,0.7)",
+				"green-800": "rgba(12,205,107,0.8)",
+				"green-900": "rgba(12,205,107,0.9)",
+				green: "rgba(12,205,107,1)"
 			}
 		}
 	},
