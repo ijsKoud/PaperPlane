@@ -853,9 +853,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paperplane/buttons@workspace:packages/ui":
+"@paperplane/buttons@workspace:packages/buttons":
   version: 0.0.0-use.local
-  resolution: "@paperplane/buttons@workspace:packages/ui"
+  resolution: "@paperplane/buttons@workspace:packages/buttons"
   dependencies:
     "@types/react": ^18.0.22
     "@types/react-dom": ^17.0.11
