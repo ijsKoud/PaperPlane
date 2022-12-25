@@ -14,17 +14,45 @@ interface LinkProps {
 	color: Colors;
 }
 
-type Colors = "primary" | "secondary" | "tertiary" | "white";
+type Colors = keyof typeof Colors;
 type AllPropsWithColor = ButtonProps | LinkProps;
 
 export type AllProps = Omit<AllPropsWithColor, "color">;
 
+const Colors = {
+	primary: {
+		bg: "bg-primary-400",
+		border: "border-primary-800",
+		hoverBg: "hover:bg-primary-600",
+		hoverBorder: "hover:border-primary"
+	},
+	secondary: {
+		bg: "bg-secondary-400",
+		border: "border-secondary-800",
+		hoverBg: "hover:bg-secondary-600",
+		hoverBorder: "hover:border-secondary"
+	},
+	tertiary: {
+		bg: "bg-tertiary-400",
+		border: "border-tertiary-800",
+		hoverBg: "hover:bg-tertiary-600",
+		hoverBorder: "hover:border-tertiary"
+	},
+	white: {
+		bg: "bg-white-400",
+		border: "border-white-800",
+		hoverBg: "hover:bg-white-600",
+		hoverBorder: "hover:border-white"
+	}
+};
+
 const Button: React.FC<React.PropsWithChildren<AllPropsWithColor>> = (props) => {
 	const El = (props.type === "link" ? Link : (props: any) => <button {...props} />) as React.FC<any>;
+	const colors = Colors[props.color];
 
 	return (
 		<El
-			className={`bg-${props.color}-400 border border-${props.color}-800 text-white px-4 py-2 rounded-xl text-base hover:bg-${props.color}-600 hover:border-${props.color} transition-colors`}
+			className={`${colors.bg} border ${colors.border} text-white px-4 py-2 rounded-xl text-base ${colors.hoverBg} ${colors.hoverBorder} transition-colors`}
 			{...props}
 		/>
 	);
