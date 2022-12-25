@@ -6,8 +6,8 @@ module.exports = {
 		extend: {
 			fontSize: {
 				note: ["9.2px", { fontWeight: 600 }],
-				comment: ["9.2px", { fontWeight: 600 }],
-				small: ["9.2px", { fontWeight: 600 }],
+				comment: ["11.5px", { fontWeight: 600 }],
+				small: ["14.4px", { fontWeight: 600 }],
 				base: ["18px", { fontWeight: 400 }],
 				lg: ["22.5px", { fontWeight: 600 }],
 				xl: ["28.13px", { fontWeight: 600 }],
