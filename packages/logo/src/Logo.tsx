@@ -7,7 +7,7 @@ export const Logo: React.FC<Props> = ({ height, width }) => {
 
 	return (
 		<svg width={logoWidth} height={logoHeight} viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<g clip-path="url(#clip0_5_150)">
+			<g clipPath="url(#clip0_5_150)">
 				<path
 					d="M245.555 410.542L170.547 503.382C156.546 520.484 128.043 511.183 128.043 487.58V358.037L408.332 105.241C413.833 100.34 421.634 107.841 416.933 113.542L191.74 387.91L245.555 410.542Z"
 					fill="#DCDCDC"
