@@ -33,10 +33,10 @@ const Colors = {
 		hoverBorder: "hover:border-secondary"
 	},
 	tertiary: {
-		bg: "bg-tertiary-400",
-		border: "border-tertiary-800",
-		hoverBg: "hover:bg-tertiary-600",
-		hoverBorder: "hover:border-tertiary"
+		bg: "bg-highlight-400",
+		border: "border-highlight-800",
+		hoverBg: "hover:bg-highlight-600",
+		hoverBorder: "hover:border-highlight"
 	},
 	white: {
 		bg: "bg-white-400",
