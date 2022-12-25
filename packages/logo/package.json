@@ -1,5 +1,5 @@
 {
-	"name": "@paperplane/buttons",
+	"name": "@paperplane/logo",
 	"version": "0.0.0",
 	"main": "./src/index.tsx",
 	"types": "./src/index.tsx",
@@ -15,8 +15,5 @@
 		"react": "^18.2.0",
 		"tsconfig": "*",
 		"typescript": "^4.5.2"
-	},
-	"dependencies": {
-		"next": "13.1.1"
 	}
 }
