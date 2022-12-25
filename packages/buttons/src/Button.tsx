@@ -1,13 +1,13 @@
 import type React from "react";
 import Link from "next/link";
 
-interface ButtonProps {
+interface ButtonPropsColor {
 	type: "button";
 	onClick?: () => void;
 	color: Colors;
 }
 
-interface LinkProps {
+interface LinkPropsColor {
 	type: "link";
 	href: string;
 	target?: string;
@@ -15,9 +15,11 @@ interface LinkProps {
 }
 
 type Colors = keyof typeof Colors;
-type AllPropsWithColor = ButtonProps | LinkProps;
+type AllPropsWithColor = ButtonPropsColor | LinkPropsColor;
 
-export type AllProps = Omit<AllPropsWithColor, "color">;
+export type LinkProps = Omit<LinkPropsColor, "color">;
+export type ButtonProps = Omit<LinkPropsColor, "color">;
+export type AllProps = LinkProps | ButtonProps;
 
 const Colors = {
 	primary: {
