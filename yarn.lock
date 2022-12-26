@@ -853,7 +853,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paperplane/buttons@workspace:packages/buttons":
+"@paperplane/buttons@*, @paperplane/buttons@workspace:packages/buttons":
   version: 0.0.0-use.local
   resolution: "@paperplane/buttons@workspace:packages/buttons"
   dependencies:
@@ -868,7 +868,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@paperplane/forms@workspace:packages/forms":
+"@paperplane/forms@*, @paperplane/forms@workspace:packages/forms":
   version: 0.0.0-use.local
   resolution: "@paperplane/forms@workspace:packages/forms"
   dependencies:
@@ -882,7 +882,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@paperplane/logo@workspace:packages/logo":
+"@paperplane/logo@*, @paperplane/logo@workspace:packages/logo":
   version: 0.0.0-use.local
   resolution: "@paperplane/logo@workspace:packages/logo"
   dependencies:
@@ -6145,13 +6145,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"std@npm:0.1.x":
-  version: 0.1.40
-  resolution: "std@npm:0.1.40"
-  checksum: ecc79c56d9793d67f8ea2c1d61ea6e3ed1673e157610236ea549d1337f2cb3da4e99a184ed2dcd151524fd079b2387f49bc95d0e6cc5a9f65349d37bea72e370
-  languageName: node
-  linkType: hard
-
 "string-argv@npm:^0.3.1":
   version: 0.3.1
   resolution: "string-argv@npm:0.3.1"
@@ -6801,15 +6794,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ui@npm:*":
-  version: 0.2.4
-  resolution: "ui@npm:0.2.4"
-  dependencies:
-    std: 0.1.x
-  checksum: c79eafb255ab5fd2ed83cf898cc98bd5379ee1ae77576b9a1e52ff70fbfdc276d8084719e6071f2448269bcd6f24468971b376c87d0ae48348dd60fcffd60e12
-  languageName: node
-  linkType: hard
-
 "unbox-primitive@npm:^1.0.1":
   version: 1.0.1
   resolution: "unbox-primitive@npm:1.0.1"
@@ -6919,6 +6903,9 @@ __metadata:
   dependencies:
     "@babel/core": ^7.0.0
     "@next/font": ^13.1.0
+    "@paperplane/buttons": "*"
+    "@paperplane/forms": "*"
+    "@paperplane/logo": "*"
     "@types/node": ^17.0.12
     "@types/react": ^18.0.22
     "@types/react-dom": ^18.0.7
@@ -6929,7 +6916,6 @@ __metadata:
     react-dom: ^18.2.0
     tsconfig: "*"
     typescript: ^4.5.3
-    ui: "*"
   languageName: unknown
   linkType: soft
 
