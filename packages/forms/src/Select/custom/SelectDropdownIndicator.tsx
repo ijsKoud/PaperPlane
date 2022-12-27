@@ -1,9 +1,10 @@
 import type React from "react";
 import type { DropdownIndicatorProps } from "react-select";
 import { components } from "react-select";
+import { cleanCommonProps } from "../utils";
 
 export const SelectDropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
-	const { isDisabled, isFocused } = props;
+	const { isDisabled, isFocused } = cleanCommonProps(props);
 
 	return (
 		<div

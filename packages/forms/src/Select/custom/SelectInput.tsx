@@ -1,5 +1,6 @@
 import type { InputProps } from "react-select";
 import type React from "react";
+import { cleanCommonProps } from "../utils";
 
 const spacingStyle = {
 	gridArea: "1 / 2",
@@ -22,7 +23,7 @@ const inputStyle = (isHidden: boolean) => ({
 
 export const SelectInput: React.FC<InputProps> = (props) => {
 	const { value } = props;
-	const { innerRef, isDisabled, isHidden, inputClassName, ...innerProps } = props;
+	const { innerRef, isDisabled, isHidden, inputClassName, ...innerProps } = cleanCommonProps(props);
 
 	return (
 		<div className="inline-grid row-[1/2] col-[1/3]" data-value={value || ""}>
