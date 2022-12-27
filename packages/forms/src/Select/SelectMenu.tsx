@@ -1,6 +1,6 @@
 import type React from "react";
 import ReactSelect from "react-select";
-import { SelectInput, SelectControl, SelectMenuComponent, SelectOption, SelectDropdownIndicator } from "./custom";
+import { SelectInput, SelectControl, SelectMenuComponent, SelectOption, SelectDropdownIndicator, SelectSingleValue } from "./custom";
 
 export const SelectMenu: React.FC = () => {
 	return (
@@ -17,13 +17,13 @@ export const SelectMenu: React.FC = () => {
 				{ label: "hello1", value: "world1" },
 				{ label: "hello1", value: "world1" }
 			]}
-			menuIsOpen
 			components={{
 				Input: SelectInput,
 				Control: SelectControl,
 				Menu: SelectMenuComponent,
 				Option: SelectOption,
 				DropdownIndicator: SelectDropdownIndicator,
+				SingleValue: SelectSingleValue,
 				IndicatorSeparator: null
 			}}
 		/>
