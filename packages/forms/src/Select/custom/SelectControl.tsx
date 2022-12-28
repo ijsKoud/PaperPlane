@@ -12,7 +12,7 @@ export const SelectControl: React.FC<ControlProps<SelectOption>> = (props) => {
 	return (
 		<div
 			ref={innerRef}
-			className={`flex flex-wrap  justify-between items-center relative rounded-xl bg-highlight-200 border min-h-[38px] box-border transition-all outline outline-2 ${focusedClass} ${disabledClass}`}
+			className={`flex flex-wrap py-1 px-2 justify-between items-center relative rounded-xl bg-highlight-200 border min-h-[38px] box-border transition-all outline outline-2 ${focusedClass} ${disabledClass}`}
 			{...innerProps}
 		>
 			{children}
