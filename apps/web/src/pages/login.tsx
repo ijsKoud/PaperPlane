@@ -1,5 +1,5 @@
 import { PrimaryButton } from "@paperplane/buttons";
-import { SelectMenu, SelectOption } from "@paperplane/forms";
+import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
@@ -70,13 +70,7 @@ const Login: NextPage<Props> = ({ domains, domain }) => {
 				</div>
 				<div className="w-full gap-y-2 flex flex-col">
 					<h3 className="text-lg">Two Factor Authentication</h3>
-					{/* TODO: CHANGE INTO TEXT INPUT FIELD */}
-					<SelectMenu
-						options={MOCK_DOMAINS}
-						defaultValue={getDefaultValue()}
-						onChange={(opt) => redirectUser(opt as SelectOption)}
-						className="w-full"
-					/>
+					<Input placeholder="6 digit code here..." />
 				</div>
 				<PrimaryButton type="button" extra="w-full flex gap-x-3 items-center justify-center">
 					Sign In <i className="fa-solid fa-right-to-bracket" />
