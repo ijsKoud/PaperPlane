@@ -3,7 +3,7 @@ import { PrimaryButton } from "@paperplane/buttons";
 
 export default function Web() {
 	return (
-		<div className="dark:bg-bg-dark grid place-items-center h-screen">
+		<div className="grid place-items-center h-screen">
 			<div className="flex flex-col gap-y-3 items-center justify-center">
 				<div>
 					<div className="flex gap-4">
