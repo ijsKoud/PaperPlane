@@ -15,6 +15,9 @@ module.exports = {
 				"3xl": ["43.95px", { fontWeight: 600 }],
 				"4xl": ["54.9px", { fontWeight: 700, lineHeight: "50px" }]
 			},
+			backgroundImage: {
+				login: "url('/backgrounds/login.svg')"
+			},
 			colors: {
 				// main
 				"main-100": "rgba(36,37,38,0.1)",
