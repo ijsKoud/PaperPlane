@@ -1,8 +1,9 @@
 import type React from "react";
 import type { ControlProps } from "react-select";
+import type { SelectOption } from "../types";
 import { cleanCommonProps } from "../utils";
 
-export const SelectControl: React.FC<ControlProps> = (props) => {
+export const SelectControl: React.FC<ControlProps<SelectOption>> = (props) => {
 	const { children, isDisabled, isFocused, innerRef, menuIsOpen, innerProps } = cleanCommonProps(props);
 
 	const focusedClass = isFocused || menuIsOpen ? "outline-highlight" : "outline-transparent";

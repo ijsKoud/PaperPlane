@@ -1,8 +1,9 @@
 import type React from "react";
 import type { MenuProps } from "react-select";
+import type { SelectOption } from "../types";
 import { cleanCommonProps } from "../utils";
 
-export const SelectMenuComponent: React.FC<MenuProps> = (props) => {
+export const SelectMenuComponent: React.FC<MenuProps<SelectOption>> = (props) => {
 	const { children, innerRef, innerProps } = cleanCommonProps(props);
 	return (
 		<div

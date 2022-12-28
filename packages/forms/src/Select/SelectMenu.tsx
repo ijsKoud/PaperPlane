@@ -1,8 +1,9 @@
 import type React from "react";
 import ReactSelect, { Props } from "react-select";
 import { SelectInput, SelectControl, SelectMenuComponent, SelectOption, SelectDropdownIndicator, SelectSingleValue } from "./custom";
+import type { SelectOption as SelectOptionType } from "./types";
 
-export const SelectMenu: React.FC<Props> = (props) => {
+export const SelectMenu: React.FC<Props<SelectOptionType>> = (props) => {
 	return (
 		<ReactSelect
 			{...props}
