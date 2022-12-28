@@ -1,9 +1,9 @@
 import type React from "react";
 import type { OptionProps } from "react-select";
-import type { SelectOption } from "../types";
+import type { SelectOption as SelectOptionType } from "../types";
 import { cleanCommonProps } from "../utils";
 
-export const SelectOption: React.FC<OptionProps<SelectOption>> = (props) => {
+export const SelectOption: React.FC<OptionProps<SelectOptionType>> = (props) => {
 	const { children, isDisabled, isFocused, isSelected, innerRef, innerProps } = cleanCommonProps(props);
 
 	return (
