@@ -18,7 +18,7 @@ type Colors = keyof typeof Colors;
 type AllPropsWithColor = ButtonPropsColor | LinkPropsColor;
 
 export type LinkProps = Omit<LinkPropsColor, "color">;
-export type ButtonProps = Omit<LinkPropsColor, "color">;
+export type ButtonProps = Omit<ButtonPropsColor, "color">;
 export type AllProps = LinkProps | ButtonProps;
 
 const Colors = {
