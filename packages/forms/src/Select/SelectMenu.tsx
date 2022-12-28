@@ -17,7 +17,6 @@ export const SelectMenu: React.FC = () => {
 				{ label: "hello8", value: "world8" },
 				{ label: "hello9", value: "world9" }
 			]}
-			isMulti
 			components={{
 				Input: SelectInput,
 				Control: SelectControl,
@@ -26,6 +25,13 @@ export const SelectMenu: React.FC = () => {
 				DropdownIndicator: SelectDropdownIndicator,
 				SingleValue: SelectSingleValue,
 				IndicatorSeparator: null
+			}}
+			classNames={{
+				clearIndicator: () => "!text-white hover:!text-white-500",
+				placeholder: () => "!text-white-600",
+				multiValue: () => "!bg-highlight-400",
+				multiValueLabel: () => "!text-white",
+				multiValueRemove: () => "!bg-transparent text-white hover:text-red transition-colors"
 			}}
 			styles={{
 				input: (base) => ({ ...base, color: "#fff" })
