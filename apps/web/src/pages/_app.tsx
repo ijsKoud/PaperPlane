@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/fontawesome.css";
 
 import type { AppProps } from "next/app";
 import { Poppins } from "@next/font/google";
