@@ -47,6 +47,12 @@ const Colors = {
 		border: "border-white-800",
 		hoverBg: "hover:bg-white-600",
 		hoverBorder: "hover:border-white"
+	},
+	transparent: {
+		bg: "bg-transparent",
+		border: "border-transparent",
+		hoverBg: "text-white-600",
+		hoverBorder: "border-transparent"
 	}
 };
 
