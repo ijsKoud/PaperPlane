@@ -52,7 +52,7 @@ const Colors = {
 		bg: "bg-transparent",
 		border: "border-transparent",
 		hoverBg: "hover:text-white-600",
-		hoverBorder: "border-transparent"
+		hoverBorder: "!p-[0px]"
 	}
 };
 
