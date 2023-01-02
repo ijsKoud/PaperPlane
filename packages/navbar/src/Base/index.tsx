@@ -7,7 +7,7 @@ import { MenuButton } from "./MenuButton";
 export const BaseNavbar: React.FC = () => {
 	return (
 		<div className="py-2 px-5 w-screen flex justify-between bg-main">
-			<div className="flex gap-2 items-center">
+			<div className="flex gap-2 items-center z-50">
 				<Logo height={20} width={20} />
 				<h1 className="text-lg">PAPERPLANE</h1>
 			</div>
