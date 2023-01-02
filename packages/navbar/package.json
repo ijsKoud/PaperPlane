@@ -1,5 +1,5 @@
 {
-	"name": "@paperplane/logo",
+	"name": "@paperplane/navbar",
 	"version": "0.0.0",
 	"main": "./src/index.tsx",
 	"types": "./src/index.tsx",
@@ -8,6 +8,9 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"dependencies": {
+		"@paperplane/buttons": "*",
+		"@paperplane/logo": "*",
+		"next": "13.1.1",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
