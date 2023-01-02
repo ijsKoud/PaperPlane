@@ -5,7 +5,7 @@ import UserButton from "./UserButton";
 
 export const BaseNavbar: React.FC = () => {
 	return (
-		<div className="py-2 px-4 w-screen flex justify-between bg-main">
+		<div className="py-2 px-5 w-screen flex justify-between bg-main">
 			<div className="flex gap-2 items-center">
 				<Logo height={20} width={20} />
 				<h1 className="text-lg">PAPERPLANE</h1>
