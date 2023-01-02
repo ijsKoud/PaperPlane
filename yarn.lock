@@ -1061,6 +1061,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/navbar@workspace:packages/navbar"
   dependencies:
+    "@paperplane/buttons": "*"
+    "@paperplane/logo": "*"
     "@types/react": ^18.0.22
     "@types/react-dom": ^17.0.11
     eslint: ^7.32.0
