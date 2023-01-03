@@ -5,6 +5,8 @@ import UserButton from "./UserButton";
 import { MenuButton } from "./MenuButton";
 import { Modal } from "@paperplane/modal";
 import { useState } from "react";
+import ChangelogModal from "../modals/ChangelogModal";
+import Swr from "../Swr";
 
 export const BaseNavbar: React.FC = () => {
 	const [ChangelogOpen, setChangelogOpen] = useState(false);
@@ -12,9 +14,9 @@ export const BaseNavbar: React.FC = () => {
 	const closeChangelog = () => setChangelogOpen(false);
 
 	return (
-		<>
+		<Swr>
 			<Modal isOpen={ChangelogOpen} onClick={closeChangelog}>
-				<h1>Hello World!</h1>
+				<ChangelogModal />
 			</Modal>
 			<div className="py-2 px-5 w-screen flex justify-between bg-main">
 				<div className="flex gap-2 items-center z-50">
@@ -34,6 +36,6 @@ export const BaseNavbar: React.FC = () => {
 					<MenuButton openChangelog={openChangelog} />
 				</div>
 			</div>
-		</>
+		</Swr>
 	);
 };
