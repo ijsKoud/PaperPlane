@@ -2,7 +2,7 @@ import type React from "react";
 import { useState } from "react";
 import { SWRConfig, Cache } from "swr";
 
-const SwrWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const SwrWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
 	const [cache] = useState(new Map<string, any>());
 
 	const localStorageProvider = (): Cache<any> => {
@@ -25,5 +25,3 @@ const SwrWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
 
 	return <SWRConfig value={{ provider: localStorageProvider }}>{children}</SWRConfig>;
 };
-
-export default SwrWrapper;

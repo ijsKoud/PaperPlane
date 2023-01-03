@@ -1,7 +1,2 @@
-export * from "./Logo";
-export * from "./LogoBg";
-
-export interface Props {
-	height?: number;
-	width?: number;
-}
+export * from "./SwrWrapper";
+export * from "./useSwr";
