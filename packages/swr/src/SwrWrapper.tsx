@@ -14,7 +14,7 @@ export const SwrWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
 			}
 
 			window.addEventListener("beforeunload", () => {
-				for (const [key, data] of cache.entries()) {
+				for (const [key, data] of Object.entries(cache)) {
 					localStorage.setItem(`swr-${key}`, JSON.stringify(data));
 				}
 			});
