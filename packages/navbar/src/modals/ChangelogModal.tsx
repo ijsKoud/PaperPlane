@@ -21,7 +21,7 @@ const ChangelogModal: React.FC = () => {
 
 	if (isLoading)
 		return (
-			<div>
+			<div className="w-52 h-28 grid place-items-center">
 				<HashLoader color="#fff" />
 			</div>
 		);
