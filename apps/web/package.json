@@ -13,6 +13,7 @@
 		"@paperplane/buttons": "*",
 		"@paperplane/forms": "*",
 		"@paperplane/logo": "*",
+		"@paperplane/modal": "*",
 		"@paperplane/navbar": "*",
 		"next": "13.1.1",
 		"react": "^18.2.0",

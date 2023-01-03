@@ -1,0 +1,15 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "./src",
+		"outDir": "../dist",
+		"composite": true,
+		"preserveConstEnums": true,
+		"tsBuildInfoFile": "../dist/.tsbuildinfo",
+		"jsx": "react-jsx",
+		"lib": ["ES2015"],
+		"module": "ESNext",
+		"target": "es6"
+	},
+	"include": ["src"]
+}

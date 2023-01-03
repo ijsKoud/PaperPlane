@@ -986,6 +986,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@paperplane/modal@*, @paperplane/modal@workspace:packages/modal":
+  version: 0.0.0-use.local
+  resolution: "@paperplane/modal@workspace:packages/modal"
+  dependencies:
+    "@paperplane/buttons": "*"
+    "@types/react": ^18.0.22
+    "@types/react-dom": ^17.0.11
+    eslint: ^7.32.0
+    next: 13.1.1
+    react: ^18.2.0
+    typescript: ^4.5.2
+  languageName: unknown
+  linkType: soft
+
 "@paperplane/navbar@*, @paperplane/navbar@workspace:packages/navbar":
   version: 0.0.0-use.local
   resolution: "@paperplane/navbar@workspace:packages/navbar"
@@ -6469,6 +6483,7 @@ __metadata:
     "@paperplane/buttons": "*"
     "@paperplane/forms": "*"
     "@paperplane/logo": "*"
+    "@paperplane/modal": "*"
     "@paperplane/navbar": "*"
     "@types/node": ^17.0.12
     "@types/react": ^18.0.22
