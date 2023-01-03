@@ -7,7 +7,7 @@
 		"preserveConstEnums": true,
 		"tsBuildInfoFile": "../dist/.tsbuildinfo",
 		"jsx": "react-jsx",
-		"lib": ["ES2015"],
+		"lib": ["ES2015", "DOM"],
 		"module": "ESNext",
 		"target": "es6"
 	},
