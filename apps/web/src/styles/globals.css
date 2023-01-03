@@ -6,3 +6,9 @@ html {
 	@apply text-white;
 	@apply bg-bg-dark;
 }
+
+a {
+	@apply text-blue;
+	@apply hover:text-blue-600;
+	@apply transition-colors;
+}
