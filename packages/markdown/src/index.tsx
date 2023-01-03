@@ -45,21 +45,9 @@ const Markdown: React.FC<Props> = ({ children }) => {
 						{children}
 					</h6>
 				),
-				li: ({ node, inline, children, ...props }) => (
-					<li className="text-base" {...props}>
-						{children}
-					</li>
-				),
-				ol: ({ node, inline, children, ...props }) => (
-					<ol className="pl-5 list-disc" {...props}>
-						{children}
-					</ol>
-				),
-				ul: ({ node, inline, children, ...props }) => (
-					<ul className="pl-5 list-disc" {...props}>
-						{children}
-					</ul>
-				)
+				li: ({ children }: any) => <li className="text-base">{children}</li>,
+				ol: ({ children }) => <ol className="pl-5 list-disc">{children}</ol>,
+				ul: ({ children }) => <ul className="pl-5 list-disc">{children}</ul>
 			}}
 		>
 			{children}
