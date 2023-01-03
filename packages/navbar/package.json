@@ -10,6 +10,7 @@
 	"dependencies": {
 		"@paperplane/buttons": "*",
 		"@paperplane/logo": "*",
+		"@paperplane/modal": "*",
 		"next": "13.1.1",
 		"react": "^18.2.0"
 	},
