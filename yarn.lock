@@ -1104,6 +1104,7 @@ __metadata:
     "@paperplane/logo": "*"
     "@paperplane/markdown": "*"
     "@paperplane/modal": "*"
+    "@paperplane/utils": "*"
     "@types/react": ^18.0.22
     "@types/react-dom": ^17.0.11
     axios: ^1.2.2
@@ -1112,6 +1113,15 @@ __metadata:
     react: ^18.2.0
     react-spinners: ^0.13.7
     swr: ^2.0.0
+    typescript: ^4.5.2
+  languageName: unknown
+  linkType: soft
+
+"@paperplane/utils@*, @paperplane/utils@workspace:packages/utils":
+  version: 0.0.0-use.local
+  resolution: "@paperplane/utils@workspace:packages/utils"
+  dependencies:
+    eslint: ^7.32.0
     typescript: ^4.5.2
   languageName: unknown
   linkType: soft
