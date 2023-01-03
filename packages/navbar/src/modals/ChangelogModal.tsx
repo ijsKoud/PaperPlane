@@ -35,17 +35,17 @@ const ChangelogModal: React.FC = () => {
 		);
 
 	return (
-		<div>
+		<>
 			<div className="flex justify-between items-center">
 				<h1 className="text-3xl">Release v{PAPERPLANE_VERSION}</h1>
 				<TransparentButton type="link" href={releaseUrl} target="_blank" extra="text-xl">
 					<i className="fa-solid fa-arrow-up-right-from-square" />
 				</TransparentButton>
 			</div>
-			<div className="max-h-[600px] pr-4 overflow-y-auto">
+			<div className="pr-4 max-h-[calc(100vh-2rem-100px)] overflow-y-auto">
 				<Markdown>{parseReleaseMarkdown(data.body)}</Markdown>
 			</div>
-		</div>
+		</>
 	);
 };
 
