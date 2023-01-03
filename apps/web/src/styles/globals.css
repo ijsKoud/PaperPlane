@@ -7,7 +7,7 @@ html {
 	@apply bg-bg-dark;
 }
 
-a {
+.react_markdown-components a {
 	@apply text-blue;
 	@apply hover:text-blue-600;
 	@apply transition-colors;
