@@ -1,6 +1,7 @@
 {
-	"name": "@paperplane/navbar",
+	"name": "@paperplane/markdown",
 	"version": "0.0.0",
+	"type": "module",
 	"main": "./src/index.tsx",
 	"types": "./src/index.tsx",
 	"license": "MIT",
@@ -8,16 +9,9 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"dependencies": {
-		"@paperplane/buttons": "*",
-		"@paperplane/logo": "*",
-		"@paperplane/markdown": "*",
-		"@paperplane/modal": "*",
-		"@paperplane/utils": "*",
-		"axios": "^1.2.2",
-		"next": "13.1.1",
 		"react": "^18.2.0",
-		"react-spinners": "^0.13.7",
-		"swr": "^2.0.0"
+		"react-markdown": "^8.0.4",
+		"remark-gfm": "^3.0.1"
 	},
 	"devDependencies": {
 		"@types/react": "^18.0.22",
