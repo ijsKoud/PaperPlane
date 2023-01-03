@@ -37,7 +37,7 @@ const ModalItem: React.FC<React.PropsWithChildren<Props>> = ({ children, onClick
 		<motion.div
 			aria-modal
 			onClick={(e) => e.stopPropagation()}
-			className="relative bg-bg-dark border-white-200 rounded-xl border px-4 py-2 mx-4 my-4"
+			className="relative bg-bg-dark border-white-200 rounded-xl border px-4 py-2 mx-4 my-4 max-h-[calc(100vh_-_2rem)] overflow-hidden"
 			variants={variants}
 			initial="hidden"
 			animate="visible"
