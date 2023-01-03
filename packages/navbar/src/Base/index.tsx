@@ -31,7 +31,7 @@ export const BaseNavbar: React.FC = () => {
 					<UserButton type="button" />
 				</div>
 				<div className="sm:hidden gap-4 items-center flex">
-					<MenuButton />
+					<MenuButton openChangelog={openChangelog} />
 				</div>
 			</div>
 		</>
