@@ -17,21 +17,25 @@ const ChangelogModal: React.FC = () => {
 	const releaseUrl = `https://github.com/ijsKoud/PaperPlane/releases/tag/v${PAPERPLANE_VERSION}`;
 
 	const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-	const { data, isLoading, error } = useSWR<ReleaseApiRes>(releaseApiUrl, fetcher);
-
-	const Base: React.FC<React.PropsWithChildren> = ({ children }) => <div>{children}</div>;
+	const { data, isLoading, error } = useSWR<ReleaseApiRes>(releaseApiUrl, fetcher, { errorRetryCount: 5 });
 
 	if (isLoading)
 		return (
-			<Base>
+			<div>
 				<HashLoader color="#fff" />
-			</Base>
+			</div>
 		);
 
-	if (!data || error) return <Base>{":("}</Base>;
+	if (!data || error)
+		return (
+			<div>
+				<h1 className="text-xl">PaperPlane couldn&apos;t withstand the heavy wind.</h1>
+				<p className="text-base">We failed to retrieve the changelog, we will retry it again in a couple of seconds...</p>
+			</div>
+		);
 
 	return (
-		<Base>
+		<div>
 			<div className="flex justify-between items-center">
 				<h1 className="text-3xl">Release v{PAPERPLANE_VERSION}</h1>
 				<TransparentButton type="link" href={releaseUrl} target="_blank" extra="text-xl">
@@ -41,7 +45,7 @@ const ChangelogModal: React.FC = () => {
 			<div className="max-h-[600px] pr-4 overflow-y-auto">
 				<Markdown>{parseReleaseMarkdown(data.body)}</Markdown>
 			</div>
-		</Base>
+		</div>
 	);
 };
 
