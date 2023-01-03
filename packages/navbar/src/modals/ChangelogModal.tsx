@@ -1,10 +1,10 @@
 import type React from "react";
 import axios from "axios";
-import useSWR from "swr";
 import { HashLoader } from "react-spinners";
 import dynamic from "next/dynamic";
 import { TransparentButton } from "@paperplane/buttons";
 import { PAPERPLANE_VERSION, parseReleaseMarkdown } from "@paperplane/utils";
+import { useSwr } from "@paperplane/swr";
 
 const Markdown = dynamic(() => import("@paperplane/markdown"));
 
@@ -17,7 +17,7 @@ const ChangelogModal: React.FC = () => {
 	const releaseUrl = `https://github.com/ijsKoud/PaperPlane/releases/tag/v${PAPERPLANE_VERSION}`;
 
 	const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-	const { data, isLoading, error } = useSWR<ReleaseApiRes>(releaseApiUrl, fetcher, { errorRetryCount: 5 });
+	const { data, isLoading, error } = useSwr<ReleaseApiRes>(releaseApiUrl, fetcher);
 
 	if (isLoading)
 		return (

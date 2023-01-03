@@ -12,12 +12,12 @@
 		"@paperplane/logo": "*",
 		"@paperplane/markdown": "*",
 		"@paperplane/modal": "*",
+		"@paperplane/swr": "*",
 		"@paperplane/utils": "*",
 		"axios": "^1.2.2",
 		"next": "13.1.1",
 		"react": "^18.2.0",
-		"react-spinners": "^0.13.7",
-		"swr": "^2.0.0"
+		"react-spinners": "^0.13.7"
 	},
 	"devDependencies": {
 		"@types/react": "^18.0.22",
