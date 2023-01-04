@@ -23,3 +23,17 @@ export const getCircleColor = (percentage: number): string => {
 
 	return "#EA0C1B";
 };
+
+export const formatBytes = (bytes: number) => {
+	if (bytes === Infinity) return "Infinity";
+
+	const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+	let num = 0;
+
+	while (bytes > 1024) {
+		bytes /= 1024;
+		++num;
+	}
+
+	return `${bytes.toFixed(1)} ${units[num]}`;
+};

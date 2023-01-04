@@ -1,34 +1,15 @@
 import { DashboardNavbar } from "@paperplane/navbar";
-import { getCircleColor } from "@paperplane/utils";
 import type { NextPage } from "next";
-import { Circle } from "rc-progress";
-import { DashboardStatistics, Table, TableEntry } from "@paperplane/ui";
+import { DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
 
 const Dashboard: NextPage = () => {
-	const storagePercentage = 10;
-
 	return (
 		<>
 			<DashboardNavbar />
 			<div className="pt-24">
 				<div className="pt-24 flex flex-col justify-center items-center gap-y-8 max-md:pt-8">
 					<div className="max-w-[1040px] w-full h-80 flex gap-8 items-center px-2 max-md:flex-col max-md:h-auto">
-						<div className="bg-main rounded-xl flex flex-col justify-center items-center gap-7 h-full min-w-[16rem] max-md:w-full max-md:py-4">
-							<h1 className="text-lg">Storage Usage</h1>
-							<div className="relative h-40 w-40">
-								<Circle
-									percent={storagePercentage}
-									strokeWidth={8}
-									strokeLinecap="butt"
-									trailColor="rgba(0,0,0,0)"
-									strokeColor={getCircleColor(storagePercentage)}
-								/>
-								<p className="absolute text-3xl left-0 top-0 right-0 text-center translate-y-3/4">{storagePercentage}%</p>
-							</div>
-							<p>
-								<strong>7.7</strong> GB out of <strong>10.0</strong> GB used
-							</p>
-						</div>
+						<DashboardStorageUsage used={7.7e9} total={1e10} />
 						<DashboardStatistics files={1528} shorturls={38} />
 					</div>
 					<div className="max-w-[calc(1040px)] w-full px-2">
