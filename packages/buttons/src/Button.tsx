@@ -51,7 +51,7 @@ const Colors = {
 	},
 	transparent: {
 		bg: "bg-transparent",
-		border: "border-transparent",
+		border: "border-transparent border-none",
 		hoverBg: "hover:text-white-600",
 		hoverBorder: "!p-[0px]"
 	}
