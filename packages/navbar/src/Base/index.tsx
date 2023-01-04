@@ -6,11 +6,17 @@ import { MenuButton } from "./MenuButton";
 import { Modal } from "@paperplane/modal";
 import { useState } from "react";
 import ChangelogModal from "../modals/ChangelogModal";
+import UserDropdown from "./UserDropdown";
+import { AnimatePresence } from "framer-motion";
 
 export const BaseNavbar: React.FC = () => {
 	const [ChangelogOpen, setChangelogOpen] = useState(false);
 	const openChangelog = () => setChangelogOpen(true);
 	const closeChangelog = () => setChangelogOpen(false);
+
+	const [userDropdown, setUserDropdown] = useState(false);
+	const toggleUserDropdown = () => setUserDropdown(!userDropdown);
+	const closeUserDropdown = () => setUserDropdown(false);
 
 	return (
 		<>
@@ -29,7 +35,10 @@ export const BaseNavbar: React.FC = () => {
 					<TransparentButton type="link" href="https://paperplane.ijskoud.dev/">
 						Help
 					</TransparentButton>
-					<UserButton type="button" />
+					<div className="relative">
+						<UserButton type="button" onClick={toggleUserDropdown} />
+						<AnimatePresence mode="wait">{userDropdown && <UserDropdown onClick={closeUserDropdown} />}</AnimatePresence>
+					</div>
 				</div>
 				<div className="sm:hidden gap-4 items-center flex">
 					<MenuButton openChangelog={openChangelog} />
