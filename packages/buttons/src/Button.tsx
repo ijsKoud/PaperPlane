@@ -12,6 +12,7 @@ interface LinkPropsColor {
 	type: "link";
 	href: string;
 	target?: string;
+	onClick?: () => void;
 	color: Colors;
 	extra?: string;
 }
