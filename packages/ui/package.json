@@ -8,6 +8,7 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"dependencies": {
+		"@paperplane/utils": "*",
 		"rc-progress": "^3.4.1",
 		"react": "^18.2.0"
 	},
