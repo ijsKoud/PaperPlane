@@ -2,6 +2,7 @@ import { DashboardNavbar } from "@paperplane/navbar";
 import { getCircleColor } from "@paperplane/utils";
 import type { NextPage } from "next";
 import { Circle } from "rc-progress";
+import { Table, TableEntry } from "@paperplane/ui";
 
 const Dashboard: NextPage = () => {
 	const storagePercentage = 10;
@@ -54,47 +55,38 @@ const Dashboard: NextPage = () => {
 						<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
 							<h1 className="text-xl">Audit Logs</h1>
 							<div className="w-full overflow-x-auto">
-								<table className="w-full min-w-[750px]">
-									<thead>
-										<tr>
-											<th className="text-lg text-left">Action</th>
-											<th className="text-lg text-left">Details</th>
-											<th className="text-lg text-left">Date</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr className="even:bg-white-200 text-base font-light">
-											<td>Image Uploaded</td>
-											<td>Desktop: Windows 11 - Chrome</td>
-											<td>12 Dec. 2022 4:32 PM</td>
-										</tr>
-										<tr className="even:bg-white-200 text-base font-light">
-											<td>Image Uploaded</td>
-											<td>Desktop: Windows 11 - Chrome</td>
-											<td>12 Dec. 2022 4:32 PM</td>
-										</tr>
-										<tr className="even:bg-white-200 text-base font-light">
-											<td>Image Uploaded</td>
-											<td>Desktop: Windows 11 - Chrome</td>
-											<td>12 Dec. 2022 4:32 PM</td>
-										</tr>
-										<tr className="even:bg-white-200 text-base font-light">
-											<td>Image Uploaded</td>
-											<td>Desktop: Windows 11 - Chrome</td>
-											<td>12 Dec. 2022 4:32 PM</td>
-										</tr>
-										<tr className="even:bg-white-200 text-base font-light">
-											<td>Image Uploaded</td>
-											<td>Desktop: Windows 11 - Chrome</td>
-											<td>12 Dec. 2022 4:32 PM</td>
-										</tr>
-										<tr className="even:bg-white-200 text-base font-light">
-											<td>Image Uploaded</td>
-											<td>Desktop: Windows 11 - Chrome</td>
-											<td>12 Dec. 2022 4:32 PM</td>
-										</tr>
-									</tbody>
-								</table>
+								<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "Details", "Date"]}>
+									<TableEntry>
+										<td>Image Uploaded</td>
+										<td>Desktop: Windows 11 - Chrome</td>
+										<td>12 Dec. 2022 4:32 PM</td>
+									</TableEntry>
+									<TableEntry>
+										<td>Image Uploaded</td>
+										<td>Desktop: Windows 11 - Chrome</td>
+										<td>12 Dec. 2022 4:32 PM</td>
+									</TableEntry>
+									<TableEntry>
+										<td>Image Uploaded</td>
+										<td>Desktop: Windows 11 - Chrome</td>
+										<td>12 Dec. 2022 4:32 PM</td>
+									</TableEntry>
+									<TableEntry>
+										<td>Image Uploaded</td>
+										<td>Desktop: Windows 11 - Chrome</td>
+										<td>12 Dec. 2022 4:32 PM</td>
+									</TableEntry>
+									<TableEntry>
+										<td>Image Uploaded</td>
+										<td>Desktop: Windows 11 - Chrome</td>
+										<td>12 Dec. 2022 4:32 PM</td>
+									</TableEntry>
+									<TableEntry>
+										<td>Image Uploaded</td>
+										<td>Desktop: Windows 11 - Chrome</td>
+										<td>12 Dec. 2022 4:32 PM</td>
+									</TableEntry>
+								</Table>
 							</div>
 						</div>
 					</div>
