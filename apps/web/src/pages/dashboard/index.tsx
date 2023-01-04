@@ -10,8 +10,8 @@ const Dashboard: NextPage = () => {
 		<>
 			<DashboardNavbar />
 			<div className="pt-24">
-				<div className="pt-24 flex flex-col justify-center items-center max-md:pt-8">
-					<div className="max-w-[1090px] h-80 flex justify-between items-center gap-8 px-2 max-md:flex-col max-md:h-auto">
+				<div className="pt-24 flex flex-col justify-center items-center gap-y-8 max-md:pt-8">
+					<div className="max-w-[1040px] w-full h-80 flex gap-8 items-center px-2 max-md:flex-col max-md:h-auto">
 						<div className="bg-main rounded-xl flex flex-col justify-center items-center gap-7 h-full min-w-[16rem] max-md:w-full max-md:py-4">
 							<h1 className="text-lg">Storage Usage</h1>
 							<div className="relative h-40 w-40">
@@ -50,7 +50,54 @@ const Dashboard: NextPage = () => {
 							</div>
 						</div>
 					</div>
-					<div className="max-w-[1090px]">audit logs</div>
+					<div className="max-w-[calc(1040px)] w-full px-2">
+						<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
+							<h1 className="text-xl">Audit Logs</h1>
+							<div className="w-full overflow-x-auto">
+								<table className="w-full min-w-[750px]">
+									<thead>
+										<tr>
+											<th className="text-lg text-left">Action</th>
+											<th className="text-lg text-left">Details</th>
+											<th className="text-lg text-left">Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr className="even:bg-white-200 text-base font-light">
+											<td>Image Uploaded</td>
+											<td>Desktop: Windows 11 - Chrome</td>
+											<td>12 Dec. 2022 4:32 PM</td>
+										</tr>
+										<tr className="even:bg-white-200 text-base font-light">
+											<td>Image Uploaded</td>
+											<td>Desktop: Windows 11 - Chrome</td>
+											<td>12 Dec. 2022 4:32 PM</td>
+										</tr>
+										<tr className="even:bg-white-200 text-base font-light">
+											<td>Image Uploaded</td>
+											<td>Desktop: Windows 11 - Chrome</td>
+											<td>12 Dec. 2022 4:32 PM</td>
+										</tr>
+										<tr className="even:bg-white-200 text-base font-light">
+											<td>Image Uploaded</td>
+											<td>Desktop: Windows 11 - Chrome</td>
+											<td>12 Dec. 2022 4:32 PM</td>
+										</tr>
+										<tr className="even:bg-white-200 text-base font-light">
+											<td>Image Uploaded</td>
+											<td>Desktop: Windows 11 - Chrome</td>
+											<td>12 Dec. 2022 4:32 PM</td>
+										</tr>
+										<tr className="even:bg-white-200 text-base font-light">
+											<td>Image Uploaded</td>
+											<td>Desktop: Windows 11 - Chrome</td>
+											<td>12 Dec. 2022 4:32 PM</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</>
