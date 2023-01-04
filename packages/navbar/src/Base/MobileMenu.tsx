@@ -19,8 +19,11 @@ export const MobileMenu: React.FC<Props> = ({ active, closeMenu, openChangelog }
 				<TransparentButton type="button" onClick={changelogButton}>
 					<p className="text-lg font-normal text-left">Changelog</p>
 				</TransparentButton>
-				<TransparentButton type="link" href="https://paperplane.ijskoud.dev/">
+				<TransparentButton type="link" href="https://paperplane.ijskoud.dev/" onClick={closeMenu}>
 					<p className="text-lg font-normal">Help</p>
+				</TransparentButton>
+				<TransparentButton type="link" href="/settings" onClick={closeMenu}>
+					<p className="text-lg font-normal">Settings</p>
 				</TransparentButton>
 				<PrimaryButton type="button">
 					<p className="w-full">Logout</p>

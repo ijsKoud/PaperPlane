@@ -12,6 +12,7 @@ interface LinkPropsColor {
 	type: "link";
 	href: string;
 	target?: string;
+	onClick?: () => void;
 	color: Colors;
 	extra?: string;
 }
@@ -50,7 +51,7 @@ const Colors = {
 	},
 	transparent: {
 		bg: "bg-transparent",
-		border: "border-transparent",
+		border: "border-transparent border-none",
 		hoverBg: "hover:text-white-600",
 		hoverBorder: "!p-[0px]"
 	}

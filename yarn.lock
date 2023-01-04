@@ -1110,6 +1110,7 @@ __metadata:
     "@types/react-dom": ^17.0.11
     axios: ^1.2.2
     eslint: ^7.32.0
+    framer-motion: ^8.1.7
     next: 13.1.1
     react: ^18.2.0
     react-spinners: ^0.13.7
@@ -3433,6 +3434,24 @@ __metadata:
     "@emotion/is-prop-valid":
       optional: true
   checksum: 25e2569b17e75741249085aaee8994cf1eb01a6cda32ee00294f5d01238c2ad1e1a0e3c0f4b4afc92dcf0ec1b57137756445f430afbc8000639185dd8d6b145f
+  languageName: node
+  linkType: hard
+
+"framer-motion@npm:^8.1.7":
+  version: 8.1.7
+  resolution: "framer-motion@npm:8.1.7"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    "@motionone/dom": ^10.15.3
+    hey-listen: ^1.0.8
+    tslib: ^2.4.0
+  peerDependencies:
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  checksum: 84a52ffe8ce6700c22091eab86969de9653e98d4c5d3d37eed72f69fb53e21dcba134e22bfd1c47cfd4a8b1d4c4539cc11404058d9e507bfe320e862afdae111
   languageName: node
   linkType: hard
 
