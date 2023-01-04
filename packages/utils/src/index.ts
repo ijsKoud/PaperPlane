@@ -15,3 +15,25 @@ export const parseReleaseMarkdown = (release: string): string => {
 
 	return release;
 };
+
+export const getCircleColor = (percentage: number): string => {
+	if (percentage < 25) return "#0070F3";
+	if (percentage < 50) return "#1A2DD6";
+	if (percentage < 75) return "#6C1AD6";
+
+	return "#EA0C1B";
+};
+
+export const formatBytes = (bytes: number) => {
+	if (bytes === Infinity) return "Infinity";
+
+	const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+	let num = 0;
+
+	while (bytes > 1024) {
+		bytes /= 1024;
+		++num;
+	}
+
+	return `${bytes.toFixed(1)} ${units[num]}`;
+};
