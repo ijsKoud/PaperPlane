@@ -11,7 +11,16 @@ const FilesDashboard: NextPage = () => {
 				<h1 className="text-4xl">Files</h1>
 				<TertiaryButton type="button">Upload</TertiaryButton>
 			</div>
-			<DashboardToolbar filter="" page={1} pages={1} setFilter={emptyFunction} setPage={emptyFunction} setSearch={emptyFunction} />
+			<DashboardToolbar
+				filter=""
+				page={1}
+				pages={1}
+				setFilter={emptyFunction}
+				setPage={emptyFunction}
+				setSearch={emptyFunction}
+				view="list"
+				setView={emptyFunction}
+			/>
 		</DashboardLayout>
 	);
 };

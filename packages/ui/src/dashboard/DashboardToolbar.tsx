@@ -11,9 +11,12 @@ interface Props {
 
 	filter: string;
 	setFilter: (filter: string) => void;
+
+	view: "grid" | "list";
+	setView: (view: "grid" | "list") => void;
 }
 
-export const DashboardToolbar: React.FC<Props> = () => {
+export const DashboardToolbar: React.FC<Props> = ({ setView, view }) => {
 	return (
 		<div className="w-full flex justify-between items-center mt-4">
 			<Input type="main" placeholder="Search for a file" />
@@ -28,11 +31,19 @@ export const DashboardToolbar: React.FC<Props> = () => {
 			</div>
 			<SelectMenu type="main" placeholder="Filter" />
 			<div className="flex gap-4 items-center">
-				<TransparentButton type="button">
-					<i className="fa-solid fa-list-ul text-xl" />
+				<TransparentButton type="button" onClick={() => setView("list")}>
+					<i
+						className={`fa-solid fa-list-ul text-xl text-white-400 hover:text-white-800 transition-colors ${
+							view === "list" && "!text-white"
+						}`}
+					/>
 				</TransparentButton>
-				<TransparentButton type="button">
-					<i className="fa-solid fa-border-none text-xl" />
+				<TransparentButton type="button" onClick={() => setView("grid")}>
+					<i
+						className={`fa-solid fa-border-none text-xl text-white-400 hover:text-white-800 transition-colors ${
+							view === "grid" && "!text-white"
+						}`}
+					/>
 				</TransparentButton>
 			</div>
 		</div>
