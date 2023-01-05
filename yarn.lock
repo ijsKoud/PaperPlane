@@ -1136,6 +1136,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/ui@workspace:packages/ui"
   dependencies:
+    "@paperplane/forms": "*"
     "@paperplane/navbar": "*"
     "@paperplane/utils": "*"
     "@types/react": ^18.0.22
