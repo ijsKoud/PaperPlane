@@ -43,7 +43,7 @@ export const DashboardToolbar: React.FC<Props> = ({ setView, view, sort, setSort
 	};
 
 	return (
-		<div className="w-full flex justify-between items-center mt-4">
+		<div className="w-full flex justify-between items-center mt-4 gap-4 flex-wrap max-[512px]:flex-col max-[512px]:flex-nowrap">
 			<Input type="main" placeholder="Search for a file" onInputCapture={(ctx) => setSearch(ctx.currentTarget.value)} />
 			<div className="flex gap-4">
 				<TransparentButton type="button" onClick={previousPage}>
