@@ -62,6 +62,7 @@ const Login: NextPage<Props> = ({ domains, domain }) => {
 				<div className="w-full gap-y-2 flex flex-col">
 					<h3 className="text-lg">Domain</h3>
 					<SelectMenu
+						type="tertiary"
 						options={MOCK_DOMAINS}
 						defaultValue={getDefaultValue()}
 						onChange={(opt) => redirectUser(opt as SelectOption)}

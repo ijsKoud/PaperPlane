@@ -13,7 +13,9 @@ export const Input: React.FC<Props> = (props) => {
 	return (
 		<>
 			<input
-				className={`${props.className} ${style} border rounded-xl px-4 py-2 outline-2 outline-transparent outline transition-all placeholder:text-white-600`}
+				className={`${
+					props.className ?? ""
+				} ${style} border rounded-xl px-4 py-2 outline-2 outline-transparent outline transition-all placeholder:text-white-600`}
 				{...getCleanProps(props)}
 			/>
 		</>
