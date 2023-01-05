@@ -1136,6 +1136,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/ui@workspace:packages/ui"
   dependencies:
+    "@paperplane/navbar": "*"
     "@paperplane/utils": "*"
     "@types/react": ^18.0.22
     "@types/react-dom": ^17.0.11
@@ -7679,8 +7680,6 @@ __metadata:
     "@paperplane/buttons": "*"
     "@paperplane/forms": "*"
     "@paperplane/logo": "*"
-    "@paperplane/modal": "*"
-    "@paperplane/navbar": "*"
     "@paperplane/swr": "*"
     "@paperplane/ui": "*"
     "@types/node": ^17.0.12

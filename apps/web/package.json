@@ -13,8 +13,6 @@
 		"@paperplane/buttons": "*",
 		"@paperplane/forms": "*",
 		"@paperplane/logo": "*",
-		"@paperplane/modal": "*",
-		"@paperplane/navbar": "*",
 		"@paperplane/swr": "*",
 		"@paperplane/ui": "*",
 		"next": "13.1.1",
