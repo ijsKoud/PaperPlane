@@ -16,7 +16,7 @@ interface Props {
 export const DashboardToolbar: React.FC<Props> = () => {
 	return (
 		<div className="w-full flex justify-between items-center mt-4">
-			<Input type="main" placeholder="Search for a file" className="italic" />
+			<Input type="main" placeholder="Search for a file" />
 			<div className="flex gap-4">
 				<TransparentButton type="button">
 					<i className="fa-solid fa-angle-left text-lg" />

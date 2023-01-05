@@ -1,14 +1,14 @@
 import type React from "react";
-import { getCleanProps, Styles } from "../";
+import { getCleanProps, InputStyles } from "../";
 
 interface InputProps {
-	type: keyof typeof Styles;
+	type: keyof typeof InputStyles;
 }
 
 type Props = React.InputHTMLAttributes<HTMLInputElement> & InputProps;
 
 export const Input: React.FC<Props> = (props) => {
-	const style = Styles[props.type];
+	const style = InputStyles[props.type];
 
 	return (
 		<>
