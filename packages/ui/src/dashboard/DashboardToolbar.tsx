@@ -21,12 +21,20 @@ export const DashboardToolbar: React.FC<Props> = () => {
 				<TransparentButton type="button">
 					<i className="fa-solid fa-angle-left text-lg" />
 				</TransparentButton>
-				<SelectMenu placeholder="page" />
+				<SelectMenu type="main" placeholder="page" />
 				<TransparentButton type="button">
 					<i className="fa-solid fa-angle-right text-lg" />
 				</TransparentButton>
 			</div>
-			<SelectMenu placeholder="Filter" />
+			<SelectMenu type="main" placeholder="Filter" />
+			<div className="flex gap-4 items-center">
+				<TransparentButton type="button">
+					<i className="fa-solid fa-list-ul text-xl" />
+				</TransparentButton>
+				<TransparentButton type="button">
+					<i className="fa-solid fa-border-none text-xl" />
+				</TransparentButton>
+			</div>
 		</div>
 	);
 };
