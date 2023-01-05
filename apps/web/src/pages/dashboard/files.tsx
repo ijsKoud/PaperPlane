@@ -1,9 +1,17 @@
 import type { NextPage } from "next";
 import { DashboardLayout, DashboardToolbar } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
+import { useSwrWithUpdates } from "@paperplane/swr";
+import { useState } from "react";
+import { FilesApiRes, Sort } from "@paperplane/utils";
 
 const FilesDashboard: NextPage = () => {
-	const emptyFunction = () => void 0;
+	const [page, setPage] = useState(0);
+	const [search, setSearch] = useState("");
+	const [view, setView] = useState<"grid" | "list">("grid");
+	const [sort, setSort] = useState<Sort>(Sort.DATE_NEW_OLD);
+
+	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 
 	return (
 		<DashboardLayout>
@@ -12,14 +20,14 @@ const FilesDashboard: NextPage = () => {
 				<TertiaryButton type="button">Upload</TertiaryButton>
 			</div>
 			<DashboardToolbar
-				filter=""
-				page={1}
-				pages={1}
-				setFilter={emptyFunction}
-				setPage={emptyFunction}
-				setSearch={emptyFunction}
-				view="list"
-				setView={emptyFunction}
+				sort={sort}
+				setSort={setSort}
+				pages={swr.data?.pages ?? 0}
+				page={page}
+				setPage={setPage}
+				setSearch={setSearch}
+				view={view}
+				setView={setView}
 			/>
 		</DashboardLayout>
 	);

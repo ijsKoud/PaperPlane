@@ -37,3 +37,5 @@ export const formatBytes = (bytes: number) => {
 
 	return `${bytes.toFixed(1)} ${units[num]}`;
 };
+
+export * from "./Dashboard";
