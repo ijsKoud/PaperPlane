@@ -21,6 +21,20 @@ export const SortNames = {
 } as const;
 
 export interface FilesApiRes {
-	files: any;
+	files: ApiFile[];
 	pages: number;
+}
+
+export interface ApiFile {
+	name: string;
+	url: string;
+
+	visible: boolean;
+	size: number;
+	isImage: boolean;
+
+	password: string | null;
+
+	date: Date;
+	views: number;
 }
