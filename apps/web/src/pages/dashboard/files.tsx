@@ -6,6 +6,7 @@ import { useState } from "react";
 import { FilesApiRes, Sort } from "@paperplane/utils";
 
 const FilesDashboard: NextPage = () => {
+	const [data, setData] = useState<FilesApiRes>({ files: [], pages: 0 });
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 	const [view, setView] = useState<"grid" | "list">("grid");
@@ -17,8 +18,24 @@ const FilesDashboard: NextPage = () => {
 		else setSelected([...selected, fileName]);
 	};
 
-	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
-	if (!swr.data || swr.error) return <div></div>;
+	const ViewComponent = () => (view === "grid" ? <FilesGrid onSelect={onSelect} selected={selected} files={data.files} /> : <></>);
+	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`, {
+		onSuccess: setData
+	});
+
+	if (swr.error && !swr.data) {
+		console.log(swr.error);
+
+		return (
+			<DashboardLayout>
+				<div className="flex flex-col items-center justify-center">
+					<h1 className="text-4xl text-center">An unexpected error occurred</h1>
+					<p className="text-base text-center mt-4">Please try again later, if the issue persists contact a developer through Discord!</p>
+					<p>(Press the HELP button for more information)</p>
+				</div>
+			</DashboardLayout>
+		);
+	}
 
 	return (
 		<DashboardLayout className="max-w-[1008px]">
@@ -36,7 +53,7 @@ const FilesDashboard: NextPage = () => {
 				view={view}
 				setView={setView}
 			/>
-			{view === "grid" ? <FilesGrid onSelect={onSelect} selected={selected} files={swr.data?.files} /> : <></>}
+			<ViewComponent />
 			<DashboardDeleteBanner items={selected} type="file" />
 		</DashboardLayout>
 	);
