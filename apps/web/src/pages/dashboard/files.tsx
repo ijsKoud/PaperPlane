@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { DashboardLayout, DashboardToolbar } from "@paperplane/ui";
+import { DashboardLayout, DashboardToolbar, FilesGrid } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useState } from "react";
@@ -12,6 +12,7 @@ const FilesDashboard: NextPage = () => {
 	const [sort, setSort] = useState<Sort>(Sort.DATE_NEW_OLD);
 
 	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
+	if (!swr.data || swr.error) return <div></div>;
 
 	return (
 		<DashboardLayout>
@@ -29,6 +30,7 @@ const FilesDashboard: NextPage = () => {
 				view={view}
 				setView={setView}
 			/>
+			{view === "grid" ? <FilesGrid files={swr.data?.files} /> : <></>}
 		</DashboardLayout>
 	);
 };
