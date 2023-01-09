@@ -11,7 +11,7 @@ const Dashboard: NextPage = () => {
 			<div className="w-full px-2">
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
 					<h1 className="text-xl">Audit Logs</h1>
-					<div className="w-full overflow-x-auto">
+					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
 						<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "Details", "Date"]}>
 							<TableEntry>
 								<td>Image Uploaded</td>
