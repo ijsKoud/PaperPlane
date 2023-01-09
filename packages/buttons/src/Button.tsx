@@ -54,6 +54,12 @@ const Colors = {
 		border: "border-transparent border-none",
 		hoverBg: "hover:text-white-600",
 		hoverBorder: "!p-[0px]"
+	},
+	danger: {
+		bg: "bg-red-400",
+		border: "border-red-800",
+		hoverBg: "hover:bg-red-600",
+		hoverBorder: "hover:border-red"
 	}
 };
 
