@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { DashboardLayout, DashboardToolbar, FilesGrid } from "@paperplane/ui";
+import { DashboardDeleteBanner, DashboardLayout, DashboardToolbar, FilesGrid } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useState } from "react";
@@ -10,6 +10,12 @@ const FilesDashboard: NextPage = () => {
 	const [search, setSearch] = useState("");
 	const [view, setView] = useState<"grid" | "list">("grid");
 	const [sort, setSort] = useState<Sort>(Sort.DATE_NEW_OLD);
+
+	const [selected, setSelected] = useState<string[]>([]);
+	const onSelect = (fileName: string) => {
+		if (selected.includes(fileName)) setSelected(selected.filter((str) => str !== fileName));
+		else setSelected([...selected, fileName]);
+	};
 
 	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 	if (!swr.data || swr.error) return <div></div>;
@@ -30,7 +36,8 @@ const FilesDashboard: NextPage = () => {
 				view={view}
 				setView={setView}
 			/>
-			{view === "grid" ? <FilesGrid files={swr.data?.files} /> : <></>}
+			{view === "grid" ? <FilesGrid onSelect={onSelect} selected={selected} files={swr.data?.files} /> : <></>}
+			<DashboardDeleteBanner items={selected} type="file" />
 		</DashboardLayout>
 	);
 };
