@@ -1152,6 +1152,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/utils@workspace:packages/utils"
   dependencies:
+    "@sapphire/timestamp": ^1.0.0
     eslint: ^7.32.0
     typescript: ^4.5.2
   languageName: unknown
@@ -1199,6 +1200,13 @@ __metadata:
   dependencies:
     prettier: ^2.7.1
   checksum: bf0f37de120b72b054da8b90ddf08c23210c8b01e42f66c4a6833d55ac78c02e3df7f9af6d35f2574e9c9f5c8b131625730a60bcac055b211789b52101a8921e
+  languageName: node
+  linkType: hard
+
+"@sapphire/timestamp@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@sapphire/timestamp@npm:1.0.0"
+  checksum: 2852210825626431cb7aee4da9cd04518778854f5b9e8eafc0fa0a57d499251030ad115f0d0c58e15e5b176cfb495301df7418d95e51c4826e9fadc09ff98bbb
   languageName: node
   linkType: hard
 

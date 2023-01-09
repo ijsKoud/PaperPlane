@@ -1,3 +1,4 @@
+import { Timestamp } from "@sapphire/timestamp";
 import packageJSON from "../../../package.json";
 
 export const PAPERPLANE_VERSION = packageJSON.version;
@@ -36,6 +37,11 @@ export const formatBytes = (bytes: number) => {
 	}
 
 	return `${bytes.toFixed(1)} ${units[num]}`;
+};
+
+export const formatDate = (date: Date): string => {
+	const timestamp = new Timestamp("lll");
+	return timestamp.display(date);
 };
 
 export * from "./Dashboard";
