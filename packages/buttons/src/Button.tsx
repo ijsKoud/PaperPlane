@@ -60,6 +60,12 @@ const Colors = {
 		border: "border-red-800",
 		hoverBg: "hover:bg-red-600",
 		hoverBorder: "hover:border-red"
+	},
+	success: {
+		bg: "bg-green-400",
+		border: "border-green-800",
+		hoverBg: "hover:bg-green-600",
+		hoverBorder: "hover:border-green"
 	}
 };
 
