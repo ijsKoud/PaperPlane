@@ -17,7 +17,7 @@ export const FilesTable: React.FC<Props> = ({ files, selected, onSelect }) => {
 					className="whitespace-nowrap w-full"
 					headClassName="px-2"
 					headPosition="left"
-					heads={["Name", "Size", "Date", "Locked", "Visible", "Options"]}
+					heads={["", "Name", "Size", "Date", "Locked", "Visible", "Options"]}
 				>
 					{files.map((file, key) => (
 						<FilesTableEntry file={file} key={key} selected={selected.includes(file.name)} onClick={onSelect} />

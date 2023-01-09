@@ -10,22 +10,14 @@ interface Props {
 }
 
 const FilesTableEntry: React.FC<Props> = ({ file, selected, onClick }) => {
-	const getFilePreviewUrl = () => `${file.url}?preview=true`;
 	const lockIcon = file.password ? "fa-solid fa-lock text-base" : "fa-solid fa-lock-open text-base";
 	const viewIcon = file.visible ? "fa-solid fa-eye text-base" : "fa-solid fa-eye-slash text-base";
 
-	const onKeyEvent = (event: React.KeyboardEvent<HTMLDivElement>) => {
-		if ((event.target as any)?.id !== "filecard" || event.key !== "Enter") return;
-		onClick(file.name);
-	};
-
-	const onMouseEvent = (event: React.MouseEvent<HTMLDivElement>) => {
-		if ((event.target as any)?.id === "filebutton" || event.button !== 0) return;
-		onClick(file.name);
-	};
-
 	return (
 		<TableEntry>
+			<td>
+				<input type="checkbox" onChange={() => onClick(file.name)} checked={selected} />
+			</td>
 			<td className="px-2">{file.name}</td>
 			<td className="px-2">{formatBytes(file.size)}</td>
 			<td className="px-2">{formatDate(file.date)}</td>
