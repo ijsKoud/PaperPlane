@@ -1,5 +1,4 @@
 import type React from "react";
-import axios from "axios";
 import { HashLoader } from "react-spinners";
 import dynamic from "next/dynamic";
 import { TransparentButton } from "@paperplane/buttons";
@@ -15,9 +14,7 @@ interface ReleaseApiRes {
 const ChangelogModal: React.FC = () => {
 	const releaseApiUrl = `https://api.github.com/repos/ijsKoud/paperplane/releases/tags/v${PAPERPLANE_VERSION}`;
 	const releaseUrl = `https://github.com/ijsKoud/PaperPlane/releases/tag/v${PAPERPLANE_VERSION}`;
-
-	const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-	const { data, isLoading, error } = useSwr<ReleaseApiRes>(releaseApiUrl, fetcher);
+	const { data, isLoading, error } = useSwr<ReleaseApiRes>(releaseApiUrl);
 
 	if (isLoading)
 		return (
