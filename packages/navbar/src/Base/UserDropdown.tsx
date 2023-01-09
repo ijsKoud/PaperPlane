@@ -39,11 +39,11 @@ const UserDropdown: React.FC<Props> = ({ onClick }) => {
 			exit="exit"
 			className="absolute right-0 translate-y-2 bg-main border border-white-200 p-2 rounded-lg"
 		>
-			<TransparentButton type="link" href="/settings" extra="h-[10px]" onClick={onClick}>
+			<TransparentButton type="link" href="/settings" className="h-[10px]" onClick={onClick}>
 				<p className="text-base font-normal text-center">Settings</p>
 			</TransparentButton>
 			<div className="h-[1px] w-full bg-white-200 my-2" />
-			<PrimaryButton type="button" extra="py-1 rounded-md">
+			<PrimaryButton type="button" className="py-1 rounded-md">
 				<p className="w-full">Logout</p>
 			</PrimaryButton>
 		</motion.div>

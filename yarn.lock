@@ -1136,10 +1136,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/ui@workspace:packages/ui"
   dependencies:
+    "@paperplane/forms": "*"
+    "@paperplane/navbar": "*"
     "@paperplane/utils": "*"
     "@types/react": ^18.0.22
     "@types/react-dom": ^17.0.11
     eslint: ^7.32.0
+    framer-motion: ^8.3.3
     rc-progress: ^3.4.1
     react: ^18.2.0
     typescript: ^4.5.2
@@ -1150,6 +1153,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/utils@workspace:packages/utils"
   dependencies:
+    "@sapphire/timestamp": ^1.0.0
     eslint: ^7.32.0
     typescript: ^4.5.2
   languageName: unknown
@@ -1197,6 +1201,13 @@ __metadata:
   dependencies:
     prettier: ^2.7.1
   checksum: bf0f37de120b72b054da8b90ddf08c23210c8b01e42f66c4a6833d55ac78c02e3df7f9af6d35f2574e9c9f5c8b131625730a60bcac055b211789b52101a8921e
+  languageName: node
+  linkType: hard
+
+"@sapphire/timestamp@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@sapphire/timestamp@npm:1.0.0"
+  checksum: 2852210825626431cb7aee4da9cd04518778854f5b9e8eafc0fa0a57d499251030ad115f0d0c58e15e5b176cfb495301df7418d95e51c4826e9fadc09ff98bbb
   languageName: node
   linkType: hard
 
@@ -3473,6 +3484,24 @@ __metadata:
     "@emotion/is-prop-valid":
       optional: true
   checksum: 84a52ffe8ce6700c22091eab86969de9653e98d4c5d3d37eed72f69fb53e21dcba134e22bfd1c47cfd4a8b1d4c4539cc11404058d9e507bfe320e862afdae111
+  languageName: node
+  linkType: hard
+
+"framer-motion@npm:^8.3.3":
+  version: 8.3.3
+  resolution: "framer-motion@npm:8.3.3"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    "@motionone/dom": ^10.15.3
+    hey-listen: ^1.0.8
+    tslib: ^2.4.0
+  peerDependencies:
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  checksum: 1ef480d2c0cc33b462fc54c5a6ea06f9c1ecd030d59c63260edee10707a73180809bf46299fa744dd7962bb702e8b9263f059b84d81a8121a174fa3d45875413
   languageName: node
   linkType: hard
 
@@ -7679,10 +7708,9 @@ __metadata:
     "@paperplane/buttons": "*"
     "@paperplane/forms": "*"
     "@paperplane/logo": "*"
-    "@paperplane/modal": "*"
-    "@paperplane/navbar": "*"
     "@paperplane/swr": "*"
     "@paperplane/ui": "*"
+    "@paperplane/utils": "*"
     "@types/node": ^17.0.12
     "@types/react": ^18.0.22
     "@types/react-dom": ^18.0.7

@@ -1,5 +1,4 @@
 import type React from "react";
-import axios from "axios";
 import { HashLoader } from "react-spinners";
 import dynamic from "next/dynamic";
 import { TransparentButton } from "@paperplane/buttons";
@@ -15,9 +14,7 @@ interface ReleaseApiRes {
 const ChangelogModal: React.FC = () => {
 	const releaseApiUrl = `https://api.github.com/repos/ijsKoud/paperplane/releases/tags/v${PAPERPLANE_VERSION}`;
 	const releaseUrl = `https://github.com/ijsKoud/PaperPlane/releases/tag/v${PAPERPLANE_VERSION}`;
-
-	const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-	const { data, isLoading, error } = useSwr<ReleaseApiRes>(releaseApiUrl, fetcher);
+	const { data, isLoading, error } = useSwr<ReleaseApiRes>(releaseApiUrl);
 
 	if (isLoading)
 		return (
@@ -38,7 +35,7 @@ const ChangelogModal: React.FC = () => {
 		<>
 			<div className="flex justify-between items-center">
 				<h1 className="text-3xl">Release v{PAPERPLANE_VERSION}</h1>
-				<TransparentButton type="link" href={releaseUrl} target="_blank" extra="text-xl">
+				<TransparentButton type="link" href={releaseUrl} target="_blank" className="text-xl">
 					<i className="fa-solid fa-arrow-up-right-from-square" />
 				</TransparentButton>
 			</div>

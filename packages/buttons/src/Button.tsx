@@ -4,8 +4,9 @@ import Link from "next/link";
 interface ButtonPropsColor {
 	type: "button";
 	onClick?: () => void;
+
 	color: Colors;
-	extra?: string;
+	className?: string;
 }
 
 interface LinkPropsColor {
@@ -13,8 +14,9 @@ interface LinkPropsColor {
 	href: string;
 	target?: string;
 	onClick?: () => void;
+
 	color: Colors;
-	extra?: string;
+	className?: string;
 }
 
 type Colors = keyof typeof Colors;
@@ -54,6 +56,18 @@ const Colors = {
 		border: "border-transparent border-none",
 		hoverBg: "hover:text-white-600",
 		hoverBorder: "!p-[0px]"
+	},
+	danger: {
+		bg: "bg-red-400",
+		border: "border-red-800",
+		hoverBg: "hover:bg-red-600",
+		hoverBorder: "hover:border-red"
+	},
+	success: {
+		bg: "bg-green-400",
+		border: "border-green-800",
+		hoverBg: "hover:bg-green-600",
+		hoverBorder: "hover:border-green"
 	}
 };
 
@@ -63,10 +77,10 @@ const Button: React.FC<React.PropsWithChildren<AllPropsWithColor>> = (props) => 
 
 	return (
 		<El
-			className={`${props.extra ?? ""} ${colors.bg} border ${colors.border} text-white px-4 py-2 rounded-xl text-base ${colors.hoverBg} ${
+			{...props}
+			className={`${props.className ?? ""} ${colors.bg} border ${colors.border} text-white px-4 py-2 rounded-xl text-base ${colors.hoverBg} ${
 				colors.hoverBorder
 			} transition-colors`}
-			{...props}
 		/>
 	);
 };
