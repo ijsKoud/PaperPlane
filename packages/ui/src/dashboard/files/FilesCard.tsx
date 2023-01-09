@@ -5,16 +5,33 @@ import type React from "react";
 interface Props {
 	file: ApiFile;
 	selected: boolean;
+	onClick: (fileName: string) => void;
 }
 
-const FilesCard: React.FC<Props> = ({ file, selected }) => {
+const FilesCard: React.FC<Props> = ({ file, selected, onClick }) => {
 	const getFilePreviewUrl = () => `${file.url}?preview=true`;
 	const lockIcon = file.password ? "fa-solid fa-lock text-base" : "fa-solid fa-lock-open text-base";
 	const viewIcon = file.visible ? "fa-solid fa-eye text-base" : "fa-solid fa-eye-slash text-base";
 
+	const onKeyEvent = (event: React.KeyboardEvent<HTMLDivElement>) => {
+		if ((event.target as any)?.id !== "filecard" || event.key !== "Enter") return;
+		onClick(file.name);
+	};
+
+	const onMouseEvent = (event: React.MouseEvent<HTMLDivElement>) => {
+		if ((event.target as any)?.id === "filebutton" || event.button !== 0) return;
+		onClick(file.name);
+	};
+
 	return (
 		<div
-			className={`bg-main rounded-xl p-4 outline outline-4 outline-transparent hover:outline-blue-500 ${
+			id="filecard"
+			role="checkbox"
+			tabIndex={0}
+			aria-checked={selected}
+			onMouseUpCapture={onMouseEvent}
+			onKeyUpCapture={onKeyEvent}
+			className={`bg-main rounded-xl p-4 outline outline-4 outline-transparent focus-visible:outline-blue-500 hover:outline-blue-500 ${
 				selected && "!outline-blue"
 			} cursor-pointer transition-all flex flex-col gap-2`}
 		>
@@ -30,16 +47,16 @@ const FilesCard: React.FC<Props> = ({ file, selected }) => {
 					<h1 className="text-base text-ellipsis whitespace-nowrap overflow-hidden">{file.name}aaaaaaaaaaaa</h1>
 					<div className="flex items-center gap-2">
 						<TransparentButton type="button">
-							<i className="fa-regular fa-trash-can" />
+							<i id="filebutton" className="fa-regular fa-trash-can" />
 						</TransparentButton>
 						<TransparentButton type="button">
-							<i className="fa-regular fa-pen-to-square" />
+							<i id="filebutton" className="fa-regular fa-pen-to-square" />
 						</TransparentButton>
 						<TransparentButton type="button">
-							<i className="fa-regular fa-copy" />
+							<i id="filebutton" className="fa-regular fa-copy" />
 						</TransparentButton>
 						<TransparentButton type="link" href={file.url} target="_blank">
-							<i className="fa-solid fa-up-right-from-square" />
+							<i id="filebutton" className="fa-solid fa-up-right-from-square" />
 						</TransparentButton>
 					</div>
 				</li>
