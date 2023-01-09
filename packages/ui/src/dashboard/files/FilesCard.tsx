@@ -64,9 +64,12 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick }) => {
 					<p className="italic text-small font-medium">{formatDate(file.date)}</p>
 					<p className="text-small font-medium">{formatBytes(file.size)}</p>
 				</li>
-				<li className="flex gap-2 float-right">
-					<i className={lockIcon} />
-					<i className={viewIcon} />
+				<li className="flex items-center justify-between">
+					<p className="text-small font-medium">{file.views} views</p>
+					<div className="flex items-center justify-center gap-2">
+						<i className={lockIcon} />
+						<i className={viewIcon} />
+					</div>
 				</li>
 			</ul>
 		</div>
