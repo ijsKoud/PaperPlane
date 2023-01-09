@@ -38,7 +38,7 @@ const ChangelogModal: React.FC = () => {
 		<>
 			<div className="flex justify-between items-center">
 				<h1 className="text-3xl">Release v{PAPERPLANE_VERSION}</h1>
-				<TransparentButton type="link" href={releaseUrl} target="_blank" extra="text-xl">
+				<TransparentButton type="link" href={releaseUrl} target="_blank" className="text-xl">
 					<i className="fa-solid fa-arrow-up-right-from-square" />
 				</TransparentButton>
 			</div>

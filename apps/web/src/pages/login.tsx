@@ -73,7 +73,7 @@ const Login: NextPage<Props> = ({ domains, domain }) => {
 					<h3 className="text-lg">Two Factor Authentication</h3>
 					<Input type="tertiary" placeholder="6 digit code here..." />
 				</div>
-				<PrimaryButton type="button" extra="w-full flex gap-x-3 items-center justify-center">
+				<PrimaryButton type="button" className="w-full flex gap-x-3 items-center justify-center">
 					Sign In <i className="fa-solid fa-right-to-bracket" />
 				</PrimaryButton>
 			</div>
