@@ -1,5 +1,5 @@
 import { TransparentButton } from "@paperplane/buttons";
-import type { ApiFile, formatDate, formatBytes } from "@paperplane/utils";
+import { ApiFile, formatDate, formatBytes } from "@paperplane/utils";
 import type React from "react";
 import { TableEntry } from "../../index";
 
@@ -26,9 +26,29 @@ const FilesTableEntry: React.FC<Props> = ({ file, selected, onClick }) => {
 
 	return (
 		<TableEntry>
-			<td>Image Uploaded</td>
-			<td>Desktop: Windows 11 - Chrome</td>
-			<td>12 Dec. 2022 4:32 PM</td>
+			<td className="px-2">{file.name}</td>
+			<td className="px-2">{formatBytes(file.size)}</td>
+			<td className="px-2">{formatDate(file.date)}</td>
+			<td className="px-2">
+				<i className={lockIcon} />
+			</td>
+			<td className="px-2">
+				<i className={viewIcon} />
+			</td>
+			<td className="flex items-center gap-2 px-2">
+				<TransparentButton type="button">
+					<i id="filebutton" className="fa-regular fa-trash-can" />
+				</TransparentButton>
+				<TransparentButton type="button">
+					<i id="filebutton" className="fa-regular fa-pen-to-square" />
+				</TransparentButton>
+				<TransparentButton type="button">
+					<i id="filebutton" className="fa-regular fa-copy" />
+				</TransparentButton>
+				<TransparentButton type="link" href={file.url} target="_blank">
+					<i id="filebutton" className="fa-solid fa-up-right-from-square" />
+				</TransparentButton>
+			</td>
 		</TableEntry>
 	);
 };
