@@ -3,18 +3,19 @@ import { TableHead, TableHeadProps } from "./TableHead";
 
 interface Props {
 	className: string;
+	headClassName?: string;
 	headPosition: TableHeadProps["position"];
 	heads: string[];
 	children: React.ReactNode[];
 }
 
-export const Table: React.FC<Props> = ({ className, heads, headPosition, children }) => {
+export const Table: React.FC<Props> = ({ className, headClassName, heads, headPosition, children }) => {
 	return (
 		<table className={className}>
 			<thead>
 				<tr>
 					{heads.map((head, index) => (
-						<TableHead key={index} position={headPosition}>
+						<TableHead key={index} position={headPosition} className={headClassName}>
 							{head}
 						</TableHead>
 					))}

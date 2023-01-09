@@ -2,6 +2,7 @@ import type React from "react";
 
 export interface TableHeadProps {
 	position: keyof typeof Positions;
+	className?: string;
 }
 
 const Positions = {
@@ -10,6 +11,6 @@ const Positions = {
 	center: "text-center"
 };
 
-export const TableHead: React.FC<React.PropsWithChildren<TableHeadProps>> = ({ position, children }) => {
-	return <th className={`text-lg ${Positions[position]}`}>{children}</th>;
+export const TableHead: React.FC<React.PropsWithChildren<TableHeadProps>> = ({ position, className, children }) => {
+	return <th className={`text-lg ${className} ${Positions[position]}`}>{children}</th>;
 };
