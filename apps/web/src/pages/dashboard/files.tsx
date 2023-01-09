@@ -15,7 +15,7 @@ const FilesDashboard: NextPage = () => {
 	if (!swr.data || swr.error) return <div></div>;
 
 	return (
-		<DashboardLayout>
+		<DashboardLayout className="max-w-[1008px]">
 			<div className="w-full flex justify-between items-center">
 				<h1 className="text-4xl">Files</h1>
 				<TertiaryButton type="button">Upload</TertiaryButton>
