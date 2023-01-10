@@ -1,5 +1,5 @@
 export * from "./Logo";
-export * from "./LogoBg";
+export * from "./LogoText";
 
 export interface Props {
 	height?: number;

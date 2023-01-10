@@ -1,4 +1,4 @@
-import { Logo } from "@paperplane/logo";
+import { LogoText } from "@paperplane/logo";
 import { TransparentButton } from "@paperplane/buttons";
 import type React from "react";
 import UserButton from "./UserButton";
@@ -24,10 +24,7 @@ export const BaseNavbar: React.FC = () => {
 				<ChangelogModal />
 			</Modal>
 			<div className="py-2 px-5 w-screen flex justify-between bg-main">
-				<div className="flex gap-2 items-center z-50">
-					<Logo height={20} width={20} />
-					<h1 className="text-lg">PAPERPLANE</h1>
-				</div>
+				<LogoText height={20} width={20} className="z-50" textClassName="text-lg" />
 				<div className="flex gap-4 items-center max-sm:hidden">
 					<TransparentButton type="button" onClick={openChangelog}>
 						Changelog
