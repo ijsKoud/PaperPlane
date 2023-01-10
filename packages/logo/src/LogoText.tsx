@@ -15,7 +15,7 @@ export const LogoText: React.FC<Props> = ({ className, textClassName, height, wi
 	return (
 		<div className={`flex ${className ?? ""}`}>
 			<Logo width={width} height={height} />{" "}
-			<h1 className={`text-4xl max-sm:text-2xl font-normal ${textClassName}`} style={nunito.style}>
+			<h1 className={`font-normal ${textClassName}`} style={nunito.style}>
 				<span style={nunito.style}>APER</span>
 				<span className="font-bold" style={nunito.style}>
 					PLANE
