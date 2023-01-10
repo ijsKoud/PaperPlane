@@ -13,9 +13,9 @@ type Props = TextProps & LogoProps;
 
 export const LogoText: React.FC<Props> = ({ className, textClassName, height, width }) => {
 	return (
-		<div className={`flex ${className ?? ""}`}>
+		<div className={`flex items-center ${className ?? ""}`}>
 			<Logo width={width} height={height} />{" "}
-			<h1 className={`font-normal ${textClassName}`} style={nunito.style}>
+			<h1 className={` font-normal ${textClassName}`} style={nunito.style}>
 				<span style={nunito.style}>APER</span>
 				<span className="font-bold" style={nunito.style}>
 					PLANE
