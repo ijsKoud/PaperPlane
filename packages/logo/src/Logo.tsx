@@ -2,7 +2,7 @@ import type React from "react";
 import type { Props } from "./index";
 
 export const Logo: React.FC<Props> = ({ height, width }) => {
-	const logoWidth = (width ?? height ?? 512) - 1;
+	const logoWidth = width ?? height ?? 512;
 	const logoHeight = height ?? width ?? 512;
 
 	return (
