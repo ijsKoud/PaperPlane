@@ -1,0 +1,53 @@
+name: "💡 Feature Request"
+description: Create a new ticket for a new feature request
+title: "feat: <title> 💡"
+
+body:
+  - type: textarea
+    id: implementation_pr
+    attributes:
+      label: "Implementation PR"
+      description: Pull request related to the requested feature.
+      placeholder: "Example: #1"
+    validations:
+      required: false
+  - type: textarea
+    id: reference_issues
+    attributes:
+      label: "Reference Issues"
+      description: Common issues which may be resolved by implementing this.
+      placeholder: "Example: #1"
+    validations:
+      required: false
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Summary"
+      description: Provide a brief explanation of the feature.
+      placeholder: Describe in a few lines your feature request
+    validations:
+      required: true
+  - type: textarea
+    id: basic_example
+    attributes:
+      label: "Basic Example"
+      description: Indicate here some basic examples of your feature. This can be anything from images to text to a live example.
+      placeholder: A few specific words/images/examples about your feature request
+    validations:
+      required: true
+  - type: textarea
+    id: drawbacks
+    attributes:
+      label: "Drawbacks"
+      description: What are the drawbacks/impacts of your feature request?
+      placeholder: Identify the drawbacks and impacts while being neutral on your feature request
+    validations:
+      required: true
+  - type: textarea
+    id: unresolved_question
+    attributes:
+      label: "Unresolved questions"
+      description: What questions still remain unresolved?
+      placeholder: Identify any unresolved issues
+    validations:
+      required: false
