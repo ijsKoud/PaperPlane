@@ -9,7 +9,7 @@ export enum Sort {
 	NAME_Z_A
 }
 
-export const SortNames = {
+export const FilesSortNames = {
 	[Sort.DATE_NEW_OLD]: "Date: new - old",
 	[Sort.DATE_OLD_NEW]: "Date: old - new",
 	[Sort.VIEWS_HIGH_LOW]: "Views: high - low",
