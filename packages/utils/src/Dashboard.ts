@@ -25,6 +25,11 @@ export interface FilesApiRes {
 	pages: number;
 }
 
+export interface UrlsApiRes {
+	urls: ApiUrl[];
+	pages: number;
+}
+
 export interface ApiFile {
 	name: string;
 	url: string;
@@ -37,4 +42,14 @@ export interface ApiFile {
 
 	date: Date;
 	views: number;
+}
+
+export interface ApiUrl {
+	name: string;
+	url: string;
+	redirect: string;
+
+	date: Date;
+	visible: boolean;
+	visits: number;
 }
