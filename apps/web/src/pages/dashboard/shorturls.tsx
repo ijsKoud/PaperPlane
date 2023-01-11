@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { DashboardDeleteBanner, DashboardLayout, ShortUrlsDashboardToolbar, ShortUrlsTable } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UrlsApiRes, UrlsSort } from "@paperplane/utils";
 
 const ShortUrlsDashboard: NextPage = () => {
@@ -17,9 +17,10 @@ const ShortUrlsDashboard: NextPage = () => {
 		else setSelected([...selected, fileName]);
 	};
 
-	const swr = useSwrWithUpdates<UrlsApiRes>(`/api/urls?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`, {
-		onSuccess: setData
-	});
+	const swr = useSwrWithUpdates<UrlsApiRes>(`/api/urls?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
+	useEffect(() => {
+		if (swr.data) setData(swr.data);
+	}, [swr.data]);
 
 	if (swr.error && !swr.data) {
 		console.log(swr.error);

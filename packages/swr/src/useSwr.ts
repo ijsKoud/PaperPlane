@@ -9,7 +9,7 @@ export const useSwr = <Response = any, Error = any>(
 	options?: Partial<PublicConfiguration<Response, Error, (args: string) => FetcherResponse<Response>>>,
 	fetcher = defaultFetcher
 ) => {
-	const swr = UseSwr<Response, Error, string>(url, fetcher);
+	const swr = UseSwr<Response, Error, string>(url, fetcher, options);
 	return swr;
 };
 

@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGrid, FilesTable } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FilesApiRes, FilesSort } from "@paperplane/utils";
 
 const FilesDashboard: NextPage = () => {
@@ -25,9 +25,10 @@ const FilesDashboard: NextPage = () => {
 			<FilesTable onSelect={onSelect} selected={selected} files={data.files} />
 		);
 
-	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`, {
-		onSuccess: setData
-	});
+	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
+	useEffect(() => {
+		if (swr.data) setData(swr.data);
+	}, [swr.data]);
 
 	if (swr.error && !swr.data) {
 		console.log(swr.error);
