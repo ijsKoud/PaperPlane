@@ -9,6 +9,15 @@ export enum FilesSort {
 	NAME_Z_A
 }
 
+export enum UrlsSort {
+	DATE_NEW_OLD,
+	DATE_OLD_NEW,
+	VISITS_HIGH_LOW,
+	VISITS_LOW_HIGH,
+	NAME_A_Z,
+	NAME_Z_A
+}
+
 export const FilesSortNames = {
 	[FilesSort.DATE_NEW_OLD]: "Date: new - old",
 	[FilesSort.DATE_OLD_NEW]: "Date: old - new",
@@ -21,12 +30,12 @@ export const FilesSortNames = {
 } as const;
 
 export const ShortUrlsSortNames = {
-	[FilesSort.DATE_NEW_OLD]: "Date: new - old",
-	[FilesSort.DATE_OLD_NEW]: "Date: old - new",
-	[FilesSort.VIEWS_HIGH_LOW]: "Visits: high - low",
-	[FilesSort.VIEWS_LOW_HIGH]: "Visits: low - high",
-	[FilesSort.NAME_A_Z]: "Name: A - Z",
-	[FilesSort.NAME_Z_A]: "Name: Z - A"
+	[UrlsSort.DATE_NEW_OLD]: "Date: new - old",
+	[UrlsSort.DATE_OLD_NEW]: "Date: old - new",
+	[UrlsSort.VISITS_HIGH_LOW]: "Visits: high - low",
+	[UrlsSort.VISITS_LOW_HIGH]: "Visits: low - high",
+	[UrlsSort.NAME_A_Z]: "Name: A - Z",
+	[UrlsSort.NAME_Z_A]: "Name: Z - A"
 } as const;
 
 export interface FilesApiRes {
