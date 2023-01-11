@@ -18,7 +18,9 @@ const FilesTableEntry: React.FC<Props> = ({ file, selected, onClick }) => {
 			<td>
 				<input type="checkbox" onChange={() => onClick(file.name)} checked={selected} />
 			</td>
-			<td className="px-2">{file.name}</td>
+			<td className="px-2 max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden" title={file.name}>
+				{file.name}
+			</td>
 			<td className="px-2">{formatBytes(file.size)}</td>
 			<td className="px-2">{formatDate(file.date)}</td>
 			<td className="px-2">
