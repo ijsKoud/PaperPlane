@@ -50,7 +50,7 @@ const ShortUrlsDashboard: NextPage = () => {
 				setSearch={setSearch}
 			/>
 			<ShortUrlsTable onSelect={onSelect} selected={selected} urls={data.urls} />
-			<DashboardDeleteBanner items={selected} type="file" />
+			<DashboardDeleteBanner items={selected} type="shorturl" />
 		</DashboardLayout>
 	);
 };
