@@ -17,7 +17,7 @@ interface Props {
 	setView: (view: "grid" | "list") => void;
 }
 
-export const DashboardToolbar: React.FC<Props> = ({ setView, view, sort, setSort, page, pages, setPage, setSearch }) => {
+export const FilesDashboardToolbar: React.FC<Props> = ({ setView, view, sort, setSort, page, pages, setPage, setSearch }) => {
 	const sortOptions: SelectOption[] = Object.keys(SortNames).map((key) => ({ value: key, label: SortNames[key as unknown as Sort] }));
 	const sortValue: SelectOption = { label: SortNames[sort], value: sort.toString() };
 

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { DashboardDeleteBanner, DashboardLayout, DashboardToolbar, FilesGrid, FilesTable } from "@paperplane/ui";
+import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGrid, FilesTable } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useState } from "react";
@@ -49,7 +49,7 @@ const FilesDashboard: NextPage = () => {
 				<h1 className="text-4xl">Files</h1>
 				<TertiaryButton type="button">Upload</TertiaryButton>
 			</div>
-			<DashboardToolbar
+			<FilesDashboardToolbar
 				sort={sort}
 				setSort={setSort}
 				pages={swr.data?.pages ?? 0}
