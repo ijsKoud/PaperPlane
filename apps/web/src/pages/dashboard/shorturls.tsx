@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { DashboardDeleteBanner, DashboardLayout, ShortUrlsDashboardToolbar } from "@paperplane/ui";
+import { DashboardDeleteBanner, DashboardLayout, ShortUrlsDashboardToolbar, ShortUrlsTable } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useState } from "react";
@@ -49,7 +49,7 @@ const ShortUrlsDashboard: NextPage = () => {
 				setPage={setPage}
 				setSearch={setSearch}
 			/>
-			{/* <FilesGrid onSelect={onSelect} selected={selected} files={data.files} /> */}
+			<ShortUrlsTable onSelect={onSelect} selected={selected} urls={data.urls} />
 			<DashboardDeleteBanner items={selected} type="file" />
 		</DashboardLayout>
 	);
