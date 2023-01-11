@@ -44,7 +44,9 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick }) => {
 			</div>
 			<ul className="max-w-[18rem]">
 				<li className="flex justify-between items-center gap-2">
-					<h1 className="text-base text-ellipsis whitespace-nowrap overflow-hidden">{file.name}</h1>
+					<h1 className="text-base text-ellipsis whitespace-nowrap overflow-hidden" title={file.name}>
+						{file.name}
+					</h1>
 					<div className="flex items-center gap-2">
 						<TransparentButton type="button">
 							<i id="filebutton" className="fa-regular fa-trash-can" />

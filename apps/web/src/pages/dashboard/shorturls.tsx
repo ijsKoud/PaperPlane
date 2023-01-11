@@ -1,16 +1,15 @@
 import type { NextPage } from "next";
-import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGrid, FilesTable } from "@paperplane/ui";
+import { DashboardDeleteBanner, DashboardLayout, ShortUrlsDashboardToolbar, ShortUrlsTable } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
-import { FilesApiRes, FilesSort } from "@paperplane/utils";
+import { UrlsApiRes, UrlsSort } from "@paperplane/utils";
 
-const FilesDashboard: NextPage = () => {
-	const [data, setData] = useState<FilesApiRes>({ files: [], pages: 0 });
+const ShortUrlsDashboard: NextPage = () => {
+	const [data, setData] = useState<UrlsApiRes>({ urls: [], pages: 0 });
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
-	const [view, setView] = useState<"grid" | "list">("grid");
-	const [sort, setSort] = useState<FilesSort>(FilesSort.DATE_NEW_OLD);
+	const [sort, setSort] = useState<UrlsSort>(UrlsSort.DATE_NEW_OLD);
 
 	const [selected, setSelected] = useState<string[]>([]);
 	const onSelect = (fileName: string) => {
@@ -18,14 +17,7 @@ const FilesDashboard: NextPage = () => {
 		else setSelected([...selected, fileName]);
 	};
 
-	const ViewComponent = () =>
-		view === "grid" ? (
-			<FilesGrid onSelect={onSelect} selected={selected} files={data.files} />
-		) : (
-			<FilesTable onSelect={onSelect} selected={selected} files={data.files} />
-		);
-
-	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
+	const swr = useSwrWithUpdates<UrlsApiRes>(`/api/urls?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 	useEffect(() => {
 		if (swr.data) setData(swr.data);
 	}, [swr.data]);
@@ -47,23 +39,21 @@ const FilesDashboard: NextPage = () => {
 	return (
 		<DashboardLayout className="max-w-[1008px]">
 			<div className="w-full flex justify-between items-center">
-				<h1 className="text-4xl">Files</h1>
-				<TertiaryButton type="button">Upload</TertiaryButton>
+				<h1 className="text-4xl">Shorturls</h1>
+				<TertiaryButton type="button">Create</TertiaryButton>
 			</div>
-			<FilesDashboardToolbar
+			<ShortUrlsDashboardToolbar
 				sort={sort}
 				setSort={setSort}
 				pages={swr.data?.pages ?? 0}
 				page={page}
 				setPage={setPage}
 				setSearch={setSearch}
-				view={view}
-				setView={setView}
 			/>
-			<ViewComponent />
-			<DashboardDeleteBanner items={selected} type="file" />
+			<ShortUrlsTable onSelect={onSelect} selected={selected} urls={data.urls} />
+			<DashboardDeleteBanner items={selected} type="shorturl" />
 		</DashboardLayout>
 	);
 };
 
-export default FilesDashboard;
+export default ShortUrlsDashboard;

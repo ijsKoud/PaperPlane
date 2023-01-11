@@ -1,6 +1,6 @@
 import { TransparentButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
-import { Sort, SortNames } from "@paperplane/utils";
+import { FilesSort, FilesSortNames } from "@paperplane/utils";
 import type React from "react";
 
 interface Props {
@@ -10,16 +10,19 @@ interface Props {
 
 	setSearch: (search: string) => void;
 
-	sort: Sort;
-	setSort: (sort: Sort) => void;
+	sort: FilesSort;
+	setSort: (sort: FilesSort) => void;
 
 	view: "grid" | "list";
 	setView: (view: "grid" | "list") => void;
 }
 
-export const DashboardToolbar: React.FC<Props> = ({ setView, view, sort, setSort, page, pages, setPage, setSearch }) => {
-	const sortOptions: SelectOption[] = Object.keys(SortNames).map((key) => ({ value: key, label: SortNames[key as unknown as Sort] }));
-	const sortValue: SelectOption = { label: SortNames[sort], value: sort.toString() };
+export const FilesDashboardToolbar: React.FC<Props> = ({ setView, view, sort, setSort, page, pages, setPage, setSearch }) => {
+	const sortOptions: SelectOption[] = Object.keys(FilesSortNames).map((key) => ({
+		value: key,
+		label: FilesSortNames[key as unknown as FilesSort]
+	}));
+	const sortValue: SelectOption = { label: FilesSortNames[sort], value: sort.toString() };
 
 	const pageOptions: SelectOption[] = Array(pages)
 		.fill(null)
