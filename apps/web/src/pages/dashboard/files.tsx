@@ -3,14 +3,14 @@ import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGri
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useState } from "react";
-import { FilesApiRes, Sort } from "@paperplane/utils";
+import { FilesApiRes, FilesSort } from "@paperplane/utils";
 
 const FilesDashboard: NextPage = () => {
 	const [data, setData] = useState<FilesApiRes>({ files: [], pages: 0 });
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 	const [view, setView] = useState<"grid" | "list">("grid");
-	const [sort, setSort] = useState<Sort>(Sort.DATE_NEW_OLD);
+	const [sort, setSort] = useState<FilesSort>(FilesSort.DATE_NEW_OLD);
 
 	const [selected, setSelected] = useState<string[]>([]);
 	const onSelect = (fileName: string) => {
