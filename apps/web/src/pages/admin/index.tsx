@@ -12,35 +12,35 @@ const AdminPanel: NextPage = () => {
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
 					<h1 className="text-xl">Audit Logs</h1>
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
-						<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "Details", "Date"]}>
+						<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "User", "Date"]}>
 							<TableEntry>
 								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
+								<td>cdn.ijskoud.dev</td>
 								<td>12 Dec. 2022 4:32 PM</td>
 							</TableEntry>
 							<TableEntry>
 								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
+								<td>cdn.ijskoud.dev</td>
 								<td>12 Dec. 2022 4:32 PM</td>
 							</TableEntry>
 							<TableEntry>
 								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
+								<td>cdn.ijskoud.dev</td>
 								<td>12 Dec. 2022 4:32 PM</td>
 							</TableEntry>
 							<TableEntry>
 								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
+								<td>cdn.ijskoud.dev</td>
 								<td>12 Dec. 2022 4:32 PM</td>
 							</TableEntry>
 							<TableEntry>
 								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
+								<td>cdn.ijskoud.dev</td>
 								<td>12 Dec. 2022 4:32 PM</td>
 							</TableEntry>
 							<TableEntry>
 								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
+								<td>cdn.ijskoud.dev</td>
 								<td>12 Dec. 2022 4:32 PM</td>
 							</TableEntry>
 						</Table>
