@@ -9,7 +9,11 @@ import ChangelogModal from "../modals/ChangelogModal";
 import UserDropdown from "./UserDropdown";
 import { AnimatePresence } from "framer-motion";
 
-export const BaseNavbar: React.FC = () => {
+interface Props {
+	settingsButton?: boolean;
+}
+
+export const BaseNavbar: React.FC<Props> = ({ settingsButton }) => {
 	const [ChangelogOpen, setChangelogOpen] = useState(false);
 	const openChangelog = () => setChangelogOpen(true);
 	const closeChangelog = () => setChangelogOpen(false);
@@ -34,7 +38,9 @@ export const BaseNavbar: React.FC = () => {
 					</TransparentButton>
 					<div className="relative">
 						<UserButton type="button" onClick={toggleUserDropdown} />
-						<AnimatePresence mode="wait">{userDropdown && <UserDropdown onClick={closeUserDropdown} />}</AnimatePresence>
+						<AnimatePresence mode="wait">
+							{userDropdown && <UserDropdown showSettings={settingsButton ?? false} onClick={closeUserDropdown} />}
+						</AnimatePresence>
 					</div>
 				</div>
 				<div className="sm:hidden gap-4 items-center flex">

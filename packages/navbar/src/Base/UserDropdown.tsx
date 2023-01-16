@@ -28,9 +28,10 @@ const variants: Variants = {
 
 interface Props {
 	onClick: () => void;
+	showSettings: boolean;
 }
 
-const UserDropdown: React.FC<Props> = ({ onClick }) => {
+const UserDropdown: React.FC<Props> = ({ onClick, showSettings }) => {
 	return (
 		<motion.div
 			variants={variants}
@@ -39,10 +40,14 @@ const UserDropdown: React.FC<Props> = ({ onClick }) => {
 			exit="exit"
 			className="absolute right-0 translate-y-2 bg-main border border-white-200 p-2 rounded-lg"
 		>
-			<TransparentButton type="link" href="/settings" className="h-[10px]" onClick={onClick}>
-				<p className="text-base font-normal text-center">Settings</p>
-			</TransparentButton>
-			<div className="h-[1px] w-full bg-white-200 my-2" />
+			{showSettings && (
+				<>
+					<TransparentButton type="link" href="/settings" className="h-[10px]" onClick={onClick}>
+						<p className="text-base font-normal text-center">Settings</p>
+					</TransparentButton>
+					<div className="h-[1px] w-full bg-white-200 my-2" />
+				</>
+			)}
 			<PrimaryButton type="button" className="py-1 rounded-md">
 				<p className="w-full">Logout</p>
 			</PrimaryButton>
