@@ -2,7 +2,7 @@ import type React from "react";
 import { Logo, Props as LogoProps } from ".";
 import { Nunito } from "@next/font/google";
 
-const nunito = Nunito({ weight: ["400", "700"], subsets: ["latin"] });
+const nunito = Nunito({ weight: ["400", "700"], subsets: ["latin"], display: "swap" });
 
 interface TextProps {
 	className?: string;

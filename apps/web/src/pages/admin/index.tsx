@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
-import { DashboardLayout, DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
+import { AdminLayout, DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
 
 const AdminPanel: NextPage = () => {
 	return (
-		<DashboardLayout>
+		<AdminLayout>
 			<div className="w-full h-80 flex gap-8 items-center px-2 max-md:flex-col max-md:h-auto">
 				<DashboardStorageUsage used={7.7e9} total={1e10} />
 				<DashboardStatistics files={1528} shorturls={38} />
@@ -47,7 +47,7 @@ const AdminPanel: NextPage = () => {
 					</div>
 				</div>
 			</div>
-		</DashboardLayout>
+		</AdminLayout>
 	);
 };
 
