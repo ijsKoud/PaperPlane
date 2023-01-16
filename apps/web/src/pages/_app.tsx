@@ -5,7 +5,7 @@ import type { AppProps } from "next/app";
 import { Poppins } from "@next/font/google";
 import { SwrWrapper } from "@paperplane/swr";
 
-const poppins = Poppins({ weight: ["300", "400", "500", "600", "700", "800", "900"], subsets: ["latin"] });
+const poppins = Poppins({ weight: ["300", "400", "500", "600", "700", "800", "900"], subsets: ["latin"], display: "swap" });
 
 const App = ({ Component, pageProps }: AppProps) => {
 	return (
