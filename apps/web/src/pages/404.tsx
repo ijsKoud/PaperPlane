@@ -43,6 +43,9 @@ export default function NotFound() {
 					</div>
 					<Glitch text={subtitle} className="text-base max-sm:text-comment max-sm:font-medium" />
 				</div>
+				<p className="mt-4 max-w-[512px] text-center text-base">
+					That’s weird, someone led you to a broken page. Why don’t you go back while we figure out the problem?
+				</p>
 				<div className="flex gap-2 max-sm:flex-col max-sm:w-full text-center">
 					<PrimaryButton type="link" href="https://github.com/ijsKoud/paperplane">
 						GitHub
