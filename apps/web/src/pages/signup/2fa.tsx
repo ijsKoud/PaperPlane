@@ -48,10 +48,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 interface Props {
 	domains: typeof MOCK_DOMAINS;
-	domain: string;
 }
 
-export default function SignUp({ domain, domains }: Props) {
+export default function SignUp({ domains }: Props) {
 	const [selectedDomain, setSelectedDomain] = useState("");
 	const isSubdomainDisabled = !selectedDomain.startsWith("*.");
 
@@ -66,7 +65,7 @@ export default function SignUp({ domain, domains }: Props) {
 					<h3 className="text-lg">Choose a domain</h3>
 					<SelectMenu
 						type="tertiary"
-						options={MOCK_DOMAINS}
+						options={domains}
 						placeholder="Select a domain"
 						onChange={(opt) => setSelectedDomain((opt as SelectOption).value)}
 						className="w-full"
