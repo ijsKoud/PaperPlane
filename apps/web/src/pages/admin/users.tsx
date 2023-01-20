@@ -1,8 +1,11 @@
 import type { NextPage } from "next";
-import { AdminLayout, Table, TableEntry } from "@paperplane/ui";
+import { AdminLayout, AdminUserToolbar, Table, TableEntry } from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
+import { AdminUserSort } from "@paperplane/utils";
 
 const AdminPanelUsers: NextPage = () => {
+	const emptyFunction = () => void 0;
+
 	return (
 		<AdminLayout>
 			<div className="w-full px-2">
@@ -10,7 +13,15 @@ const AdminPanelUsers: NextPage = () => {
 					<h1 className="text-3xl">Users</h1>
 					<TertiaryButton type="button">Create</TertiaryButton>
 				</div>
-				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
+				<AdminUserToolbar
+					page={0}
+					setPage={emptyFunction}
+					pages={1}
+					setSearch={emptyFunction}
+					setSort={emptyFunction}
+					sort={AdminUserSort.DATE_NEW_OLD}
+				/>
+				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2 mt-8">
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
 						<Table
 							className="w-full min-w-[750px]"
