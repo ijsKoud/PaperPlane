@@ -8,7 +8,7 @@
 	"private": true,
 	"scripts": {
 		"build": "turbo run build",
-		"start:dev": "turbo run dev --parallel",
+		"start:dev": "turbo run dev --parallel --filter=server",
 		"lint": "turbo run lint",
 		"postinstall": "is-ci || husky install"
 	},
