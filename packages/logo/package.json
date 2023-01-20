@@ -7,8 +7,8 @@
 	"scripts": {
 		"lint": "TIMING=1 eslint"
 	},
-	"dependencies": {
-		"@next/font": "^13.1.1",
+	"peerDependencies": {
+		"@next/font": "^13.1.3",
 		"react": "^18.2.0"
 	},
 	"devDependencies": {
