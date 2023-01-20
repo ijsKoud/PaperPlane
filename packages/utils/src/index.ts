@@ -45,3 +45,4 @@ export const formatDate = (date: Date): string => {
 };
 
 export * from "./Dashboard";
+export * from "./Admin";
