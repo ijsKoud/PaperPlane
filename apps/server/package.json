@@ -14,13 +14,15 @@
 		"next": "^13.1.3"
 	},
 	"dependencies": {
-		"@paperplane/utils": "*",
+		"@snowcrystals/icicle": "^1.0.2",
 		"axios": "^1.2.3",
 		"body-parser": "^1.20.1",
 		"cookie-parser": "^1.4.6",
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
-		"ms": "^2.1.3"
+		"ms": "^2.1.3",
+		"winston": "^3.8.2",
+		"winston-daily-rotate-file": "^4.7.1"
 	},
 	"devDependencies": {
 		"@types/cookie-parser": "^1.4.3",
