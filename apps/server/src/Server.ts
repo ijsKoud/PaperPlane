@@ -5,8 +5,13 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { join } from "node:path";
 import next from "next";
+import { Logger } from "./lib/index.js";
+import { LogLevel } from "@snowcrystals/icicle";
+import { readFileSync } from "node:fs";
 
 export default class Server {
+	public logger: Logger;
+
 	public dev: boolean;
 	public port: number;
 
@@ -15,8 +20,12 @@ export default class Server {
 	public next!: NextServer;
 
 	public get config() {
+		const file = readFileSync(join(process.cwd(), "..", "..", "package.json"), "utf-8");
+		const { version } = JSON.parse(file);
+
 		return {
-			port: Number(process.env.PORT) || 3e3
+			port: Number(process.env.PORT) || 3e3,
+			version
 		};
 	}
 
@@ -24,6 +33,8 @@ export default class Server {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
 		this.express = express();
 		this.port = this.config.port;
+
+		this.logger = new Logger({ level: this.dev ? LogLevel.Debug : LogLevel.Info });
 	}
 
 	public async run() {
@@ -40,6 +51,23 @@ export default class Server {
 		const handler = this.next.getRequestHandler();
 		this.express.use((req, res) => handler(req, res));
 
-		this._server = this.express.listen(this.port, () => void 0);
+		this._server = this.express.listen(this.port, this.startupLog.bind(this));
+	}
+
+	private startupLog() {
+		console.log(
+			[
+				"______                         ______  _                     ",
+				"| ___ \\                        | ___ \\| |                    ",
+				"| |_/ /__ _  _ __    ___  _ __ | |_/ /| |  __ _  _ __    ___ ",
+				"|  __// _` || '_ \\  / _ \\| '__||  __/ | | / _` || '_ \\  / _ \\",
+				"| |  | (_| || |_) ||  __/| |   | |    | || (_| || | | ||  __/",
+				"\\_|   \\__,_|| .__/  \\___||_|   \\_|    |_| \\__,_||_| |_| \\___|",
+				"            | |                                              ",
+				"            |_|                                              "
+			].join("\n")
+		);
+		this.logger.debug(`Starting Paperplane v${this.config.version} - NodeJS ${process.version}`);
+		this.logger.info(`Server is listening to port ${this.port}`);
 	}
 }
