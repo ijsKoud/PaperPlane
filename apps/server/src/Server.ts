@@ -43,6 +43,7 @@ export default class Server {
 			dev: this.dev,
 			quiet: !this.dev,
 			customServer: true,
+			port: this.config.port,
 			dir: join(process.cwd(), "..", "web")
 		});
 
