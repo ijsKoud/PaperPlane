@@ -4,7 +4,7 @@ import { config } from "dotenv";
 import type Server from "../Server.js";
 import { bold } from "colorette";
 import { Auth } from "./Auth.js";
-import type { EnvConfig, RawEnvConfig } from "./types.js";
+import { ConfigNames, EnvConfig, RawEnvConfig } from "./types.js";
 import ms from "ms";
 
 const DEFAULT_CONFIG: RawEnvConfig = {
@@ -56,19 +56,37 @@ export class Config {
 			extensionsList: this.parseConfigItem("EXTENSIONS_LIST"),
 			extensionsMode: this.parseConfigItem("EXTENSIONS_MODE")
 		};
+
+		await this.triggerUpdate();
 	}
 
-	public parseStorage(storage: string): number {
+	public parseStorage(storage: string): number;
+	public parseStorage(storage: number): string;
+	public parseStorage(storage: string | number): number | string {
+		if (typeof storage === "string") {
+			const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+			const INFINITY = units.map((unit) => `0 ${unit}`);
+			if (!storage.length || [INFINITY, "0"].includes(storage)) return 0;
+
+			const [_amount, unit] = storage.split(/ +/g);
+			const unitSize = (units.indexOf(unit) || 0) + 1;
+			const amount = Number(_amount);
+			if (isNaN(amount)) return 0;
+
+			return amount * unitSize;
+		}
+
+		if (storage === Infinity) return "Infinity";
+
 		const units = ["B", "kB", "MB", "GB", "TB", "PB"];
-		const INFINITY = units.map((unit) => `0 ${unit}`);
-		if (!storage.length || [INFINITY, "0"].includes(storage)) return 0;
+		let num = 0;
 
-		const [_amount, unit] = storage.split(/ +/g);
-		const unitSize = (units.indexOf(unit) || 0) + 1;
-		const amount = Number(_amount);
-		if (isNaN(amount)) return 0;
+		while (storage > 1024) {
+			storage /= 1024;
+			++num;
+		}
 
-		return amount * unitSize;
+		return `${storage.toFixed(1)} ${units[num]}`;
 	}
 
 	private parseConfigItem(key: keyof RawEnvConfig): any {
@@ -91,7 +109,6 @@ export class Config {
 						)}. Please restore your old 2FA key or add the new key to the 2FA Authenticator App!`
 					);
 
-					// this.triggerUpdate();
 					return tfaSecret.secret;
 				}
 
@@ -132,7 +149,6 @@ export class Config {
 		const { uri, secret: admin2fa } = Auth.generate2FASecret();
 
 		let config = Object.keys(DEFAULT_CONFIG)
-			// eslint-disable-next-line @typescript-eslint/no-invalid-this
 			.map((key) => `${key}="${DEFAULT_CONFIG[key as keyof RawEnvConfig]}"`)
 			.join("\n");
 		[encryptionKey, internalApiKey, admin2fa].forEach((value, key) => (config = config.replace(`{${key}}`, value)));
@@ -143,5 +159,36 @@ export class Config {
 		);
 
 		return config;
+	}
+
+	private async triggerUpdate() {
+		const getCleanKey = (key: keyof EnvConfig) => {
+			const configKey = ConfigNames[key];
+			let value = this.config[key] ?? "";
+
+			switch (key) {
+				case "auditLogDuration":
+					value = ms((value as number) || 0) ?? DEFAULT_CONFIG.AUDIT_LOG_DURATION;
+					break;
+				case "extensionsList":
+					value = (value as string[]).join(",");
+					break;
+				case "maxStorage":
+				case "maxUpload":
+					value = this.parseStorage(value as number);
+					break;
+				default:
+					break;
+			}
+
+			return `${configKey}="${value}"`;
+		};
+
+		const config = Object.keys(this.config)
+			.map((key) => getCleanKey(key as keyof EnvConfig))
+			.join("\n");
+
+		const dataDir = join(process.cwd(), "..", "..", "data");
+		await writeFile(join(dataDir, ".env"), config);
 	}
 }

@@ -30,6 +30,22 @@ export interface EnvConfig {
 	extensionsList: string[];
 }
 
+export const ConfigNames = {
+	encryptionKey: "ENCRYPTION_KEY",
+	internalApiKey: "INTERNAL_API_KEY",
+	admin2FASecret: "ADMIN_2FA_KEY",
+
+	authMode: "AUTH_MODE",
+	signUpMode: "SIGNUP_MODE",
+
+	maxStorage: "MAX_STORAGE",
+	maxUpload: "MAX_UPLOAD_SIZE",
+	auditLogDuration: "AUDIT_LOG_DURATION",
+
+	extensionsMode: "EXTENSIONS_MODE",
+	extensionsList: "EXTENSIONS_LIST"
+} as const;
+
 export type SignUpMode = "open" | "closed" | "invite";
 export type AuthMode = "2fa" | "password";
 export type ExtensionsMode = "block" | "pass";
