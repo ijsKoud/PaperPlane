@@ -1434,6 +1434,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/notp@npm:^2.0.0":
+  version: 2.0.2
+  resolution: "@types/notp@npm:2.0.2"
+  dependencies:
+    "@types/node": "*"
+  checksum: 7e146330673f9dc260321c20916ea0afc67da61fce79a89e9e95399073487b9fa356471d2a21eb6c49eef690637ba75043a9d5d0deaec67fc784f785a65df61b
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -6223,6 +6232,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-2fa@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "node-2fa@npm:2.0.3"
+  dependencies:
+    "@types/notp": ^2.0.0
+    notp: ^2.0.3
+    thirty-two: 1.0.2
+    tslib: ^2.1.0
+  checksum: 248762127ebdcf2b6add77ce78d15798c07000dc113e40f31172b184a72da95c0a92b75271e132a142a29414f50ced6dd9c814491900d79a76b673ec5b19bab4
+  languageName: node
+  linkType: hard
+
 "node-gyp@npm:latest":
   version: 9.3.1
   resolution: "node-gyp@npm:9.3.1"
@@ -6296,6 +6317,13 @@ __metadata:
   version: 0.1.2
   resolution: "normalize-range@npm:0.1.2"
   checksum: 9b2f14f093593f367a7a0834267c24f3cb3e887a2d9809c77d8a7e5fd08738bcd15af46f0ab01cc3a3d660386f015816b5c922cea8bf2ee79777f40874063184
+  languageName: node
+  linkType: hard
+
+"notp@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "notp@npm:2.0.3"
+  checksum: aeb2d654e4445e391f8bf428fe4fd01b94c78a17f575b5b0a4ef1a4e072995922ac3854c9dfc7df649465a903fea5fa4194c09f3b6702fd128a1aeb92309bc4a
   languageName: node
   linkType: hard
 
@@ -7455,11 +7483,13 @@ __metadata:
     "@types/node": ^17.0.12
     axios: ^1.2.3
     body-parser: ^1.20.1
+    colorette: ^2.0.19
     cookie-parser: ^1.4.6
     dotenv: ^16.0.3
     eslint: 7.32.0
     express: ^4.18.2
     ms: ^2.1.3
+    node-2fa: ^2.0.3
     typescript: ^4.5.3
     winston: ^3.8.2
     winston-daily-rotate-file: ^4.7.1
@@ -8006,6 +8036,13 @@ __metadata:
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
   checksum: b6937a38c80c7f84d9c11dd75e49d5c44f71d95e810a3250bd1f1797fc7117c57698204adf676b71497acc205d769d65c16ae8fa10afad832ae1322630aef10a
+  languageName: node
+  linkType: hard
+
+"thirty-two@npm:1.0.2":
+  version: 1.0.2
+  resolution: "thirty-two@npm:1.0.2"
+  checksum: f6700b31d16ef942fdc0d14daed8a2f69ea8b60b0e85db8b83adf58d84bbeafe95a17d343ab55efaae571bb5148b62fc0ee12b04781323bf7af7d7e9693eec76
   languageName: node
   linkType: hard
 
