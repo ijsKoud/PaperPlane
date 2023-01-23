@@ -22,7 +22,10 @@
 		"@paperplane/ui": "*",
 		"@paperplane/utils": "*",
 		"axios": "^1.2.3",
-		"rc-progress": "^3.4.1"
+		"formik": "^2.2.9",
+		"rc-progress": "^3.4.1",
+		"react-spinners": "^0.13.8",
+		"yup": "^0.32.11"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.0.0",
