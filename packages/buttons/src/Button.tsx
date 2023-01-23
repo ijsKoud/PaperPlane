@@ -7,6 +7,7 @@ interface ButtonPropsColor {
 
 	color: Colors;
 	className?: string;
+	disabled?: boolean;
 }
 
 interface LinkPropsColor {
@@ -17,6 +18,7 @@ interface LinkPropsColor {
 
 	color: Colors;
 	className?: string;
+	disabled?: boolean;
 }
 
 type Colors = keyof typeof Colors;
@@ -28,8 +30,8 @@ export type AllProps = LinkProps | ButtonProps;
 
 const Colors = {
 	primary: {
-		bg: "bg-primary-400",
-		border: "border-primary-800",
+		bg: "bg-primary-400 disabled:bg-primary-100",
+		border: "border-primary-800 disabled:border-primary-200",
 		hoverBg: "hover:bg-primary-600",
 		hoverBorder: "hover:border-primary"
 	},
@@ -81,6 +83,8 @@ const Button: React.FC<React.PropsWithChildren<AllPropsWithColor>> = (props) => 
 			className={`${props.className ?? ""} ${colors.bg} border ${colors.border} text-white px-4 py-2 rounded-xl text-base ${colors.hoverBg} ${
 				colors.hoverBorder
 			} transition-colors`}
+			disabled={props.disabled ?? false}
+			aria-disabled={props.disabled ?? false}
 		/>
 	);
 };
