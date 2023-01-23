@@ -8,11 +8,14 @@ import next from "next";
 import { Config, Logger, Api } from "./lib/index.js";
 import { LogLevel } from "@snowcrystals/icicle";
 import { readFileSync } from "node:fs";
+import { PrismaClient } from "@prisma/client";
 
 export default class Server {
 	public logger: Logger;
 	public _config = new Config(this);
 	public api = new Api(this);
+
+	public prisma = new PrismaClient();
 
 	public dev: boolean;
 	public port: number;
@@ -57,6 +60,7 @@ export default class Server {
 		const handler = this.next.getRequestHandler();
 		this.express.use((req, res) => handler(req, res));
 
+		await this.prisma.$connect().then(() => this.logger.info("[PRISMA]: Connected to data.db file in data directory."));
 		this._server = this.express.listen(this.port, this.startupLog.bind(this));
 	}
 
