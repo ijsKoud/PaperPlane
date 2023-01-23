@@ -9,7 +9,7 @@ export default function handler(server: Server, req: Request, res: Response) {
 	const admin = Auth.verifyJWTToken(adminAuthSecret, server._config.config.encryptionKey, "admin");
 
 	res.send({
-		domains: [],
+		domain: false,
 		admin
 	});
 }
