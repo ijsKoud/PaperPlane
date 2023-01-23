@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { config } from "dotenv";
 import type Server from "../Server.js";
@@ -27,6 +27,9 @@ export class Config {
 
 	public async start() {
 		const dataDir = join(process.cwd(), "..", "..", "data");
+		await mkdir(join(dataDir, "logs"), { recursive: true });
+		await mkdir(join(dataDir, "files"), { recursive: true });
+
 		const { error } = config({ path: join(dataDir, ".env") });
 
 		if (error) {
@@ -37,6 +40,8 @@ export class Config {
 
 						const newConfig = this.generateDefaultConfig();
 						await writeFile(join(dataDir, ".env"), newConfig);
+
+						config({ path: join(dataDir, ".env") });
 					}
 					break;
 				default:
