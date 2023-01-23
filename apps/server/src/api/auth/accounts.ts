@@ -12,7 +12,8 @@ export default async function handler(server: Server, req: Request, res: Respons
 	const options = domains.map((domain) => ({ value: domain.domain, label: domain.domain }));
 
 	res.send({
-		options: [...options, { value: "admin", label: "Application Admin" }]
+		options: [...options, { value: "admin", label: "Application Admin" }],
+		mode: server._config.config.authMode
 	});
 }
 

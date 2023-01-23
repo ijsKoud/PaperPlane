@@ -4,7 +4,7 @@ export const InputStyles = {
 };
 
 export const getCleanProps = (_props: Record<string, any>): Record<string, any> => {
-	const { className, type, ...props } = _props;
+	const { className, type, formType, ...props } = _props;
 
 	return props;
 };
