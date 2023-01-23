@@ -17,7 +17,8 @@ const DEFAULT_CONFIG: RawEnvConfig = {
 	MAX_UPLOAD_SIZE: "0",
 	AUDIT_LOG_DURATION: "31d",
 	EXTENSIONS_MODE: "block",
-	EXTENSIONS_LIST: [] as string[]
+	EXTENSIONS_LIST: [] as string[],
+	INSECURE_REQUESTS: "false"
 } as const;
 
 export class Config {
@@ -59,7 +60,8 @@ export class Config {
 			authMode: this.parseConfigItem("AUTH_MODE"),
 			signUpMode: this.parseConfigItem("SIGNUP_MODE"),
 			extensionsList: this.parseConfigItem("EXTENSIONS_LIST"),
-			extensionsMode: this.parseConfigItem("EXTENSIONS_MODE")
+			extensionsMode: this.parseConfigItem("EXTENSIONS_MODE"),
+			insecureRequests: this.parseConfigItem("INSECURE_REQUESTS")
 		};
 
 		await this.triggerUpdate();
@@ -143,6 +145,8 @@ export class Config {
 
 				return filtered;
 			}
+			case "INSECURE_REQUESTS":
+				return value === "true" ? true : false;
 			default:
 				return "";
 		}

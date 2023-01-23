@@ -12,6 +12,8 @@ export interface RawEnvConfig {
 
 	EXTENSIONS_MODE: ExtensionsMode;
 	EXTENSIONS_LIST: string[];
+
+	INSECURE_REQUESTS: string;
 }
 
 export interface EnvConfig {
@@ -28,6 +30,8 @@ export interface EnvConfig {
 
 	extensionsMode: ExtensionsMode;
 	extensionsList: string[];
+
+	insecureRequests: boolean;
 }
 
 export const ConfigNames = {
@@ -43,7 +47,9 @@ export const ConfigNames = {
 	auditLogDuration: "AUDIT_LOG_DURATION",
 
 	extensionsMode: "EXTENSIONS_MODE",
-	extensionsList: "EXTENSIONS_LIST"
+	extensionsList: "EXTENSIONS_LIST",
+
+	insecureRequests: "INSECURE_REQUESTS"
 } as const;
 
 export type SignUpMode = "open" | "closed" | "invite";
