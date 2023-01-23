@@ -1,4 +1,5 @@
 import type { Response, Request } from "express";
+import { scryptSync, timingSafeEqual } from "node:crypto";
 import { Auth } from "../../lib/Auth.js";
 import type { RequestMethods } from "../../lib/types.js";
 import type Server from "../../Server.js";
@@ -43,7 +44,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 			return;
 		}
 
-		res.cookie(`PAPERPLANE-${domain!.domain}`, Auth.createJWTToken(domain!.domain, server._config.config.encryptionKey), { maxAge: 6.048e8 });
+		res.cookie(`PAPERPLANE-AUTH`, Auth.createJWTToken(domain!.domain, server._config.config.encryptionKey), { maxAge: 6.048e8 });
 		res.sendStatus(204);
 
 		res.sendStatus(204);
@@ -55,6 +56,17 @@ export default async function handler(server: Server, req: Request, res: Respons
 		return;
 	}
 
+	const [salt, key] = Auth.decryptToken(domain!.password!, server._config.config.encryptionKey).split(":");
+	const passwordBuffer = scryptSync(password, salt, 64);
+
+	const keyBuffer = Buffer.from(key, "hex");
+	const match = timingSafeEqual(passwordBuffer, keyBuffer);
+	if (!match) {
+		res.status(400).send({ message: "Invalid Password provided" });
+		return;
+	}
+
+	res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.domain, server._config.config.encryptionKey), { maxAge: 6.048e8 });
 	res.sendStatus(204);
 }
 

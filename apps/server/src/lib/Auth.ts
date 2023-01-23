@@ -1,6 +1,7 @@
 import { generateSecret, generateToken, verifyToken } from "node-2fa";
 import Jwt from "jsonwebtoken";
 import _ from "lodash";
+import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Auth {
@@ -41,5 +42,24 @@ export class Auth {
 
 		const version = process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable";
 		return res.version === version && res.account === expected;
+	}
+
+	public static encryptToken(token: string, secret: string) {
+		const iv = randomBytes(16);
+
+		const cipher = createCipheriv("aes-256-ctr", secret, iv);
+		const encrypted = Buffer.concat([cipher.update(token), cipher.final()]);
+
+		return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+	}
+
+	public static decryptToken(hash: string, secret: string) {
+		const [iv, encrypted] = hash.split(":");
+
+		const decipher = createDecipheriv("aes-256-ctr", secret, Buffer.from(iv, "hex"));
+		const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted, "hex")), decipher.final()]);
+		const token = decrypted.toString();
+
+		return token;
 	}
 }
