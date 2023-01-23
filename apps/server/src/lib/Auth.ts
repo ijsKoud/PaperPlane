@@ -39,6 +39,7 @@ export class Auth {
 		const res = Jwt.verify(token, secret);
 		if (typeof res !== "object") return false;
 
-		return _.isEqual(res, { version: process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable", account: expected });
+		const version = process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable";
+		return res.version === version && res.account === expected;
 	}
 }

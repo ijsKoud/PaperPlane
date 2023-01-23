@@ -4,7 +4,9 @@ import type { RequestMethods } from "../../lib/types.js";
 import type Server from "../../Server.js";
 
 export default function handler(server: Server, req: Request, res: Response) {
-	const admin = Auth.verifyJWTToken(req.cookies["PAPERPLANE-ADMIN"], server._config.config.encryptionKey, "admin");
+	const adminAuthHeader = req.headers["x-paperplane-admin-key"];
+	const adminAuthSecret = Array.isArray(adminAuthHeader) ? adminAuthHeader[0] : adminAuthHeader ?? "";
+	const admin = Auth.verifyJWTToken(adminAuthSecret, server._config.config.encryptionKey, "admin");
 
 	res.send({
 		domains: [],
