@@ -44,5 +44,9 @@ export const formatDate = (date: Date): string => {
 	return timestamp.display(date);
 };
 
+export const getProtocol = () => {
+	return process.env.INSECURE_REQUESTS ? "http://" : "https://";
+};
+
 export * from "./Dashboard";
 export * from "./Admin";
