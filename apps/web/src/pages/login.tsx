@@ -105,9 +105,7 @@ const Login: NextPage<Props> = ({ domains, domain, mode }) => {
 									onChange={(opt) => redirectUser(opt as SelectOption, formData.setFieldValue.bind(formData))}
 									className="w-full"
 								/>
-								{formData.errors.domain && (
-									<p className="text-red text-left text-small font-normal pt-2">* {formData.errors.domain}</p>
-								)}
+								{formData.errors.domain && <p className="text-red text-left text-small font-normal">* {formData.errors.domain}</p>}
 							</div>
 							{authMode === "2fa" ? (
 								<div className="w-full gap-y-2 flex flex-col">
@@ -118,9 +116,7 @@ const Login: NextPage<Props> = ({ domains, domain, mode }) => {
 										value={formData.values.code}
 										onChange={(ev) => formData.setFieldValue("code", ev.currentTarget.value)}
 									/>
-									{formData.errors.code && (
-										<p className="text-red text-left text-small font-normal pt-2">* {formData.errors.code}</p>
-									)}
+									{formData.errors.code && <p className="text-red text-left text-small font-normal">* {formData.errors.code}</p>}
 								</div>
 							) : (
 								<div className="w-full gap-y-2 flex flex-col">
@@ -133,7 +129,7 @@ const Login: NextPage<Props> = ({ domains, domain, mode }) => {
 										onChange={(ev) => formData.setFieldValue("password", ev.currentTarget.value)}
 									/>
 									{formData.errors.password && (
-										<p className="text-red text-left text-small font-normal pt-2">* {formData.errors.password}</p>
+										<p className="text-red text-left text-small font-normal">* {formData.errors.password}</p>
 									)}
 								</div>
 							)}
