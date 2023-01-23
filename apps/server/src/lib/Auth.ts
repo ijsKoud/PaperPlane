@@ -1,5 +1,6 @@
 import { generateSecret, generateToken, verifyToken } from "node-2fa";
 import Jwt from "jsonwebtoken";
+import _ from "lodash";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Auth {
@@ -29,21 +30,15 @@ export class Auth {
 	}
 
 	public static createJWTToken(account: string, secret: string) {
-		return Jwt.sign(
-			`${Auth.generateToken()}-${process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable"}-${account}`,
-			secret,
-			{
-				expiresIn: "7d",
-				issuer: "PaperPlane",
-				subject: "Authentication"
-			}
-		);
+		return Jwt.sign({ version: process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable", account }, secret, {
+			expiresIn: "7d"
+		});
 	}
 
 	public static verifyJWTToken(token: string, secret: string, expected: string): boolean {
-		const res = Jwt.verify(token, secret, { subject: "Authentication", issuer: "PaperPlane" });
-		if (typeof res !== "string") return false;
+		const res = Jwt.verify(token, secret);
+		if (typeof res !== "object") return false;
 
-		return res.endsWith(`${process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable"}-${expected}`);
+		return _.isEqual(res, { version: process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable", account: expected });
 	}
 }

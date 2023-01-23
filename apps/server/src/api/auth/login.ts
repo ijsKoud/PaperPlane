@@ -18,14 +18,14 @@ export default async function handler(server: Server, req: Request, res: Respons
 	}
 
 	if (code) {
-		if (typeof code !== "number" || code.toString().length !== 6) {
+		if (typeof code !== "string" || code.length !== 6) {
 			res.status(400).send({ message: "Invalid Two Factor Authentication code provided" });
 			return;
 		}
 
 		if (_domain === "admin") {
 			const authSecret = server._config.config.admin2FASecret;
-			const authRes = Auth.verify2FASecret(authSecret, code.toString());
+			const authRes = Auth.verify2FASecret(authSecret, code);
 			if (!authRes || authRes.delta !== 0) {
 				res.status(400).send({ message: "Invalid Two Factor Authentication code provided" });
 				return;
