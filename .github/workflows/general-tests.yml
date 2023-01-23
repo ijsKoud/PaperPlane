@@ -25,6 +25,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
+      - name: Generate Prisma Types
+        run: yarn workspace server prisma generate
+
       - name: Run Compiler
         run: yarn run build
   Linting:
