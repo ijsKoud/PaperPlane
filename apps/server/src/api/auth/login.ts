@@ -25,14 +25,14 @@ export default async function handler(server: Server, req: Request, res: Respons
 		}
 
 		if (_domain === "admin") {
-			const authSecret = server._config.config.admin2FASecret;
+			const authSecret = server.envConfig.admin2FASecret;
 			const authRes = Auth.verify2FASecret(authSecret, code);
 			if (!authRes || authRes.delta !== 0) {
 				res.status(400).send({ message: "Invalid Two Factor Authentication code provided" });
 				return;
 			}
 
-			res.cookie("PAPERPLANE-ADMIN", Auth.createJWTToken("admin", server._config.config.encryptionKey), { maxAge: 6.048e8 });
+			res.cookie("PAPERPLANE-ADMIN", Auth.createJWTToken("admin", server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 			res.sendStatus(204);
 			return;
 		}
@@ -44,7 +44,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 			return;
 		}
 
-		res.cookie(`PAPERPLANE-AUTH`, Auth.createJWTToken(domain!.domain, server._config.config.encryptionKey), { maxAge: 6.048e8 });
+		res.cookie(`PAPERPLANE-AUTH`, Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 		res.sendStatus(204);
 
 		res.sendStatus(204);
@@ -56,7 +56,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 		return;
 	}
 
-	const [salt, key] = Auth.decryptToken(domain!.password!, server._config.config.encryptionKey).split(":");
+	const [salt, key] = Auth.decryptToken(domain!.password!, server.envConfig.encryptionKey).split(":");
 	const passwordBuffer = scryptSync(password, salt, 64);
 
 	const keyBuffer = Buffer.from(key, "hex");
@@ -66,7 +66,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 		return;
 	}
 
-	res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.domain, server._config.config.encryptionKey), { maxAge: 6.048e8 });
+	res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 	res.sendStatus(204);
 }
 

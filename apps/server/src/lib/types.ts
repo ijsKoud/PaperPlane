@@ -14,6 +14,7 @@ export interface RawEnvConfig {
 	EXTENSIONS_LIST: string[];
 
 	INSECURE_REQUESTS: string;
+	PORT: string;
 }
 
 export interface EnvConfig {
@@ -32,6 +33,7 @@ export interface EnvConfig {
 	extensionsList: string[];
 
 	insecureRequests: boolean;
+	port: number;
 }
 
 export const ConfigNames = {
@@ -49,7 +51,8 @@ export const ConfigNames = {
 	extensionsMode: "EXTENSIONS_MODE",
 	extensionsList: "EXTENSIONS_LIST",
 
-	insecureRequests: "INSECURE_REQUESTS"
+	insecureRequests: "INSECURE_REQUESTS",
+	port: "PORT"
 } as const;
 
 export type SignUpMode = "open" | "closed" | "invite";

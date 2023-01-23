@@ -6,6 +6,6 @@ const packages = readdirSync(join(process.cwd(), "..", "..", "packages"));
 
 /** @type {import('next').NextConfig} */
 module.exports = {
-	reactStrictMode: true,
+	reactStrictMode: false,
 	transpilePackages: packages
 };
