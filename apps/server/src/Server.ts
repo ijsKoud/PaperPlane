@@ -5,13 +5,17 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { join } from "node:path";
 import next from "next";
-import { Config, Logger } from "./lib/index.js";
+import { Config, Logger, Api } from "./lib/index.js";
 import { LogLevel } from "@snowcrystals/icicle";
 import { readFileSync } from "node:fs";
+import { PrismaClient } from "@prisma/client";
 
 export default class Server {
 	public logger: Logger;
 	public _config = new Config(this);
+	public api = new Api(this);
+
+	public prisma = new PrismaClient();
 
 	public dev: boolean;
 	public port: number;
@@ -39,6 +43,7 @@ export default class Server {
 	}
 
 	public async run() {
+		process.env.INSECURE_REQUESTS = (this.dev || process.env.INSECURE_REQUESTS === "true") as any;
 		this.next = next.default({
 			dev: this.dev,
 			quiet: !this.dev,
@@ -49,12 +54,14 @@ export default class Server {
 
 		this.express.use(cookieParser(), bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 
+		await this.api.start();
 		await this._config.start();
 		await this.next.prepare();
 
 		const handler = this.next.getRequestHandler();
 		this.express.use((req, res) => handler(req, res));
 
+		await this.prisma.$connect().then(() => this.logger.info("[PRISMA]: Connected to data.db file in data directory."));
 		this._server = this.express.listen(this.port, this.startupLog.bind(this));
 	}
 

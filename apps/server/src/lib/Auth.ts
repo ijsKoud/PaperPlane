@@ -1,4 +1,7 @@
-import { generateSecret, generateToken } from "node-2fa";
+import { generateSecret, generateToken, verifyToken } from "node-2fa";
+import Jwt from "jsonwebtoken";
+import _ from "lodash";
+import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Auth {
@@ -21,5 +24,42 @@ export class Auth {
 
 	public static check2FASecret(secret: string): boolean {
 		return Boolean(generateToken(secret));
+	}
+
+	public static verify2FASecret(secret: string, code: string) {
+		return verifyToken(secret, code);
+	}
+
+	public static createJWTToken(account: string, secret: string) {
+		return Jwt.sign({ version: process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable", account }, secret, {
+			expiresIn: "7d"
+		});
+	}
+
+	public static verifyJWTToken(token: string, secret: string, expected: string): boolean {
+		const res = Jwt.verify(token, secret);
+		if (typeof res !== "object") return false;
+
+		const version = process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable";
+		return res.version === version && res.account === expected;
+	}
+
+	public static encryptToken(token: string, secret: string) {
+		const iv = randomBytes(16);
+
+		const cipher = createCipheriv("aes-256-ctr", secret, iv);
+		const encrypted = Buffer.concat([cipher.update(token), cipher.final()]);
+
+		return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+	}
+
+	public static decryptToken(hash: string, secret: string) {
+		const [iv, encrypted] = hash.split(":");
+
+		const decipher = createDecipheriv("aes-256-ctr", secret, Buffer.from(iv, "hex"));
+		const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted, "hex")), decipher.final()]);
+		const token = decrypted.toString();
+
+		return token;
 	}
 }

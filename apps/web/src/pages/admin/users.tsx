@@ -1,7 +1,26 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { AdminLayout, AdminUserToolbar, Table, TableEntry } from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
-import { AdminUserSort } from "@paperplane/utils";
+import { AdminUserSort, getProtocol } from "@paperplane/utils";
+import axios from "axios";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
+		headers: { "X-PAPERPLANE-ADMIN-KEY": context.req.cookies["PAPERPLANE-ADMIN"] }
+	});
+
+	if (!stateRes.data.admin)
+		return {
+			redirect: {
+				destination: "/login",
+				permanent: false
+			}
+		};
+
+	return {
+		props: {}
+	};
+};
 
 const AdminPanelUsers: NextPage = () => {
 	const emptyFunction = () => void 0;
