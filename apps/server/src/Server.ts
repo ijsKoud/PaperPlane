@@ -43,6 +43,7 @@ export default class Server {
 	}
 
 	public async run() {
+		process.env.INSECURE_REQUESTS = (this.dev || process.env.INSECURE_REQUESTS === "true") as any;
 		this.next = next.default({
 			dev: this.dev,
 			quiet: !this.dev,

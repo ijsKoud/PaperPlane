@@ -1,41 +1,25 @@
 import { PrimaryButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
+import { getProtocol } from "@paperplane/utils";
+import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
-// TODO: Remove MOCK_DOMAINS and fetch domains instead
-const MOCK_DOMAINS = [
-	{
-		label: "localhost",
-		value: "localhost:3000"
-	},
-	{
-		label: "cdn.ijskoud.dev",
-		value: "cdn.ijskoud.dev"
-	},
-	{
-		label: "cdn.rowansmidt.xyz",
-		value: "cdn.rowansmidt.xyz"
-	},
-	{
-		label: "cdn.jobgamesjg.xyz",
-		value: "cdn.jobgamesjg.xyz"
-	}
-];
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	await new Promise((res) => setTimeout(res, 2e3));
+	const domainsRes = await axios.get<{ options: SelectOption[] }>(`${getProtocol()}${context.req.headers.host}/api/auth/accounts`, {
+		headers: { "X-PAPERPLANE-API": process.env.INTERNAL_API_KEY }
+	});
 
 	return {
 		props: {
 			domain: context.req.headers.host,
-			domains: MOCK_DOMAINS
+			domains: domainsRes.data.options
 		}
 	};
 };
 
 interface Props {
-	domains: typeof MOCK_DOMAINS;
+	domains: SelectOption[];
 	domain: string;
 }
 
@@ -48,7 +32,7 @@ const Login: NextPage<Props> = ({ domains, domain }) => {
 	};
 
 	const redirectUser = (opt: SelectOption) => {
-		if (opt.value === domain) return;
+		if (opt.value === domain || opt.value === "admin") return;
 		void router.push(`https://${opt.value}/login`);
 	};
 
@@ -63,7 +47,7 @@ const Login: NextPage<Props> = ({ domains, domain }) => {
 					<h3 className="text-lg">Domain</h3>
 					<SelectMenu
 						type="tertiary"
-						options={MOCK_DOMAINS}
+						options={domains}
 						defaultValue={getDefaultValue()}
 						onChange={(opt) => redirectUser(opt as SelectOption)}
 						className="w-full"
