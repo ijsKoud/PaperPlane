@@ -19,7 +19,7 @@ export class Api {
 		const route = filePath.replace(dirname, "").replace(".js", "");
 
 		const { default: handler, methods } = (await import(filePath)) as { default: (...args: unknown[]) => void; methods: RequestMethods[] };
-		methods.forEach((method) => this.server.express[method](`/api${route}`, handler));
+		methods.forEach((method) => this.server.express[method](`/api${route}`, (req, res, next) => handler(this.server, req, res, next)));
 	}
 
 	private readdirRecursive(directory: string, results: string[] = []) {

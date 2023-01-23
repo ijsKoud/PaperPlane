@@ -1,4 +1,4 @@
-import { generateSecret, generateToken } from "node-2fa";
+import { generateSecret, generateToken, verifyToken } from "node-2fa";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Auth {
@@ -21,5 +21,9 @@ export class Auth {
 
 	public static check2FASecret(secret: string): boolean {
 		return Boolean(generateToken(secret));
+	}
+
+	public static verify2FASecret(secret: string, code: string) {
+		return verifyToken(secret, code);
 	}
 }
