@@ -49,3 +49,5 @@ export const ConfigNames = {
 export type SignUpMode = "open" | "closed" | "invite";
 export type AuthMode = "2fa" | "password";
 export type ExtensionsMode = "block" | "pass";
+
+export type RequestMethods = "get" | "put" | "post" | "patch" | "delete" | "head" | "options";

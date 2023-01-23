@@ -5,13 +5,14 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { join } from "node:path";
 import next from "next";
-import { Config, Logger } from "./lib/index.js";
+import { Config, Logger, Api } from "./lib/index.js";
 import { LogLevel } from "@snowcrystals/icicle";
 import { readFileSync } from "node:fs";
 
 export default class Server {
 	public logger: Logger;
 	public _config = new Config(this);
+	public api = new Api(this);
 
 	public dev: boolean;
 	public port: number;
@@ -49,6 +50,7 @@ export default class Server {
 
 		this.express.use(cookieParser(), bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 
+		await this.api.start();
 		await this._config.start();
 		await this.next.prepare();
 
