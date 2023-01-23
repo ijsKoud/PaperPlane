@@ -18,7 +18,8 @@ const DEFAULT_CONFIG: RawEnvConfig = {
 	AUDIT_LOG_DURATION: "31d",
 	EXTENSIONS_MODE: "block",
 	EXTENSIONS_LIST: [] as string[],
-	INSECURE_REQUESTS: "false"
+	INSECURE_REQUESTS: "false",
+	PORT: "3000"
 } as const;
 
 export class Config {
@@ -61,7 +62,8 @@ export class Config {
 			signUpMode: this.parseConfigItem("SIGNUP_MODE"),
 			extensionsList: this.parseConfigItem("EXTENSIONS_LIST"),
 			extensionsMode: this.parseConfigItem("EXTENSIONS_MODE"),
-			insecureRequests: this.parseConfigItem("INSECURE_REQUESTS")
+			insecureRequests: this.parseConfigItem("INSECURE_REQUESTS"),
+			port: this.parseConfigItem("PORT")
 		};
 
 		await this.triggerUpdate();
@@ -147,6 +149,12 @@ export class Config {
 			}
 			case "INSECURE_REQUESTS":
 				return value === "true" ? true : false;
+			case "PORT": {
+				const v = Number(value);
+				if (isNaN(v)) return 3e3;
+
+				return v;
+			}
 			default:
 				return "";
 		}

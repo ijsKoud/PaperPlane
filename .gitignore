@@ -17,6 +17,7 @@ node_modules
 .next/
 /out/
 dist/
+output.css
 
 # production
 /build
