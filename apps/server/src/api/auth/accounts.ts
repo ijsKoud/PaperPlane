@@ -8,7 +8,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 		return;
 	}
 
-	const domains = await server.prisma.domain.findMany({ where: { isSignUp: false } });
+	const domains = await server.prisma.domain.findMany({ where: { disabled: false } });
 	const options = domains.map((domain) => ({ value: domain.domain, label: domain.domain }));
 
 	res.send({

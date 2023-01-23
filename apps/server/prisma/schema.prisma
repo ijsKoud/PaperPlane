@@ -12,5 +12,15 @@ datasource db {
 
 model Domain {
   domain   String  @id
-  isSignUp Boolean @map("sign_up")
+  disabled Boolean
+
+  password        String?
+  twoFactorSecret String? @map("two_factor_secret")
+  backupCodes     String  @default("paperplane-cdn") @map("backup_codes")
+
+  maxStorage    String @default("0 B") @map("max_storage")
+  maxUploadSize String @default("0 B") @map("max_upload_size")
+
+  extensionsList String @default("") @map("extensions_list")
+  extensionsMode String @default("block") @map("extensions_mode")
 }
