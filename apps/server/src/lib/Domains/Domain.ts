@@ -5,6 +5,8 @@ import { join } from "node:path";
 
 export class Domain {
 	public domain: string;
+	public date: Date;
+
 	public filesPath: string;
 	public disabled: boolean;
 
@@ -20,6 +22,8 @@ export class Domain {
 
 	public constructor(public server: Server, data: iDomain) {
 		this.domain = data.domain;
+		this.date = data.date;
+
 		this.filesPath = join(process.cwd(), "..", "..", data.domain);
 		this.disabled = data.disabled;
 
@@ -37,6 +41,19 @@ export class Domain {
 
 	public toString() {
 		return this.domain;
+	}
+
+	public toJSON() {
+		return {
+			domain: this.domain,
+			date: this.date,
+			disabled: this.disabled,
+			extensions: this.extensions,
+			extensionsMode: this.extensionsMode,
+			maxStorage: this.maxStorage,
+			storage: this.storage,
+			uploadSize: this.uploadSize
+		};
 	}
 
 	private recordStorage() {
