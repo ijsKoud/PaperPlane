@@ -45,3 +45,21 @@ export interface AuditLogEntry {
 	details: string;
 	date: Date;
 }
+
+export interface UsersApi {
+	entries: Domain[];
+	pages: number;
+}
+
+export interface Domain {
+	domain: string;
+	date: Date;
+	disabled: boolean;
+
+	extensions: string[];
+	extensionsMode: "block" | "pass";
+
+	maxStorage: number;
+	storage: number;
+	uploadSize: number;
+}
