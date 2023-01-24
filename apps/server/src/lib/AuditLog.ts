@@ -2,6 +2,7 @@ import type Server from "../Server.js";
 import type { Auditlog } from "@prisma/client";
 import { bold } from "colorette";
 import { UAParser } from "ua-parser-js";
+import { CronJob } from "cron";
 
 export class AuditLog {
 	public logs: Auditlog[] = [];
@@ -13,6 +14,7 @@ export class AuditLog {
 
 	public async start() {
 		this.logs = await this.server.prisma.auditlog.findMany({ where: { user: this.user } }).catch(() => []);
+		new CronJob("0 1 * * *", this.removeExpired.bind(this), undefined, true, undefined, undefined, true);
 	}
 
 	public register(type: string, details: string) {
