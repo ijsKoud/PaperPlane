@@ -14,12 +14,12 @@ interface Props {
 export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => {
 	return (
 		<Modal isOpen={isOpen} onClick={onClick}>
-			<div className="max-w-[50vw]">
+			<div className="max-w-[50vw] max-xl:max-w-[75vw] max-md:max-w-[100vw]">
 				<div>
 					{isNew ? (
 						<>
-							<h1 className="text-3xl">Create a new PaperPlane account</h1>
-							<p className="text-base max-w-[90%]">
+							<h1 className="text-3xl max-md:text-xl">Create a new PaperPlane account</h1>
+							<p className="text-base max-w-[90%] max-md:text-small max-md:font-normal">
 								Creating an account as admin is always possible, keep in mind that you cannot set a password get access to 2FA code.
 								The user will have to use the default back-up code <strong>paperplane-cdn</strong> to login.
 							</p>
@@ -28,12 +28,12 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 						<h1 className="text-3xl">Update a PaperPlane account</h1>
 					)}
 				</div>
-				<ul className="w-full mt-4 max-h-[50vh] pr-2 overflow-y-auto">
+				<ul className="w-full mt-4 max-h-[45vh] pr-2 overflow-y-auto max-sm:max-h-[35vh]">
 					<li className="w-full">
 						<h2 className="text-lg">Choose a domain</h2>
 						<div className="flex items-center gap-2 w-full">
-							<Input type="tertiary" placeholder="Not available" />
-							<SelectMenu type="tertiary" placeholder="Select a domain" className="w-full" />
+							<Input type="tertiary" placeholder="Not available" className="max-sm:w-1/2" />
+							<SelectMenu type="tertiary" placeholder="Select a domain" className="w-full max-sm:w-1/2" />
 						</div>
 					</li>
 					<li className="w-full mt-4">
@@ -50,12 +50,12 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 								formType="number"
 								inputMode="decimal"
 								placeholder="Storage amount, 0=infinitive"
-								className="w-3/4"
+								className="w-3/4 max-sm:w-1/2"
 							/>
 							<SelectMenu
 								type="tertiary"
 								placeholder="Select a unit"
-								className="w-1/4"
+								className="w-1/4 max-sm:w-1/2"
 								options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
 								defaultValue={{ label: "GB", value: "GB" }}
 							/>
@@ -75,12 +75,12 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 								formType="number"
 								inputMode="decimal"
 								placeholder="upload size amount, 0=infinitive"
-								className="w-3/4"
+								className="w-3/4 max-sm:w-1/2"
 							/>
 							<SelectMenu
 								type="tertiary"
 								placeholder="Select a unit"
-								className="w-1/4"
+								className="w-1/4 max-sm:w-1/2"
 								options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
 								defaultValue={{ label: "GB", value: "GB" }}
 							/>
@@ -100,12 +100,12 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 								formType="text"
 								inputMode="text"
 								placeholder=".<extension>,...etc (e.x.: .png,.jpg)"
-								className="w-3/4"
+								className="w-3/4 max-sm:w-1/2"
 							/>
 							<SelectMenu
 								type="tertiary"
 								placeholder="Select a mode"
-								className="w-1/4"
+								className="w-1/4 max-sm:w-1/2"
 								options={[
 									{ label: "Mode: block", value: "block" },
 									{ label: "Mode: pass", value: "pass" }
@@ -123,11 +123,17 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 							</p>
 						</div>
 						<div className="flex items-center gap-2 w-full">
-							<Input type="tertiary" formType="number" inputMode="decimal" placeholder="Duration, 0=infinitive" className="w-3/4" />
+							<Input
+								type="tertiary"
+								formType="number"
+								inputMode="decimal"
+								placeholder="Duration, 0=infinitive"
+								className="w-3/4 max-sm:w-1/2"
+							/>
 							<SelectMenu
 								type="tertiary"
 								placeholder="Select a unit"
-								className="w-1/4"
+								className="w-1/4 max-sm:w-1/2"
 								options={TIME_UNITS}
 								defaultValue={{ label: "Days", value: "d" }}
 							/>
