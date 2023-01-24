@@ -35,10 +35,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 				return;
 			}
 
-			server.adminAuditLogs.register(
-				"Login",
-				`${ua.device.type}(${ua.device.vendor}): ${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`
-			);
+			server.adminAuditLogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 			res.cookie("PAPERPLANE-ADMIN", Auth.createJWTToken("admin", server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 			res.sendStatus(204);
 			return;
