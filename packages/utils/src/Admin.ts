@@ -18,3 +18,19 @@ export const AdminUserSortNames = {
 	[AdminUserSort.NAME_A_Z]: "Name: A - Z",
 	[AdminUserSort.NAME_Z_A]: "Name: Z - A"
 } as const;
+
+export interface ServiceApi {
+	version: string;
+	uptime: number;
+	users: number;
+
+	authMode: "2fa" | "password";
+	signUpMode: "closed" | "open" | "invite";
+
+	storageUsage: number;
+	cpuUsage: number;
+	memory: {
+		total: number;
+		usage: number;
+	};
+}

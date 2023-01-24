@@ -1,7 +1,9 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
+import { AdminLayout, AdminStatistics, AdminUsage, Table, TableEntry } from "@paperplane/ui";
 import axios from "axios";
-import { getProtocol } from "@paperplane/utils";
+import { getProtocol, ServiceApi } from "@paperplane/utils";
+import { useSwrWithUpdates } from "@paperplane/swr";
+import { useEffect, useState } from "react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -22,11 +24,34 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const AdminPanel: NextPage = () => {
+	const [service, setService] = useState<ServiceApi>({
+		authMode: "2fa",
+		cpuUsage: 0,
+		memory: { total: 0, usage: 0 },
+		signUpMode: "closed",
+		storageUsage: 0,
+		uptime: 0,
+		users: 0,
+		version: "0.0.0"
+	});
+	const { data } = useSwrWithUpdates<ServiceApi>("/api/admin/service", undefined, (url) =>
+		axios({ url, withCredentials: true }).then((res) => res.data)
+	);
+
+	useEffect(() => {
+		if (data) setService(data);
+	}, [data]);
+
 	return (
 		<AdminLayout>
-			<div className="w-full h-80 flex gap-8 items-center px-2 max-md:flex-col max-md:h-auto">
-				<DashboardStorageUsage used={7.7e9} total={1e10} />
-				<AdminStatistics users={13} auth="2FA" signupMode="closed" uptime={624_000} />
+			<div className="w-full h-80 flex gap-6 items-center px-2 max-md:flex-col max-md:h-auto">
+				<AdminUsage
+					storageUsage={service.storageUsage}
+					cpuUsage={service.cpuUsage}
+					memoryTotal={service.memory.total}
+					memoryUsage={service.memory.usage}
+				/>
+				<AdminStatistics users={service.users} auth={service.authMode} signupMode={service.signUpMode} uptime={service.uptime} />
 			</div>
 			<div className="w-full px-2">
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
