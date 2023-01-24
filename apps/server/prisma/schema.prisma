@@ -24,3 +24,12 @@ model Domain {
   extensionsList String @default("") @map("extensions_list")
   extensionsMode String @default("block") @map("extensions_mode")
 }
+
+model Auditlog {
+  id   String   @id @unique @default(uuid())
+  date DateTime @default(now())
+
+  type    String
+  user    String
+  details String
+}

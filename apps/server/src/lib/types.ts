@@ -30,7 +30,7 @@ export interface EnvConfig {
 
 	maxStorage: number;
 	maxUpload: number;
-	auditLogDuration: string;
+	auditLogDuration: number;
 
 	extensionsMode: ExtensionsMode;
 	extensionsList: string[];

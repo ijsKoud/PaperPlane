@@ -1,5 +1,6 @@
 import type { Response, Request } from "express";
 import { scryptSync, timingSafeEqual } from "node:crypto";
+import { AuditLog } from "../../lib/AuditLog.js";
 import { Auth } from "../../lib/Auth.js";
 import type { RequestMethods } from "../../lib/types.js";
 import type Server from "../../Server.js";
@@ -18,6 +19,8 @@ export default async function handler(server: Server, req: Request, res: Respons
 		return;
 	}
 
+	const ua = AuditLog.getUserAgentData(req.headers["user-agent"]);
+
 	if (code) {
 		if (typeof code !== "string" || code.length !== 6) {
 			res.status(400).send({ message: "Invalid Two Factor Authentication code provided" });
@@ -32,6 +35,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 				return;
 			}
 
+			server.adminAuditLogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 			res.cookie("PAPERPLANE-ADMIN", Auth.createJWTToken("admin", server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 			res.sendStatus(204);
 			return;

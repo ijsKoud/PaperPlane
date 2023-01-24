@@ -34,3 +34,14 @@ export interface ServiceApi {
 		usage: number;
 	};
 }
+
+export interface AuditLogApi {
+	entries: AuditLogEntry[];
+	pages: number;
+}
+
+export interface AuditLogEntry {
+	type: string;
+	details: string;
+	date: Date;
+}
