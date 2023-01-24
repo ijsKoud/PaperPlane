@@ -35,6 +35,10 @@ export class Domain {
 		this.recordStorage();
 	}
 
+	public toString() {
+		return this.domain;
+	}
+
 	private recordStorage() {
 		const updateStorageUsage = async () => {
 			const res = await Utils.sizeOfDir(this.filesPath);
