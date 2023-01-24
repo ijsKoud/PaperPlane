@@ -1,3 +1,6 @@
+import type { NextFunction, Request, Response } from "express";
+import type Server from "../Server.js";
+
 export interface RawEnvConfig {
 	ENCRYPTION_KEY: string;
 	INTERNAL_API_KEY: string;
@@ -60,3 +63,11 @@ export type AuthMode = "2fa" | "password";
 export type ExtensionsMode = "block" | "pass";
 
 export type RequestMethods = "get" | "put" | "post" | "patch" | "delete" | "head" | "options";
+
+export type Middleware = (server: Server, req: Request, res: Response, next: NextFunction) => void | Promise<void>;
+
+export interface ApiRoute {
+	default: (...args: unknown[]) => void;
+	methods: RequestMethods[];
+	middleware?: Middleware[];
+}

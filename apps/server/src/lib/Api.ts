@@ -2,7 +2,8 @@ import { readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import type Server from "../Server.js";
 import { fileURLToPath } from "node:url";
-import type { RequestMethods } from "./types.js";
+import type { ApiRoute, Middleware } from "./types.js";
+import type { NextFunction, Request, Response } from "express";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -18,8 +19,16 @@ export class Api {
 		const dirname = join(__dirname, "..", "api");
 		const route = filePath.replace(dirname, "").replace(".js", "");
 
-		const { default: handler, methods } = (await import(filePath)) as { default: (...args: unknown[]) => void; methods: RequestMethods[] };
-		methods.forEach((method) => this.server.express[method](`/api${route}`, (req, res, next) => handler(this.server, req, res, next)));
+		const { default: handler, methods, middleware } = (await import(filePath)) as ApiRoute;
+		methods.forEach((method) =>
+			this.server.express[method](`/api${route}`, ...(middleware ?? []).map((m) => this.middlewareHandler(m)), (req, res, next) =>
+				handler(this.server, req, res, next)
+			)
+		);
+	}
+
+	private middlewareHandler(middleware: Middleware) {
+		return (req: Request, res: Response, next: NextFunction) => middleware(this.server, req, res, next);
 	}
 
 	private readdirRecursive(directory: string, results: string[] = []) {
@@ -27,7 +36,7 @@ export class Api {
 		for (const file of files) {
 			const filePath = join(directory, file);
 
-			if (statSync(filePath).isDirectory()) results = this.readdirRecursive(filePath);
+			if (statSync(filePath).isDirectory()) results = this.readdirRecursive(filePath, results);
 			else results.push(filePath);
 		}
 
