@@ -12,6 +12,7 @@ import { PrismaClient } from "@prisma/client";
 import osUtils from "node-os-utils";
 import pidusage from "pidusage";
 import { readdir, stat } from "node:fs/promises";
+import { AuditLog } from "./lib/AuditLog.js";
 
 export default class Server {
 	public logger: Logger;
@@ -19,6 +20,7 @@ export default class Server {
 	public api = new Api(this);
 
 	public prisma = new PrismaClient();
+	public adminAuditLogs = new AuditLog(this, "admin");
 
 	public cpuUsage = 0;
 	public storageUsage = 0;
@@ -101,6 +103,7 @@ export default class Server {
 
 		await this.api.start();
 		await this.config.start();
+		await this.adminAuditLogs.start();
 
 		await this.next.prepare();
 		const handler = this.next.getRequestHandler();
