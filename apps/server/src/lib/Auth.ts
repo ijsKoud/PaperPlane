@@ -2,6 +2,8 @@ import { generateSecret, generateToken, verifyToken } from "node-2fa";
 import Jwt from "jsonwebtoken";
 import _ from "lodash";
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
+import type { NextFunction, Request, Response } from "express";
+import type Server from "../Server.js";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Auth {
@@ -61,5 +63,19 @@ export class Auth {
 		const token = decrypted.toString();
 
 		return token;
+	}
+
+	public static adminMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
+		try {
+			const authCookie: string = req.cookies["PAPERPLANE-ADMIN"] ?? "";
+			if (!authCookie) throw new Error("Unauthorized");
+
+			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, "admin");
+			if (!verify) throw new Error("Unauthorized");
+
+			next();
+		} catch (err) {
+			res.status(401).send({ message: err.message });
+		}
 	}
 }
