@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!stateRes.data.admin)
 		return {
 			redirect: {
-				destination: "/login",
+				destination: "/login?user=admin",
 				permanent: false
 			}
 		};

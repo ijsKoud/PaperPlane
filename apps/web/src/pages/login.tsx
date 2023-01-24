@@ -10,6 +10,8 @@ import { PulseLoader } from "react-spinners";
 import { useState } from "react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	const _user = context.query?.user;
+	const user = Array.isArray(_user) ? _user[0] : _user ?? "";
 	const domainsRes = await axios.get<{ options: SelectOption[]; mode: "2fa" | "password" }>(
 		`${getProtocol()}${context.req.headers.host}/api/auth/accounts`,
 		{
@@ -19,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
-			domain: context.req.headers.host,
+			domain: user || context.req.headers.host,
 			domains: domainsRes.data.options,
 			mode: domainsRes.data.mode
 		}
