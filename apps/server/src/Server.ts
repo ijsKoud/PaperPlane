@@ -9,6 +9,9 @@ import { Config, Logger, Api } from "./lib/index.js";
 import { LogLevel } from "@snowcrystals/icicle";
 import { readFileSync } from "node:fs";
 import { PrismaClient } from "@prisma/client";
+import osUtils from "node-os-utils";
+import pidusage from "pidusage";
+import { readdir, stat } from "node:fs/promises";
 
 export default class Server {
 	public logger: Logger;
@@ -17,6 +20,11 @@ export default class Server {
 
 	public prisma = new PrismaClient();
 
+	public cpuUsage = 0;
+	public storageUsage = 0;
+	public memory = { usage: 0, total: 0 };
+
+	public uptime = 0;
 	public dev: boolean;
 
 	public _server!: HttpServer;
@@ -29,7 +37,7 @@ export default class Server {
 
 		return {
 			...this.config.config,
-			version
+			version: version as string
 		};
 	}
 
@@ -38,6 +46,43 @@ export default class Server {
 		this.express = express();
 
 		this.logger = new Logger({ level: this.dev ? LogLevel.Debug : LogLevel.Info });
+
+		const updateUsage = async () => {
+			const pid = await pidusage(process.pid);
+			const memory = osUtils.mem.totalMem();
+
+			this.memory = {
+				total: memory,
+				usage: pid.memory
+			};
+
+			this.uptime = pid.elapsed;
+
+			const cpuUsage = await osUtils.cpu.usage();
+			this.cpuUsage = cpuUsage;
+
+			const sizeOfDir = async (directory: string): Promise<number> => {
+				const files = await readdir(directory);
+
+				let size = 0;
+				for (let i = 0, L = files.length; i !== L; ++i) {
+					const sta = await stat(join(directory, files[i]));
+					size += sta.size;
+				}
+
+				return size;
+			};
+
+			const storage = await sizeOfDir(join(process.cwd(), "..", "..", "data"));
+			this.storageUsage = storage;
+		};
+
+		void updateUsage();
+		setInterval(() => void updateUsage(), 6e4);
+		setInterval(async () => {
+			const pid = await pidusage(process.pid);
+			this.uptime = pid.elapsed;
+		}, 1e4);
 	}
 
 	public async run() {
