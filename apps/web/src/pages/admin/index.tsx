@@ -25,7 +25,7 @@ const AdminPanel: NextPage = () => {
 	return (
 		<AdminLayout>
 			<div className="w-full h-80 flex gap-8 items-center px-2 max-md:flex-col max-md:h-auto">
-				<DashboardStorageUsage used={7.7e9} total={1e10} />
+				<DashboardStorageUsage storageUsage={7.7e9} cpuUsage={0} memoryTotal={0} memoryUsage={0} />
 				<AdminStatistics users={13} auth="2FA" signupMode="closed" uptime={624_000} />
 			</div>
 			<div className="w-full px-2">
