@@ -7,11 +7,19 @@ interface Props {
 	headPosition: TableHeadProps["position"];
 	heads: string[];
 	children: React.ReactNode[];
+	colgroups?: (number | string)[];
 }
 
-export const Table: React.FC<Props> = ({ className, headClassName, heads, headPosition, children }) => {
+export const Table: React.FC<Props> = ({ className, headClassName, heads, headPosition, children, colgroups }) => {
 	return (
 		<table className={className}>
+			{colgroups && (
+				<colgroup>
+					{colgroups.map((col, key) => (
+						<col span={1} key={key} style={{ width: col, minWidth: col }} />
+					))}
+				</colgroup>
+			)}
 			<thead>
 				<tr>
 					{heads.map((head, index) => (

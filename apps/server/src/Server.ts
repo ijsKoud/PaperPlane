@@ -5,14 +5,12 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { join } from "node:path";
 import next from "next";
-import { Config, Logger, Api } from "./lib/index.js";
+import { Config, Logger, Api, Utils, AuditLog, Domains } from "./lib/index.js";
 import { LogLevel } from "@snowcrystals/icicle";
 import { readFileSync } from "node:fs";
 import { PrismaClient } from "@prisma/client";
 import osUtils from "node-os-utils";
 import pidusage from "pidusage";
-import { readdir, stat } from "node:fs/promises";
-import { AuditLog } from "./lib/AuditLog.js";
 
 export default class Server {
 	public logger: Logger;
@@ -21,6 +19,8 @@ export default class Server {
 
 	public prisma = new PrismaClient();
 	public adminAuditLogs = new AuditLog(this, "admin");
+
+	public domains = new Domains(this);
 
 	public cpuUsage = 0;
 	public storageUsage = 0;
@@ -63,19 +63,7 @@ export default class Server {
 			const cpuUsage = await osUtils.cpu.usage();
 			this.cpuUsage = cpuUsage;
 
-			const sizeOfDir = async (directory: string): Promise<number> => {
-				const files = await readdir(directory);
-
-				let size = 0;
-				for (let i = 0, L = files.length; i !== L; ++i) {
-					const sta = await stat(join(directory, files[i]));
-					size += sta.size;
-				}
-
-				return size;
-			};
-
-			const storage = await sizeOfDir(join(process.cwd(), "..", "..", "data"));
+			const storage = await Utils.sizeOfDir(join(process.cwd(), "..", "..", "data"));
 			this.storageUsage = storage;
 		};
 
@@ -104,6 +92,7 @@ export default class Server {
 		await this.api.start();
 		await this.config.start();
 		await this.adminAuditLogs.start();
+		await this.domains.start();
 
 		await this.next.prepare();
 		const handler = this.next.getRequestHandler();

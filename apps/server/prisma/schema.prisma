@@ -11,7 +11,8 @@ datasource db {
 }
 
 model Domain {
-  domain   String  @id
+  domain   String   @id
+  date     DateTime @default(now())
   disabled Boolean
 
   password        String?
