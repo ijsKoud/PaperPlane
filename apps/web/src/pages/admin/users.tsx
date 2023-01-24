@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminUserToolbar, Table, TableEntry } from "@paperplane/ui";
+import { AdminLayout, AdminUserToolbar, CreateUserModal, Table, TableEntry } from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { AdminUserSort, formatBytes, formatDate, getProtocol, UsersApi } from "@paperplane/utils";
 import axios from "axios";
@@ -39,12 +39,17 @@ const AdminPanelUsers: NextPage = () => {
 		if (domainData) setDomains(domainData);
 	}, [domainData]);
 
+	const [createModal, setCreateModal] = useState(false);
+
 	return (
 		<AdminLayout className="max-w-[1250px]">
+			<CreateUserModal isNew isOpen={createModal} onClick={() => setCreateModal(false)} />
 			<div className="w-full px-2">
 				<div className="flex justify-between items-center w-full">
 					<h1 className="text-3xl">Users</h1>
-					<TertiaryButton type="button">Create</TertiaryButton>
+					<TertiaryButton type="button" onClick={() => setCreateModal(true)}>
+						Create
+					</TertiaryButton>
 				</div>
 				<AdminUserToolbar page={domains.pages} setPage={setPage} pages={page} setSearch={setSearch} setSort={setSort} sort={sort} />
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2 mt-8">

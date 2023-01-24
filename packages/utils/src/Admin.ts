@@ -63,3 +63,12 @@ export interface Domain {
 	storage: number;
 	uploadSize: number;
 }
+
+export const TIME_UNITS = [
+	{ label: "Seconds", value: "s" },
+	{ label: "Minutes", value: "m" },
+	{ label: "Days", value: "d" },
+	{ label: "Weeks", value: "w" },
+	{ label: "Months", value: "mth" },
+	{ label: "Years", value: "y" }
+] as const;

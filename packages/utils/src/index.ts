@@ -2,6 +2,7 @@ import { Timestamp } from "@sapphire/timestamp";
 import packageJSON from "../../../package.json";
 
 export const PAPERPLANE_VERSION = packageJSON.version;
+export const STORAGE_UNITS = ["B", "kB", "MB", "GB", "TB", "PB"] as const;
 
 export const parseReleaseMarkdown = (release: string): string => {
 	const getUrlString = (pr: string): string => {
@@ -27,8 +28,6 @@ export const getCircleColor = (percentage: number): string => {
 
 export const formatBytes = (bytes: number) => {
 	if (bytes === Infinity) return "Infinity";
-
-	const units = ["B", "kB", "MB", "GB", "TB", "PB"];
 	let num = 0;
 
 	while (bytes > 1024) {
@@ -36,7 +35,7 @@ export const formatBytes = (bytes: number) => {
 		++num;
 	}
 
-	return `${bytes.toFixed(1)} ${units[num]}`;
+	return `${bytes.toFixed(1)} ${STORAGE_UNITS[num]}`;
 };
 
 export const formatDate = (date: Date): string => {
