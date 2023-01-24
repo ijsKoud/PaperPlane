@@ -72,3 +72,5 @@ export const TIME_UNITS = [
 	{ label: "Months", value: "mth" },
 	{ label: "Years", value: "y" }
 ] as const;
+
+export const TIME_UNITS_ARRAY = ["s", "m", "d", "w", "mth", "y"] as const;
