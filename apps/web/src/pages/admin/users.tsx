@@ -26,7 +26,7 @@ const AdminPanelUsers: NextPage = () => {
 	const emptyFunction = () => void 0;
 
 	return (
-		<AdminLayout>
+		<AdminLayout className="max-w-[1250px]">
 			<div className="w-full px-2">
 				<div className="flex justify-between items-center w-full">
 					<h1 className="text-3xl">Users</h1>
@@ -43,12 +43,15 @@ const AdminPanelUsers: NextPage = () => {
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2 mt-8">
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
 						<Table
-							className="w-full min-w-[750px]"
+							className="w-full min-w-[960px]"
 							headPosition="left"
 							heads={["Domain", "Date", "Locked", "Storage Limit", "Storage Usage", "Options"]}
+							colgroups={[192, 192, 96, 192, 192, 96]}
 						>
 							<TableEntry>
-								<td>cdn.ijskoud.dev</td>
+								<td title="cdn.ijskoud.dev" className="overflow-hidden text-ellipsis whitespace-nowrap pr-1 max-w-[192px]">
+									cdn.ijskoud.dev
+								</td>
 								<td>12 Dec. 2022 4:32 PM</td>
 								<td>
 									<i className="fa-solid fa-xmark" />
@@ -66,7 +69,9 @@ const AdminPanelUsers: NextPage = () => {
 								</td>
 							</TableEntry>
 							<TableEntry>
-								<td>cdn.ijskoud.dev</td>
+								<td title="cdn.ijskoud.dev" className="overflow-hidden text-ellipsis whitespace-nowrap pr-1 max-w-[192px]">
+									cdn.ijskoud.dev
+								</td>
 								<td>12 Dec. 2022 4:32 PM</td>
 								<td>
 									<i className="fa-solid fa-xmark" />
