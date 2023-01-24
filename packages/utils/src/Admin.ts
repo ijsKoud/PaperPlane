@@ -41,7 +41,7 @@ export interface AuditLogApi {
 }
 
 export interface AuditLogEntry {
-	action: string;
+	type: string;
 	details: string;
 	date: Date;
 }

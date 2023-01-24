@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { AdminLayout, AdminStatistics, AdminUsage, AuditLogToolbar, Table, TableEntry } from "@paperplane/ui";
 import axios from "axios";
-import { AuditLogApi, getProtocol, ServiceApi } from "@paperplane/utils";
+import { AuditLogApi, formatDate, getProtocol, ServiceApi } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
 
@@ -71,36 +71,13 @@ const AdminPanel: NextPage = () => {
 					</div>
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
 						<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "Details", "Date"]}>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>cdn.ijskoud.dev</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>cdn.ijskoud.dev</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>cdn.ijskoud.dev</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>cdn.ijskoud.dev</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>cdn.ijskoud.dev</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>cdn.ijskoud.dev</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
+							{auditLogData.entries.map((entry, key) => (
+								<TableEntry key={key}>
+									<td>{entry.type}</td>
+									<td>{entry.details}</td>
+									<td>{formatDate(entry.date)}</td>
+								</TableEntry>
+							))}
 						</Table>
 					</div>
 				</div>
