@@ -1,35 +1,25 @@
-import { formatBytes } from "@paperplane/utils";
+import { formatBytes, getCircleColor } from "@paperplane/utils";
 import type React from "react";
+import { CircleProgressBar } from "../index";
 
 interface Props {
-	storageUsage: number;
-	cpuUsage: number;
-
-	memoryUsage: number;
-	memoryTotal: number;
+	used: number;
+	total: number;
 }
 
-export const DashboardStorageUsage: React.FC<Props> = ({ storageUsage, memoryTotal, memoryUsage, cpuUsage }) => {
+export const DashboardStorageUsage: React.FC<Props> = ({ used, total }) => {
+	const percentage = (used / total) * 100;
+
 	return (
-		<div className="h-full flex flex-col justify-between max-md:w-full max-md:gap-2">
-			<div className="bg-main rounded-xl flex flex-col justify-center items-center min-w-[16rem] px-2 py-5 max-md:w-full">
-				<h1 className="text-lg">Storage Usage</h1>
-				<p className="text-base">
-					<strong>{formatBytes(storageUsage)}</strong> used
-				</p>
+		<div className="bg-main rounded-xl flex flex-col justify-center items-center gap-7 h-full min-w-[16rem] max-md:w-full max-md:py-4">
+			<h1 className="text-lg">Storage Usage</h1>
+			<div className="relative h-40 w-40">
+				<CircleProgressBar percentage={percentage} color={getCircleColor(percentage)} />
+				<p className="absolute text-3xl left-0 top-0 right-0 text-center translate-y-3/4">{percentage}%</p>
 			</div>
-			<div className="bg-main rounded-xl flex flex-col justify-center items-center min-w-[16rem] px-2 py-5 max-md:w-full">
-				<h1 className="text-lg">Cpu Usage</h1>
-				<p className="text-base">
-					<strong>{cpuUsage}%</strong> in use
-				</p>
-			</div>
-			<div className="bg-main rounded-xl flex flex-col justify-center items-center min-w-[16rem] px-2 py-5 max-md:w-full">
-				<h1 className="text-lg">Memory Usage</h1>
-				<p className="text-small font-normal">
-					<strong>{formatBytes(memoryUsage)}</strong> of the {<strong>{formatBytes(memoryTotal)}</strong>} in use
-				</p>
-			</div>
+			<p>
+				<strong>{formatBytes(used)}</strong> out of <strong>{formatBytes(total)}</strong> used
+			</p>
 		</div>
 	);
 };

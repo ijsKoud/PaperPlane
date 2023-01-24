@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
+import { AdminLayout, AdminStatistics, AdminUsage, Table, TableEntry } from "@paperplane/ui";
 import axios from "axios";
 import { getProtocol, ServiceApi } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
@@ -45,7 +45,7 @@ const AdminPanel: NextPage = () => {
 	return (
 		<AdminLayout>
 			<div className="w-full h-80 flex gap-6 items-center px-2 max-md:flex-col max-md:h-auto">
-				<DashboardStorageUsage
+				<AdminUsage
 					storageUsage={service.storageUsage}
 					cpuUsage={service.cpuUsage}
 					memoryTotal={service.memory.total}
