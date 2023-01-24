@@ -7,7 +7,7 @@ interface Props {
 	uptime: number;
 
 	signupMode: "open" | "closed" | "invite";
-	auth: "2FA" | "Password";
+	auth: "2fa" | "password";
 }
 
 export const AdminStatistics: React.FC<Props> = ({ users, uptime, signupMode, auth }) => {
