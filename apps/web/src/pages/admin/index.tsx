@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { AdminLayout, AdminStatistics, AdminUsage, AuditLogToolbar, Table, TableEntry } from "@paperplane/ui";
 import axios from "axios";
-import { getProtocol, ServiceApi } from "@paperplane/utils";
+import { AuditLogApi, getProtocol, ServiceApi } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
 
@@ -34,13 +34,23 @@ const AdminPanel: NextPage = () => {
 		users: 0,
 		version: "0.0.0"
 	});
-	const { data } = useSwrWithUpdates<ServiceApi>("/api/admin/service", undefined, (url) =>
+	const { data: serviceData } = useSwrWithUpdates<ServiceApi>("/api/admin/service", undefined, (url) =>
 		axios({ url, withCredentials: true }).then((res) => res.data)
 	);
 
+	const [page, setPage] = useState(0);
+	const [search, setSearch] = useState("");
+	const [auditLogData, setAuditLogData] = useState<AuditLogApi>({ entries: [], pages: 0 });
+	const { data: auditData } = useSwrWithUpdates<AuditLogApi>(
+		`/api/admin/audit?page=${page}&search=${encodeURIComponent(search)}`,
+		undefined,
+		(url) => axios({ url, withCredentials: true }).then((res) => res.data)
+	);
+
 	useEffect(() => {
-		if (data) setService(data);
-	}, [data]);
+		if (serviceData) setService(serviceData);
+		if (auditData) setAuditLogData(auditData);
+	}, [serviceData, auditData]);
 
 	return (
 		<AdminLayout>
@@ -57,7 +67,7 @@ const AdminPanel: NextPage = () => {
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
 					<div className="mb-2">
 						<h1 className="text-xl max-sm:text-center">Audit Logs</h1>
-						<AuditLogToolbar page={0} pages={0} setPage={() => void 0} setSearch={() => void 0} />
+						<AuditLogToolbar page={page} pages={auditLogData.pages} setPage={setPage} setSearch={setSearch} />
 					</div>
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
 						<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "Details", "Date"]}>
