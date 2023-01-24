@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminStatistics, AdminUsage, Table, TableEntry } from "@paperplane/ui";
+import { AdminLayout, AdminStatistics, AdminUsage, AuditLogToolbar, Table, TableEntry } from "@paperplane/ui";
 import axios from "axios";
 import { getProtocol, ServiceApi } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
@@ -55,9 +55,12 @@ const AdminPanel: NextPage = () => {
 			</div>
 			<div className="w-full px-2">
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
-					<h1 className="text-xl">Audit Logs</h1>
+					<div className="mb-2">
+						<h1 className="text-xl">Audit Logs</h1>
+						<AuditLogToolbar page={0} pages={0} setPage={() => void 0} setSearch={() => void 0} />
+					</div>
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
-						<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "User", "Date"]}>
+						<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "Details", "Date"]}>
 							<TableEntry>
 								<td>Image Uploaded</td>
 								<td>cdn.ijskoud.dev</td>

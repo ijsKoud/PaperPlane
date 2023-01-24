@@ -36,6 +36,16 @@ export const SelectMenuStyles = {
 			focused: "outline-highlight"
 		}
 	},
+	primary: {
+		multiValue: "!bg-primary-400",
+		selectMenuComponent: "border-primary-600 bg-[#2c3135]",
+		SelectOption: "bg-primary-400",
+		selectControl: {
+			default: "bg-primary-200",
+			disabled: "bg-primary-200 border-primary-600",
+			focused: "outline-primary"
+		}
+	},
 	main: {
 		multiValue: "!bg-main-400",
 		selectMenuComponent: "border-white-100 bg-main",

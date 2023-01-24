@@ -1,5 +1,6 @@
 export const InputStyles = {
 	tertiary: "bg-highlight-200 border-highlight-600 focus:outline-highlight disabled:bg-white-100 disabled:border-white-200",
+	primary: "bg-primary-200 border-primary-600 focus:outline-primary disabled:bg-white-100 disabled:border-white-200",
 	main: "bg-main border-white-100 focus:outline-white-400 disabled:bg-white-100 disabled:border-white-200"
 };
 
