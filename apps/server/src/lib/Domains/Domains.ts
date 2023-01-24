@@ -19,4 +19,8 @@ export class Domains {
 		if (includeDisabled) return this.domains;
 		return this.domains.filter((domain) => !domain.disabled);
 	}
+
+	public get(domain: string): Domain | undefined {
+		return this.domains.get(domain);
+	}
 }

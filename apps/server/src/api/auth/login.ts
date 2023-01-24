@@ -5,7 +5,7 @@ import { Auth } from "../../lib/Auth.js";
 import type { RequestMethods } from "../../lib/types.js";
 import type Server from "../../Server.js";
 
-export default async function handler(server: Server, req: Request, res: Response) {
+export default function handler(server: Server, req: Request, res: Response) {
 	const { domain: _domain, code, password } = req.body ?? {};
 
 	if (typeof _domain !== "string") {
@@ -13,9 +13,19 @@ export default async function handler(server: Server, req: Request, res: Respons
 		return;
 	}
 
-	const domain = await server.prisma.domain.findFirst({ where: { domain: _domain, disabled: false } });
+	const domain = server.domains.get(_domain);
 	if (!domain && _domain !== "admin") {
 		res.status(400).send({ message: "Invalid domain provided" });
+		return;
+	}
+
+	const authSecret = domain!.secret;
+	if (!authSecret.length) {
+		if (typeof code === "string" && code.startsWith("BC-")) {
+			// TODO: use back-up code
+		}
+
+		res.status(400).send({ message: "Invalid account provided" });
 		return;
 	}
 
@@ -41,7 +51,12 @@ export default async function handler(server: Server, req: Request, res: Respons
 			return;
 		}
 
-		const authSecret = domain!.twoFactorSecret!;
+		const authSecret = domain!.secret;
+		if (!authSecret.length) {
+			res.status(400).send({ message: "Invalid account provided" });
+			return;
+		}
+
 		const authRes = Auth.verify2FASecret(authSecret, code);
 		if (!authRes || authRes.delta !== 0) {
 			res.status(400).send({ message: "Invalid Two Factor Authentication code provided" });
@@ -60,7 +75,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 		return;
 	}
 
-	const [salt, key] = Auth.decryptToken(domain!.password!, server.envConfig.encryptionKey).split(":");
+	const [salt, key] = Auth.decryptToken(domain!.secret, server.envConfig.encryptionKey).split(":");
 	const passwordBuffer = scryptSync(password, salt, 64);
 
 	const keyBuffer = Buffer.from(key, "hex");
