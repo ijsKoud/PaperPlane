@@ -1,14 +1,23 @@
 import type Server from "../Server.js";
 import type { Auditlog } from "@prisma/client";
 import { bold } from "colorette";
+import { UAParser } from "ua-parser-js";
 
 export class AuditLog {
 	public logs: Auditlog[] = [];
+
+	private _queue: Omit<Auditlog, "id" | "user" | "date">[] = [];
+	private _queueTimeout: NodeJS.Timeout | null = null;
 
 	public constructor(public server: Server, public user: string) {}
 
 	public async start() {
 		this.logs = await this.server.prisma.auditlog.findMany({ where: { user: this.user } }).catch(() => []);
+	}
+
+	public register(type: string, details: string) {
+		this._queue.push({ type, details });
+		this.queueUpdate();
 	}
 
 	public async removeExpired() {
@@ -25,5 +34,28 @@ export class AuditLog {
 		} catch (err) {
 			this.server.logger.fatal(`[AUDITLOG]: Error while deleting expired logs for ${bold(this.user)}: `, err);
 		}
+	}
+
+	private queueUpdate() {
+		if (this._queueTimeout) return;
+
+		const timeoutFunction = async () => {
+			const createLog = (details: string, type: string) =>
+				this.server.prisma.auditlog
+					.create({ data: { user: this.user, details, type } })
+					.then((log) => this.logs.push(log))
+					.catch(() => void 0);
+
+			await Promise.all(this._queue.map(({ details, type }) => createLog(details, type)));
+			this._queue = [];
+		};
+
+		const timeout = setTimeout(timeoutFunction.bind(this), 6e4);
+		this._queueTimeout = timeout;
+	}
+
+	public static getUserAgentData(userAgent: string | undefined) {
+		const parser = new UAParser(userAgent);
+		return parser.getResult();
 	}
 }

@@ -1602,6 +1602,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ua-parser-js@npm:^0.7.36":
+  version: 0.7.36
+  resolution: "@types/ua-parser-js@npm:0.7.36"
+  checksum: 8c24d4dc12ed1b8b98195838093391c358c81bf75e9cae0ecec8f7824b441e069daaa17b974a3e257172caddb671439f0c0b44bf43bfcf409b7a574a25aab948
+  languageName: node
+  linkType: hard
+
 "@types/unist@npm:*, @types/unist@npm:^2.0.0":
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
@@ -7551,6 +7558,7 @@ __metadata:
     "@types/node": ^17.0.12
     "@types/node-os-utils": ^1.3.0
     "@types/pidusage": ^2.0.2
+    "@types/ua-parser-js": ^0.7.36
     axios: ^1.2.3
     body-parser: ^1.20.1
     colorette: ^2.0.19
@@ -7566,6 +7574,7 @@ __metadata:
     pidusage: ^3.0.2
     prisma: ^4.9.0
     typescript: ^4.5.3
+    ua-parser-js: ^1.0.33
     winston: ^3.8.2
     winston-daily-rotate-file: ^4.7.1
   peerDependencies:
@@ -8433,6 +8442,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 1caaea6cb7f813e64345190fddc4e6c924d0b698ab81189b503763c4a18f7f5501c69362979d36e19c042d89d936443e768a78b0675690b35eb663d19e0eae71
+  languageName: node
+  linkType: hard
+
+"ua-parser-js@npm:^1.0.33":
+  version: 1.0.33
+  resolution: "ua-parser-js@npm:1.0.33"
+  checksum: 460adef51235267345b221842979b6b167543725d03f7c9c4f9ca6af4da835a71d016390da139d2b32828063c4730dcfae6e53b9dce815f4000be4e1fe1c7737
   languageName: node
   linkType: hard
 
