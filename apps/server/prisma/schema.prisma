@@ -24,6 +24,8 @@ model Domain {
 
   extensionsList String @default("") @map("extensions_list")
   extensionsMode String @default("block") @map("extensions_mode")
+
+  auditlogDuration String @map("audit_log_duration")
 }
 
 model SignupDomain {
