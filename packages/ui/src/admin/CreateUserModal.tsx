@@ -331,7 +331,7 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, onSubmit, isOpen, onCl
 								disabled={formik.isSubmitting || !formik.isValid}
 								onClick={formik.submitForm}
 							>
-								{formik.isSubmitting ? <PulseLoader color="#fff" /> : <>Create new user</>}
+								{formik.isSubmitting ? <PulseLoader color="#fff" /> : isNew ? <>Create new user</> : <>Update</>}
 							</PrimaryButton>
 						</Form>
 					)}
