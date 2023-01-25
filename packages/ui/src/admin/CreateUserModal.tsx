@@ -2,9 +2,9 @@ import { PrimaryButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
 import { useSwr } from "@paperplane/swr";
-import { CreateGetApi, formatBytes, parseToDay, STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
-import axios, { AxiosError } from "axios";
-import { Form, Formik, FormikHelpers } from "formik";
+import { CreateGetApi, formatBytes, STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
+import axios from "axios";
+import { Form, Formik } from "formik";
 import ms from "ms";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -15,10 +15,11 @@ interface Props {
 	isOpen: boolean;
 	onClick: () => void;
 
+	onSubmit: (...props: any) => void | Promise<void>;
 	isNew?: boolean;
 }
 
-interface CreateUserForm {
+export interface CreateUserForm {
 	domain?: string;
 	extension?: string;
 
@@ -35,20 +36,7 @@ interface CreateUserForm {
 	auditlogUnit: (typeof TIME_UNITS_ARRAY)[number];
 }
 
-interface CreateUserFormBody {
-	domain?: string;
-	extension?: string;
-
-	storage: string;
-	uploadSize: string;
-
-	extensions: string[];
-	extensionsMode: "block" | "pass";
-
-	auditlog: string;
-}
-
-export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => {
+export const CreateUserModal: React.FC<Props> = ({ isNew, onSubmit, isOpen, onClick }) => {
 	const [initValues, setInitValues] = useState<CreateUserForm>({
 		domain: "",
 		extension: "",
@@ -120,29 +108,6 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 	};
 
 	const schema = object(isNew ? withDomain : base);
-
-	const onSubmit = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
-		try {
-			await axios.post<any, any, CreateUserFormBody>("/api/admin/create", {
-				domain: values.domain,
-				extension: values.extension,
-				extensions: values.extensions,
-				extensionsMode: values.extensionsMode,
-				auditlog: parseToDay(values.auditlog, values.auditlogUnit),
-				storage: `${values.storage} ${values.storageUnit}`,
-				uploadSize: `${values.uploadSize} ${values.uploadSizeUnit}`
-			});
-		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "Unknown error, please try again later.";
-			helpers.resetForm({
-				values,
-				errors: Object.keys(values)
-					.map((key) => ({ [key]: error }))
-					.reduce((a, b) => ({ ...a, ...b }), {})
-			});
-		}
-	};
 
 	return (
 		<Modal isOpen={isOpen} onClick={onClick}>
