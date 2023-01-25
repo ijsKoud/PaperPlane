@@ -43,7 +43,7 @@ const AdminPanelUsers: NextPage = () => {
 
 	return (
 		<AdminLayout className="max-w-[1250px]">
-			<CreateUserModal isNew domains={[]} isOpen={createModal} onClick={() => setCreateModal(false)} />
+			<CreateUserModal isNew isOpen={createModal} onClick={() => setCreateModal(false)} />
 			<div className="w-full px-2">
 				<div className="flex justify-between items-center w-full">
 					<h1 className="text-3xl">Users</h1>

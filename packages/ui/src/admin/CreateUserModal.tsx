@@ -1,9 +1,13 @@
 import { PrimaryButton } from "@paperplane/buttons";
-import { Input, SelectMenu } from "@paperplane/forms";
+import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
-import { STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
+import { useSwr } from "@paperplane/swr";
+import { CreateGetApi, formatBytes, STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
+import axios from "axios";
 import { Form, Formik } from "formik";
+import ms from "ms";
 import type React from "react";
+import { useEffect, useState } from "react";
 import { array, number, object, string } from "yup";
 
 interface Props {
@@ -11,7 +15,6 @@ interface Props {
 	onClick: () => void;
 
 	isNew?: boolean;
-	domains?: string[];
 }
 
 interface CreateUserForm {
@@ -31,7 +34,52 @@ interface CreateUserForm {
 	auditlogUnit: (typeof TIME_UNITS_ARRAY)[number];
 }
 
-export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onClick }) => {
+export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => {
+	const [initValues, setInitValues] = useState<CreateUserForm>({
+		domain: "",
+		extension: "",
+		storage: 0,
+		storageUnit: "GB",
+		uploadSize: 0,
+		uploadSizeUnit: "GB",
+		extensions: [],
+		extensionsMode: "block",
+		auditlog: 1,
+		auditlogUnit: "mth"
+	});
+	const [domains, setDomains] = useState<string[]>([]);
+	const { data: createGetData } = useSwr<CreateGetApi>("/api/admin/create", undefined, (url) =>
+		axios.get(url, { withCredentials: true }).then((res) => res.data)
+	);
+
+	useEffect(() => {
+		const getStorage = (storage: number): string[] => {
+			const res = formatBytes(storage);
+			return res.split(/ +/g);
+		};
+
+		if (createGetData) {
+			const storage = getStorage(createGetData.defaults.maxStorage);
+			const upload = getStorage(createGetData.defaults.maxUploadSize);
+			const audit = ms(createGetData.defaults.auditlog).split("");
+
+			setInitValues({
+				domain: "",
+				extension: "",
+				extensions: createGetData.defaults.extensions,
+				extensionsMode: createGetData.defaults.extensionsMode,
+				storage: Number(storage[0]),
+				storageUnit: storage[1] as CreateUserForm["storageUnit"],
+				uploadSize: Number(upload[0]),
+				uploadSizeUnit: upload[1] as CreateUserForm["uploadSizeUnit"],
+				auditlog: Number(audit.filter((str) => !isNaN(Number(str))).reduce((a, b) => a + b, "")),
+				auditlogUnit: audit.filter((str) => isNaN(Number(str))).join("") as CreateUserForm["auditlogUnit"]
+			});
+
+			setDomains(createGetData.domains);
+		}
+	}, [createGetData]);
+
 	const base = {
 		storage: number().required("Storage is a required option").min(0, "Storage cannot be below 0"),
 		storageUnit: string()
@@ -42,7 +90,7 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onCli
 			.required()
 			.oneOf(STORAGE_UNITS as unknown as string[]),
 		extensions: array(string()).min(0).required(),
-		extensionMode: string().required().oneOf(["block", "pass"]),
+		extensionsMode: string().required().oneOf(["block", "pass"]),
 		auditlog: number().required("Audit log Duration is a required option").min(0, "Audit log duration cannot be below 0"),
 		auditlogUnit: string()
 			.required()
@@ -79,22 +127,7 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onCli
 						<h1 className="text-3xl">Update a PaperPlane account</h1>
 					)}
 				</div>
-				<Formik
-					validationSchema={schema}
-					initialValues={{
-						domain: "",
-						extension: "",
-						storage: 0,
-						storageUnit: "GB",
-						uploadSize: 0,
-						uploadSizeUnit: "GB",
-						extensions: [],
-						extensionsMode: "block",
-						auditlog: 1,
-						auditlogUnit: "mth"
-					}}
-					onSubmit={onSubmit}
-				>
+				<Formik validationSchema={schema} initialValues={initValues} onSubmit={onSubmit} validateOnMount>
 					{(formik) => (
 						<Form>
 							<ul className="w-full mt-4 max-h-[45vh] pr-2 overflow-y-auto max-sm:max-h-[35vh]">
@@ -104,12 +137,21 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onCli
 										<div className="flex items-center gap-2 w-full">
 											<Input
 												type="tertiary"
-												placeholder="Not available"
+												placeholder={
+													(formik.values.domain ?? "").startsWith("*.") ? "Add a domain extension" : "Not available"
+												}
 												className="max-sm:w-1/2"
-												value={formik.values.domain ?? ""}
-												onChange={(ctx) => formik.setFieldValue("domain", ctx.currentTarget.value)}
+												defaultValue={formik.initialValues.extension ?? ""}
+												disabled={!(formik.values.domain ?? "").startsWith("*.")}
+												onChange={(ctx) => formik.setFieldValue("extension", ctx.currentTarget.value)}
 											/>
-											<SelectMenu type="tertiary" placeholder="Select a domain" className="w-full max-sm:w-1/2" />
+											<SelectMenu
+												type="tertiary"
+												placeholder="Select a domain"
+												className="w-full max-sm:w-1/2"
+												options={domains.map((domain) => ({ label: domain, value: domain }))}
+												onChange={(value) => formik.setFieldValue("domain", (value as SelectOption).value)}
+											/>
 										</div>
 									</li>
 								)}
@@ -128,13 +170,16 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onCli
 											inputMode="decimal"
 											placeholder="Storage amount, 0=infinitive"
 											className="w-3/4 max-sm:w-1/2"
+											defaultValue={formik.initialValues.storage}
+											onChange={(ctx) => formik.setFieldValue("storage", Number(ctx.currentTarget.value))}
 										/>
 										<SelectMenu
 											type="tertiary"
 											placeholder="Select a unit"
 											className="w-1/4 max-sm:w-1/2"
 											options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
-											defaultValue={{ label: "GB", value: "GB" }}
+											onChange={(value) => formik.setFieldValue("storageUnit", (value as SelectOption).value)}
+											defaultValue={{ label: formik.initialValues.storageUnit, value: formik.initialValues.storageUnit }}
 										/>
 									</div>
 								</li>
@@ -151,15 +196,18 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onCli
 											type="tertiary"
 											formType="number"
 											inputMode="decimal"
-											placeholder="upload size amount, 0=infinitive"
+											placeholder="Upload size amount, 0=infinitive"
 											className="w-3/4 max-sm:w-1/2"
+											defaultValue={formik.initialValues.uploadSize}
+											onChange={(ctx) => formik.setFieldValue("uploadSize", Number(ctx.currentTarget.value))}
 										/>
 										<SelectMenu
 											type="tertiary"
 											placeholder="Select a unit"
 											className="w-1/4 max-sm:w-1/2"
 											options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
-											defaultValue={{ label: "GB", value: "GB" }}
+											onChange={(value) => formik.setFieldValue("uploadSizeUnit", (value as SelectOption).value)}
+											defaultValue={{ label: formik.initialValues.uploadSizeUnit, value: formik.initialValues.uploadSizeUnit }}
 										/>
 									</div>
 								</li>
@@ -178,6 +226,8 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onCli
 											inputMode="text"
 											placeholder=".<extension>,...etc (e.x.: .png,.jpg)"
 											className="w-3/4 max-sm:w-1/2"
+											defaultValue={formik.initialValues.extensions.join(",")}
+											onChange={(ctx) => formik.setFieldValue("extensions", ctx.currentTarget.value.split(","))}
 										/>
 										<SelectMenu
 											type="tertiary"
@@ -187,7 +237,11 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onCli
 												{ label: "Mode: block", value: "block" },
 												{ label: "Mode: pass", value: "pass" }
 											]}
-											defaultValue={{ label: "Mode: block", value: "block" }}
+											onChange={(value) => formik.setFieldValue("extensionsMode", (value as SelectOption).value)}
+											defaultValue={{
+												label: `Mode: ${formik.initialValues.extensionsMode}`,
+												value: formik.initialValues.extensionsMode
+											}}
 										/>
 									</div>
 								</li>
@@ -206,13 +260,16 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, domains, isOpen, onCli
 											inputMode="decimal"
 											placeholder="Duration, 0=infinitive"
 											className="w-3/4 max-sm:w-1/2"
+											defaultValue={formik.initialValues.auditlog}
+											onChange={(ctx) => formik.setFieldValue("auditlog", Number(ctx.currentTarget.value))}
 										/>
 										<SelectMenu
 											type="tertiary"
 											placeholder="Select a unit"
 											className="w-1/4 max-sm:w-1/2"
 											options={TIME_UNITS}
-											defaultValue={{ label: "Days", value: "d" }}
+											defaultValue={TIME_UNITS.find((unit) => unit.value === formik.initialValues.auditlogUnit)}
+											onChange={(value) => formik.setFieldValue("auditlogUnit", (value as SelectOption).value)}
 										/>
 									</div>
 								</li>

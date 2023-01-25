@@ -64,6 +64,17 @@ export interface Domain {
 	uploadSize: number;
 }
 
+export interface CreateGetApi {
+	domains: string[];
+	defaults: {
+		extensions: string[];
+		extensionsMode: "block" | "pass";
+		maxStorage: number;
+		maxUploadSize: number;
+		auditlog: number;
+	};
+}
+
 export const TIME_UNITS = [
 	{ label: "Seconds", value: "s" },
 	{ label: "Minutes", value: "m" },
