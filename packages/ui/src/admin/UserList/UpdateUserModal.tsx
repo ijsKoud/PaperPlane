@@ -120,7 +120,7 @@ export const UpdateUserModal: React.FC<Props> = ({ domains, onSubmit, isOpen, on
 												type="checkbox"
 												title="Disable/Enable Domain"
 												defaultChecked={formik.values.disabled}
-												onChange={(ctx) => formik.setFieldValue("disabled", ctx.currentTarget.checked)}
+												onClick={(ctx) => formik.setFieldValue("disabled", ctx.currentTarget.checked)}
 											/>
 											<p className="text-red text-left text-small font-normal">
 												{formik.errors.storageUnit && `* ${formik.errors.storageUnit}`}&#8203;
