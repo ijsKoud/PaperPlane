@@ -13,7 +13,7 @@ import { array, number, object, string, boolean } from "yup";
 
 interface Props {
 	isOpen: boolean;
-	domain?: string | undefined;
+	domains: string[];
 
 	onClick: () => void;
 	onSubmit: (...props: any) => void | Promise<void>;
@@ -35,7 +35,7 @@ export interface CreateUserForm {
 	auditlogUnit: (typeof TIME_UNITS_ARRAY)[number];
 }
 
-export const UpdateUserModal: React.FC<Props> = ({ domain, onSubmit, isOpen, onClick }) => {
+export const UpdateUserModal: React.FC<Props> = ({ domains, onSubmit, isOpen, onClick }) => {
 	const [initValues, setInitValues] = useState<CreateUserForm>({
 		disabled: false,
 		storage: 0,
@@ -47,8 +47,10 @@ export const UpdateUserModal: React.FC<Props> = ({ domain, onSubmit, isOpen, onC
 		auditlog: 1,
 		auditlogUnit: "mth"
 	});
-	const { data: createGetData } = useSwr<CreateGetApi>(domain ? `/api/admin/domain?domain=${domain}` : "/api/admin/create", undefined, (url) =>
-		axios.get(url, { withCredentials: true }).then((res) => res.data)
+	const { data: createGetData } = useSwr<CreateGetApi>(
+		domains.length === 1 ? `/api/admin/domain?domain=${domains[0]}` : "/api/admin/create",
+		undefined,
+		(url) => axios.get(url, { withCredentials: true }).then((res) => res.data)
 	);
 
 	useEffect(() => {
@@ -98,7 +100,7 @@ export const UpdateUserModal: React.FC<Props> = ({ domain, onSubmit, isOpen, onC
 		<Modal isOpen={isOpen} onClick={onClick}>
 			<div className="max-w-[50vw] max-xl:max-w-[75vw] max-md:max-w-[100vw]">
 				<div>
-					<h1 className="text-3xl">{domain ? "Update a PaperPlane account" : "Update PaperPlane accounts"}</h1>
+					<h1 className="text-3xl">{domains.length === 1 ? "Update a PaperPlane account" : "Update PaperPlane accounts"}</h1>
 				</div>
 				<Formik validationSchema={schema} initialValues={initValues} onSubmit={onSubmit} validateOnMount enableReinitialize>
 					{(formik) => (

@@ -120,6 +120,7 @@ const AdminPanelUsers: NextPage = () => {
 	const enableDeleteBulk = () => setDeleteBulk(true);
 
 	const _onSubmitBulk = async (values: CreateUserForm & { disabled: boolean }, helpers: FormikHelpers<CreateUserForm>) => {
+		console.log(values);
 		try {
 			await axios.put<any, any, CreateUserFormBody & { domains: string[]; disabled: boolean }>("/api/admin/create", {
 				domains: selected,
@@ -200,6 +201,7 @@ const AdminPanelUsers: NextPage = () => {
 			<CreateUserModal onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
 			<UpdateUserModal domains={selected} onSubmit={onSubmitBulk} isOpen={editBulk} onClick={() => setEditBulk(false)} />
 			<AdminDeleteBanner items={selected} settings={enableEditBulk} cancel={() => setSelected([])} deleteFn={enableDeleteBulk} />
+
 			<div className="w-full px-2">
 				<div className="flex justify-between items-center w-full">
 					<h1 className="text-3xl">Users</h1>
