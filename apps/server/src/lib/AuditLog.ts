@@ -49,7 +49,9 @@ export class AuditLog {
 					.catch(() => void 0);
 
 			await Promise.all(this._queue.map(({ details, type }) => createLog(details, type)));
+
 			this._queue = [];
+			this._queueTimeout = null;
 		};
 
 		const timeout = setTimeout(timeoutFunction.bind(this), 6e4);
