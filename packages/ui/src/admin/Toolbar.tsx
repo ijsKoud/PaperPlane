@@ -46,11 +46,11 @@ export const AdminUserToolbar: React.FC<Props> = ({ sort, setSort, page, pages, 
 		<div className="w-full flex justify-between items-center mt-4 gap-4 flex-wrap max-[512px]:flex-col max-[512px]:flex-nowrap">
 			<Input type="main" placeholder="Search for a user" onInputCapture={(ctx) => setSearch(ctx.currentTarget.value)} />
 			<div className="flex gap-4">
-				<TransparentButton type="button" onClick={previousPage}>
+				<TransparentButton type="button" onClick={previousPage} disabled={page <= 0}>
 					<i className="fa-solid fa-angle-left text-lg" />
 				</TransparentButton>
 				<SelectMenu type="main" placeholder="page" options={pageOptions} value={pageValue} onChange={onPageChange} />
-				<TransparentButton type="button" onClick={nextPage}>
+				<TransparentButton type="button" onClick={nextPage} disabled={page >= pages - 1}>
 					<i className="fa-solid fa-angle-right text-lg" />
 				</TransparentButton>
 			</div>

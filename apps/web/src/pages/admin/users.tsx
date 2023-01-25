@@ -101,7 +101,7 @@ const AdminPanelUsers: NextPage = () => {
 						Create
 					</TertiaryButton>
 				</div>
-				<AdminUserToolbar page={domains.pages} setPage={setPage} pages={page} setSearch={setSearch} setSort={setSort} sort={sort} />
+				<AdminUserToolbar page={page} setPage={setPage} pages={domains.pages} setSearch={setSearch} setSort={setSort} sort={sort} />
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2 mt-8">
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
 						<Table
