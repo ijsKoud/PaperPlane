@@ -26,6 +26,13 @@ model Domain {
   extensionsMode String @default("block") @map("extensions_mode")
 }
 
+model SignupDomain {
+  domain String   @id
+  Date   DateTime @default(now())
+
+  @@map("signup_domain")
+}
+
 model Auditlog {
   id   String   @id @unique @default(uuid())
   date DateTime @default(now())
