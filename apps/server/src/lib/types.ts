@@ -105,3 +105,16 @@ export interface CreateUserFormBody {
 
 	auditlog: string;
 }
+
+export interface UpdateUserFormBody {
+	disabled: boolean;
+	domains: string[];
+
+	storage: string;
+	uploadSize: string;
+
+	extensions: string[];
+	extensionsMode: "block" | "pass";
+
+	auditlog: string;
+}
