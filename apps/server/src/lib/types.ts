@@ -92,3 +92,16 @@ export const AdminUserSortNames = {
 	[AdminUserSort.NAME_A_Z]: "Name: A - Z",
 	[AdminUserSort.NAME_Z_A]: "Name: Z - A"
 } as const;
+
+export interface CreateUserFormBody {
+	domain?: string;
+	extension?: string;
+
+	storage: string;
+	uploadSize: string;
+
+	extensions: string[];
+	extensionsMode: "block" | "pass";
+
+	auditlog: string;
+}

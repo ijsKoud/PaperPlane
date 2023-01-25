@@ -11,6 +11,8 @@ datasource db {
 }
 
 model Domain {
+  pathId String @default(uuid())
+
   domain   String   @id
   date     DateTime @default(now())
   disabled Boolean
@@ -24,6 +26,15 @@ model Domain {
 
   extensionsList String @default("") @map("extensions_list")
   extensionsMode String @default("block") @map("extensions_mode")
+
+  auditlogDuration String @map("audit_log_duration")
+}
+
+model SignupDomain {
+  domain String   @id
+  Date   DateTime @default(now())
+
+  @@map("signup_domain")
 }
 
 model Auditlog {

@@ -1,7 +1,9 @@
 import { Timestamp } from "@sapphire/timestamp";
 import packageJSON from "../../../package.json";
+import type { TIME_UNITS_ARRAY } from "./Admin";
 
 export const PAPERPLANE_VERSION = packageJSON.version;
+export const STORAGE_UNITS = ["B", "kB", "MB", "GB", "TB", "PB"] as const;
 
 export const parseReleaseMarkdown = (release: string): string => {
 	const getUrlString = (pr: string): string => {
@@ -27,8 +29,6 @@ export const getCircleColor = (percentage: number): string => {
 
 export const formatBytes = (bytes: number) => {
 	if (bytes === Infinity) return "Infinity";
-
-	const units = ["B", "kB", "MB", "GB", "TB", "PB"];
 	let num = 0;
 
 	while (bytes > 1024) {
@@ -36,7 +36,7 @@ export const formatBytes = (bytes: number) => {
 		++num;
 	}
 
-	return `${bytes.toFixed(1)} ${units[num]}`;
+	return `${bytes.toFixed(1)} ${STORAGE_UNITS[num]}`;
 };
 
 export const formatDate = (date: Date): string => {
@@ -46,6 +46,27 @@ export const formatDate = (date: Date): string => {
 
 export const getProtocol = () => {
 	return process.env.INSECURE_REQUESTS ? "http://" : "https://";
+};
+
+export const parseToDay = (amount: number, unit: (typeof TIME_UNITS_ARRAY)[number]) => {
+	switch (unit) {
+		case "w":
+			unit = "d";
+			amount *= 7;
+			break;
+		case "mth":
+			unit = "d";
+			amount *= 31;
+			break;
+		case "y":
+			unit = "d";
+			amount *= 365;
+			break;
+		default:
+			break;
+	}
+
+	return `${amount}${unit}`;
 };
 
 export * from "./Dashboard";

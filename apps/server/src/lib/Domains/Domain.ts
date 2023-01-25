@@ -24,7 +24,7 @@ export class Domain {
 		this.domain = data.domain;
 		this.date = data.date;
 
-		this.filesPath = join(process.cwd(), "..", "..", data.domain);
+		this.filesPath = join(process.cwd(), "..", "..", "data", "files", data.pathId);
 		this.disabled = data.disabled;
 
 		this.uploadSize = this.server.config.parseStorage(data.maxUploadSize);

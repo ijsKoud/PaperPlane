@@ -1,10 +1,12 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminUserToolbar, Table, TableEntry } from "@paperplane/ui";
+import { AdminLayout, AdminUserToolbar, CreateUserForm, CreateUserModal, Table, TableEntry } from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
-import { AdminUserSort, formatBytes, formatDate, getProtocol, UsersApi } from "@paperplane/utils";
-import axios from "axios";
+import { AdminUserSort, formatBytes, formatDate, getProtocol, parseToDay, UsersApi } from "@paperplane/utils";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useSwrWithUpdates } from "@paperplane/swr";
+import type { FormikHelpers } from "formik";
+import { toast } from "react-toastify";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -24,6 +26,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	};
 };
 
+interface CreateUserFormBody {
+	domain?: string;
+	extension?: string;
+
+	storage: string;
+	uploadSize: string;
+
+	extensions: string[];
+	extensionsMode: "block" | "pass";
+
+	auditlog: string;
+}
+
 const AdminPanelUsers: NextPage = () => {
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
@@ -39,12 +54,52 @@ const AdminPanelUsers: NextPage = () => {
 		if (domainData) setDomains(domainData);
 	}, [domainData]);
 
+	const [createModal, setCreateModal] = useState(false);
+
+	const _onSubmit = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
+		try {
+			await axios.post<any, any, CreateUserFormBody>("/api/admin/create", {
+				domain: values.domain,
+				extension: values.extension,
+				extensions: values.extensions,
+				extensionsMode: values.extensionsMode,
+				auditlog: parseToDay(values.auditlog, values.auditlogUnit),
+				storage: `${values.storage} ${values.storageUnit}`,
+				uploadSize: `${values.uploadSize} ${values.uploadSizeUnit}`
+			});
+		} catch (err) {
+			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+			const error = _error || "Unknown error, please try again later.";
+			helpers.resetForm({
+				values,
+				errors: Object.keys(values)
+					.map((key) => ({ [key]: error }))
+					.reduce((a, b) => ({ ...a, ...b }), {})
+			});
+
+			throw new Error();
+		}
+	};
+
+	const onSubmit = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
+		await toast.promise(_onSubmit(values, helpers), {
+			pending: "Building the a PaperPlane...",
+			error: "The PaperPlane crashed while testing :(",
+			success: "The new PaperPlane is ready to use."
+		});
+
+		setCreateModal(false);
+	};
+
 	return (
 		<AdminLayout className="max-w-[1250px]">
+			<CreateUserModal isNew onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
 			<div className="w-full px-2">
 				<div className="flex justify-between items-center w-full">
 					<h1 className="text-3xl">Users</h1>
-					<TertiaryButton type="button">Create</TertiaryButton>
+					<TertiaryButton type="button" onClick={() => setCreateModal(true)}>
+						Create
+					</TertiaryButton>
 				</div>
 				<AdminUserToolbar page={domains.pages} setPage={setPage} pages={page} setSearch={setSearch} setSort={setSort} sort={sort} />
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2 mt-8">
