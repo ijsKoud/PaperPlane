@@ -2,6 +2,7 @@ import type Server from "../../Server.js";
 import type { Domain as iDomain, Prisma } from "@prisma/client";
 import { Utils } from "../utils.js";
 import { join } from "node:path";
+import ms from "ms";
 
 export class Domain {
 	public domain!: string;
@@ -12,6 +13,7 @@ export class Domain {
 
 	public uploadSize!: number;
 	public maxStorage!: number;
+	public auditlogDuration!: number;
 	public storage = 0;
 
 	public extensions!: string[];
@@ -58,6 +60,7 @@ export class Domain {
 
 		this.uploadSize = this.server.config.parseStorage(data.maxUploadSize);
 		this.maxStorage = this.server.config.parseStorage(data.maxStorage);
+		this.auditlogDuration = ms(data.auditlogDuration);
 
 		this.extensions = data.extensionsList.split(",");
 		this.extensionsMode = data.extensionsMode as "block" | "pass";
