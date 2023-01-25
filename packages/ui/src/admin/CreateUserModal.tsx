@@ -8,6 +8,7 @@ import { Form, Formik, FormikHelpers } from "formik";
 import ms from "ms";
 import type React from "react";
 import { useEffect, useState } from "react";
+import { PulseLoader } from "react-spinners";
 import { array, number, object, string } from "yup";
 
 interface Props {
@@ -344,7 +345,7 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 								disabled={formik.isSubmitting || !formik.isValid}
 								onClick={formik.submitForm}
 							>
-								Create new user
+								{formik.isSubmitting ? <PulseLoader color="#fff" /> : <>Create new user</>}
 							</PrimaryButton>
 						</Form>
 					)}
