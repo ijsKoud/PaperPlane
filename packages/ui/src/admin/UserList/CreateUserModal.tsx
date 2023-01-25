@@ -125,7 +125,7 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 												placeholder={
 													(formik.values.domain ?? "").startsWith("*.") ? "Add a domain extension" : "Not available"
 												}
-												defaultValue={formik.initialValues.extension ?? ""}
+												value={formik.values.extension ?? ""}
 												disabled={!(formik.values.domain ?? "").startsWith("*.")}
 												className="w-full"
 												onChange={(ctx) => formik.setFieldValue("extension", ctx.currentTarget.value)}
@@ -164,7 +164,7 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 												inputMode="decimal"
 												placeholder="Storage amount, 0=infinitive"
 												className="w-full"
-												defaultValue={formik.initialValues.storage}
+												value={formik.values.storage}
 												onChange={(ctx) => formik.setFieldValue("storage", Number(ctx.currentTarget.value))}
 											/>
 											<p className="text-red text-left text-small font-normal">
@@ -202,7 +202,7 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 												inputMode="decimal"
 												placeholder="Upload size amount, 0=infinitive"
 												className="w-full"
-												defaultValue={formik.initialValues.uploadSize}
+												value={formik.values.uploadSize}
 												onChange={(ctx) => formik.setFieldValue("uploadSize", Number(ctx.currentTarget.value))}
 											/>
 											<p className="text-red text-left text-small font-normal">
@@ -243,7 +243,7 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 												inputMode="text"
 												placeholder=".<extension>,...etc (e.x.: .png,.jpg)"
 												className="w-full"
-												defaultValue={formik.initialValues.extensions.join(",")}
+												value={formik.values.extensions.join(",")}
 												onChange={(ctx) => formik.setFieldValue("extensions", ctx.currentTarget.value.split(","))}
 											/>
 											<p className="text-red text-left text-small font-normal">
@@ -287,7 +287,7 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 												inputMode="decimal"
 												placeholder="Duration, 0=infinitive"
 												className="w-full"
-												defaultValue={formik.initialValues.auditlog}
+												value={formik.values.auditlog}
 												onChange={(ctx) => formik.setFieldValue("auditlog", Number(ctx.currentTarget.value))}
 											/>
 											<p className="text-red text-left text-small font-normal">
