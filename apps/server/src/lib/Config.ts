@@ -79,6 +79,8 @@ export class Config {
 
 			const [_amount, unit] = storage.split(/ +/g);
 			const unitSize = (units.indexOf(unit) || 0) + 1;
+
+			console.log(unitSize, unit);
 			const amount = Number(_amount);
 			if (isNaN(amount)) return 0;
 
