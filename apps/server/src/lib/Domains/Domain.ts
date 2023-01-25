@@ -3,6 +3,7 @@ import type { Domain as iDomain, Prisma } from "@prisma/client";
 import { Utils } from "../utils.js";
 import { join } from "node:path";
 import ms from "ms";
+import { rm } from "node:fs/promises";
 
 export class Domain {
 	public domain!: string;
@@ -31,7 +32,12 @@ export class Domain {
 		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data });
 		this._parse(res);
 
-		this.server.adminAuditLogs.register("Update User", `User: ${data.domain} (${this.filesPath})`);
+		this.server.adminAuditLogs.register("Update User", `User: ${this.domain} (${res.pathId})`);
+	}
+
+	public async delete() {
+		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
+		await rm(this.filesPath, { recursive: true });
 	}
 
 	public toString() {

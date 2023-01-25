@@ -33,6 +33,17 @@ export class Domains {
 		}
 	}
 
+	public async delete(domains: string[]) {
+		const found = this.domains.filter((dm) => domains.includes(dm.domain));
+
+		for await (const [key, domain] of found) {
+			await domain.delete();
+			this.domains.delete(key);
+
+			this.server.adminAuditLogs.register("Delete User", `User: ${key}`);
+		}
+	}
+
 	public getAll(includeDisabled = false) {
 		if (includeDisabled) return this.domains;
 		return this.domains.filter((domain) => !domain.disabled);
