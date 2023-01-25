@@ -13,10 +13,10 @@ import { array, number, object, string } from "yup";
 
 interface Props {
 	isOpen: boolean;
-	onClick: () => void;
-
-	onSubmit: (...props: any) => void | Promise<void>;
 	domains: string[];
+
+	onClick: () => void;
+	onSubmit: (...props: any) => void | Promise<void>;
 }
 
 export interface CreateUserForm {

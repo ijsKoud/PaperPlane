@@ -1,5 +1,15 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminDeleteBanner, AdminLayout, AdminUserToolbar, ConfirmModal, CreateUserForm, CreateUserModal, Table, TableEntry } from "@paperplane/ui";
+import {
+	AdminDeleteBanner,
+	AdminLayout,
+	AdminUserToolbar,
+	ConfirmModal,
+	CreateUserForm,
+	CreateUserModal,
+	Table,
+	TableEntry,
+	UpdateUserModal
+} from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { AdminUserSort, formatBytes, formatDate, getProtocol, parseToDay, UsersApi } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
@@ -186,8 +196,8 @@ const AdminPanelUsers: NextPage = () => {
 	return (
 		<AdminLayout className="max-w-[1250px]">
 			<ConfirmModal isOpen={deleteBulk} cancel={() => setDeleteBulk(false)} confirm={onSubmitDelete} />
-			<CreateUserModal isNew onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
-			<CreateUserModal onSubmit={onSubmitBulk} isOpen={editBulk} onClick={() => setEditBulk(false)} />
+			<CreateUserModal onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
+			<UpdateUserModal domains={selected} onSubmit={onSubmitBulk} isOpen={editBulk} onClick={() => setEditBulk(false)} />
 			<AdminDeleteBanner items={selected} settings={enableEditBulk} cancel={() => setSelected([])} deleteFn={enableDeleteBulk} />
 			<div className="w-full px-2">
 				<div className="flex justify-between items-center w-full">
