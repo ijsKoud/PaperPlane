@@ -160,7 +160,6 @@ const AdminPanelUsers: NextPage = () => {
 		}
 	};
 
-	// TODO: optimise search system
 	const onSubmitDelete = async () => {
 		try {
 			await toast.promise(_onSubmitDelete(), {
