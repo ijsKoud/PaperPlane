@@ -173,6 +173,16 @@ const AdminPanelUsers: NextPage = () => {
 		} catch (error) {}
 	};
 
+	const editSingle = (domain: string) => {
+		setSelected([domain]);
+		setEditBulk(true);
+	};
+
+	const deleteSingle = (domain: string) => {
+		setSelected([domain]);
+		setDeleteBulk(true);
+	};
+
 	return (
 		<AdminLayout className="max-w-[1250px]">
 			<CreateUserModal isNew onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
@@ -205,9 +215,9 @@ const AdminPanelUsers: NextPage = () => {
 									<td>{formatBytes(domain.storage)}</td>
 									<td className="flex items-center gap-2 px-2">
 										<TransparentButton type="button">
-											<i id="filebutton" className="fa-regular fa-trash-can" />
+											<i id="filebutton" className="fa-regular fa-trash-can" onClick={() => deleteSingle(domain.domain)} />
 										</TransparentButton>
-										<TransparentButton type="button">
+										<TransparentButton type="button" onClick={() => editSingle(domain.domain)}>
 											<i id="filebutton" className="fa-regular fa-pen-to-square" />
 										</TransparentButton>
 										<input
