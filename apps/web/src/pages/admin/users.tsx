@@ -120,7 +120,6 @@ const AdminPanelUsers: NextPage = () => {
 	const enableDeleteBulk = () => setDeleteBulk(true);
 
 	const _onSubmitBulk = async (values: CreateUserForm & { disabled: boolean }, helpers: FormikHelpers<CreateUserForm>) => {
-		console.log(values);
 		try {
 			await axios.put<any, any, CreateUserFormBody & { domains: string[]; disabled: boolean }>("/api/admin/create", {
 				domains: selected,

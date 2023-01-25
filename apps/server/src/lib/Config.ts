@@ -78,13 +78,12 @@ export class Config {
 			if (!storage.length || [INFINITY, "0"].includes(storage)) return 0;
 
 			const [_amount, unit] = storage.split(/ +/g);
-			const unitSize = (units.indexOf(unit) || 0) + 1;
+			const unitSize = units.indexOf(unit) || 0;
 
-			console.log(unitSize, unit);
 			const amount = Number(_amount);
 			if (isNaN(amount)) return 0;
 
-			return amount * unitSize;
+			return amount * Math.pow(1024, unitSize);
 		}
 
 		if (storage === Infinity) return "Infinity";
