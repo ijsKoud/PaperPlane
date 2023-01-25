@@ -2,7 +2,7 @@ import { PrimaryButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
 import { useSwr } from "@paperplane/swr";
-import { CreateGetApi, formatBytes, STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
+import { CreateGetApi, formatBytes, parseToDay, STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
 import { Form, Formik, FormikHelpers } from "formik";
 import ms from "ms";
@@ -33,6 +33,19 @@ interface CreateUserForm {
 
 	auditlog: number;
 	auditlogUnit: (typeof TIME_UNITS_ARRAY)[number];
+}
+
+interface CreateUserFormBody {
+	domain?: string;
+	extension?: string;
+
+	storage: string;
+	uploadSize: string;
+
+	extensions: string[];
+	extensionsMode: "block" | "pass";
+
+	auditlog: string;
 }
 
 export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => {
@@ -110,7 +123,15 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 
 	const onSubmit = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
 		try {
-			await axios.post("/api/admin/create", values);
+			await axios.post<any, any, CreateUserFormBody>("/api/admin/create", {
+				domain: values.domain,
+				extension: values.extension,
+				extensions: values.extensions,
+				extensionsMode: values.extensionsMode,
+				auditlog: parseToDay(values.auditlog, values.auditlogUnit),
+				storage: `${values.storage} ${values.storageUnit}`,
+				uploadSize: `${values.uploadSize} ${values.uploadSizeUnit}`
+			});
 		} catch (err) {
 			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
 			const error = _error || "Unknown error, please try again later.";
