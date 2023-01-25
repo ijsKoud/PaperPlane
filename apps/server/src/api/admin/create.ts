@@ -118,7 +118,24 @@ export default async function handler(server: Server, req: Request, res: Respons
 			res.status(500).send({ message: "Internal server error occured, please try again later." });
 		}
 	}
+
+	if (req.method === "DELETE") {
+		try {
+			const data = req.body as { domains: string[] };
+			if (!Array.isArray(data.domains)) {
+				res.status(400).send({ message: "Invalid domains array provided" });
+				return;
+			}
+
+			await server.domains.delete(data.domains);
+			res.sendStatus(204);
+			return;
+		} catch (err) {
+			server.logger.fatal(`[CREATE:POST]: Fatal error while creating a new PaperPlane account `, err);
+			res.status(500).send({ message: "Internal server error occured, please try again later." });
+		}
+	}
 }
 
-export const methods: RequestMethods[] = ["get", "post", "put"];
+export const methods: RequestMethods[] = ["get", "post", "put", "delete"];
 export const middleware: Middleware[] = [Auth.adminMiddleware.bind(Auth)];
