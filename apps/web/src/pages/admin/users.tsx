@@ -119,10 +119,11 @@ const AdminPanelUsers: NextPage = () => {
 	const [deleteBulk, setDeleteBulk] = useState(false);
 	const enableDeleteBulk = () => setDeleteBulk(true);
 
-	const _onSubmitBulk = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
+	const _onSubmitBulk = async (values: CreateUserForm & { disabled: boolean }, helpers: FormikHelpers<CreateUserForm>) => {
 		try {
-			await axios.put<any, any, CreateUserFormBody & { domains: string[] }>("/api/admin/create", {
+			await axios.put<any, any, CreateUserFormBody & { domains: string[]; disabled: boolean }>("/api/admin/create", {
 				domains: selected,
+				disabled: values.disabled,
 				extensions: values.extensions,
 				extensionsMode: values.extensionsMode,
 				auditlog: parseToDay(values.auditlog, values.auditlogUnit),
@@ -143,7 +144,7 @@ const AdminPanelUsers: NextPage = () => {
 		}
 	};
 
-	const onSubmitBulk = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
+	const onSubmitBulk = async (values: CreateUserForm & { disabled: boolean }, helpers: FormikHelpers<CreateUserForm>) => {
 		try {
 			await toast.promise(_onSubmitBulk(values, helpers), {
 				pending: "Upgrading the PaperPlanes...",

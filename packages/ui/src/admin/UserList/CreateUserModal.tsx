@@ -112,7 +112,7 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 						will have to use the default back-up code <strong>paperplane-cdn</strong> to login.
 					</p>
 				</div>
-				<Formik validationSchema={schema} initialValues={initValues} onSubmit={onSubmit} validateOnMount>
+				<Formik validationSchema={schema} initialValues={initValues} onSubmit={onSubmit} validateOnMount enableReinitialize>
 					{(formik) => (
 						<Form>
 							<ul className="w-full mt-4 max-h-[45vh] pr-2 overflow-y-auto max-sm:max-h-[35vh]">

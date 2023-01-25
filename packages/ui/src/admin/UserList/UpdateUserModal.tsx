@@ -9,7 +9,7 @@ import ms from "ms";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
-import { array, number, object, string } from "yup";
+import { array, number, object, string, boolean } from "yup";
 
 interface Props {
 	isOpen: boolean;
@@ -20,8 +20,7 @@ interface Props {
 }
 
 export interface CreateUserForm {
-	domain?: string;
-	extension?: string;
+	disabled: boolean;
 
 	storage: number;
 	storageUnit: (typeof STORAGE_UNITS)[number];
@@ -38,8 +37,7 @@ export interface CreateUserForm {
 
 export const UpdateUserModal: React.FC<Props> = ({ domains, onSubmit, isOpen, onClick }) => {
 	const [initValues, setInitValues] = useState<CreateUserForm>({
-		domain: "",
-		extension: "",
+		disabled: false,
 		storage: 0,
 		storageUnit: "GB",
 		uploadSize: 0,
@@ -67,8 +65,7 @@ export const UpdateUserModal: React.FC<Props> = ({ domains, onSubmit, isOpen, on
 			const audit = ms(createGetData.defaults.auditlog).split("");
 
 			setInitValues({
-				domain: "",
-				extension: "",
+				disabled: createGetData.defaults.disabled,
 				extensions: createGetData.defaults.extensions,
 				extensionsMode: createGetData.defaults.extensionsMode,
 				storage: Number(storage[0]),
@@ -82,6 +79,7 @@ export const UpdateUserModal: React.FC<Props> = ({ domains, onSubmit, isOpen, on
 	}, [createGetData]);
 
 	const schema = object({
+		disabled: boolean().required("Boolean is a required option"),
 		storage: number().required("Storage is a required option").min(0, "Storage cannot be below 0"),
 		storageUnit: string()
 			.required()
@@ -104,10 +102,32 @@ export const UpdateUserModal: React.FC<Props> = ({ domains, onSubmit, isOpen, on
 				<div>
 					<h1 className="text-3xl">{domains.length === 1 ? "Update a PaperPlane account" : "Update PaperPlane accounts"}</h1>
 				</div>
-				<Formik validationSchema={schema} initialValues={initValues} onSubmit={onSubmit} validateOnMount>
+				<Formik validationSchema={schema} initialValues={initValues} onSubmit={onSubmit} validateOnMount enableReinitialize>
 					{(formik) => (
 						<Form>
 							<ul className="w-full mt-4 max-h-[45vh] pr-2 overflow-y-auto max-sm:max-h-[35vh]">
+								<li className="w-full mt-4">
+									<div className="mb-2">
+										<h2 className="text-lg">Domain Disabled</h2>
+										<p className="text-base">
+											You can disable and enable domains at anytime. Note: once a domain is disabled the user can no longer
+											upload or access their dashboard, files and shorturls are also unavailable.
+										</p>
+									</div>
+									<div className="flex items-center gap-2 w-full">
+										<div className="w-3/4 max-sm:w-1/2">
+											<input
+												type="checkbox"
+												title="Disable/Enable Domain"
+												defaultChecked={formik.values.disabled}
+												onChange={(ctx) => formik.setFieldValue("disabled", ctx.currentTarget.checked)}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.storageUnit && `* ${formik.errors.storageUnit}`}&#8203;
+											</p>
+										</div>
+									</div>
+								</li>
 								<li className="w-full mt-4">
 									<div className="mb-2">
 										<h2 className="text-lg">Max Storage</h2>
