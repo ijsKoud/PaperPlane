@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminUserToolbar, CreateUserForm, CreateUserModal, Table, TableEntry } from "@paperplane/ui";
+import { AdminDeleteBanner, AdminLayout, AdminUserToolbar, CreateUserForm, CreateUserModal, Table, TableEntry } from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { AdminUserSort, formatBytes, formatDate, getProtocol, parseToDay, UsersApi } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
@@ -91,6 +91,17 @@ const AdminPanelUsers: NextPage = () => {
 		setCreateModal(false);
 	};
 
+	const [selected, setSelected] = useState<string[]>([]);
+	const toggleSelected = (domain: string) => {
+		if (selected.includes(domain)) {
+			setSelected(selected.filter((dm) => dm !== domain));
+			return;
+		}
+
+		setSelected([...selected, domain]);
+	};
+	const clearSelected = () => setSelected([]);
+
 	return (
 		<AdminLayout className="max-w-[1250px]">
 			<CreateUserModal isNew onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
@@ -102,6 +113,7 @@ const AdminPanelUsers: NextPage = () => {
 					</TertiaryButton>
 				</div>
 				<AdminUserToolbar page={page} setPage={setPage} pages={domains.pages} setSearch={setSearch} setSort={setSort} sort={sort} />
+				<AdminDeleteBanner items={selected} settings={() => void 0} cancel={clearSelected} deleteFn={() => void 0} />
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2 mt-8">
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
 						<Table
@@ -126,7 +138,11 @@ const AdminPanelUsers: NextPage = () => {
 										<TransparentButton type="button">
 											<i id="filebutton" className="fa-regular fa-pen-to-square" />
 										</TransparentButton>
-										<input type="checkbox" checked={false} />
+										<input
+											type="checkbox"
+											checked={selected.includes(domain.domain)}
+											onChange={() => toggleSelected(domain.domain)}
+										/>
 									</td>
 								</TableEntry>
 							))}
