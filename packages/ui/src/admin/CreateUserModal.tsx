@@ -3,8 +3,8 @@ import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
 import { useSwr } from "@paperplane/swr";
 import { CreateGetApi, formatBytes, STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
-import axios from "axios";
-import { Form, Formik } from "formik";
+import axios, { AxiosError } from "axios";
+import { Form, Formik, FormikHelpers } from "formik";
 import ms from "ms";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -107,8 +107,19 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 
 	const schema = object(isNew ? withDomain : base);
 
-	const onSubmit = (values: CreateUserForm) => {
-		void 0;
+	const onSubmit = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
+		try {
+			await axios.post("/api/admin/create", values);
+		} catch (err) {
+			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+			const error = _error || "Unknown error, please try again later.";
+			helpers.resetForm({
+				values,
+				errors: Object.keys(values)
+					.map((key) => ({ [key]: error }))
+					.reduce((a, b) => ({ ...a, ...b }), {})
+			});
+		}
 	};
 
 	return (
@@ -135,23 +146,33 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 									<li className="w-full">
 										<h2 className="text-lg">Choose a domain</h2>
 										<div className="flex items-center gap-2 w-full">
-											<Input
-												type="tertiary"
-												placeholder={
-													(formik.values.domain ?? "").startsWith("*.") ? "Add a domain extension" : "Not available"
-												}
-												className="max-sm:w-1/2"
-												defaultValue={formik.initialValues.extension ?? ""}
-												disabled={!(formik.values.domain ?? "").startsWith("*.")}
-												onChange={(ctx) => formik.setFieldValue("extension", ctx.currentTarget.value)}
-											/>
-											<SelectMenu
-												type="tertiary"
-												placeholder="Select a domain"
-												className="w-full max-sm:w-1/2"
-												options={domains.map((domain) => ({ label: domain, value: domain }))}
-												onChange={(value) => formik.setFieldValue("domain", (value as SelectOption).value)}
-											/>
+											<div className="max-sm:w-1/2">
+												<Input
+													type="tertiary"
+													placeholder={
+														(formik.values.domain ?? "").startsWith("*.") ? "Add a domain extension" : "Not available"
+													}
+													defaultValue={formik.initialValues.extension ?? ""}
+													disabled={!(formik.values.domain ?? "").startsWith("*.")}
+													className="w-full"
+													onChange={(ctx) => formik.setFieldValue("extension", ctx.currentTarget.value)}
+												/>
+												<p className="text-red text-left text-small font-normal">
+													{formik.errors.extension && `* ${formik.errors.extension}`}&#8203;
+												</p>
+											</div>
+											<div className="w-full max-sm:w-1/2">
+												<SelectMenu
+													type="tertiary"
+													placeholder="Select a domain"
+													className="w-full"
+													options={domains.map((domain) => ({ label: domain, value: domain }))}
+													onChange={(value) => formik.setFieldValue("domain", (value as SelectOption).value)}
+												/>
+												<p className="text-red text-left text-small font-normal">
+													{formik.errors.domain && `* ${formik.errors.domain}`}&#8203;
+												</p>
+											</div>
 										</div>
 									</li>
 								)}
@@ -164,23 +185,33 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 										</p>
 									</div>
 									<div className="flex items-center gap-2 w-full">
-										<Input
-											type="tertiary"
-											formType="number"
-											inputMode="decimal"
-											placeholder="Storage amount, 0=infinitive"
-											className="w-3/4 max-sm:w-1/2"
-											defaultValue={formik.initialValues.storage}
-											onChange={(ctx) => formik.setFieldValue("storage", Number(ctx.currentTarget.value))}
-										/>
-										<SelectMenu
-											type="tertiary"
-											placeholder="Select a unit"
-											className="w-1/4 max-sm:w-1/2"
-											options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
-											onChange={(value) => formik.setFieldValue("storageUnit", (value as SelectOption).value)}
-											defaultValue={{ label: formik.initialValues.storageUnit, value: formik.initialValues.storageUnit }}
-										/>
+										<div className="w-3/4 max-sm:w-1/2">
+											<Input
+												type="tertiary"
+												formType="number"
+												inputMode="decimal"
+												placeholder="Storage amount, 0=infinitive"
+												className="w-full"
+												defaultValue={formik.initialValues.storage}
+												onChange={(ctx) => formik.setFieldValue("storage", Number(ctx.currentTarget.value))}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.storage && `* ${formik.errors.storage}`}&#8203;
+											</p>
+										</div>
+										<div className="w-1/4 max-sm:w-1/2">
+											<SelectMenu
+												type="tertiary"
+												placeholder="Select a unit"
+												className="w-full"
+												options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
+												onChange={(value) => formik.setFieldValue("storageUnit", (value as SelectOption).value)}
+												defaultValue={{ label: formik.initialValues.storageUnit, value: formik.initialValues.storageUnit }}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.storageUnit && `* ${formik.errors.storageUnit}`}&#8203;
+											</p>
+										</div>
 									</div>
 								</li>
 								<li className="w-full mt-4">
@@ -192,23 +223,36 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 										</p>
 									</div>
 									<div className="flex items-center gap-2 w-full">
-										<Input
-											type="tertiary"
-											formType="number"
-											inputMode="decimal"
-											placeholder="Upload size amount, 0=infinitive"
-											className="w-3/4 max-sm:w-1/2"
-											defaultValue={formik.initialValues.uploadSize}
-											onChange={(ctx) => formik.setFieldValue("uploadSize", Number(ctx.currentTarget.value))}
-										/>
-										<SelectMenu
-											type="tertiary"
-											placeholder="Select a unit"
-											className="w-1/4 max-sm:w-1/2"
-											options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
-											onChange={(value) => formik.setFieldValue("uploadSizeUnit", (value as SelectOption).value)}
-											defaultValue={{ label: formik.initialValues.uploadSizeUnit, value: formik.initialValues.uploadSizeUnit }}
-										/>
+										<div className="w-3/4 max-sm:w-1/2">
+											<Input
+												type="tertiary"
+												formType="number"
+												inputMode="decimal"
+												placeholder="Upload size amount, 0=infinitive"
+												className="w-full"
+												defaultValue={formik.initialValues.uploadSize}
+												onChange={(ctx) => formik.setFieldValue("uploadSize", Number(ctx.currentTarget.value))}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.uploadSize && `* ${formik.errors.uploadSize}`}&#8203;
+											</p>
+										</div>
+										<div className="w-1/4 max-sm:w-1/2">
+											<SelectMenu
+												type="tertiary"
+												placeholder="Select a unit"
+												className="w-full"
+												options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
+												onChange={(value) => formik.setFieldValue("uploadSizeUnit", (value as SelectOption).value)}
+												defaultValue={{
+													label: formik.initialValues.uploadSizeUnit,
+													value: formik.initialValues.uploadSizeUnit
+												}}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.uploadSizeUnit && `* ${formik.errors.uploadSizeUnit}`}&#8203;
+											</p>
+										</div>
 									</div>
 								</li>
 								<li className="w-full mt-4">
@@ -220,29 +264,39 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 										</p>
 									</div>
 									<div className="flex items-center gap-2 w-full">
-										<Input
-											type="tertiary"
-											formType="text"
-											inputMode="text"
-											placeholder=".<extension>,...etc (e.x.: .png,.jpg)"
-											className="w-3/4 max-sm:w-1/2"
-											defaultValue={formik.initialValues.extensions.join(",")}
-											onChange={(ctx) => formik.setFieldValue("extensions", ctx.currentTarget.value.split(","))}
-										/>
-										<SelectMenu
-											type="tertiary"
-											placeholder="Select a mode"
-											className="w-1/4 max-sm:w-1/2"
-											options={[
-												{ label: "Mode: block", value: "block" },
-												{ label: "Mode: pass", value: "pass" }
-											]}
-											onChange={(value) => formik.setFieldValue("extensionsMode", (value as SelectOption).value)}
-											defaultValue={{
-												label: `Mode: ${formik.initialValues.extensionsMode}`,
-												value: formik.initialValues.extensionsMode
-											}}
-										/>
+										<div className="w-3/4 max-sm:w-1/2">
+											<Input
+												type="tertiary"
+												formType="text"
+												inputMode="text"
+												placeholder=".<extension>,...etc (e.x.: .png,.jpg)"
+												className="w-full"
+												defaultValue={formik.initialValues.extensions.join(",")}
+												onChange={(ctx) => formik.setFieldValue("extensions", ctx.currentTarget.value.split(","))}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.extensions && `* ${formik.errors.extensions}`}&#8203;
+											</p>
+										</div>
+										<div className="w-1/4 max-sm:w-1/2">
+											<SelectMenu
+												type="tertiary"
+												placeholder="Select a mode"
+												className="w-full"
+												options={[
+													{ label: "Mode: block", value: "block" },
+													{ label: "Mode: pass", value: "pass" }
+												]}
+												onChange={(value) => formik.setFieldValue("extensionsMode", (value as SelectOption).value)}
+												defaultValue={{
+													label: `Mode: ${formik.initialValues.extensionsMode}`,
+													value: formik.initialValues.extensionsMode
+												}}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.extensionsMode && `* ${formik.errors.extensionsMode}`}&#8203;
+											</p>
+										</div>
 									</div>
 								</li>
 								<li className="w-full mt-4">
@@ -254,23 +308,33 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, isOpen, onClick }) => 
 										</p>
 									</div>
 									<div className="flex items-center gap-2 w-full">
-										<Input
-											type="tertiary"
-											formType="number"
-											inputMode="decimal"
-											placeholder="Duration, 0=infinitive"
-											className="w-3/4 max-sm:w-1/2"
-											defaultValue={formik.initialValues.auditlog}
-											onChange={(ctx) => formik.setFieldValue("auditlog", Number(ctx.currentTarget.value))}
-										/>
-										<SelectMenu
-											type="tertiary"
-											placeholder="Select a unit"
-											className="w-1/4 max-sm:w-1/2"
-											options={TIME_UNITS}
-											defaultValue={TIME_UNITS.find((unit) => unit.value === formik.initialValues.auditlogUnit)}
-											onChange={(value) => formik.setFieldValue("auditlogUnit", (value as SelectOption).value)}
-										/>
+										<div className="w-3/4 max-sm:w-1/2">
+											<Input
+												type="tertiary"
+												formType="number"
+												inputMode="decimal"
+												placeholder="Duration, 0=infinitive"
+												className="w-full"
+												defaultValue={formik.initialValues.auditlog}
+												onChange={(ctx) => formik.setFieldValue("auditlog", Number(ctx.currentTarget.value))}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.auditlog && `* ${formik.errors.auditlog}`}&#8203;
+											</p>
+										</div>
+										<div className="w-1/4 max-sm:w-1/2">
+											<SelectMenu
+												type="tertiary"
+												placeholder="Select a unit"
+												className="w-full"
+												options={TIME_UNITS}
+												defaultValue={TIME_UNITS.find((unit) => unit.value === formik.initialValues.auditlogUnit)}
+												onChange={(value) => formik.setFieldValue("auditlogUnit", (value as SelectOption).value)}
+											/>
+											<p className="text-red text-left text-small font-normal">
+												{formik.errors.auditlogUnit && `* ${formik.errors.auditlogUnit}`}&#8203;
+											</p>
+										</div>
 									</div>
 								</li>
 							</ul>
