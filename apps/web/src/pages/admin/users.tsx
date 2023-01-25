@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminDeleteBanner, AdminLayout, AdminUserToolbar, CreateUserForm, CreateUserModal, Table, TableEntry } from "@paperplane/ui";
+import { AdminDeleteBanner, AdminLayout, AdminUserToolbar, ConfirmModal, CreateUserForm, CreateUserModal, Table, TableEntry } from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { AdminUserSort, formatBytes, formatDate, getProtocol, parseToDay, UsersApi } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
@@ -160,7 +160,8 @@ const AdminPanelUsers: NextPage = () => {
 		}
 	};
 
-	const onSubmitDelete = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
+	// TODO: optimise search system
+	const onSubmitDelete = async () => {
 		try {
 			await toast.promise(_onSubmitDelete(), {
 				pending: "Destroying the PaperPlanes...",
@@ -169,7 +170,7 @@ const AdminPanelUsers: NextPage = () => {
 			});
 
 			setSelected([]);
-			setEditBulk(false);
+			setDeleteBulk(false);
 		} catch (error) {}
 	};
 
@@ -185,6 +186,7 @@ const AdminPanelUsers: NextPage = () => {
 
 	return (
 		<AdminLayout className="max-w-[1250px]">
+			<ConfirmModal isOpen={deleteBulk} cancel={() => setDeleteBulk(false)} confirm={onSubmitDelete} />
 			<CreateUserModal isNew onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
 			<CreateUserModal onSubmit={onSubmitBulk} isOpen={editBulk} onClick={() => setEditBulk(false)} />
 			<AdminDeleteBanner items={selected} settings={enableEditBulk} cancel={() => setSelected([])} deleteFn={enableDeleteBulk} />
