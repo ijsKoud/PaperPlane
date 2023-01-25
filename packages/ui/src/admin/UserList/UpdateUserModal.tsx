@@ -16,7 +16,7 @@ interface Props {
 	onClick: () => void;
 
 	onSubmit: (...props: any) => void | Promise<void>;
-	isNew?: boolean;
+	domains: string[];
 }
 
 export interface CreateUserForm {
@@ -36,7 +36,7 @@ export interface CreateUserForm {
 	auditlogUnit: (typeof TIME_UNITS_ARRAY)[number];
 }
 
-export const CreateUserModal: React.FC<Props> = ({ isNew, onSubmit, isOpen, onClick }) => {
+export const UpdateUserModal: React.FC<Props> = ({ domains, onSubmit, isOpen, onClick }) => {
 	const [initValues, setInitValues] = useState<CreateUserForm>({
 		domain: "",
 		extension: "",
@@ -49,9 +49,10 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, onSubmit, isOpen, onCl
 		auditlog: 1,
 		auditlogUnit: "mth"
 	});
-	const [domains, setDomains] = useState<string[]>([]);
-	const { data: createGetData } = useSwr<CreateGetApi>("/api/admin/create", undefined, (url) =>
-		axios.get(url, { withCredentials: true }).then((res) => res.data)
+	const { data: createGetData } = useSwr<CreateGetApi>(
+		domains.length === 1 ? `/api/admin/domain?domain=${domains[0]}` : "/api/admin/create",
+		undefined,
+		(url) => axios.get(url, { withCredentials: true }).then((res) => res.data)
 	);
 
 	useEffect(() => {
@@ -77,12 +78,10 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, onSubmit, isOpen, onCl
 				auditlog: Number(audit.filter((str) => !isNaN(Number(str))).reduce((a, b) => a + b, "")),
 				auditlogUnit: audit.filter((str) => isNaN(Number(str))).join("") as CreateUserForm["auditlogUnit"]
 			});
-
-			setDomains(createGetData.domains);
 		}
 	}, [createGetData]);
 
-	const base = {
+	const schema = object({
 		storage: number().required("Storage is a required option").min(0, "Storage cannot be below 0"),
 		storageUnit: string()
 			.required()
@@ -97,72 +96,18 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, onSubmit, isOpen, onCl
 		auditlogUnit: string()
 			.required()
 			.oneOf(TIME_UNITS_ARRAY as unknown as string[])
-	};
-
-	const withDomain = {
-		...base,
-		domain: string()
-			.required("A domain is a required option")
-			.oneOf(domains ?? []),
-		extension: string()
-	};
-
-	const schema = object(isNew ? withDomain : base);
+	});
 
 	return (
 		<Modal isOpen={isOpen} onClick={onClick}>
 			<div className="max-w-[50vw] max-xl:max-w-[75vw] max-md:max-w-[100vw]">
 				<div>
-					{isNew ? (
-						<>
-							<h1 className="text-3xl max-md:text-xl">Create a new PaperPlane account</h1>
-							<p className="text-base max-w-[90%] max-md:text-small max-md:font-normal">
-								Creating an account as admin is always possible, keep in mind that you cannot set a password get access to 2FA code.
-								The user will have to use the default back-up code <strong>paperplane-cdn</strong> to login.
-							</p>
-						</>
-					) : (
-						<h1 className="text-3xl">Update a PaperPlane account</h1>
-					)}
+					<h1 className="text-3xl">{domains.length === 1 ? "Update a PaperPlane account" : "Update PaperPlane accounts"}</h1>
 				</div>
 				<Formik validationSchema={schema} initialValues={initValues} onSubmit={onSubmit} validateOnMount>
 					{(formik) => (
 						<Form>
 							<ul className="w-full mt-4 max-h-[45vh] pr-2 overflow-y-auto max-sm:max-h-[35vh]">
-								{isNew && (
-									<li className="w-full">
-										<h2 className="text-lg">Choose a domain</h2>
-										<div className="flex items-center gap-2 w-full">
-											<div className="max-sm:w-1/2">
-												<Input
-													type="tertiary"
-													placeholder={
-														(formik.values.domain ?? "").startsWith("*.") ? "Add a domain extension" : "Not available"
-													}
-													defaultValue={formik.initialValues.extension ?? ""}
-													disabled={!(formik.values.domain ?? "").startsWith("*.")}
-													className="w-full"
-													onChange={(ctx) => formik.setFieldValue("extension", ctx.currentTarget.value)}
-												/>
-												<p className="text-red text-left text-small font-normal">
-													{formik.errors.extension && `* ${formik.errors.extension}`}&#8203;
-												</p>
-											</div>
-											<div className="w-full max-sm:w-1/2">
-												<SelectMenu
-													type="tertiary"
-													placeholder="Select a domain"
-													className="w-full"
-													options={domains.map((domain) => ({ label: domain, value: domain }))}
-													onChange={(value) => formik.setFieldValue("domain", (value as SelectOption).value)}
-												/>
-												<p className="text-red text-left text-small font-normal">
-													{formik.errors.domain && `* ${formik.errors.domain}`}&#8203;
-												</p>
-											</div>
-										</div>
-									</li>
-								)}
 								<li className="w-full mt-4">
 									<div className="mb-2">
 										<h2 className="text-lg">Max Storage</h2>
@@ -331,7 +276,7 @@ export const CreateUserModal: React.FC<Props> = ({ isNew, onSubmit, isOpen, onCl
 								disabled={formik.isSubmitting || !formik.isValid}
 								onClick={formik.submitForm}
 							>
-								{formik.isSubmitting ? <PulseLoader color="#fff" /> : isNew ? <>Create new user</> : <>Update</>}
+								{formik.isSubmitting ? <PulseLoader color="#fff" /> : <>Update</>}
 							</PrimaryButton>
 						</Form>
 					)}
