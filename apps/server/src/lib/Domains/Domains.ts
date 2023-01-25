@@ -25,6 +25,14 @@ export class Domains {
 		this.domains.set(res.domain, new Domain(this.server, res));
 	}
 
+	public async update(domains: string[], data: Prisma.Prisma.DomainUpdateArgs["data"]) {
+		const found = this.domains.filter((dm) => domains.includes(dm.domain));
+
+		for await (const [, domain] of found) {
+			await domain.update(data);
+		}
+	}
+
 	public getAll(includeDisabled = false) {
 		if (includeDisabled) return this.domains;
 		return this.domains.filter((domain) => !domain.disabled);
