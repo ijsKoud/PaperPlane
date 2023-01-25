@@ -1,5 +1,15 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminUserToolbar, CreateUserForm, CreateUserModal, Table, TableEntry } from "@paperplane/ui";
+import {
+	AdminDeleteBanner,
+	AdminLayout,
+	AdminUserToolbar,
+	ConfirmModal,
+	CreateUserForm,
+	CreateUserModal,
+	Table,
+	TableEntry,
+	UpdateUserModal
+} from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { AdminUserSort, formatBytes, formatDate, getProtocol, parseToDay, UsersApi } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
@@ -82,18 +92,115 @@ const AdminPanelUsers: NextPage = () => {
 	};
 
 	const onSubmit = async (values: CreateUserForm, helpers: FormikHelpers<CreateUserForm>) => {
-		await toast.promise(_onSubmit(values, helpers), {
-			pending: "Building the a PaperPlane...",
-			error: "The PaperPlane crashed while testing :(",
-			success: "The new PaperPlane is ready to use."
-		});
+		try {
+			await toast.promise(_onSubmit(values, helpers), {
+				pending: "Upgrading the PaperPlanes...",
+				error: "A PaperPlane crashed while testing :(",
+				success: "The new PaperPlanes are ready to use."
+			});
 
-		setCreateModal(false);
+			setCreateModal(false);
+		} catch (error) {}
+	};
+
+	const [selected, setSelected] = useState<string[]>([]);
+	const toggleSelected = (domain: string) => {
+		if (selected.includes(domain)) {
+			setSelected(selected.filter((dm) => dm !== domain));
+			return;
+		}
+
+		setSelected([...selected, domain]);
+	};
+
+	const [editBulk, setEditBulk] = useState(false);
+	const enableEditBulk = () => setEditBulk(true);
+
+	const [deleteBulk, setDeleteBulk] = useState(false);
+	const enableDeleteBulk = () => setDeleteBulk(true);
+
+	const _onSubmitBulk = async (values: CreateUserForm & { disabled: boolean }, helpers: FormikHelpers<CreateUserForm>) => {
+		try {
+			await axios.put<any, any, CreateUserFormBody & { domains: string[]; disabled: boolean }>("/api/admin/create", {
+				domains: selected,
+				disabled: values.disabled,
+				extensions: values.extensions,
+				extensionsMode: values.extensionsMode,
+				auditlog: parseToDay(values.auditlog, values.auditlogUnit),
+				storage: `${values.storage} ${values.storageUnit}`,
+				uploadSize: `${values.uploadSize} ${values.uploadSizeUnit}`
+			});
+		} catch (err) {
+			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+			const error = _error || "Unknown error, please try again later.";
+			helpers.resetForm({
+				values,
+				errors: Object.keys(values)
+					.map((key) => ({ [key]: error }))
+					.reduce((a, b) => ({ ...a, ...b }), {})
+			});
+
+			throw new Error();
+		}
+	};
+
+	const onSubmitBulk = async (values: CreateUserForm & { disabled: boolean }, helpers: FormikHelpers<CreateUserForm>) => {
+		try {
+			await toast.promise(_onSubmitBulk(values, helpers), {
+				pending: "Upgrading the PaperPlanes...",
+				error: "A PaperPlane crashed while testing :(",
+				success: "The new PaperPlanes are ready to use."
+			});
+
+			setSelected([]);
+			setEditBulk(false);
+		} catch (error) {}
+	};
+
+	const _onSubmitDelete = async () => {
+		try {
+			await axios.delete("/api/admin/create", {
+				data: { domains: selected }
+			});
+		} catch (err) {
+			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+			const error = _error || "Unknown error, please try again later.";
+			console.log(error);
+
+			throw new Error();
+		}
+	};
+
+	const onSubmitDelete = async () => {
+		try {
+			await toast.promise(_onSubmitDelete(), {
+				pending: "Destroying the PaperPlanes...",
+				error: "A PaperPlane fled while dismantling :(",
+				success: "The PaperPlanes are destroyed."
+			});
+
+			setSelected([]);
+			setDeleteBulk(false);
+		} catch (error) {}
+	};
+
+	const editSingle = (domain: string) => {
+		setSelected([domain]);
+		setEditBulk(true);
+	};
+
+	const deleteSingle = (domain: string) => {
+		setSelected([domain]);
+		setDeleteBulk(true);
 	};
 
 	return (
 		<AdminLayout className="max-w-[1250px]">
-			<CreateUserModal isNew onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
+			<ConfirmModal isOpen={deleteBulk} cancel={() => setDeleteBulk(false)} confirm={onSubmitDelete} />
+			<CreateUserModal onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
+			<UpdateUserModal domains={selected} onSubmit={onSubmitBulk} isOpen={editBulk} onClick={() => setEditBulk(false)} />
+			<AdminDeleteBanner items={selected} settings={enableEditBulk} cancel={() => setSelected([])} deleteFn={enableDeleteBulk} />
+
 			<div className="w-full px-2">
 				<div className="flex justify-between items-center w-full">
 					<h1 className="text-3xl">Users</h1>
@@ -121,12 +228,16 @@ const AdminPanelUsers: NextPage = () => {
 									<td>{formatBytes(domain.storage)}</td>
 									<td className="flex items-center gap-2 px-2">
 										<TransparentButton type="button">
-											<i id="filebutton" className="fa-regular fa-trash-can" />
+											<i id="filebutton" className="fa-regular fa-trash-can" onClick={() => deleteSingle(domain.domain)} />
 										</TransparentButton>
-										<TransparentButton type="button">
+										<TransparentButton type="button" onClick={() => editSingle(domain.domain)}>
 											<i id="filebutton" className="fa-regular fa-pen-to-square" />
 										</TransparentButton>
-										<input type="checkbox" checked={false} />
+										<input
+											type="checkbox"
+											checked={selected.includes(domain.domain)}
+											onChange={() => toggleSelected(domain.domain)}
+										/>
 									</td>
 								</TableEntry>
 							))}

@@ -13,7 +13,7 @@ const poppins = Poppins({ weight: ["300", "400", "500", "600", "700", "800", "90
 const App = ({ Component, pageProps }: AppProps) => {
 	return (
 		<SwrWrapper>
-			<ToastContainer position="top-right" theme="dark" />
+			<ToastContainer position="top-right" theme="dark" bodyStyle={poppins.style} />
 			<main className={`bg-bg-dark min-h-screen min-w-full ${poppins.className}`}>
 				<Component {...pageProps} />
 			</main>

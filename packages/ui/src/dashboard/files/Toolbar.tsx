@@ -2,6 +2,7 @@ import { TransparentButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { FilesSort, FilesSortNames } from "@paperplane/utils";
 import type React from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
 	pages: number;
@@ -45,9 +46,23 @@ export const FilesDashboardToolbar: React.FC<Props> = ({ setView, view, sort, se
 		setPage(Number(value));
 	};
 
+	const [_search, _setSearch] = useState("");
+	const [timeout, setTimeoutFn] = useState<NodeJS.Timeout>();
+	useEffect(() => {
+		const newTimeout = setTimeout(() => {
+			setSearch(_search);
+			setTimeoutFn(undefined);
+		}, 1e3);
+
+		clearTimeout(timeout);
+		setTimeoutFn(newTimeout);
+
+		return () => clearTimeout(timeout);
+	}, [_search]);
+
 	return (
 		<div className="w-full flex justify-between items-center mt-4 gap-4 flex-wrap max-[512px]:flex-col max-[512px]:flex-nowrap">
-			<Input type="main" placeholder="Search for a file" onInputCapture={(ctx) => setSearch(ctx.currentTarget.value)} />
+			<Input type="main" placeholder="Search for a file" onInputCapture={(ctx) => _setSearch(ctx.currentTarget.value)} />
 			<div className="flex gap-4">
 				<TransparentButton type="button" onClick={previousPage}>
 					<i className="fa-solid fa-angle-left text-lg" />

@@ -1,8 +1,8 @@
 import type { Response, Request } from "express";
+import _ from "lodash";
 import ms from "ms";
-import { AuditLog } from "../../lib/AuditLog.js";
 import { Auth } from "../../lib/Auth.js";
-import type { CreateUserFormBody, Middleware, RequestMethods } from "../../lib/types.js";
+import type { CreateUserFormBody, Middleware, RequestMethods, UpdateUserFormBody } from "../../lib/types.js";
 import type Server from "../../Server.js";
 
 export default async function handler(server: Server, req: Request, res: Response) {
@@ -22,8 +22,6 @@ export default async function handler(server: Server, req: Request, res: Respons
 
 		return;
 	}
-
-	const ua = AuditLog.getUserAgentData(req.headers["user-agent"]);
 
 	if (req.method === "POST") {
 		try {
@@ -70,7 +68,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 				await server.prisma.signupDomain.delete({ where: { domain: data.domain } });
 			}
 
-			server.adminAuditLogs.register("Create User", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
+			server.adminAuditLogs.register("Create User", `User: ${data.domain} (${server.domains.get(data.domain)!.filesPath})`);
 			res.sendStatus(204);
 			return;
 		} catch (err) {
@@ -80,9 +78,64 @@ export default async function handler(server: Server, req: Request, res: Respons
 	}
 
 	if (req.method === "PUT") {
-		// TODO: Add PUT method
+		try {
+			const data = req.body as Required<UpdateUserFormBody>;
+			if (!Array.isArray(data.domains)) {
+				res.status(400).send({ message: "Invalid domains array provided" });
+				return;
+			}
+
+			if (!_.isBoolean(data.disabled)) {
+				res.status(400).send({ message: "Invalid disabled value provided" });
+				return;
+			}
+
+			if (!["block", "pass"].includes(data.extensionsMode)) {
+				res.status(400).send({ message: "Invalid extensionMode provided" });
+				return;
+			}
+
+			const auditlog = ms(data.auditlog);
+			if (isNaN(auditlog)) {
+				res.status(400).send({ message: "Invalid auditlog duration provided" });
+				return;
+			}
+
+			data.extensions = data.extensions.filter((ext) => ext.startsWith(".") && !ext.endsWith("."));
+
+			await server.domains.update(data.domains, {
+				disabled: data.disabled,
+				extensionsList: data.extensions.join(","),
+				extensionsMode: data.extensionsMode,
+				maxStorage: data.storage,
+				maxUploadSize: data.uploadSize,
+				auditlogDuration: data.auditlog
+			});
+			res.sendStatus(204);
+			return;
+		} catch (err) {
+			server.logger.fatal(`[CREATE:POST]: Fatal error while creating a new PaperPlane account `, err);
+			res.status(500).send({ message: "Internal server error occured, please try again later." });
+		}
+	}
+
+	if (req.method === "DELETE") {
+		try {
+			const data = req.body as { domains: string[] };
+			if (!Array.isArray(data.domains)) {
+				res.status(400).send({ message: "Invalid domains array provided" });
+				return;
+			}
+
+			await server.domains.delete(data.domains);
+			res.sendStatus(204);
+			return;
+		} catch (err) {
+			server.logger.fatal(`[CREATE:POST]: Fatal error while creating a new PaperPlane account `, err);
+			res.status(500).send({ message: "Internal server error occured, please try again later." });
+		}
 	}
 }
 
-export const methods: RequestMethods[] = ["get", "post"];
+export const methods: RequestMethods[] = ["get", "post", "put", "delete"];
 export const middleware: Middleware[] = [Auth.adminMiddleware.bind(Auth)];

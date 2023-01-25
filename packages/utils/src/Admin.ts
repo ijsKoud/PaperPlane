@@ -67,6 +67,7 @@ export interface Domain {
 export interface CreateGetApi {
 	domains: string[];
 	defaults: {
+		disabled: boolean;
 		extensions: string[];
 		extensionsMode: "block" | "pass";
 		maxStorage: number;
