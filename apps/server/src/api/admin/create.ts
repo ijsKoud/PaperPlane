@@ -104,7 +104,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 			data.extensions = data.extensions.filter((ext) => ext.startsWith(".") && !ext.endsWith("."));
 
 			await server.domains.update(data.domains, {
-				disabled: false,
+				disabled: data.disabled,
 				extensionsList: data.extensions.join(","),
 				extensionsMode: data.extensionsMode,
 				maxStorage: data.storage,
