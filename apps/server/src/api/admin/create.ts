@@ -1,5 +1,6 @@
 import type { Response, Request } from "express";
 import ms from "ms";
+import { AuditLog } from "../../lib/AuditLog.js";
 import { Auth } from "../../lib/Auth.js";
 import type { CreateUserFormBody, Middleware, RequestMethods } from "../../lib/types.js";
 import type Server from "../../Server.js";
@@ -21,6 +22,8 @@ export default async function handler(server: Server, req: Request, res: Respons
 
 		return;
 	}
+
+	const ua = AuditLog.getUserAgentData(req.headers["user-agent"]);
 
 	if (req.method === "POST") {
 		try {
@@ -67,6 +70,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 				await server.prisma.signupDomain.delete({ where: { domain: data.domain } });
 			}
 
+			server.adminAuditLogs.register("Create User", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 			res.sendStatus(204);
 			return;
 		} catch (err) {
