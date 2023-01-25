@@ -23,6 +23,8 @@ export class Domain {
 	public secret!: string;
 	public codes!: string[];
 
+	private storageCheckTimeout!: NodeJS.Timeout;
+
 	public constructor(public server: Server, data: iDomain) {
 		this._parse(data);
 		this.recordStorage();
@@ -38,6 +40,8 @@ export class Domain {
 	public async delete() {
 		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
 		await rm(this.filesPath, { recursive: true });
+
+		clearTimeout(this.storageCheckTimeout);
 	}
 
 	public toString() {
@@ -82,6 +86,7 @@ export class Domain {
 		};
 
 		void updateStorageUsage();
-		setTimeout(() => void updateStorageUsage(), 6e4);
+		const timeout = setTimeout(() => void updateStorageUsage(), 6e4);
+		this.storageCheckTimeout = timeout;
 	}
 }
