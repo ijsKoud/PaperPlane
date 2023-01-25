@@ -19,7 +19,7 @@ interface Props {
 	onSubmit: (...props: any) => void | Promise<void>;
 }
 
-export interface CreateUserForm {
+interface CreateUserForm {
 	disabled: boolean;
 
 	storage: number;
