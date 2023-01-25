@@ -11,6 +11,8 @@ datasource db {
 }
 
 model Domain {
+  pathId String @default(uuid())
+
   domain   String   @id
   date     DateTime @default(now())
   disabled Boolean
