@@ -102,6 +102,67 @@ export const AdminSettingsForm: React.FC<Props> = ({ onSubmit }) => {
 						<ul className="w-full mt-4 pr-2">
 							<li className="w-full mt-4">
 								<div className="mb-2">
+									<h2 className="text-lg">Authentication Mode</h2>
+									<p className="text-base">
+										Change the way people login to PaperPlane, this does not affect the{" "}
+										<span className="bg-primary p-1 rounded-xl">Admin Panel</span> login strategy. This will always be a 2FA based
+										authentication.
+									</p>
+								</div>
+								<div className="flex items-center gap-2 w-full">
+									<div className="w-full">
+										<SelectMenu
+											type="tertiary"
+											placeholder="Select a mode"
+											className="w-full"
+											options={["2fa", "password"].map((type) => ({ label: `Mode: ${type}`, value: type }))}
+											onChange={(value) => formik.setFieldValue("authMode", (value as SelectOption).value)}
+											value={{
+												label: `Mode: ${formik.values.authMode}`,
+												value: formik.values.authMode
+											}}
+										/>
+										<p className="text-red text-left text-small font-normal">
+											{formik.errors.authMode && `* ${formik.errors.authMode}`}&#8203;
+										</p>
+									</div>
+								</div>
+							</li>
+							<li className="w-full mt-4">
+								<div className="mb-2">
+									<h2 className="text-lg">Sign Up</h2>
+									<p className="text-base">
+										Changes the way sign ups are handled. If set to <strong>closed</strong> the signup page is disabled (default).{" "}
+										<strong>Open</strong> means the page is open and everyone can create an account (not recommended),{" "}
+										<strong>invite</strong> will allow you to generate and hand out invite codes which are then required to sign
+										up. These tokens are only usable once.
+									</p>
+								</div>
+								<div className="flex items-center justify-between w-full max-sm:flex-col max-sm:items-start">
+									<div className="w-1/4 max-sm:w-1/2">
+										<SelectMenu
+											type="tertiary"
+											placeholder="Select a mode"
+											className="w-full"
+											options={["closed", "open", "invite"].map((type) => ({ label: `Mode: ${type}`, value: type }))}
+											onChange={(value) => formik.setFieldValue("signUpMode", (value as SelectOption).value)}
+											value={{
+												label: `Mode: ${formik.values.signUpMode}`,
+												value: formik.values.signUpMode
+											}}
+										/>
+										<p className="text-red text-left text-small font-normal">
+											{formik.errors.signUpMode && `* ${formik.errors.signUpMode}`}&#8203;
+										</p>
+									</div>
+									<div>
+										<PrimaryButton type="button">Open list of Invite Codes</PrimaryButton>
+										<p className="text-red text-left text-small font-normal">&#8203;</p>
+									</div>
+								</div>
+							</li>
+							<li className="w-full mt-4">
+								<div className="mb-2">
 									<h2 className="text-lg">Default Max Storage</h2>
 									<p className="text-base">
 										This allows you to set the storage limit for PaperPlane accounts when they are created. Note: this does not
