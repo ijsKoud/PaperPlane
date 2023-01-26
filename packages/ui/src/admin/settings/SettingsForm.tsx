@@ -14,7 +14,7 @@ interface Props {
 	onSubmit: (...props: any) => void | Promise<void>;
 }
 
-interface SettingsForm {
+export interface SettingsForm {
 	authMode: "2fa" | "password";
 	signUpMode: "closed" | "open" | "invite";
 
