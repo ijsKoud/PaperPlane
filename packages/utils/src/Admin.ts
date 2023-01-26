@@ -76,6 +76,24 @@ export interface CreateGetApi {
 	};
 }
 
+export interface SettingsGetApi {
+	domains: SignUpDomain[];
+	defaults: {
+		authMode: "2fa" | "password";
+		signUpMode: "closed" | "open" | "invite";
+		extensions: string[];
+		extensionsMode: "block" | "pass";
+		maxStorage: number;
+		maxUploadSize: number;
+		auditlog: number;
+	};
+}
+
+export interface SignUpDomain {
+	domain: string;
+	date: Date;
+}
+
 export const TIME_UNITS = [
 	{ label: "Seconds", value: "s" },
 	{ label: "Minutes", value: "m" },

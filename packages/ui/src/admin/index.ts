@@ -5,3 +5,4 @@ export * from "./Usage";
 export * from "./DeleteBanner";
 
 export * from "./UserList";
+export * from "./settings";
