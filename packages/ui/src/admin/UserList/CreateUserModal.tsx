@@ -45,8 +45,8 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 		uploadSizeUnit: "GB",
 		extensions: [],
 		extensionsMode: "block",
-		auditlog: 1,
-		auditlogUnit: "mth"
+		auditlog: 31,
+		auditlogUnit: "d"
 	});
 	const [domains, setDomains] = useState<string[]>([]);
 	const { data: createGetData } = useSwr<CreateGetApi>("/api/admin/create", undefined, (url) =>

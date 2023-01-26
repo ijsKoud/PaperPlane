@@ -44,8 +44,8 @@ export const UpdateUserModal: React.FC<Props> = ({ domains, onSubmit, isOpen, on
 		uploadSizeUnit: "GB",
 		extensions: [],
 		extensionsMode: "block",
-		auditlog: 1,
-		auditlogUnit: "mth"
+		auditlog: 31,
+		auditlogUnit: "d"
 	});
 	const { data: createGetData } = useSwr<CreateGetApi>(
 		domains.length === 1 ? `/api/admin/domain?domain=${domains[0]}` : "/api/admin/create",

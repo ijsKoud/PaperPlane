@@ -99,8 +99,7 @@ export const TIME_UNITS = [
 	{ label: "Minutes", value: "m" },
 	{ label: "Days", value: "d" },
 	{ label: "Weeks", value: "w" },
-	{ label: "Months", value: "mth" },
 	{ label: "Years", value: "y" }
 ] as const;
 
-export const TIME_UNITS_ARRAY = ["s", "m", "d", "w", "mth", "y"] as const;
+export const TIME_UNITS_ARRAY = ["s", "m", "d", "w", "y"] as const;

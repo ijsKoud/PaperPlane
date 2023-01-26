@@ -41,8 +41,8 @@ export const AdminSettingsForm: React.FC<Props> = ({ onSubmit }) => {
 		uploadSizeUnit: "GB",
 		extensions: [],
 		extensionsMode: "block",
-		auditlog: 1,
-		auditlogUnit: "mth"
+		auditlog: 31,
+		auditlogUnit: "d"
 	});
 	const { data: settingsGetData } = useSwr<SettingsGetApi>("/api/admin/settings", undefined, (url) =>
 		axios.get(url, { withCredentials: true }).then((res) => res.data)
