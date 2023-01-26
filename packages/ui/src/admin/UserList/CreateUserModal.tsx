@@ -178,7 +178,7 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 												className="w-full"
 												options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
 												onChange={(value) => formik.setFieldValue("storageUnit", (value as SelectOption).value)}
-												defaultValue={{ label: formik.initialValues.storageUnit, value: formik.initialValues.storageUnit }}
+												value={{ label: formik.values.storageUnit, value: formik.values.storageUnit }}
 											/>
 											<p className="text-red text-left text-small font-normal">
 												{formik.errors.storageUnit && `* ${formik.errors.storageUnit}`}&#8203;
@@ -216,9 +216,9 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 												className="w-full"
 												options={STORAGE_UNITS.map((unit) => ({ value: unit, label: unit }))}
 												onChange={(value) => formik.setFieldValue("uploadSizeUnit", (value as SelectOption).value)}
-												defaultValue={{
-													label: formik.initialValues.uploadSizeUnit,
-													value: formik.initialValues.uploadSizeUnit
+												value={{
+													label: formik.values.uploadSizeUnit,
+													value: formik.values.uploadSizeUnit
 												}}
 											/>
 											<p className="text-red text-left text-small font-normal">
@@ -260,9 +260,9 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 													{ label: "Mode: pass", value: "pass" }
 												]}
 												onChange={(value) => formik.setFieldValue("extensionsMode", (value as SelectOption).value)}
-												defaultValue={{
-													label: `Mode: ${formik.initialValues.extensionsMode}`,
-													value: formik.initialValues.extensionsMode
+												value={{
+													label: `Mode: ${formik.values.extensionsMode}`,
+													value: formik.values.extensionsMode
 												}}
 											/>
 											<p className="text-red text-left text-small font-normal">
@@ -300,7 +300,7 @@ export const CreateUserModal: React.FC<Props> = ({ onSubmit, isOpen, onClick }) 
 												placeholder="Select a unit"
 												className="w-full"
 												options={TIME_UNITS}
-												defaultValue={TIME_UNITS.find((unit) => unit.value === formik.initialValues.auditlogUnit)}
+												value={TIME_UNITS.find((unit) => unit.value === formik.values.auditlogUnit)}
 												onChange={(value) => formik.setFieldValue("auditlogUnit", (value as SelectOption).value)}
 											/>
 											<p className="text-red text-left text-small font-normal">
