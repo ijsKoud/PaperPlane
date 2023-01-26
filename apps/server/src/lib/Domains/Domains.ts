@@ -22,6 +22,8 @@ export class Domains {
 		for await (const [, domain] of this.domains) {
 			await domain.resetAuth();
 		}
+
+		this.server.adminAuditLogs.register("AuthMode Change", `Mode: ${this.server.envConfig.authMode}`);
 	}
 
 	public async create(data: Prisma.Prisma.DomainCreateArgs["data"]) {

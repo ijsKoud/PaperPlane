@@ -118,3 +118,16 @@ export interface UpdateUserFormBody {
 
 	auditlog: string;
 }
+
+export interface UpdateSettingsFormBody {
+	authMode: "2fa" | "password";
+	signUpMode: "closed" | "open" | "invite";
+
+	storage: string;
+	uploadSize: string;
+
+	extensions: string[];
+	extensionsMode: "block" | "pass";
+
+	auditlog: string;
+}

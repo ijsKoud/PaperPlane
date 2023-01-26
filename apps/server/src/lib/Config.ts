@@ -69,6 +69,21 @@ export class Config {
 		await this.triggerUpdate();
 	}
 
+	public async update(config: Partial<Omit<EnvConfig, "encryptionKey" | "internalApiKey" | "admin2FASecret" | "PORT" | "INSECURE_REQUESTS">>) {
+		this.config = {
+			...this.config,
+			maxStorage: this.parseConfigItem(config.maxStorage?.toString() || "MAX_STORAGE"),
+			maxUpload: this.parseConfigItem(config.maxUpload?.toString() || "MAX_UPLOAD_SIZE"),
+			auditLogDuration: this.parseConfigItem(config.auditLogDuration?.toString() || "AUDIT_LOG_DURATION"),
+			authMode: this.parseConfigItem(config.authMode || "AUTH_MODE"),
+			signUpMode: this.parseConfigItem(config.signUpMode || "SIGNUP_MODE"),
+			extensionsList: this.parseConfigItem(config.extensionsList?.join(",") || "EXTENSIONS_LIST"),
+			extensionsMode: this.parseConfigItem(config.extensionsMode || "EXTENSIONS_MODE")
+		};
+
+		await this.triggerUpdate();
+	}
+
 	public parseStorage(storage: string): number;
 	public parseStorage(storage: number): string;
 	public parseStorage(storage: string | number): number | string {
@@ -99,8 +114,12 @@ export class Config {
 		return `${storage.toFixed(1)} ${units[num]}`;
 	}
 
+	private parseConfigItem(value: string): any;
 	private parseConfigItem(key: keyof RawEnvConfig): any {
-		const value = process.env[key];
+		let value: string | undefined;
+
+		if (Boolean(process.env[key])) value = process.env[key];
+		else value = key;
 
 		switch (key) {
 			case "ENCRYPTION_KEY":
