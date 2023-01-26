@@ -72,13 +72,13 @@ export class Config {
 	public async update(config: Partial<Omit<EnvConfig, "encryptionKey" | "internalApiKey" | "admin2FASecret" | "PORT" | "INSECURE_REQUESTS">>) {
 		this.config = {
 			...this.config,
-			maxStorage: this.parseConfigItem(config.maxStorage?.toString() || "MAX_STORAGE"),
-			maxUpload: this.parseConfigItem(config.maxUpload?.toString() || "MAX_UPLOAD_SIZE"),
-			auditLogDuration: this.parseConfigItem(config.auditLogDuration?.toString() || "AUDIT_LOG_DURATION"),
-			authMode: this.parseConfigItem(config.authMode || "AUTH_MODE"),
-			signUpMode: this.parseConfigItem(config.signUpMode || "SIGNUP_MODE"),
-			extensionsList: this.parseConfigItem(config.extensionsList?.join(",") || "EXTENSIONS_LIST"),
-			extensionsMode: this.parseConfigItem(config.extensionsMode || "EXTENSIONS_MODE")
+			maxStorage: this.parseConfigItem("MAX_STORAGE", config.maxStorage?.toString()),
+			maxUpload: this.parseConfigItem("MAX_UPLOAD_SIZE", config.maxUpload?.toString()),
+			auditLogDuration: this.parseConfigItem("AUDIT_LOG_DURATION", config.auditLogDuration?.toString()),
+			authMode: this.parseConfigItem("AUTH_MODE", config.authMode),
+			signUpMode: this.parseConfigItem("SIGNUP_MODE", config.signUpMode),
+			extensionsList: this.parseConfigItem("EXTENSIONS_LIST", config.extensionsList?.join(",")),
+			extensionsMode: this.parseConfigItem("EXTENSIONS_MODE", config.extensionsMode)
 		};
 
 		await this.triggerUpdate();
@@ -114,12 +114,8 @@ export class Config {
 		return `${storage.toFixed(1)} ${units[num]}`;
 	}
 
-	private parseConfigItem(value: string): any;
-	private parseConfigItem(key: keyof RawEnvConfig): any {
-		let value: string | undefined;
-
-		if (Boolean(process.env[key])) value = process.env[key];
-		else value = key;
+	private parseConfigItem(key: keyof RawEnvConfig, value?: string): any {
+		if (!value) value = process.env[key];
 
 		switch (key) {
 			case "ENCRYPTION_KEY":
