@@ -63,7 +63,7 @@ const AdminPanel: NextPage = () => {
 				/>
 				<AdminStatistics users={service.users} auth={service.authMode} signupMode={service.signUpMode} uptime={service.uptime} />
 			</div>
-			<div className="w-full px-2">
+			<div className="w-full px-2 mb-4">
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
 					<div className="mb-2">
 						<h1 className="text-xl max-sm:text-center">Audit Logs</h1>
