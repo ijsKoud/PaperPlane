@@ -1,6 +1,7 @@
 import type { Response, Request } from "express";
+import ms from "ms";
 import { Auth } from "../../lib/Auth.js";
-import type { Middleware, RequestMethods } from "../../lib/types.js";
+import type { Middleware, RequestMethods, UpdateSettingsFormBody } from "../../lib/types.js";
 import type Server from "../../Server.js";
 
 export default async function handler(server: Server, req: Request, res: Response) {
@@ -25,50 +26,33 @@ export default async function handler(server: Server, req: Request, res: Respons
 
 	if (req.method === "POST") {
 		try {
-			// const data = req.body as Required<CreateUserFormBody>;
-			// if (!data.domain || !domains.map((domain) => domain.domain).includes(data.domain)) {
-			// 	res.status(400).send({ message: "Invalid sign-up domain provided" });
-			// 	return;
-			// }
+			const data = req.body as UpdateSettingsFormBody;
+			if (!["block", "pass"].includes(data.extensionsMode)) {
+				res.status(400).send({ message: "Invalid extensionMode provided" });
+				return;
+			}
 
-			// const DOMAIN_REGEX = /[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?/g;
-			// const extensionRes = (data.extension ?? "").match(DOMAIN_REGEX) ?? [];
-			// data.extension = extensionRes[0] ?? "";
+			if (!["2fa", "password"].includes(data.authMode)) {
+				res.status(400).send({ message: "Invalid authMode provided" });
+				return;
+			}
 
-			// if (data.domain.startsWith("*.") && !data.extension.length) {
-			// 	res.status(400).send({ message: "Invalid sign-up subdomain provided" });
-			// 	return;
-			// }
+			if (!["open", "closed", "invite"].includes(data.signUpMode)) {
+				res.status(400).send({ message: "Invalid signUpMode provided" });
+				return;
+			}
 
-			// if (!["block", "pass"].includes(data.extensionsMode)) {
-			// 	res.status(400).send({ message: "Invalid extensionMode provided" });
-			// 	return;
-			// }
+			const auditlog = ms(data.auditlog);
+			if (isNaN(auditlog)) {
+				res.status(400).send({ message: "Invalid auditlog duration provided" });
+				return;
+			}
 
-			// const auditlog = ms(data.auditlog);
-			// if (isNaN(auditlog)) {
-			// 	res.status(400).send({ message: "Invalid auditlog duration provided" });
-			// 	return;
-			// }
+			data.extensions = data.extensions.filter((ext) => ext.startsWith(".") && !ext.endsWith("."));
+			await server.config.update(data);
 
-			// data.extensions = data.extensions.filter((ext) => ext.startsWith(".") && !ext.endsWith("."));
-			// const domain = data.domain.startsWith("*.") ? `` : data.domain;
-
-			// await server.domains.create({
-			// 	disabled: false,
-			// 	domain,
-			// 	extensionsList: data.extensions.join(","),
-			// 	extensionsMode: data.extensionsMode,
-			// 	maxStorage: data.storage,
-			// 	maxUploadSize: data.uploadSize,
-			// 	auditlogDuration: data.auditlog
-			// });
-
-			// if (!data.domain.startsWith("*.")) {
-			// 	await server.prisma.signupDomain.delete({ where: { domain: data.domain } });
-			// }
-
-			// server.adminAuditLogs.register("Create User", `User: ${data.domain} (${server.domains.get(data.domain)!.filesPath})`);
+			if (server.envConfig.authMode !== data.authMode) await server.domains.resetAuth();
+			server.adminAuditLogs.register("Default Settings Update", "N/A");
 			res.sendStatus(204);
 			return;
 		} catch (err) {
