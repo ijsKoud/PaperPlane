@@ -39,11 +39,15 @@ export class Auth {
 	}
 
 	public static verifyJWTToken(token: string, secret: string, expected: string): boolean {
-		const res = Jwt.verify(token, secret);
-		if (typeof res !== "object") return false;
+		try {
+			const res = Jwt.verify(token, secret);
+			if (typeof res !== "object") return false;
 
-		const version = process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable";
-		return res.version === version && res.account === expected;
+			const version = process.env.NODE_ENV === "development" ? "paperplane_dev" : "paperplane_stable";
+			return res.version === version && res.account === expected;
+		} catch (error) {
+			return false;
+		}
 	}
 
 	public static encryptToken(token: string, secret: string) {
