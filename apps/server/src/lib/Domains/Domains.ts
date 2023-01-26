@@ -18,6 +18,12 @@ export class Domains {
 		}
 	}
 
+	public async resetAuth() {
+		for await (const [, domain] of this.domains) {
+			await domain.resetAuth();
+		}
+	}
+
 	public async create(data: Prisma.Prisma.DomainCreateArgs["data"]) {
 		const res = await this.server.prisma.domain.create({ data });
 
