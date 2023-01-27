@@ -90,7 +90,12 @@ const AdminSettingsPanel: NextPage = () => {
 
 	return (
 		<AdminLayout>
-			<InvitesModal isOpen={inviteModal} onClick={disableInviteModal} createInvite={createInviteCode} />
+			<InvitesModal
+				isOpen={inviteModal}
+				onClick={disableInviteModal}
+				createInvite={createInviteCode}
+				toastSuccess={(str) => toast.success(str)}
+			/>
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
 		</AdminLayout>
 	);

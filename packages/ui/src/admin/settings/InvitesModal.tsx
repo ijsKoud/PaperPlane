@@ -10,10 +10,11 @@ interface Props {
 	isOpen: boolean;
 	onClick: () => void;
 
+	toastSuccess: (str: string) => void;
 	createInvite: () => Promise<Invite | undefined>;
 }
 
-export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, createInvite }) => {
+export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, createInvite, toastSuccess }) => {
 	const [invites, setInvites] = useState<InviteGetApi>({ entries: [], pages: 0 });
 	const { data: invitesGetData, mutate } = useSwrWithUpdates<InviteGetApi>("/api/invites/list");
 
@@ -24,6 +25,11 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, createInvite })
 	const onCreateClick = async () => {
 		const invite = await createInvite();
 		if (invite) await mutate({ ...invites, entries: [invite, ...invites.entries] });
+	};
+
+	const copyClipboard = (str: string) => {
+		navigator.clipboard.writeText(str);
+		toastSuccess("Copied to clipboard!");
 	};
 
 	return (
@@ -41,7 +47,7 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, createInvite })
 								</td>
 								<td>{formatDate(invite.date)}</td>
 								<td className="flex items-center gap-2">
-									<TransparentButton type="button">
+									<TransparentButton type="button" onClick={() => copyClipboard(invite.invite)}>
 										<i className="fa-solid fa-copy text-base" />
 									</TransparentButton>
 									<TransparentButton type="button">
