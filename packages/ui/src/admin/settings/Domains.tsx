@@ -15,7 +15,7 @@ interface Props {
 	toastSuccess: (str: string) => void;
 }
 
-export const AdminDomains: React.FC<Props> = ({ createDomain, toastSuccess }) => {
+export const AdminDomains: React.FC<Props> = ({ createDomain: _createDomain, toastSuccess }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [page, setPage] = useState(0);
 	const [selected, setSelected] = useState<string[]>([]);
@@ -35,7 +35,6 @@ export const AdminDomains: React.FC<Props> = ({ createDomain, toastSuccess }) =>
 				test: (str) => {
 					if (!str) return false;
 					if (str.startsWith(".") || str.endsWith(".") || str.startsWith("-")) return false;
-					if (!str.includes(".")) return false;
 
 					return true;
 				},
@@ -61,6 +60,11 @@ export const AdminDomains: React.FC<Props> = ({ createDomain, toastSuccess }) =>
 
 	const onBulkDelete = async () => {
 		// await deleteInvite(selected);
+		await mutate();
+	};
+
+	const createDomain = async (...props: any) => {
+		await _createDomain(...props);
 		await mutate();
 	};
 

@@ -109,7 +109,7 @@ const AdminSettingsPanel: NextPage = () => {
 	const createDomain = async (data: { domain: string }, helpers: FormikHelpers<{ domain: string }>) => {
 		const promise = async () => {
 			try {
-				await axios.post("/api/admin/domains", { data });
+				await axios.post("/api/admin/domains", data);
 			} catch (err) {
 				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
 				const error = _error || "Unknown error, please try again later.";
