@@ -84,6 +84,28 @@ const AdminSettingsPanel: NextPage = () => {
 		return undefined;
 	};
 
+	const deleteInviteCode = async (invites: string[]) => {
+		const promise = async () => {
+			try {
+				await axios.delete<Invite>("/api/invites/create", { data: { invites } });
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Removing someone from the party...",
+				error: "Everyone left the party instead :(",
+				success: "Someone left the party."
+			});
+		} catch (error) {}
+	};
+
 	const [inviteModal, setInviteModal] = useState(false);
 	const enableInviteModal = () => setInviteModal(true);
 	const disableInviteModal = () => setInviteModal(false);
@@ -94,6 +116,7 @@ const AdminSettingsPanel: NextPage = () => {
 				isOpen={inviteModal}
 				onClick={disableInviteModal}
 				createInvite={createInviteCode}
+				deleteInvite={deleteInviteCode}
 				toastSuccess={(str) => toast.success(str)}
 			/>
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />

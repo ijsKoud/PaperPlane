@@ -11,10 +11,12 @@ interface Props {
 	onClick: () => void;
 
 	toastSuccess: (str: string) => void;
+	deleteInvite: (invites: string[]) => Promise<void>;
 	createInvite: () => Promise<Invite | undefined>;
 }
 
-export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, createInvite, toastSuccess }) => {
+export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, createInvite, toastSuccess }) => {
+	const [selected, setSelected] = useState<string[]>([]);
 	const [invites, setInvites] = useState<InviteGetApi>({ entries: [], pages: 0 });
 	const { data: invitesGetData, mutate } = useSwrWithUpdates<InviteGetApi>("/api/invites/list");
 
@@ -24,12 +26,22 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, createInvite, t
 
 	const onCreateClick = async () => {
 		const invite = await createInvite();
-		if (invite) await mutate({ ...invites, entries: [invite, ...invites.entries] });
+		if (invite) await mutate();
 	};
 
 	const copyClipboard = (str: string) => {
 		navigator.clipboard.writeText(str);
 		toastSuccess("Copied to clipboard!");
+	};
+
+	const onSelectClick = (invite: string) => {
+		if (selected.includes(invite)) setSelected(selected.filter((inv) => inv !== invite));
+		else setSelected([invite, ...selected]);
+	};
+
+	const onSingleDelete = async (invite: string) => {
+		await deleteInvite([invite]);
+		await mutate();
 	};
 
 	return (
@@ -50,10 +62,10 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, createInvite, t
 									<TransparentButton type="button" onClick={() => copyClipboard(invite.invite)}>
 										<i className="fa-solid fa-copy text-base" />
 									</TransparentButton>
-									<TransparentButton type="button">
+									<TransparentButton type="button" onClick={() => void onSingleDelete(invite.invite)}>
 										<i className="fa-solid fa-trash-can text-base" />
 									</TransparentButton>
-									<input type="checkbox" />
+									<input type="checkbox" checked={selected.includes(invite.invite)} onChange={() => onSelectClick(invite.invite)} />
 								</td>
 							</TableEntry>
 						))}
