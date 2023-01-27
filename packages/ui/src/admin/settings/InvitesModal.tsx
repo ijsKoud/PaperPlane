@@ -1,4 +1,5 @@
 import { DangerButton, PrimaryButton, TransparentButton } from "@paperplane/buttons";
+import { SelectMenu, SelectOption } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { formatDate, Invite, InviteGetApi } from "@paperplane/utils";
@@ -16,9 +17,10 @@ interface Props {
 }
 
 export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, createInvite, toastSuccess }) => {
+	const [page, setPage] = useState(0);
 	const [selected, setSelected] = useState<string[]>([]);
 	const [invites, setInvites] = useState<InviteGetApi>({ entries: [], pages: 0 });
-	const { data: invitesGetData, mutate } = useSwrWithUpdates<InviteGetApi>("/api/invites/list");
+	const { data: invitesGetData, mutate } = useSwrWithUpdates<InviteGetApi>(`/api/invites/list?page=${page}`);
 
 	useEffect(() => {
 		if (invitesGetData) setInvites(invitesGetData);
@@ -49,10 +51,35 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, c
 		await mutate();
 	};
 
+	const pageOptions: SelectOption[] = Array(invites.pages)
+		.fill(null)
+		.map((_, key) => ({ label: `Page ${key + 1}`, value: key.toString() }));
+	const pageValue: SelectOption = { label: `Page ${page + 1}`, value: page.toString() };
+
+	const previousPage = () => setPage(page - 1);
+	const nextPage = () => setPage(page + 1);
+	const onPageChange = (option: any) => {
+		if (typeof option !== "object") return;
+		const { value } = option as SelectOption;
+
+		setPage(Number(value));
+	};
+
 	return (
 		<Modal onClick={onClick} isOpen={isOpen}>
 			<div className="w-[60vw] max-xl:w-[80vw]">
-				<h1 className="text-3xl">Invite Codes</h1>
+				<div className="flex items-center justify-between">
+					<h1 className="text-3xl">Invite Codes</h1>
+					<div className="flex gap-4">
+						<TransparentButton type="button" onClick={previousPage} disabled={page <= 0}>
+							<i className="fa-solid fa-angle-left text-lg" />
+						</TransparentButton>
+						<SelectMenu type="main" placeholder="page" options={pageOptions} value={pageValue} onChange={onPageChange} />
+						<TransparentButton type="button" onClick={nextPage} disabled={page >= invites.pages - 1}>
+							<i className="fa-solid fa-angle-right text-lg" />
+						</TransparentButton>
+					</div>
+				</div>
 				<div className="max-h-[45vh] overflow-auto w-full">
 					<Table className="w-full" colgroups={[325, 300, 100]} headPosition="left" heads={["Code", "Date", "Options"]}>
 						{invites.entries.map((invite) => (
