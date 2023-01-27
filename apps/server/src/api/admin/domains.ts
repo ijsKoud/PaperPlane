@@ -21,20 +21,34 @@ export default async function handler(server: Server, req: Request, res: Respons
 		return;
 	}
 
-	const { domain } = req.body;
-	if (typeof domain !== "string") {
-		res.status(400).send({ message: "Invalid domain provided" });
+	if (req.method === "POST") {
+		const { domain } = req.body;
+		if (typeof domain !== "string") {
+			res.status(400).send({ message: "Invalid domain provided" });
+			return;
+		}
+
+		if (domain.startsWith(".") || domain.endsWith(".") || domain.startsWith("-")) {
+			res.status(400).send({ message: "Invalid domain provided" });
+			return;
+		}
+
+		await server.prisma.signupDomain.create({ data: { domain } });
+		res.sendStatus(204);
 		return;
 	}
 
-	if (domain.startsWith(".") || domain.endsWith(".") || domain.startsWith("-")) {
-		res.status(400).send({ message: "Invalid domain provided" });
-		return;
-	}
+	if (req.method === "DELETE") {
+		const { domains } = req.body;
+		if (!Array.isArray(domains)) {
+			res.status(400).send({ message: "Invalid domains provided" });
+			return;
+		}
 
-	await server.prisma.signupDomain.create({ data: { domain } });
-	res.sendStatus(204);
+		await server.prisma.signupDomain.deleteMany({ where: { domain: { in: domains } } });
+		res.sendStatus(204);
+	}
 }
 
-export const methods: RequestMethods[] = ["get", "post"];
+export const methods: RequestMethods[] = ["get", "post", "delete"];
 export const middleware: Middleware[] = [Auth.adminMiddleware.bind(Auth)];

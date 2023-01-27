@@ -106,6 +106,28 @@ const AdminSettingsPanel: NextPage = () => {
 		} catch (error) {}
 	};
 
+	const deleteDomain = async (domains: string[]) => {
+		const promise = async () => {
+			try {
+				await axios.delete("/api/admin/domains", { data: { domains } });
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Destroying hangers...",
+				error: "One of the hangers was to strong :(",
+				success: "Hangers destroyed! Mission Successful."
+			});
+		} catch (error) {}
+	};
+
 	const createDomain = async (data: { domain: string }, helpers: FormikHelpers<{ domain: string }>) => {
 		const promise = async () => {
 			try {
@@ -147,7 +169,7 @@ const AdminSettingsPanel: NextPage = () => {
 				toastSuccess={(str) => toast.success(str)}
 			/>
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
-			<AdminDomains createDomain={createDomain} toastSuccess={(str) => toast.success(str)} />
+			<AdminDomains createDomain={createDomain} deleteDomain={deleteDomain} toastSuccess={(str) => toast.success(str)} />
 		</AdminLayout>
 	);
 };

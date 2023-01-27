@@ -12,10 +12,11 @@ import { Table, TableEntry } from "../../index";
 
 interface Props {
 	createDomain: (...props: any) => Promise<void>;
+	deleteDomain: (domains: string[]) => Promise<void>;
 	toastSuccess: (str: string) => void;
 }
 
-export const AdminDomains: React.FC<Props> = ({ createDomain: _createDomain, toastSuccess }) => {
+export const AdminDomains: React.FC<Props> = ({ createDomain: _createDomain, deleteDomain, toastSuccess }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [page, setPage] = useState(0);
 	const [selected, setSelected] = useState<string[]>([]);
@@ -54,12 +55,12 @@ export const AdminDomains: React.FC<Props> = ({ createDomain: _createDomain, toa
 	};
 
 	const onSingleDelete = async (invite: string) => {
-		// await deleteInvite([invite]);
+		await deleteDomain([invite]);
 		await mutate();
 	};
 
 	const onBulkDelete = async () => {
-		// await deleteInvite(selected);
+		await deleteDomain(selected);
 		await mutate();
 	};
 
