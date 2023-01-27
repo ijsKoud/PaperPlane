@@ -13,7 +13,7 @@ export default function handler(server: Server, req: Request, res: Response) {
 	const chunk = page > chunks.length ? chunks[chunks.length - 1] : chunks[page];
 
 	res.send({
-		entries: chunk,
+		entries: chunk ?? [],
 		pages: chunks.length
 	});
 }
