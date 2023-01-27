@@ -106,6 +106,33 @@ const AdminSettingsPanel: NextPage = () => {
 		} catch (error) {}
 	};
 
+	const createDomain = async (data: { domain: string }, helpers: FormikHelpers<{ domain: string }>) => {
+		const promise = async () => {
+			try {
+				await axios.post("/api/admin/domains", { data });
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				helpers.resetForm({
+					values: data,
+					errors: Object.keys(data)
+						.map((key) => ({ [key]: error }))
+						.reduce((a, b) => ({ ...a, ...b }), {})
+				});
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Building new hanger...",
+				error: "Hanger collapsed during the construction :(",
+				success: "New hanger is completed and ready to use!."
+			});
+		} catch (error) {}
+	};
+
 	const [inviteModal, setInviteModal] = useState(false);
 	const enableInviteModal = () => setInviteModal(true);
 	const disableInviteModal = () => setInviteModal(false);
@@ -120,7 +147,7 @@ const AdminSettingsPanel: NextPage = () => {
 				toastSuccess={(str) => toast.success(str)}
 			/>
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
-			<AdminDomains />
+			<AdminDomains createDomain={createDomain} toastSuccess={(str) => toast.success(str)} />
 		</AdminLayout>
 	);
 };
