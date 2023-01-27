@@ -12,6 +12,7 @@ import { array, number, object, string } from "yup";
 
 interface Props {
 	onSubmit: (...props: any) => void | Promise<void>;
+	enableInviteModal: () => void;
 }
 
 export interface SettingsForm {
@@ -31,7 +32,7 @@ export interface SettingsForm {
 	auditlogUnit: (typeof TIME_UNITS_ARRAY)[number];
 }
 
-export const AdminSettingsForm: React.FC<Props> = ({ onSubmit }) => {
+export const AdminSettingsForm: React.FC<Props> = ({ onSubmit, enableInviteModal }) => {
 	const [initValues, setInitValues] = useState<SettingsForm>({
 		authMode: "2fa",
 		signUpMode: "closed",
@@ -161,7 +162,9 @@ export const AdminSettingsForm: React.FC<Props> = ({ onSubmit }) => {
 										</p>
 									</div>
 									<div>
-										<PrimaryButton type="button">Open list of Invite Codes</PrimaryButton>
+										<PrimaryButton type="button" onClick={enableInviteModal}>
+											Open list of Invite Codes
+										</PrimaryButton>
 										<p className="text-red text-left text-small font-normal">&#8203;</p>
 									</div>
 								</div>

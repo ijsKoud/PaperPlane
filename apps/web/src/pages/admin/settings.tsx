@@ -1,9 +1,10 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminSettingsForm, SettingsForm } from "@paperplane/ui";
+import { AdminLayout, AdminSettingsForm, InvitesModal, SettingsForm } from "@paperplane/ui";
 import axios, { AxiosError } from "axios";
 import { getProtocol, parseToDay } from "@paperplane/utils";
 import type { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -56,9 +57,14 @@ const AdminSettingsPanel: NextPage = () => {
 		} catch (error) {}
 	};
 
+	const [inviteModal, setInviteModal] = useState(false);
+	const enableInviteModal = () => setInviteModal(true);
+	const disableInviteModal = () => setInviteModal(false);
+
 	return (
 		<AdminLayout>
-			<AdminSettingsForm onSubmit={onSubmit} />
+			<InvitesModal isOpen={inviteModal} onClick={disableInviteModal} />
+			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
 		</AdminLayout>
 	);
 };
