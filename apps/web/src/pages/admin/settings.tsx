@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { AdminLayout, AdminSettingsForm, InvitesModal, SettingsForm } from "@paperplane/ui";
 import axios, { AxiosError } from "axios";
-import { getProtocol, parseToDay } from "@paperplane/utils";
+import { getProtocol, Invite, parseToDay } from "@paperplane/utils";
 import type { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -57,13 +57,40 @@ const AdminSettingsPanel: NextPage = () => {
 		} catch (error) {}
 	};
 
+	const createInviteCode = async () => {
+		const promise = async () => {
+			try {
+				const res = await axios.post<Invite>("/api/invites/create");
+				return res.data;
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			const res = await toast.promise(promise(), {
+				pending: "Inviting all PaperPlanes...",
+				error: "The carrier pigeons failed to deliver the invites :(",
+				success: "All PaperPlanes invited!"
+			});
+
+			return res;
+		} catch (error) {}
+
+		return undefined;
+	};
+
 	const [inviteModal, setInviteModal] = useState(false);
 	const enableInviteModal = () => setInviteModal(true);
 	const disableInviteModal = () => setInviteModal(false);
 
 	return (
 		<AdminLayout>
-			<InvitesModal isOpen={inviteModal} onClick={disableInviteModal} />
+			<InvitesModal isOpen={inviteModal} onClick={disableInviteModal} createInvite={createInviteCode} />
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
 		</AdminLayout>
 	);

@@ -2,7 +2,7 @@ import axios from "axios";
 import UseSwr from "swr";
 import type { FetcherResponse, PublicConfiguration } from "swr/_internal";
 
-export const defaultFetcher = (url: string) => axios.get(url).then((res) => res.data);
+export const defaultFetcher = (url: string) => axios.get(url, { withCredentials: true }).then((res) => res.data);
 
 export const useSwr = <Response = any, Error = any>(
 	url: string,
