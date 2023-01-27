@@ -9,7 +9,7 @@ export const useSwr = <Response = any, Error = any>(
 	options?: Partial<PublicConfiguration<Response, Error, (args: string) => FetcherResponse<Response>>>,
 	fetcher = defaultFetcher
 ) => {
-	const swr = UseSwr<Response, Error, string>(url, fetcher, options);
+	const swr = UseSwr<Response, Error, string>(url, fetcher, { revalidateOnFocus: false, ...options });
 	return swr;
 };
 
@@ -18,6 +18,6 @@ export const useSwrWithUpdates = <Response = any, Error = any>(
 	options?: Partial<PublicConfiguration<Response, Error, (args: string) => FetcherResponse<Response>>>,
 	fetcher = defaultFetcher
 ) => {
-	const swr = UseSwr<Response, Error, string>(url, fetcher, { refreshInterval: 5e3, ...options });
+	const swr = UseSwr<Response, Error, string>(url, fetcher, { refreshInterval: 5e3, revalidateOnFocus: false, ...options });
 	return swr;
 };
