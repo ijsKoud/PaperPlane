@@ -68,7 +68,7 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, c
 	return (
 		<Modal onClick={onClick} isOpen={isOpen}>
 			<div className="w-[60vw] max-xl:w-[80vw]">
-				<div className="flex items-center justify-between">
+				<div className="flex items-center justify-between max-sm:flex-col">
 					<h1 className="text-3xl">Invite Codes</h1>
 					<div className="flex gap-4">
 						<TransparentButton type="button" onClick={previousPage} disabled={page <= 0}>
@@ -85,7 +85,7 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, c
 						{invites.entries.map((invite) => (
 							<TableEntry key={invite.invite}>
 								<td>
-									<p title={invite.invite} className="max-w-[300px] overflow-hidden whitespace-nowrap text-ellipsis">
+									<p title={invite.invite} className="max-w-[300px] overflow-hidden whitespace-nowrap text-ellipsis text-base">
 										{invite.invite}
 									</p>
 								</td>
@@ -103,7 +103,7 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, c
 						))}
 					</Table>
 				</div>
-				<div className="mt-4 flex gap-2 items-center">
+				<div className="mt-4 flex gap-2 items-center max-sm:flex-col">
 					<PrimaryButton type="button" onClick={onCreateClick}>
 						Create Invite
 					</PrimaryButton>
