@@ -129,8 +129,8 @@ export const AdminDomains: React.FC<Props> = ({ createDomain: _createDomain, del
 					<div className="mt-4 flex gap-2 justify-center flex-col">
 						<Formik initialValues={{ domain: "" }} validationSchema={schema} onSubmit={createDomain}>
 							{(formik) => (
-								<Form className="flex items-center justify-between w-full">
-									<div className="w-3/4">
+								<Form className="flex items-center justify-between w-full max-lg:flex-col">
+									<div className="w-3/4 max-lg:w-full">
 										<Input
 											className="h-[45px] w-full"
 											type="primary"
@@ -142,8 +142,13 @@ export const AdminDomains: React.FC<Props> = ({ createDomain: _createDomain, del
 											{formik.errors.domain && `* ${formik.errors.domain}`}&#8203;
 										</p>
 									</div>
-									<div className="w-fit">
-										<PrimaryButton type="button" disabled={formik.isSubmitting || !formik.isValid} onClick={formik.submitForm}>
+									<div className="w-fit max-lg:w-full">
+										<PrimaryButton
+											type="button"
+											className="max-lg:w-full"
+											disabled={formik.isSubmitting || !formik.isValid}
+											onClick={formik.submitForm}
+										>
 											{formik.isSubmitting ? <PulseLoader color="#fff" /> : <>Create new domain</>}
 										</PrimaryButton>
 										<p className="text-red text-left text-small font-normal">&#8203;</p>
