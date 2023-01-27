@@ -1,4 +1,4 @@
-import { PrimaryButton, TransparentButton } from "@paperplane/buttons";
+import { DangerButton, PrimaryButton, TransparentButton } from "@paperplane/buttons";
 import { Modal } from "@paperplane/modal";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { formatDate, Invite, InviteGetApi } from "@paperplane/utils";
@@ -44,6 +44,11 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, c
 		await mutate();
 	};
 
+	const onBulkDelete = async () => {
+		await deleteInvite(selected);
+		await mutate();
+	};
+
 	return (
 		<Modal onClick={onClick} isOpen={isOpen}>
 			<div className="w-[60vw] max-xl:w-[80vw]">
@@ -71,10 +76,13 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, c
 						))}
 					</Table>
 				</div>
-				<div className="mt-4">
+				<div className="mt-4 flex gap-2 items-center">
 					<PrimaryButton type="button" onClick={onCreateClick}>
 						Create Invite
 					</PrimaryButton>
+					<DangerButton type="button" onClick={onBulkDelete}>
+						Delete Selected Invites
+					</DangerButton>
 				</div>
 			</div>
 		</Modal>

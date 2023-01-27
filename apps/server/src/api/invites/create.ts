@@ -18,7 +18,9 @@ export default async function handler(server: Server, req: Request, res: Respons
 	}
 
 	const invites: string[] = _invites.filter((inv) => typeof inv === "string");
-	await Promise.all(invites.map((inv) => server.domains.deleteInvite(inv)));
+	for await (const invite of invites) {
+		await server.domains.deleteInvite(invite);
+	}
 
 	res.sendStatus(204);
 }
