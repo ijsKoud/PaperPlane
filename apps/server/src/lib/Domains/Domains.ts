@@ -4,9 +4,11 @@ import { Domain } from "./Domain.js";
 import type Prisma from "@prisma/client";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
+import type { Invites } from "@prisma/client";
 
 export class Domains {
 	public domains = new Collection<string, Domain>();
+	public invites: Invites[] = [];
 
 	public constructor(public server: Server) {}
 
@@ -16,6 +18,8 @@ export class Domains {
 			const dm = new Domain(this.server, domain);
 			this.domains.set(dm.domain, dm);
 		}
+
+		this.invites = await this.server.prisma.invites.findMany();
 	}
 
 	public async resetAuth() {
