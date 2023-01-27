@@ -5,6 +5,7 @@ import type Prisma from "@prisma/client";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import type { Invites } from "@prisma/client";
+import { Auth } from "../Auth.js";
 
 export class Domains {
 	public domains = new Collection<string, Domain>();
@@ -20,6 +21,13 @@ export class Domains {
 		}
 
 		this.invites = await this.server.prisma.invites.findMany();
+	}
+
+	public async createInvite() {
+		const invite = await this.server.prisma.invites.create({ data: { invite: Auth.generateToken(16) } });
+		this.invites.push(invite);
+
+		return invite;
 	}
 
 	public async resetAuth() {
