@@ -23,6 +23,14 @@ export class Domains {
 		this.invites = await this.server.prisma.invites.findMany();
 	}
 
+	public async deleteInvite(invite: string) {
+		const found = this.invites.find((inv) => inv.invite === invite);
+		if (found) {
+			this.invites = this.invites.filter((inv) => inv.invite !== found.invite);
+			await this.server.prisma.invites.delete({ where: { invite: found.invite } });
+		}
+	}
+
 	public async createInvite() {
 		const invite = await this.server.prisma.invites.create({ data: { invite: Auth.generateToken(16) } });
 		this.invites.push(invite);
