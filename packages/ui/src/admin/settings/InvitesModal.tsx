@@ -20,7 +20,7 @@ export const InvitesModal: React.FC<Props> = ({ isOpen, onClick, deleteInvite, c
 	const [page, setPage] = useState(0);
 	const [selected, setSelected] = useState<string[]>([]);
 	const [invites, setInvites] = useState<InviteGetApi>({ entries: [], pages: 0 });
-	const { data: invitesGetData, mutate } = useSwrWithUpdates<InviteGetApi>(`/api/invites/list?page=${page}`);
+	const { data: invitesGetData, mutate } = useSwrWithUpdates<InviteGetApi>(`/api/invites/list?page=${page}`, { refreshInterval: isOpen ? 5e3 : 0 });
 
 	useEffect(() => {
 		if (invitesGetData) setInvites(invitesGetData);
