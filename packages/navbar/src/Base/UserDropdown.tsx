@@ -1,6 +1,8 @@
 import type React from "react";
 import { motion, Variants } from "framer-motion";
 import { PrimaryButton, TransparentButton } from "@paperplane/buttons";
+import { useRouter } from "next/router";
+import { deleteCookie } from "cookies-next";
 
 const variants: Variants = {
 	initial: {
@@ -28,10 +30,22 @@ const variants: Variants = {
 
 interface Props {
 	onClick: () => void;
+	toastInfo: (str: string) => void;
+
 	showSettings: boolean;
 }
 
-const UserDropdown: React.FC<Props> = ({ onClick, showSettings }) => {
+const UserDropdown: React.FC<Props> = ({ onClick, toastInfo, showSettings }) => {
+	const { route, push } = useRouter();
+
+	const logoutFunction = () => {
+		const key = route.startsWith("/admin") ? "PAPERPLANE-ADMIN" : "PAPERPLANE-AUTH";
+
+		deleteCookie(key);
+		toastInfo("Redirecting you to the login page...");
+		void push("/login");
+	};
+
 	return (
 		<motion.div
 			variants={variants}
@@ -48,7 +62,7 @@ const UserDropdown: React.FC<Props> = ({ onClick, showSettings }) => {
 					<div className="h-[1px] w-full bg-white-200 my-2" />
 				</>
 			)}
-			<PrimaryButton type="button" className="py-1 rounded-md">
+			<PrimaryButton type="button" onClick={logoutFunction} className="py-1 rounded-md">
 				<p className="w-full">Logout</p>
 			</PrimaryButton>
 		</motion.div>
