@@ -33,6 +33,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 			return;
 		}
 
+		server.adminAuditLogs.register("SignUp Domain Create", `Domain: ${domain}`);
 		await server.prisma.signupDomain.create({ data: { domain } });
 		res.sendStatus(204);
 		return;
@@ -45,6 +46,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 			return;
 		}
 
+		server.adminAuditLogs.register("SignUp Domains Delete", `Domains: ${domains.join(",")}`);
 		await server.prisma.signupDomain.deleteMany({ where: { domain: { in: domains } } });
 		res.sendStatus(204);
 	}
