@@ -28,12 +28,16 @@ export class Domains {
 		if (found) {
 			this.invites = this.invites.filter((inv) => inv.invite !== found.invite);
 			await this.server.prisma.invites.delete({ where: { invite: found.invite } });
+
+			this.server.adminAuditLogs.register("Invite Delete", `Invite: ${found.invite}`);
 		}
 	}
 
 	public async createInvite() {
 		const invite = await this.server.prisma.invites.create({ data: { invite: Auth.generateToken(16) } });
 		this.invites.push(invite);
+
+		this.server.adminAuditLogs.register("Invite Create", `Invite: ${invite.invite}`);
 
 		return invite;
 	}
