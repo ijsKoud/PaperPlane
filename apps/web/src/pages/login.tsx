@@ -8,6 +8,7 @@ import { Formik, Form, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { PulseLoader } from "react-spinners";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const _user = context.query?.user;
@@ -73,14 +74,29 @@ const Login: NextPage<Props> = ({ domains, domain, mode }) => {
 			  });
 
 	const onSubmit = async (values: FormProps, helpers: FormikHelpers<FormProps>) => {
+		const promise = async () => {
+			try {
+				await axios.post("/api/auth/login", values);
+				void router.push("/admin");
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				helpers.resetForm({
+					errors: { code: error, password: error, domain: error },
+					values: { code: "", password: "", domain: values.domain }
+				});
+
+				throw new Error();
+			}
+		};
+
 		try {
-			await axios.post("/api/auth/login", values);
-			void router.push("/admin");
-		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "Unknown error, please try again later.";
-			helpers.resetForm({ errors: { code: error, password: error, domain: error }, values: { code: "", password: "", domain: values.domain } });
-		}
+			await toast.promise(promise, {
+				error: "Delta Echo 4 Bravo, request to enter airspace rejected.",
+				pending: "Requesting access...",
+				success: "Delta Echo 4 Bravo, request to enter airspace approved."
+			});
+		} catch (err) {}
 	};
 
 	return (
