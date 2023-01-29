@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminDomains, AdminLayout, AdminSettingsForm, InvitesModal, SettingsForm } from "@paperplane/ui";
+import { AdminBackups, AdminDomains, AdminLayout, AdminResetButtons, AdminSettingsForm, InvitesModal, SettingsForm } from "@paperplane/ui";
 import axios, { AxiosError } from "axios";
 import { getProtocol, Invite, parseToDay } from "@paperplane/utils";
 import type { FormikHelpers } from "formik";
@@ -170,6 +170,8 @@ const AdminSettingsPanel: NextPage = () => {
 			/>
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
 			<AdminDomains createDomain={createDomain} deleteDomain={deleteDomain} toastSuccess={(str) => toast.success(str)} />
+			<AdminBackups />
+			<AdminResetButtons />
 		</AdminLayout>
 	);
 };
