@@ -24,6 +24,7 @@
 		"@paperplane/utils": "*",
 		"axios": "^1.2.3",
 		"formik": "^2.2.9",
+		"next-seo": "^5.15.0",
 		"rc-progress": "^3.4.1",
 		"react-spinners": "^0.13.8",
 		"react-toastify": "^9.1.1",
