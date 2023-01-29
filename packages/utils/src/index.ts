@@ -49,23 +49,6 @@ export const getProtocol = () => {
 };
 
 export const parseToDay = (amount: number, unit: (typeof TIME_UNITS_ARRAY)[number]) => {
-	switch (unit) {
-		case "w":
-			unit = "d";
-			amount *= 7;
-			break;
-		case "mth":
-			unit = "d";
-			amount *= 31;
-			break;
-		case "y":
-			unit = "d";
-			amount *= 365;
-			break;
-		default:
-			break;
-	}
-
 	return `${amount}${unit}`;
 };
 

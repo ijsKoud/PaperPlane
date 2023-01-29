@@ -76,13 +76,50 @@ export interface CreateGetApi {
 	};
 }
 
+export interface SettingsGetApi {
+	domains: SignUpDomain[];
+	defaults: {
+		authMode: "2fa" | "password";
+		signUpMode: "closed" | "open" | "invite";
+		extensions: string[];
+		extensionsMode: "block" | "pass";
+		maxStorage: number;
+		maxUploadSize: number;
+		auditlog: number;
+	};
+}
+
+export interface SignUpDomain {
+	domain: string;
+	date: Date;
+}
+
+export interface InviteGetApi {
+	entries: Invite[];
+	pages: number;
+}
+
+export interface Invite {
+	invite: string;
+	date: Date;
+}
+
+export interface SignUpDomainGetApi {
+	entries: SignUpDomain[];
+	pages: number;
+}
+
+export interface SignUpDomain {
+	domain: string;
+	date: Date;
+}
+
 export const TIME_UNITS = [
 	{ label: "Seconds", value: "s" },
 	{ label: "Minutes", value: "m" },
 	{ label: "Days", value: "d" },
 	{ label: "Weeks", value: "w" },
-	{ label: "Months", value: "mth" },
 	{ label: "Years", value: "y" }
 ] as const;
 
-export const TIME_UNITS_ARRAY = ["s", "m", "d", "w", "mth", "y"] as const;
+export const TIME_UNITS_ARRAY = ["s", "m", "d", "w", "y"] as const;

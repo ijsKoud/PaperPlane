@@ -37,6 +37,11 @@ model SignupDomain {
   @@map("signup_domain")
 }
 
+model Invites {
+  invite String   @id
+  Date   DateTime @default(now())
+}
+
 model Auditlog {
   id   String   @id @unique @default(uuid())
   date DateTime @default(now())

@@ -4,9 +4,12 @@ import { Domain } from "./Domain.js";
 import type Prisma from "@prisma/client";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
+import type { Invites } from "@prisma/client";
+import { Auth } from "../Auth.js";
 
 export class Domains {
 	public domains = new Collection<string, Domain>();
+	public invites: Invites[] = [];
 
 	public constructor(public server: Server) {}
 
@@ -16,6 +19,35 @@ export class Domains {
 			const dm = new Domain(this.server, domain);
 			this.domains.set(dm.domain, dm);
 		}
+
+		this.invites = await this.server.prisma.invites.findMany();
+	}
+
+	public async deleteInvite(invite: string) {
+		const found = this.invites.find((inv) => inv.invite === invite);
+		if (found) {
+			this.invites = this.invites.filter((inv) => inv.invite !== found.invite);
+			await this.server.prisma.invites.delete({ where: { invite: found.invite } });
+
+			this.server.adminAuditLogs.register("Invite Delete", `Invite: ${found.invite}`);
+		}
+	}
+
+	public async createInvite() {
+		const invite = await this.server.prisma.invites.create({ data: { invite: Auth.generateToken(16) } });
+		this.invites.push(invite);
+
+		this.server.adminAuditLogs.register("Invite Create", `Invite: ${invite.invite}`);
+
+		return invite;
+	}
+
+	public async resetAuth() {
+		for await (const [, domain] of this.domains) {
+			await domain.resetAuth();
+		}
+
+		this.server.adminAuditLogs.register("AuthMode Change", `Mode: ${this.server.envConfig.authMode}`);
 	}
 
 	public async create(data: Prisma.Prisma.DomainCreateArgs["data"]) {

@@ -19,12 +19,8 @@ export default function handler(server: Server, req: Request, res: Response) {
 		return;
 	}
 
-	const authSecret = domain!.secret;
-	if (!authSecret.length) {
-		if (typeof code === "string" && code.startsWith("BC-")) {
-			// TODO: use back-up code
-		}
-
+	if (typeof code === "string" && code.startsWith("BC-")) {
+		// TODO: use back-up code
 		res.status(400).send({ message: "Invalid account provided" });
 		return;
 	}

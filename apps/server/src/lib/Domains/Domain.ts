@@ -30,6 +30,15 @@ export class Domain {
 		this.recordStorage();
 	}
 
+	public async resetAuth() {
+		const res = await this.server.prisma.domain.update({
+			where: { domain: this.domain },
+			data: { password: null, twoFactorSecret: null, backupCodes: "paperplane-cdn" }
+		});
+
+		this._parse(res);
+	}
+
 	public async update(data: Prisma.DomainUpdateArgs["data"]) {
 		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data });
 		this._parse(res);
