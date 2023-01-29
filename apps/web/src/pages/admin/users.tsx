@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import type { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
+import { NextSeo } from "next-seo";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -196,6 +197,7 @@ const AdminPanelUsers: NextPage = () => {
 
 	return (
 		<AdminLayout className="max-w-[1250px]">
+			<NextSeo title="Admin User Panel" />
 			<ConfirmModal isOpen={deleteBulk} cancel={() => setDeleteBulk(false)} confirm={onSubmitDelete} />
 			<CreateUserModal onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />
 			<UpdateUserModal domains={selected} onSubmit={onSubmitBulk} isOpen={editBulk} onClick={() => setEditBulk(false)} />

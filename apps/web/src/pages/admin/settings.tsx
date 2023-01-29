@@ -5,6 +5,7 @@ import { getProtocol, Invite, parseToDay } from "@paperplane/utils";
 import type { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { NextSeo } from "next-seo";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -161,6 +162,7 @@ const AdminSettingsPanel: NextPage = () => {
 
 	return (
 		<AdminLayout>
+			<NextSeo title="Admin Settings Panel" />
 			<InvitesModal
 				isOpen={inviteModal}
 				onClick={disableInviteModal}

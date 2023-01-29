@@ -4,6 +4,7 @@ import axios from "axios";
 import { AuditLogApi, formatDate, getProtocol, ServiceApi } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
+import { NextSeo } from "next-seo";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -54,6 +55,7 @@ const AdminPanel: NextPage = () => {
 
 	return (
 		<AdminLayout>
+			<NextSeo title="Admin Panel" />
 			<div className="w-full h-80 flex gap-6 items-center px-2 max-md:flex-col max-md:h-auto">
 				<AdminUsage
 					storageUsage={service.storageUsage}
