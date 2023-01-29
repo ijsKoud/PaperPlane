@@ -1,9 +1,10 @@
 import type { NextPage } from "next";
 import { DashboardLayout, DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
+import { toast } from "react-toastify";
 
 const Dashboard: NextPage = () => {
 	return (
-		<DashboardLayout>
+		<DashboardLayout toastInfo={(str) => toast.info(str)}>
 			<div className="w-full h-80 flex gap-8 items-center px-2 max-md:flex-col max-md:h-auto">
 				<DashboardStorageUsage used={7.7e9} total={1e10} />
 				<DashboardStatistics files={1528} shorturls={38} />

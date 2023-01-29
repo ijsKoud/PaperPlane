@@ -19,6 +19,7 @@
 		"@paperplane/swr": "*",
 		"@paperplane/utils": "*",
 		"axios": "^1.2.2",
+		"cookies-next": "^2.1.1",
 		"framer-motion": "^8.1.7",
 		"react-spinners": "^0.13.7"
 	},

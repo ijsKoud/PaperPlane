@@ -11,9 +11,10 @@ import { AnimatePresence } from "framer-motion";
 
 interface Props {
 	settingsButton?: boolean;
+	toastInfo: (str: string) => void;
 }
 
-export const BaseNavbar: React.FC<Props> = ({ settingsButton }) => {
+export const BaseNavbar: React.FC<Props> = ({ settingsButton, toastInfo }) => {
 	const [ChangelogOpen, setChangelogOpen] = useState(false);
 	const openChangelog = () => setChangelogOpen(true);
 	const closeChangelog = () => setChangelogOpen(false);
@@ -39,7 +40,9 @@ export const BaseNavbar: React.FC<Props> = ({ settingsButton }) => {
 					<div className="relative">
 						<UserButton type="button" onClick={toggleUserDropdown} />
 						<AnimatePresence mode="wait">
-							{userDropdown && <UserDropdown showSettings={settingsButton ?? false} onClick={closeUserDropdown} />}
+							{userDropdown && (
+								<UserDropdown toastInfo={toastInfo} showSettings={settingsButton ?? false} onClick={closeUserDropdown} />
+							)}
 						</AnimatePresence>
 					</div>
 				</div>

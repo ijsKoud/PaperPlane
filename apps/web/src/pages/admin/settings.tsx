@@ -161,7 +161,7 @@ const AdminSettingsPanel: NextPage = () => {
 	const disableInviteModal = () => setInviteModal(false);
 
 	return (
-		<AdminLayout>
+		<AdminLayout toastInfo={(str) => toast.info(str)}>
 			<NextSeo title="Admin Settings Panel" />
 			<InvitesModal
 				isOpen={inviteModal}

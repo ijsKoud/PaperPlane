@@ -196,7 +196,7 @@ const AdminPanelUsers: NextPage = () => {
 	};
 
 	return (
-		<AdminLayout className="max-w-[1250px]">
+		<AdminLayout toastInfo={(str) => toast.info(str)} className="max-w-[1250px]">
 			<NextSeo title="Admin User Panel" />
 			<ConfirmModal isOpen={deleteBulk} cancel={() => setDeleteBulk(false)} confirm={onSubmitDelete} />
 			<CreateUserModal onSubmit={onSubmit} isOpen={createModal} onClick={() => setCreateModal(false)} />

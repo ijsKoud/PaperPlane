@@ -5,6 +5,7 @@ import { AuditLogApi, formatDate, getProtocol, ServiceApi } from "@paperplane/ut
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
 import { NextSeo } from "next-seo";
+import { toast } from "react-toastify";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -54,7 +55,7 @@ const AdminPanel: NextPage = () => {
 	}, [serviceData, auditData]);
 
 	return (
-		<AdminLayout>
+		<AdminLayout toastInfo={(str) => toast.info(str)}>
 			<NextSeo title="Admin Panel" />
 			<div className="w-full h-80 flex gap-6 items-center px-2 max-md:flex-col max-md:h-auto">
 				<AdminUsage
