@@ -27,6 +27,25 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			return;
 		}
 	}
+
+	if (req.method === "DELETE") {
+		try {
+			const data = req.body as { tokens: string[] };
+			if (!Array.isArray(data.tokens)) {
+				res.status(400).send({ message: "Invalid tokens array provided" });
+				return;
+			}
+
+			const filtered = data.tokens.filter((token) => typeof token === "string");
+			await req.locals.domain.deleteTokens(filtered);
+			req.locals.domain.auditlogs.register("Token Delted", `Tokens: ${filtered.join(",")}`);
+			res.sendStatus(204);
+			return;
+		} catch (err) {
+			server.logger.fatal(`[TOKENS:DELETE]: Fatal error while updating a PaperPlane account `, err);
+			res.status(500).send({ message: "Internal server error occured, please try again later." });
+		}
+	}
 }
 
 export const methods: RequestMethods[] = ["post", "delete"];

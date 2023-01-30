@@ -86,6 +86,12 @@ export class Domain {
 		return token;
 	}
 
+	public async deleteTokens(tokens: string[]) {
+		await this.server.prisma.token.deleteMany({ where: { name: { in: tokens } } });
+		const res = await this.server.prisma.token.findMany({ where: { domain: this.domain } });
+		this.apiTokens = res;
+	}
+
 	public toString() {
 		return this.domain;
 	}
