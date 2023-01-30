@@ -22,6 +22,10 @@ export class AuditLog {
 		this.queueUpdate();
 	}
 
+	public async delete() {
+		await this.server.prisma.auditlog.deleteMany({ where: { user: this.user } });
+	}
+
 	public async removeExpired() {
 		const maxAge = this.server.envConfig.auditLogDuration;
 		if (maxAge === 0) return;

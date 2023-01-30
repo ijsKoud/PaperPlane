@@ -61,6 +61,7 @@ export class Domain {
 	}
 
 	public async delete() {
+		await this.auditlogs.delete();
 		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
 		await rm(this.filesPath, { recursive: true });
 
