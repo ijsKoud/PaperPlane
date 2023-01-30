@@ -1,7 +1,6 @@
 import type { Response } from "express";
-import ms from "ms";
 import { Auth } from "../../lib/Auth.js";
-import type { DashboardRequest, Middleware, RequestMethods, UpdateSettingsFormBody } from "../../lib/types.js";
+import type { DashboardRequest, Middleware, RequestMethods, UpdateDashboardSettingsFormBody } from "../../lib/types.js";
 import type Server from "../../Server.js";
 
 export default async function handler(server: Server, req: DashboardRequest, res: Response) {
@@ -22,32 +21,23 @@ export default async function handler(server: Server, req: DashboardRequest, res
 
 	if (req.method === "POST") {
 		try {
-			const data = req.body as UpdateSettingsFormBody;
-			if (!["block", "pass"].includes(data.extensionsMode)) {
-				res.status(400).send({ message: "Invalid extensionMode provided" });
+			const data = req.body as UpdateDashboardSettingsFormBody;
+			if (!["id", "zerowidth", "name"].includes(data.nameStrategy)) {
+				res.status(400).send({ message: "Invalid nameStrategy provided" });
 				return;
 			}
-			if (!["2fa", "password"].includes(data.authMode)) {
-				res.status(400).send({ message: "Invalid authMode provided" });
+
+			if (typeof data.nameLength !== "number" || data.nameLength < 4) {
+				res.status(400).send({ message: "Invalid nameLength provided" });
 				return;
 			}
-			if (!["open", "closed", "invite"].includes(data.signUpMode)) {
-				res.status(400).send({ message: "Invalid signUpMode provided" });
-				return;
-			}
-			const auditlog = ms(data.auditlog);
-			if (isNaN(auditlog)) {
-				res.status(400).send({ message: "Invalid auditlog duration provided" });
-				return;
-			}
-			data.extensions = data.extensions.filter((ext) => ext.startsWith(".") && !ext.endsWith("."));
-			await server.config.update(data);
-			if (server.envConfig.authMode !== data.authMode) await server.domains.resetAuth();
-			server.adminAuditLogs.register("Default Settings Update", "N/A");
+
+			await req.locals.domain.update(data);
+			req.locals.domain.auditlogs.register("Settings Update", `Length: ${data.nameLength}, strategy: ${data.nameStrategy}`);
 			res.sendStatus(204);
 			return;
 		} catch (err) {
-			server.logger.fatal(`[CREATE:POST]: Fatal error while creating a new PaperPlane account `, err);
+			server.logger.fatal(`[SETTINGS:POST]: Fatal error while updating a PaperPlane account `, err);
 			res.status(500).send({ message: "Internal server error occured, please try again later." });
 		}
 	}

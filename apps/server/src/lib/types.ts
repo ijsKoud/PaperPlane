@@ -133,6 +133,11 @@ export interface UpdateSettingsFormBody {
 	auditlog: string;
 }
 
+export interface UpdateDashboardSettingsFormBody {
+	nameStrategy: "id" | "zerowidth" | "name";
+	nameLength: number;
+}
+
 export interface DashboardRequest extends Request {
 	locals: {
 		domain: Domain;
