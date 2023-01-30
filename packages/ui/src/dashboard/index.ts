@@ -6,3 +6,4 @@ export * from "./AuditLogToolbar";
 
 export * from "./files";
 export * from "./urls";
+export * from "./settings";

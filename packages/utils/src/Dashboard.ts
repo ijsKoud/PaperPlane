@@ -71,3 +71,15 @@ export interface ApiUrl {
 	visible: boolean;
 	visits: number;
 }
+
+export interface DashboardSettingsGetApi {
+	nameStrategy: "id" | "zerowidth" | "name";
+	nameLength: number;
+
+	tokens: Token[];
+}
+
+export interface Token {
+	name: string;
+	date: Date;
+}
