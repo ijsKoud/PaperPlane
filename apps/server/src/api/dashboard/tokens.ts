@@ -17,6 +17,11 @@ export default async function handler(server: Server, req: DashboardRequest, res
 				return;
 			}
 
+			if (req.locals.domain.apiTokens.find((token) => token.name === data.name)) {
+				res.status(400).send({ message: "Token with this name already exists" });
+				return;
+			}
+
 			const token = await req.locals.domain.createToken(data.name);
 			req.locals.domain.auditlogs.register("Token Created", `Name: ${data.name}`);
 			res.send(token.token);
