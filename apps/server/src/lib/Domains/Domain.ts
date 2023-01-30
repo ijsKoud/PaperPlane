@@ -29,6 +29,9 @@ export class Domain {
 	public codes!: string[];
 	public apiTokens!: Token[];
 
+	public nameStrategy!: "id" | "name" | "zerowidth";
+	public nameLength!: number;
+
 	public auditlogs: AuditLog;
 	private storageCheckTimeout!: NodeJS.Timeout;
 
@@ -104,6 +107,9 @@ export class Domain {
 
 		this.extensions = data.extensionsList.split(",");
 		this.extensionsMode = data.extensionsMode as "block" | "pass";
+
+		this.nameLength = data.nameLength;
+		this.nameStrategy = ["zerowidth", "name", "id"].includes(data.nameStrategy) ? (data.nameStrategy as any) : "id";
 
 		this.secret = (this.server.envConfig.authMode === "2fa" ? data.twoFactorSecret : data.password) ?? "";
 		this.codes = data.backupCodes.split(",");
