@@ -109,7 +109,7 @@ export class Domain {
 		this.extensionsMode = data.extensionsMode as "block" | "pass";
 
 		this.nameLength = data.nameLength;
-		this.nameStrategy = ["zerowidth", "name", "id"].includes(data.nameStrategy) ? (data.nameStrategy as any) : "id";
+		this.nameStrategy = ["zerowidth", "name", "id"].includes(data.nameStrategy) ? (data.nameStrategy as "id" | "zerowidth" | "name") : "id";
 
 		this.secret = (this.server.envConfig.authMode === "2fa" ? data.twoFactorSecret : data.password) ?? "";
 		this.codes = data.backupCodes.split(",");

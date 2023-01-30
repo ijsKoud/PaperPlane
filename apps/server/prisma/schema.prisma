@@ -30,6 +30,9 @@ model Domain {
   extensionsMode String @default("block") @map("extensions_mode")
 
   auditlogDuration String @map("audit_log_duration")
+
+  nameLength   Int    @default(10) @map("name_length")
+  nameStrategy String @default("id") @map("name_strategy")
 }
 
 model Token {
