@@ -1,12 +1,13 @@
-import { PrimaryButton } from "@paperplane/buttons";
+import { PrimaryButton, TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { useSwr } from "@paperplane/swr";
-import type { DashboardSettingsGetApi } from "@paperplane/utils";
+import { DashboardSettingsGetApi, formatDate } from "@paperplane/utils";
 import { Form, Formik } from "formik";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import { number, object, string } from "yup";
+import { Table, TableEntry } from "../../index";
 
 interface Props {
 	onSubmit: (...props: any) => void | Promise<void>;
@@ -18,16 +19,16 @@ export interface DashboardSettingsForm {
 }
 
 export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit }) => {
-	const [initValues, setInitValues] = useState<DashboardSettingsForm>({ nameLength: 10, nameStrategy: "id" });
+	const [selected, setSelected] = useState<string[]>([]);
+	const [initValues, setInitValues] = useState<DashboardSettingsForm & { tokens: DashboardSettingsGetApi["tokens"] }>({
+		nameLength: 10,
+		nameStrategy: "id",
+		tokens: []
+	});
 	const { data: settingsGetData } = useSwr<DashboardSettingsGetApi>("/api/dashboard/settings");
 
 	useEffect(() => {
-		if (settingsGetData) {
-			setInitValues({
-				nameLength: settingsGetData.nameLength,
-				nameStrategy: settingsGetData.nameStrategy
-			});
-		}
+		if (settingsGetData) setInitValues(settingsGetData);
 	}, [settingsGetData]);
 
 	const schema = object({
@@ -35,8 +36,13 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit }) => {
 		nameLength: number().required("A name length is required").min(4, "Name length cannot be smaller than 4 characters")
 	});
 
+	const onSelectClick = (token: string) => {
+		if (selected.includes(token)) setSelected(selected.filter((x) => x !== token));
+		else setSelected([token, ...selected]);
+	};
+
 	return (
-		<div className="max-w-[50vw] max-xl:max-w-[75vw] max-md:max-w-[100vw]">
+		<div className="max-w-[60vw] max-xl:max-w-[75vw] max-md:max-w-[100vw]">
 			<div>
 				<h1 className="text-3xl">Settings</h1>
 			</div>
@@ -44,6 +50,51 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit }) => {
 				{(formik) => (
 					<Form>
 						<ul className="w-full mt-4 pr-2">
+							<li className="w-full mt-4">
+								<div className="mb-2">
+									<h2 className="text-lg">API Access</h2>
+									<p className="text-base">
+										This allows you to create <strong>API Tokens</strong> and a <strong>Generate ShareX configuration</strong>{" "}
+										which can be used to interact with the upload API. For more information of the Upload API, read the
+										<strong>documentation</strong>.
+									</p>
+								</div>
+								<div className="bg-red p-2 rounded-xl my-4">
+									⚠️ <strong>Warning</strong>: Never share API Tokens with anyone except yourself. People could do dangerous things
+									without your knowledge.
+								</div>
+								<div className="flex items-center gap-2 w-full bg-main p-8 rounded-xl overflow-auto">
+									<Table className="w-full" headPosition="left" heads={["Name", "Date", "Options"]} colgroups={[350, 200, 100]}>
+										{initValues.tokens.map((token, key) => (
+											<TableEntry key={key}>
+												<td>
+													<p
+														title={token.name}
+														className="max-w-[350px] overflow-hidden whitespace-nowrap text-ellipsis text-base"
+													>
+														{token.name}
+													</p>
+												</td>
+												<td>{formatDate(token.date)}</td>
+												<td className="flex items-center gap-2">
+													<TransparentButton type="button" onClick={() => void 0}>
+														<i className="fa-solid fa-trash-can text-base" />
+													</TransparentButton>
+													<input
+														type="checkbox"
+														checked={selected.includes(token.name)}
+														onChange={() => onSelectClick(token.name)}
+													/>
+												</td>
+											</TableEntry>
+										))}
+									</Table>
+								</div>
+								<div className="flex items-center gap-2 mt-4">
+									<TertiaryButton type="button">Generate Token</TertiaryButton>
+									<TertiaryButton type="button">ShareX Config</TertiaryButton>
+								</div>
+							</li>
 							<li className="w-full mt-4">
 								<div className="mb-2">
 									<h2 className="text-lg">Naming Strategy</h2>
