@@ -12,6 +12,7 @@ import { Table, TableEntry } from "../../index";
 interface Props {
 	onSubmit: (...props: any) => void | Promise<void>;
 	deleteTokens: (tokens: string[]) => Promise<void>;
+	openTokenModal: () => void;
 }
 
 export interface DashboardSettingsForm {
@@ -19,7 +20,7 @@ export interface DashboardSettingsForm {
 	nameLength: number;
 }
 
-export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens: _deleteTokens }) => {
+export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens: _deleteTokens, openTokenModal }) => {
 	const [selected, setSelected] = useState<string[]>([]);
 	const [initValues, setInitValues] = useState<DashboardSettingsForm & { tokens: DashboardSettingsGetApi["tokens"] }>({
 		nameLength: 10,
@@ -106,7 +107,9 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens:
 									</Table>
 								</div>
 								<div className="flex items-center gap-2 mt-4">
-									<TertiaryButton type="button">Generate Token</TertiaryButton>
+									<TertiaryButton type="button" onClick={openTokenModal}>
+										Generate Token
+									</TertiaryButton>
 									<TertiaryButton type="button">ShareX Config</TertiaryButton>
 									<DangerButton type="button" onClick={deleteTokens}>
 										Delete Selected
