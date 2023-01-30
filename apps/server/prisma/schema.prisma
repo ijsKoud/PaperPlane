@@ -19,7 +19,9 @@ model Domain {
 
   password        String?
   twoFactorSecret String? @map("two_factor_secret")
-  backupCodes     String  @default("paperplane-cdn") @map("backup_codes")
+
+  backupCodes String @default("paperplane-cdn") @map("backup_codes")
+  apiTokens   String @default("") @map("api_tokens")
 
   maxStorage    String @default("0 B") @map("max_storage")
   maxUploadSize String @default("0 B") @map("max_upload_size")

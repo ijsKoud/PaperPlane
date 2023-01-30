@@ -23,6 +23,7 @@ export class Domain {
 
 	public secret!: string;
 	public codes!: string[];
+	public apiTokens!: string[];
 
 	public auditlogs: AuditLog;
 	private storageCheckTimeout!: NodeJS.Timeout;
@@ -99,6 +100,7 @@ export class Domain {
 
 		this.secret = (this.server.envConfig.authMode === "2fa" ? data.twoFactorSecret : data.password) ?? "";
 		this.codes = data.backupCodes.split(",");
+		this.apiTokens = data.apiTokens.split(",");
 	}
 
 	private recordStorage() {
