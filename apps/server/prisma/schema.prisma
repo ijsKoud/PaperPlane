@@ -35,6 +35,7 @@ model Domain {
 model Token {
   domain String @id
 
+  name  String
   token String
   date  DateTime @default(now())
 
