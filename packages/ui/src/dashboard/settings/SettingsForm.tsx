@@ -13,6 +13,7 @@ interface Props {
 	onSubmit: (...props: any) => void | Promise<void>;
 	deleteTokens: (tokens: string[]) => Promise<void>;
 	openTokenModal: () => void;
+	downloadShareX: () => void;
 }
 
 export interface DashboardSettingsForm {
@@ -20,7 +21,7 @@ export interface DashboardSettingsForm {
 	nameLength: number;
 }
 
-export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens: _deleteTokens, openTokenModal }) => {
+export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens: _deleteTokens, openTokenModal, downloadShareX }) => {
 	const [selected, setSelected] = useState<string[]>([]);
 	const [initValues, setInitValues] = useState<DashboardSettingsForm & { tokens: DashboardSettingsGetApi["tokens"] }>({
 		nameLength: 10,
@@ -110,7 +111,9 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens:
 									<TertiaryButton type="button" onClick={openTokenModal}>
 										Generate Token
 									</TertiaryButton>
-									<TertiaryButton type="button">ShareX Config</TertiaryButton>
+									<TertiaryButton type="button" onClick={downloadShareX}>
+										Download ShareX Config
+									</TertiaryButton>
 									<DangerButton type="button" onClick={deleteTokens}>
 										Delete Selected
 									</DangerButton>

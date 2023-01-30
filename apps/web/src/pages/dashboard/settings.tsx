@@ -1,11 +1,12 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { DashboardLayout, DashboardSettingsForm, TokenModal } from "@paperplane/ui";
 import { toast } from "react-toastify";
-import { getProtocol } from "@paperplane/utils";
+import { generateToken, getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
 import { NextSeo } from "next-seo";
 import type { FormikHelpers } from "formik";
 import { useState } from "react";
+import { saveAs } from "file-saver";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -111,11 +112,56 @@ const DashboardSettings: NextPage = () => {
 		return undefined;
 	};
 
+	const downloadShareX = async () => {
+		const promise = async () => {
+			try {
+				const res = await axios.post<string>("/api/dashboard/tokens", { name: `ShareX-token-${generateToken(12)}` });
+				return res.data;
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			const res = await toast.promise(promise(), {
+				pending: "Downloading ShareX configuration...",
+				error: "Unable to download the configuration :(",
+				success: "ShareX configuration downloaded and ready to use!"
+			});
+
+			const config = {
+				Name: "PaperPlane",
+				DestinationType: "ImageUploader, TextUploader, FileUploader, URLShortener",
+				RequestMethod: "POST",
+				RequestURL: `${location.protocol}//${location.host}/api/upload`,
+				Headers: {
+					Authorization: res
+				},
+				URL: "$json:url$",
+				Body: "MultipartFormData",
+				FileFormName: "upload",
+				Arguments: {
+					name: "$filename$",
+					short: "$input$"
+				}
+			};
+
+			const blob = new Blob([JSON.stringify(config)], {
+				type: "data:application/json;charset=utf-8"
+			});
+			saveAs(blob, "PaperPlane-config.sxcu");
+		} catch (error) {}
+	};
+
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)}>
 			<NextSeo title="Settings" />
 			<TokenModal isOpen={tokenModal} onClick={closeTokenModal} generateToken={createToken} />
-			<DashboardSettingsForm onSubmit={onSubmit} deleteTokens={deleteTokens} openTokenModal={openTokenModal} />
+			<DashboardSettingsForm onSubmit={onSubmit} deleteTokens={deleteTokens} openTokenModal={openTokenModal} downloadShareX={downloadShareX} />
 		</DashboardLayout>
 	);
 };

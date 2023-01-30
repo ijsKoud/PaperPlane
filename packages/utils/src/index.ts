@@ -52,5 +52,13 @@ export const parseToDay = (amount: number, unit: (typeof TIME_UNITS_ARRAY)[numbe
 	return `${amount}${unit}`;
 };
 
+export const generateToken = (length = 32) => {
+	const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
+	let res = "";
+
+	for (let i = 0; i !== length; ++i) res += charset[Math.floor(Math.random() * charset.length)];
+	return res;
+};
+
 export * from "./Dashboard";
 export * from "./Admin";
