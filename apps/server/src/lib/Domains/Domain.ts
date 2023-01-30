@@ -5,6 +5,7 @@ import { join } from "node:path";
 import ms from "ms";
 import { rm } from "node:fs/promises";
 import { AuditLog } from "../AuditLog.js";
+import { Auth } from "../Auth.js";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -76,6 +77,13 @@ export class Domain {
 		await rm(this.filesPath, { recursive: true });
 
 		clearTimeout(this.storageCheckTimeout);
+	}
+
+	public async createToken(name: string) {
+		const token = await this.server.prisma.token.create({ data: { domain: this.domain, name, token: Auth.generateToken(32) } });
+		this.apiTokens.push(token);
+
+		return token;
 	}
 
 	public toString() {
