@@ -1,4 +1,4 @@
-import { PrimaryButton } from "@paperplane/buttons";
+import { PrimaryButton, TransparentButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { PulseLoader } from "react-spinners";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { NextSeo } from "next-seo";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const _user = context.query?.user;
@@ -77,7 +78,8 @@ const Login: NextPage<Props> = ({ domains, domain, mode }) => {
 		const promise = async () => {
 			try {
 				await axios.post("/api/auth/login", values);
-				void router.push("/admin");
+				if (values.domain === "admin") void router.push("/admin");
+				else void router.push("/dashboard");
 			} catch (err) {
 				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
 				const error = _error || "Unknown error, please try again later.";
@@ -101,6 +103,7 @@ const Login: NextPage<Props> = ({ domains, domain, mode }) => {
 
 	return (
 		<div className="grid place-items-center h-screen bg-login bg-cover bg-center">
+			<NextSeo title="Sign in to your account" />
 			<Formik
 				initialValues={{ domain: getDefaultValue() ?? "", code: "", password: "" }}
 				validationSchema={schema}
@@ -151,6 +154,15 @@ const Login: NextPage<Props> = ({ domains, domain, mode }) => {
 									)}
 								</div>
 							)}
+							<TransparentButton
+								type="link"
+								href="/reset"
+								className="text-sm text-left w-full -mt-6 text-white-600 hover:text-white-400"
+								onClick={formData.submitForm}
+								disabled={formData.isSubmitting || !formData.isValid}
+							>
+								Forgot your login credentials?
+							</TransparentButton>
 							<PrimaryButton
 								type="button"
 								className="w-full flex gap-x-3 items-center justify-center"
