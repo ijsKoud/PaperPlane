@@ -1,6 +1,6 @@
 import { DangerButton, PrimaryButton, TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
-import { useSwr } from "@paperplane/swr";
+import { useSwrWithUpdates } from "@paperplane/swr";
 import { DashboardSettingsGetApi, formatDate } from "@paperplane/utils";
 import { Form, Formik } from "formik";
 import type React from "react";
@@ -27,7 +27,7 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens:
 		nameStrategy: "id",
 		tokens: []
 	});
-	const { data: settingsGetData, mutate } = useSwr<DashboardSettingsGetApi>("/api/dashboard/settings");
+	const { data: settingsGetData, mutate } = useSwrWithUpdates<DashboardSettingsGetApi>("/api/dashboard/settings");
 
 	useEffect(() => {
 		if (settingsGetData) setInitValues(settingsGetData);
