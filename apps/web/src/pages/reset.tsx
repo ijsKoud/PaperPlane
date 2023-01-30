@@ -64,7 +64,7 @@ const Reset: NextPage<Props> = ({ domains, domain }) => {
 		const promise = async () => {
 			try {
 				await axios.post("/api/auth/login", { ...values, code: `BC-${values.code}` });
-				void router.push("/settings?action=reset-auth");
+				void router.push("/dashboard/settings?action=reset-auth");
 			} catch (err) {
 				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
 				const error = _error || "Unknown error, please try again later.";
