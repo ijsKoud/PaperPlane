@@ -36,12 +36,11 @@ model Domain {
 }
 
 model Token {
-  domain String @id
-
-  name  String
+  name  String   @id
   token String
   date  DateTime @default(now())
 
+  domain String
   Domain Domain? @relation(fields: [domain], references: [domain])
 }
 
