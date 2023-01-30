@@ -6,15 +6,22 @@ import { CronJob } from "cron";
 
 export class AuditLog {
 	public logs: Auditlog[] = [];
+	public maxAge: number;
 
 	private _queue: Omit<Auditlog, "id" | "user" | "date">[] = [];
 	private _queueTimeout: NodeJS.Timeout | null = null;
 
-	public constructor(public server: Server, public user: string) {}
+	private cron!: CronJob;
+
+	public constructor(public server: Server, public user: string, maxAge?: number) {
+		if (user === "admin") this.maxAge = this.server.envConfig.auditLogDuration;
+		else this.maxAge = maxAge ?? 0;
+	}
 
 	public async start() {
 		this.logs = await this.server.prisma.auditlog.findMany({ where: { user: this.user } }).catch(() => []);
-		new CronJob("0 1 * * *", this.removeExpired.bind(this), undefined, true, undefined, undefined, true);
+		this.cron = new CronJob("0 1 * * *", this.removeExpired.bind(this), undefined, true);
+		this.cron.start();
 	}
 
 	public register(type: string, details: string) {
@@ -23,16 +30,16 @@ export class AuditLog {
 	}
 
 	public async delete() {
+		this.cron.stop();
 		await this.server.prisma.auditlog.deleteMany({ where: { user: this.user } });
 	}
 
 	public async removeExpired() {
-		const maxAge = this.server.envConfig.auditLogDuration;
-		if (maxAge === 0) return;
+		if (this.maxAge === 0) return;
 
 		const now = Date.now();
 		const mappedAgeId = this.logs.map((log) => ({ age: now - log.date.getTime(), id: log.id }));
-		const toBin = mappedAgeId.filter((v) => v.age >= maxAge);
+		const toBin = mappedAgeId.filter((v) => v.age >= this.maxAge);
 
 		try {
 			await this.server.prisma.auditlog.deleteMany({ where: { id: { in: toBin.map((v) => v.id) }, user: this.user } });

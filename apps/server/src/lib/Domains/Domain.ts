@@ -38,7 +38,7 @@ export class Domain {
 	public constructor(public server: Server, data: iDomain) {
 		this._parse(data);
 		this.recordStorage();
-		this.auditlogs = new AuditLog(server, this.domain);
+		this.auditlogs = new AuditLog(server, this.domain, this.auditlogDuration);
 	}
 
 	public async resetAuth() {
@@ -62,11 +62,12 @@ export class Domain {
 		this._parse(res);
 	}
 
-	public async update(data: Prisma.DomainUpdateArgs["data"]) {
+	public async update(data: Prisma.DomainUpdateArgs["data"], auditlog = true) {
 		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data, include: { apiTokens: true } });
 		this._parse(res);
 
-		this.server.adminAuditLogs.register("Update User", `User: ${this.domain} (${res.pathId})`);
+		if (auditlog) this.server.adminAuditLogs.register("Update User", `User: ${this.domain} (${res.pathId})`);
+		this.auditlogs.maxAge = this.auditlogDuration;
 	}
 
 	public async delete() {
