@@ -4,6 +4,7 @@ import { Utils } from "../utils.js";
 import { join } from "node:path";
 import ms from "ms";
 import { rm } from "node:fs/promises";
+import { AuditLog } from "../AuditLog.js";
 
 export class Domain {
 	public domain!: string;
@@ -23,17 +24,29 @@ export class Domain {
 	public secret!: string;
 	public codes!: string[];
 
+	public auditlogs: AuditLog;
 	private storageCheckTimeout!: NodeJS.Timeout;
 
 	public constructor(public server: Server, data: iDomain) {
 		this._parse(data);
 		this.recordStorage();
+		this.auditlogs = new AuditLog(server, this.domain);
 	}
 
 	public async resetAuth() {
 		const res = await this.server.prisma.domain.update({
 			where: { domain: this.domain },
 			data: { password: null, twoFactorSecret: null, backupCodes: "paperplane-cdn" }
+		});
+
+		this._parse(res);
+	}
+
+	public async removeCode(code: string) {
+		this.codes = this.codes.filter((c) => c !== code);
+		const res = await this.server.prisma.domain.update({
+			where: { domain: this.domain },
+			data: { password: null, twoFactorSecret: null, backupCodes: this.codes.join(",") }
 		});
 
 		this._parse(res);
