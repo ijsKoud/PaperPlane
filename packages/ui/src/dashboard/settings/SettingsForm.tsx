@@ -1,4 +1,4 @@
-import { PrimaryButton, TertiaryButton, TransparentButton } from "@paperplane/buttons";
+import { DangerButton, PrimaryButton, TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { useSwr } from "@paperplane/swr";
 import { DashboardSettingsGetApi, formatDate } from "@paperplane/utils";
@@ -11,6 +11,7 @@ import { Table, TableEntry } from "../../index";
 
 interface Props {
 	onSubmit: (...props: any) => void | Promise<void>;
+	deleteTokens: (tokens: string[]) => Promise<void>;
 }
 
 export interface DashboardSettingsForm {
@@ -18,14 +19,14 @@ export interface DashboardSettingsForm {
 	nameLength: number;
 }
 
-export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit }) => {
+export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens: _deleteTokens }) => {
 	const [selected, setSelected] = useState<string[]>([]);
 	const [initValues, setInitValues] = useState<DashboardSettingsForm & { tokens: DashboardSettingsGetApi["tokens"] }>({
 		nameLength: 10,
 		nameStrategy: "id",
 		tokens: []
 	});
-	const { data: settingsGetData } = useSwr<DashboardSettingsGetApi>("/api/dashboard/settings");
+	const { data: settingsGetData, mutate } = useSwr<DashboardSettingsGetApi>("/api/dashboard/settings");
 
 	useEffect(() => {
 		if (settingsGetData) setInitValues(settingsGetData);
@@ -39,6 +40,20 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit }) => {
 	const onSelectClick = (token: string) => {
 		if (selected.includes(token)) setSelected(selected.filter((x) => x !== token));
 		else setSelected([token, ...selected]);
+	};
+
+	const deleteTokens = async () => {
+		if (!selected.length) return;
+
+		await _deleteTokens(selected);
+		await mutate();
+
+		setSelected([]);
+	};
+
+	const deleteToken = async (token: string) => {
+		await _deleteTokens([token]);
+		await mutate();
 	};
 
 	return (
@@ -77,7 +92,7 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit }) => {
 												</td>
 												<td>{formatDate(token.date)}</td>
 												<td className="flex items-center gap-2">
-													<TransparentButton type="button" onClick={() => void 0}>
+													<TransparentButton type="button" onClick={() => void deleteToken(token.name)}>
 														<i className="fa-solid fa-trash-can text-base" />
 													</TransparentButton>
 													<input
@@ -93,6 +108,9 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit }) => {
 								<div className="flex items-center gap-2 mt-4">
 									<TertiaryButton type="button">Generate Token</TertiaryButton>
 									<TertiaryButton type="button">ShareX Config</TertiaryButton>
+									<DangerButton type="button" onClick={deleteTokens}>
+										Delete Selected
+									</DangerButton>
 								</div>
 							</li>
 							<li className="w-full mt-4">
