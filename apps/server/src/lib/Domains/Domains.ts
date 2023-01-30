@@ -14,7 +14,7 @@ export class Domains {
 	public constructor(public server: Server) {}
 
 	public async start() {
-		const domains = await this.server.prisma.domain.findMany();
+		const domains = await this.server.prisma.domain.findMany({ include: { apiTokens: true } });
 		for (const domain of domains) {
 			const dm = new Domain(this.server, domain);
 			this.domains.set(dm.domain, dm);
@@ -51,7 +51,7 @@ export class Domains {
 	}
 
 	public async create(data: Prisma.Prisma.DomainCreateArgs["data"]) {
-		const res = await this.server.prisma.domain.create({ data });
+		const res = await this.server.prisma.domain.create({ data, include: { apiTokens: true } });
 
 		await mkdir(join(process.cwd(), "..", "..", "data", "files", res.pathId), { recursive: true });
 		this.domains.set(res.domain, new Domain(this.server, res));

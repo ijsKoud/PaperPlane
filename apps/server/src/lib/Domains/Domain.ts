@@ -1,10 +1,14 @@
 import type Server from "../../Server.js";
-import type { Domain as iDomain, Prisma } from "@prisma/client";
+import type { Domain as DomainInterface, Token, Prisma } from "@prisma/client";
 import { Utils } from "../utils.js";
 import { join } from "node:path";
 import ms from "ms";
 import { rm } from "node:fs/promises";
 import { AuditLog } from "../AuditLog.js";
+
+type iDomain = DomainInterface & {
+	apiTokens: Token[];
+};
 
 export class Domain {
 	public domain!: string;
@@ -23,7 +27,7 @@ export class Domain {
 
 	public secret!: string;
 	public codes!: string[];
-	public apiTokens!: string[];
+	public apiTokens!: Token[];
 
 	public auditlogs: AuditLog;
 	private storageCheckTimeout!: NodeJS.Timeout;
@@ -37,7 +41,8 @@ export class Domain {
 	public async resetAuth() {
 		const res = await this.server.prisma.domain.update({
 			where: { domain: this.domain },
-			data: { password: null, twoFactorSecret: null, backupCodes: "paperplane-cdn" }
+			data: { password: null, twoFactorSecret: null, backupCodes: "paperplane-cdn" },
+			include: { apiTokens: true }
 		});
 
 		this._parse(res);
@@ -47,14 +52,15 @@ export class Domain {
 		this.codes = this.codes.filter((c) => c !== code);
 		const res = await this.server.prisma.domain.update({
 			where: { domain: this.domain },
-			data: { password: null, twoFactorSecret: null, backupCodes: this.codes.join(",") }
+			data: { password: null, twoFactorSecret: null, backupCodes: this.codes.join(",") },
+			include: { apiTokens: true }
 		});
 
 		this._parse(res);
 	}
 
 	public async update(data: Prisma.DomainUpdateArgs["data"]) {
-		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data });
+		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data, include: { apiTokens: true } });
 		this._parse(res);
 
 		this.server.adminAuditLogs.register("Update User", `User: ${this.domain} (${res.pathId})`);
@@ -101,7 +107,7 @@ export class Domain {
 
 		this.secret = (this.server.envConfig.authMode === "2fa" ? data.twoFactorSecret : data.password) ?? "";
 		this.codes = data.backupCodes.split(",");
-		this.apiTokens = data.apiTokens.split(",");
+		this.apiTokens = data.apiTokens;
 	}
 
 	private recordStorage() {

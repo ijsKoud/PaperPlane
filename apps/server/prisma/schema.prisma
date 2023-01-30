@@ -20,8 +20,8 @@ model Domain {
   password        String?
   twoFactorSecret String? @map("two_factor_secret")
 
-  backupCodes String @default("paperplane-cdn") @map("backup_codes")
-  apiTokens   String @default("") @map("api_tokens")
+  backupCodes String  @default("paperplane-cdn") @map("backup_codes")
+  apiTokens   Token[]
 
   maxStorage    String @default("0 B") @map("max_storage")
   maxUploadSize String @default("0 B") @map("max_upload_size")
@@ -30,6 +30,16 @@ model Domain {
   extensionsMode String @default("block") @map("extensions_mode")
 
   auditlogDuration String @map("audit_log_duration")
+}
+
+model Token {
+  domain String @id
+
+  token String
+  date  DateTime @default(now())
+
+  Domain       Domain? @relation(fields: [domainDomain], references: [domain])
+  domainDomain String?
 }
 
 model SignupDomain {
