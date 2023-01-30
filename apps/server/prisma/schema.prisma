@@ -42,8 +42,7 @@ model Token {
   token String
   date  DateTime @default(now())
 
-  Domain       Domain? @relation(fields: [domainDomain], references: [domain])
-  domainDomain String?
+  Domain Domain? @relation(fields: [domain], references: [domain])
 }
 
 model SignupDomain {
