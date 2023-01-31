@@ -1,8 +1,8 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { DashboardLayout, DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
+import { AuditLogToolbar, DashboardLayout, DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { DashboardStatsGetApi, getProtocol } from "@paperplane/utils";
+import { AuditLogApi, DashboardStatsGetApi, formatDate, getProtocol } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import axios from "axios";
 
@@ -28,8 +28,14 @@ const Dashboard: NextPage = () => {
 	const [stats, setStats] = useState<DashboardStatsGetApi>({ files: 0, shorturls: 0, storage: { total: 0, used: 0 } });
 	const { data: statsData } = useSwrWithUpdates("/api/dashboard/stats");
 
+	const [page, setPage] = useState(0);
+	const [search, setSearch] = useState("");
+	const [auditLogData, setAuditLogData] = useState<AuditLogApi>({ entries: [], pages: 0 });
+	const { data: auditData } = useSwrWithUpdates<AuditLogApi>(`/api/dashboard/audit?page=${page}&search=${encodeURIComponent(search)}`);
+
 	useEffect(() => {
 		if (statsData) setStats(statsData);
+		if (auditData) setAuditLogData(auditData);
 	}, [statsData]);
 
 	return (
@@ -41,38 +47,16 @@ const Dashboard: NextPage = () => {
 			<div className="w-full px-2">
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">
 					<h1 className="text-xl">Audit Logs</h1>
+					<AuditLogToolbar page={page} pages={auditLogData.pages} setPage={setPage} setSearch={setSearch} />
 					<div className="w-full overflow-x-auto max-w-[calc(100vw-16px-64px-16px)]">
 						<Table className="w-full min-w-[750px]" headPosition="left" heads={["Action", "Details", "Date"]}>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
-							<TableEntry>
-								<td>Image Uploaded</td>
-								<td>Desktop: Windows 11 - Chrome</td>
-								<td>12 Dec. 2022 4:32 PM</td>
-							</TableEntry>
+							{auditLogData.entries.map((audit, key) => (
+								<TableEntry key={key}>
+									<td>{audit.type}</td>
+									<td>{audit.details}</td>
+									<td>{formatDate(audit.date)}</td>
+								</TableEntry>
+							))}
 						</Table>
 					</div>
 				</div>
