@@ -214,7 +214,7 @@ const DashboardSettings: NextPage = () => {
 			await toast.promise(promise(), {
 				pending: "Rebuilding the PaperPlane...",
 				error: "Could not rebuild the PaperPlane due to missing pieces",
-				success: "PaperPlane rebuilt successfully."
+				success: "PaperPlane rebuilt successfully. Use the code 'paperplane-cdn' to reset your password/2fa key."
 			});
 			void router.push("/reset");
 		} catch (error) {}
