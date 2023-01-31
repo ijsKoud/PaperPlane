@@ -136,6 +136,7 @@ export interface UpdateSettingsFormBody {
 export interface UpdateDashboardSettingsFormBody {
 	nameStrategy: "id" | "zerowidth" | "name";
 	nameLength: number;
+	embedEnabled: boolean;
 }
 
 export interface DashboardRequest extends Request {

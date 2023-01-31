@@ -13,7 +13,8 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		res.send({
 			tokens: req.locals.domain.apiTokens.map((token) => ({ name: token.name, date: token.date })),
 			nameLength: req.locals.domain.nameLength,
-			nameStrategy: req.locals.domain.nameStrategy
+			nameStrategy: req.locals.domain.nameStrategy,
+			embedEnabled: req.locals.domain.embedEnabled
 		});
 
 		return;
@@ -32,8 +33,16 @@ export default async function handler(server: Server, req: DashboardRequest, res
 				return;
 			}
 
+			if (typeof data.embedEnabled !== "boolean") {
+				res.status(400).send({ message: "Invalid embedEnabled value provided" });
+				return;
+			}
+
 			await req.locals.domain.update(data);
-			req.locals.domain.auditlogs.register("Settings Update", `Length: ${data.nameLength}, strategy: ${data.nameStrategy}`);
+			req.locals.domain.auditlogs.register(
+				"Settings Update",
+				`Length: ${data.nameLength}, strategy: ${data.nameStrategy}, embedEnabled: ${data.embedEnabled}`
+			);
 			res.sendStatus(204);
 			return;
 		} catch (err) {

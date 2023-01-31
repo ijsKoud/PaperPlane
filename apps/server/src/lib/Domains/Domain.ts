@@ -33,6 +33,11 @@ export class Domain {
 	public nameStrategy!: "id" | "name" | "zerowidth";
 	public nameLength!: number;
 
+	public embedTitle!: string;
+	public embedDescription!: string;
+	public embedColor!: string;
+	public embedEnabled!: boolean;
+
 	public auditlogs: AuditLog;
 	private storageCheckTimeout!: NodeJS.Timeout;
 
@@ -125,6 +130,11 @@ export class Domain {
 
 		this.nameLength = data.nameLength;
 		this.nameStrategy = ["zerowidth", "name", "id"].includes(data.nameStrategy) ? (data.nameStrategy as "id" | "zerowidth" | "name") : "id";
+
+		this.embedTitle = data.embedTitle.slice(0, 256);
+		this.embedDescription = data.embedDescription.slice(0, 4096);
+		this.embedColor = Utils.checkColor(data.embedColor) ? data.embedColor : "#000";
+		this.embedEnabled = data.embedEnabled;
 
 		this.secret = (this.server.envConfig.authMode === "2fa" ? data.twoFactorSecret : data.password) ?? "";
 		this.codes = data.backupCodes.split(",");
