@@ -232,7 +232,7 @@ const DashboardSettings: NextPage<{ authMode: "2fa" | "password" }> = ({ authMod
 	const resetAuthFn = async (values: ResetAuthForm, helpers: FormikHelpers<ResetAuthForm>) => {
 		const promise = async () => {
 			try {
-				const codes = await axios.post<string[]>("/api/dashboard/reset", values);
+				const codes = await axios.patch<string[]>("/api/auth/reset", values);
 				return codes.data;
 			} catch (err) {
 				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";

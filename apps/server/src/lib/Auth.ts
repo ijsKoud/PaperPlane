@@ -20,6 +20,12 @@ export class Auth {
 		return { ...token, key };
 	}
 
+	public static generateBackupCodes() {
+		return Array(9)
+			.fill(null)
+			.map(() => Auth.generateToken(8));
+	}
+
 	public static generateToken(length = 32) {
 		const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
 		let res = "";
