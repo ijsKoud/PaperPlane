@@ -89,3 +89,12 @@ export interface DashboardEmbedGetApi {
 	description: string;
 	color: string;
 }
+
+export interface DashboardStatsGetApi {
+	files: number;
+	shorturls: number;
+	storage: {
+		total: number;
+		used: number;
+	};
+}

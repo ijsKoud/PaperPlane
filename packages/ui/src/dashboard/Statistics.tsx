@@ -8,7 +8,7 @@ interface Props {
 
 export const DashboardStatistics: React.FC<Props> = ({ files, shorturls }) => {
 	return (
-		<div className="bg-main p-8 rounded-xl h-full">
+		<div className="bg-main p-8 rounded-xl h-full w-full">
 			<h1 className="text-xl">Statistics</h1>
 			<div className="flex flex-wrap gap-x-16 gap-y-4 mt-4">
 				<div>
