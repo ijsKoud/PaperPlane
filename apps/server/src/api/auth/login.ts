@@ -70,8 +70,6 @@ export default async function handler(server: Server, req: Request, res: Respons
 
 		res.cookie(`PAPERPLANE-AUTH`, Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 		res.sendStatus(204);
-
-		res.sendStatus(204);
 		return;
 	}
 
