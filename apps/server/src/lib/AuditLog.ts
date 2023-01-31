@@ -19,7 +19,9 @@ export class AuditLog {
 	}
 
 	public async start() {
-		this.logs = await this.server.prisma.auditlog.findMany({ where: { user: this.user } }).catch(() => []);
+		const logs = await this.server.prisma.auditlog.findMany({ where: { user: this.user } });
+		this.logs = logs;
+
 		this.cron = new CronJob("0 1 * * *", this.removeExpired.bind(this), undefined, true);
 		this.cron.start();
 	}
@@ -65,7 +67,7 @@ export class AuditLog {
 			this._queueTimeout = null;
 		};
 
-		const timeout = setTimeout(timeoutFunction.bind(this), 6e4);
+		const timeout = setTimeout(timeoutFunction.bind(this), 3e4);
 		this._queueTimeout = timeout;
 	}
 

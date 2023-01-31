@@ -15,8 +15,10 @@ export class Domains {
 
 	public async start() {
 		const domains = await this.server.prisma.domain.findMany({ include: { apiTokens: true } });
-		for (const domain of domains) {
+		for await (const domain of domains) {
 			const dm = new Domain(this.server, domain);
+			await dm.start();
+
 			this.domains.set(dm.domain, dm);
 		}
 

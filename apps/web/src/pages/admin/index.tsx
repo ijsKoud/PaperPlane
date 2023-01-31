@@ -43,11 +43,7 @@ const AdminPanel: NextPage = () => {
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 	const [auditLogData, setAuditLogData] = useState<AuditLogApi>({ entries: [], pages: 0 });
-	const { data: auditData } = useSwrWithUpdates<AuditLogApi>(
-		`/api/admin/audit?page=${page}&search=${encodeURIComponent(search)}`,
-		undefined,
-		(url) => axios({ url, withCredentials: true }).then((res) => res.data)
-	);
+	const { data: auditData } = useSwrWithUpdates<AuditLogApi>(`/api/admin/audit?page=${page}&search=${encodeURIComponent(search)}`);
 
 	useEffect(() => {
 		if (serviceData) setService(serviceData);
