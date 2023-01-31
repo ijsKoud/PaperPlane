@@ -67,7 +67,7 @@ export class AuditLog {
 			this._queueTimeout = null;
 		};
 
-		const timeout = setTimeout(timeoutFunction.bind(this), 6e4);
+		const timeout = setTimeout(timeoutFunction.bind(this), 3e4);
 		this._queueTimeout = timeout;
 	}
 
