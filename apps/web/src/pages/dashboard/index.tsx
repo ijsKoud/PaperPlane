@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { AuditLogApi, DashboardStatsGetApi, formatDate, getProtocol } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import axios from "axios";
+import { NextSeo } from "next-seo";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -40,6 +41,7 @@ const Dashboard: NextPage = () => {
 
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)}>
+			<NextSeo title="Dashboard" />
 			<div className="w-full h-80 flex gap-8 items-center px-2 max-md:flex-col max-md:h-auto">
 				<DashboardStorageUsage used={stats.storage.used} total={stats.storage.total} />
 				<DashboardStatistics files={stats.files} shorturls={stats.shorturls} />
