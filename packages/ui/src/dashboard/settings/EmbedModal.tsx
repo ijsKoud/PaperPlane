@@ -24,7 +24,7 @@ export const EmbedModal: React.FC<Props> = ({ isOpen, onClick, updateEmbed }) =>
 		color: "#1f2021"
 	});
 
-	const { data } = useSwr<DashboardEmbedGetApi>("/api/dashboard/embed", { revalidateOnFocus: false });
+	const { data, mutate } = useSwr<DashboardEmbedGetApi>("/api/dashboard/embed", { revalidateOnFocus: false });
 
 	useEffect(() => {
 		if (data) setValues(data);
@@ -43,6 +43,7 @@ export const EmbedModal: React.FC<Props> = ({ isOpen, onClick, updateEmbed }) =>
 
 	const submitForm = async (values: DashboardEmbedGetApi, helpers: FormikHelpers<DashboardEmbedGetApi>) => {
 		await updateEmbed(values, helpers);
+		await mutate();
 	};
 
 	return (
