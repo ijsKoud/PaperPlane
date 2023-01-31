@@ -139,6 +139,12 @@ export interface UpdateDashboardSettingsFormBody {
 	embedEnabled: boolean;
 }
 
+export interface UpdateDashboardEmbedFormBody {
+	title: string;
+	description: string;
+	color: string;
+}
+
 export interface DashboardRequest extends Request {
 	locals: {
 		domain: Domain;

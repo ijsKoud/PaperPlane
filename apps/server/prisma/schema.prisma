@@ -37,7 +37,7 @@ model Domain {
   embedEnabled     Boolean @default(false) @map("embed_enabled")
   embedDescription String  @default("")
   embedTitle       String  @default("")
-  embedColor       String  @default("#000")
+  embedColor       String  @default("#000000")
 }
 
 model Token {
