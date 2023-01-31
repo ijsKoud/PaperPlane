@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { DashboardLayout, DashboardSettingsForm, EmbedModal, TokenModal } from "@paperplane/ui";
+import { ConfirmModal, DashboardLayout, DashboardSettingsForm, EmbedModal, TokenModal } from "@paperplane/ui";
 import { toast } from "react-toastify";
 import { DashboardEmbedGetApi, generateToken, getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
@@ -7,6 +7,7 @@ import { NextSeo } from "next-seo";
 import type { FormikHelpers } from "formik";
 import { useState } from "react";
 import { saveAs } from "file-saver";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -27,6 +28,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const DashboardSettings: NextPage = () => {
+	const router = useRouter();
+
 	const [tokenModal, setTokenModal] = useState(false);
 	const openTokenModal = () => setTokenModal(true);
 	const closeTokenModal = () => setTokenModal(false);
@@ -34,6 +37,10 @@ const DashboardSettings: NextPage = () => {
 	const [embedModal, setEmbedModal] = useState(false);
 	const openEmbedModal = () => setEmbedModal(true);
 	const closeEmbedModal = () => setEmbedModal(false);
+
+	const [ResetAccount, setResetAccount] = useState(false);
+	const openResetAccount = () => setResetAccount(true);
+	const closeResetAccount = () => setResetAccount(false);
 
 	const onSubmit = async (values: DashboardSettingsForm & { tokens: string[] }, helpers: FormikHelpers<DashboardSettingsForm>) => {
 		const promise = async () => {
@@ -190,16 +197,41 @@ const DashboardSettings: NextPage = () => {
 		return undefined;
 	};
 
+	const resetAccount = async () => {
+		const promise = async () => {
+			try {
+				await axios.delete<string>("/api/dashboard/reset");
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Rebuilding the PaperPlane...",
+				error: "Could not rebuild the PaperPlane due to missing pieces",
+				success: "PaperPlane rebuilt successfully."
+			});
+			void router.push("/reset");
+		} catch (error) {}
+	};
+
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)}>
 			<NextSeo title="Settings" />
 			<TokenModal isOpen={tokenModal} onClick={closeTokenModal} generateToken={createToken} />
 			<EmbedModal isOpen={embedModal} onClick={closeEmbedModal} updateEmbed={updateEmbed} />
+			<ConfirmModal isOpen={ResetAccount} cancel={closeResetAccount} confirm={resetAccount} />
 			<DashboardSettingsForm
 				onSubmit={onSubmit}
 				deleteTokens={deleteTokens}
 				openEmbedModal={openEmbedModal}
 				openTokenModal={openTokenModal}
+				openResetAccount={openResetAccount}
 				downloadShareX={downloadShareX}
 			/>
 		</DashboardLayout>

@@ -15,6 +15,7 @@ interface Props {
 
 	openEmbedModal: () => void;
 	openTokenModal: () => void;
+	openResetAccount: () => void;
 	downloadShareX: () => void;
 }
 
@@ -24,7 +25,14 @@ export interface DashboardSettingsForm {
 	embedEnabled: boolean;
 }
 
-export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens: _deleteTokens, openEmbedModal, openTokenModal, downloadShareX }) => {
+export const DashboardSettingsForm: React.FC<Props> = ({
+	onSubmit,
+	deleteTokens: _deleteTokens,
+	openEmbedModal,
+	openTokenModal,
+	openResetAccount,
+	downloadShareX
+}) => {
 	const [selected, setSelected] = useState<string[]>([]);
 	const [initValues, setInitValues] = useState<DashboardSettingsForm & { tokens: DashboardSettingsGetApi["tokens"] }>({
 		embedEnabled: false,
@@ -195,8 +203,23 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens:
 									</div>
 								</div>
 							</li>
+							<li className="w-full mt-4">
+								<div className="mb-2">
+									<h2 className="text-lg">BIG RED BUTTONS!!</h2>
+									<p className="text-base">
+										Here you can reset your password/2FA or your account. Note: once a reset is progress you cannot go back so use
+										it wisely!
+									</p>
+								</div>
+								<div className="flex items-center gap-2 w-full">
+									<DangerButton type="button" onClick={openResetAccount}>
+										Reset Account
+									</DangerButton>
+									<DangerButton type="button">Reset 2FA/Password</DangerButton>
+								</div>
+							</li>
 						</ul>
-						<PrimaryButton type="button" className="mt-4" disabled={formik.isSubmitting || !formik.isValid} onClick={formik.submitForm}>
+						<PrimaryButton type="button" className="my-8" disabled={formik.isSubmitting || !formik.isValid} onClick={formik.submitForm}>
 							{formik.isSubmitting ? <PulseLoader color="#fff" /> : <>Update Settings</>}
 						</PrimaryButton>
 					</Form>
