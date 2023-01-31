@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { DashboardLayout, DashboardSettingsForm, TokenModal } from "@paperplane/ui";
+import { DashboardLayout, DashboardSettingsForm, EmbedModal, TokenModal } from "@paperplane/ui";
 import { toast } from "react-toastify";
-import { generateToken, getProtocol } from "@paperplane/utils";
+import { DashboardEmbedGetApi, generateToken, getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
 import { NextSeo } from "next-seo";
 import type { FormikHelpers } from "formik";
@@ -161,10 +161,40 @@ const DashboardSettings: NextPage = () => {
 		} catch (error) {}
 	};
 
+	const updateEmbed = async (values: DashboardEmbedGetApi, helpers: FormikHelpers<DashboardEmbedGetApi>) => {
+		const promise = async () => {
+			try {
+				await axios.post<string>("/api/dashboard/embed", values);
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				helpers.resetForm({
+					values,
+					errors: Object.keys(values)
+						.map((key) => ({ [key]: error }))
+						.reduce((a, b) => ({ ...a, ...b }), {})
+				});
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Repainting the PaperPlane decals...",
+				error: "The paint wasn't dry before the expected end date :(",
+				success: "The repainted PaperPlane is ready to use!"
+			});
+		} catch (error) {}
+
+		return undefined;
+	};
+
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)}>
 			<NextSeo title="Settings" />
 			<TokenModal isOpen={tokenModal} onClick={closeTokenModal} generateToken={createToken} />
+			<EmbedModal isOpen={embedModal} onClick={closeEmbedModal} updateEmbed={updateEmbed} />
 			<DashboardSettingsForm
 				onSubmit={onSubmit}
 				deleteTokens={deleteTokens}

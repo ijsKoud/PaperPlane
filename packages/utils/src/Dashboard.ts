@@ -83,3 +83,9 @@ export interface Token {
 	name: string;
 	date: Date;
 }
+
+export interface DashboardEmbedGetApi {
+	title: string;
+	description: string;
+	color: string;
+}
