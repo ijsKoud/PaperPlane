@@ -4,9 +4,28 @@ import _ from "lodash";
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 import type { NextFunction, Request, Response } from "express";
 import type Server from "../Server.js";
+import type { DashboardRequest } from "./types.js";
+import { Collection } from "@discordjs/collection";
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Auth {
+	public authReset = new Collection<string, { token: string; timeout: NodeJS.Timeout }>();
+
+	public generateAuthReset(user: string) {
+		const key = Auth.generateToken(12);
+		const token = Auth.generate2FASecret(user);
+
+		const timeout = setTimeout(() => this.authReset.delete(key), 9e5);
+		this.authReset.set(key, { timeout, token: token.secret });
+
+		return { ...token, key };
+	}
+
+	public static generateBackupCodes() {
+		return Array(9)
+			.fill(null)
+			.map(() => Auth.generateToken(8));
+	}
+
 	public static generateToken(length = 32) {
 		const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
 		let res = "";
@@ -71,12 +90,31 @@ export class Auth {
 
 	public static adminMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
 		try {
-			const authCookie: string = req.cookies["PAPERPLANE-ADMIN"] ?? "";
-			if (!authCookie) throw new Error("Unauthorized");
+			const authCookie: string = req.cookies["PAPERPLANE-ADMIN"];
+			if (!authCookie.length) throw new Error("Unauthorized");
 
 			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, "admin");
 			if (!verify) throw new Error("Unauthorized");
 
+			next();
+		} catch (err) {
+			res.status(401).send({ message: err.message });
+		}
+	}
+
+	public static userMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
+		try {
+			const authCookie: string = req.cookies["PAPERPLANE-AUTH"];
+			if (!authCookie.length) throw new Error("Unauthorized");
+
+			const proxyHost = req.headers["x-forwarded-host"];
+			const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
+			const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
+
+			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.domain || req.hostname);
+			if (!verify) throw new Error("Unauthorized");
+
+			(req as DashboardRequest).locals = { domain: host! };
 			next();
 		} catch (err) {
 			res.status(401).send({ message: err.message });

@@ -5,7 +5,7 @@ import { Auth } from "../../lib/Auth.js";
 import type { RequestMethods } from "../../lib/types.js";
 import type Server from "../../Server.js";
 
-export default function handler(server: Server, req: Request, res: Response) {
+export default async function handler(server: Server, req: Request, res: Response) {
 	const { domain: _domain, code, password } = req.body ?? {};
 
 	if (typeof _domain !== "string") {
@@ -19,13 +19,22 @@ export default function handler(server: Server, req: Request, res: Response) {
 		return;
 	}
 
+	const ua = AuditLog.getUserAgentData(req.headers["user-agent"]);
+
 	if (typeof code === "string" && code.startsWith("BC-")) {
-		// TODO: use back-up code
-		res.status(400).send({ message: "Invalid account provided" });
+		const sliced = code.slice(3, code.length);
+		if (domain!.codes.includes(sliced)) {
+			await domain!.removeCode(sliced);
+
+			domain!.auditlogs.register("Login: Backup Code", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
+			res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
+			res.sendStatus(204);
+			return;
+		}
+
+		res.status(400).send({ message: "Invalid backup code provided" });
 		return;
 	}
-
-	const ua = AuditLog.getUserAgentData(req.headers["user-agent"]);
 
 	if (code) {
 		if (typeof code !== "string" || code.length !== 6) {
@@ -61,8 +70,6 @@ export default function handler(server: Server, req: Request, res: Response) {
 
 		res.cookie(`PAPERPLANE-AUTH`, Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 		res.sendStatus(204);
-
-		res.sendStatus(204);
 		return;
 	}
 
@@ -81,6 +88,7 @@ export default function handler(server: Server, req: Request, res: Response) {
 		return;
 	}
 
+	domain!.auditlogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 	res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 	res.sendStatus(204);
 }

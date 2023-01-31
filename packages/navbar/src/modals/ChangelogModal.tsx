@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { TransparentButton } from "@paperplane/buttons";
 import { PAPERPLANE_VERSION, parseReleaseMarkdown } from "@paperplane/utils";
 import { useSwr } from "@paperplane/swr";
+import axios from "axios";
 
 const Markdown = dynamic(() => import("@paperplane/markdown"));
 
@@ -14,7 +15,7 @@ interface ReleaseApiRes {
 const ChangelogModal: React.FC = () => {
 	const releaseApiUrl = `https://api.github.com/repos/ijsKoud/paperplane/releases/tags/v${PAPERPLANE_VERSION}`;
 	const releaseUrl = `https://github.com/ijsKoud/PaperPlane/releases/tag/v${PAPERPLANE_VERSION}`;
-	const { data, isLoading, error } = useSwr<ReleaseApiRes>(releaseApiUrl);
+	const { data, isLoading, error } = useSwr<ReleaseApiRes>(releaseApiUrl, undefined, (url) => axios.get(url).then((res) => res.data));
 
 	if (isLoading)
 		return (

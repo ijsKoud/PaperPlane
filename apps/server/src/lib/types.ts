@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import type Server from "../Server.js";
+import type { Domain } from "./index.js";
 
 export interface RawEnvConfig {
 	ENCRYPTION_KEY: string;
@@ -130,4 +131,22 @@ export interface UpdateSettingsFormBody {
 	extensionsMode: "block" | "pass";
 
 	auditlog: string;
+}
+
+export interface UpdateDashboardSettingsFormBody {
+	nameStrategy: "id" | "zerowidth" | "name";
+	nameLength: number;
+	embedEnabled: boolean;
+}
+
+export interface UpdateDashboardEmbedFormBody {
+	title: string;
+	description: string;
+	color: string;
+}
+
+export interface DashboardRequest extends Request {
+	locals: {
+		domain: Domain;
+	};
 }

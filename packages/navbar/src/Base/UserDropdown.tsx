@@ -56,7 +56,7 @@ const UserDropdown: React.FC<Props> = ({ onClick, toastInfo, showSettings }) => 
 		>
 			{showSettings && (
 				<>
-					<TransparentButton type="link" href="/settings" className="h-[10px]" onClick={onClick}>
+					<TransparentButton type="link" href="/dashboard/settings" className="h-[10px]" onClick={onClick}>
 						<p className="text-base font-normal text-center">Settings</p>
 					</TransparentButton>
 					<div className="h-[1px] w-full bg-white-200 my-2" />

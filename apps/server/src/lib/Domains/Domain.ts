@@ -1,9 +1,15 @@
 import type Server from "../../Server.js";
-import type { Domain as iDomain, Prisma } from "@prisma/client";
+import type { Domain as DomainInterface, Token, Prisma } from "@prisma/client";
 import { Utils } from "../utils.js";
 import { join } from "node:path";
 import ms from "ms";
 import { rm } from "node:fs/promises";
+import { AuditLog } from "../AuditLog.js";
+import { Auth } from "../Auth.js";
+
+type iDomain = DomainInterface & {
+	apiTokens: Token[];
+};
 
 export class Domain {
 	public domain!: string;
@@ -22,35 +28,92 @@ export class Domain {
 
 	public secret!: string;
 	public codes!: string[];
+	public apiTokens!: Token[];
 
+	public nameStrategy!: "id" | "name" | "zerowidth";
+	public nameLength!: number;
+
+	public embedTitle!: string;
+	public embedDescription!: string;
+	public embedColor!: string;
+	public embedEnabled!: boolean;
+
+	public auditlogs: AuditLog;
 	private storageCheckTimeout!: NodeJS.Timeout;
 
 	public constructor(public server: Server, data: iDomain) {
 		this._parse(data);
 		this.recordStorage();
+		this.auditlogs = new AuditLog(server, this.domain, this.auditlogDuration);
+	}
+
+	public async reset() {
+		await this.server.prisma.token.deleteMany({ where: { domain: this.domain } });
+		const res = await this.server.prisma.domain.delete({ where: { domain: this.domain } });
+		const newDomain = await this.server.prisma.domain.create({
+			data: {
+				disabled: res.disabled,
+				auditlogDuration: res.auditlogDuration,
+				domain: this.domain,
+				date: this.date,
+				backupCodes: "paperplane-cdn",
+				pathId: res.pathId
+			},
+			include: { apiTokens: true }
+		});
+
+		this.auditlogs.register("Reset", "Full account reset");
+		this._parse(newDomain);
 	}
 
 	public async resetAuth() {
 		const res = await this.server.prisma.domain.update({
 			where: { domain: this.domain },
-			data: { password: null, twoFactorSecret: null, backupCodes: "paperplane-cdn" }
+			data: { password: null, twoFactorSecret: null, backupCodes: "paperplane-cdn" },
+			include: { apiTokens: true }
 		});
 
 		this._parse(res);
 	}
 
-	public async update(data: Prisma.DomainUpdateArgs["data"]) {
-		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data });
+	public async removeCode(code: string) {
+		this.codes = this.codes.filter((c) => c !== code);
+		const res = await this.server.prisma.domain.update({
+			where: { domain: this.domain },
+			data: { password: null, twoFactorSecret: null, backupCodes: this.codes.join(",") },
+			include: { apiTokens: true }
+		});
+
+		this._parse(res);
+	}
+
+	public async update(data: Prisma.DomainUpdateArgs["data"], auditlog = true) {
+		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data, include: { apiTokens: true } });
 		this._parse(res);
 
-		this.server.adminAuditLogs.register("Update User", `User: ${this.domain} (${res.pathId})`);
+		if (auditlog) this.server.adminAuditLogs.register("Update User", `User: ${this.domain} (${res.pathId})`);
+		this.auditlogs.maxAge = this.auditlogDuration;
 	}
 
 	public async delete() {
+		await this.auditlogs.delete();
 		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
 		await rm(this.filesPath, { recursive: true });
 
 		clearTimeout(this.storageCheckTimeout);
+	}
+
+	public async createToken(name: string) {
+		const token = await this.server.prisma.token.create({ data: { domain: this.domain, name, token: Auth.generateToken(32) } });
+		this.apiTokens.push(token);
+
+		return token;
+	}
+
+	public async deleteTokens(tokens: string[]) {
+		await this.server.prisma.token.deleteMany({ where: { name: { in: tokens } } });
+		const res = await this.server.prisma.token.findMany({ where: { domain: this.domain } });
+		this.apiTokens = res;
 	}
 
 	public toString() {
@@ -84,8 +147,17 @@ export class Domain {
 		this.extensions = data.extensionsList.split(",");
 		this.extensionsMode = data.extensionsMode as "block" | "pass";
 
+		this.nameLength = data.nameLength;
+		this.nameStrategy = ["zerowidth", "name", "id"].includes(data.nameStrategy) ? (data.nameStrategy as "id" | "zerowidth" | "name") : "id";
+
+		this.embedTitle = data.embedTitle.slice(0, 256);
+		this.embedDescription = data.embedDescription.slice(0, 4096);
+		this.embedColor = Utils.checkColor(data.embedColor) ? data.embedColor : "#000";
+		this.embedEnabled = data.embedEnabled;
+
 		this.secret = (this.server.envConfig.authMode === "2fa" ? data.twoFactorSecret : data.password) ?? "";
 		this.codes = data.backupCodes.split(",");
+		this.apiTokens = data.apiTokens;
 	}
 
 	private recordStorage() {
