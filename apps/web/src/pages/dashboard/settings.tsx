@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { ConfirmModal, DashboardLayout, DashboardSettingsForm, EmbedModal, TokenModal } from "@paperplane/ui";
+import { ConfirmModal, DashboardLayout, DashboardSettingsForm, EmbedModal, ResetAuthForm, ResetAuthModal, TokenModal } from "@paperplane/ui";
 import { toast } from "react-toastify";
 import { DashboardEmbedGetApi, generateToken, getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
@@ -10,9 +10,12 @@ import { saveAs } from "file-saver";
 import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
-		headers: { "X-PAPERPLANE-AUTH-KEY": context.req.cookies["PAPERPLANE-AUTH"] }
-	});
+	const stateRes = await axios.get<{ admin: boolean; domain: boolean; mode: "2fa" | "password" }>(
+		`${getProtocol()}${context.req.headers.host}/api/auth/state`,
+		{
+			headers: { "X-PAPERPLANE-AUTH-KEY": context.req.cookies["PAPERPLANE-AUTH"] }
+		}
+	);
 
 	if (!stateRes.data.domain)
 		return {
@@ -23,11 +26,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 
 	return {
-		props: {}
+		props: {
+			authMode: stateRes.data.mode
+		}
 	};
 };
 
-const DashboardSettings: NextPage = () => {
+const DashboardSettings: NextPage<{ authMode: "2fa" | "password" }> = ({ authMode }) => {
 	const router = useRouter();
 
 	const [tokenModal, setTokenModal] = useState(false);
@@ -41,6 +46,10 @@ const DashboardSettings: NextPage = () => {
 	const [ResetAccount, setResetAccount] = useState(false);
 	const openResetAccount = () => setResetAccount(true);
 	const closeResetAccount = () => setResetAccount(false);
+
+	const [resetAuth, setResetAuth] = useState(false);
+	const openResetAuth = () => setResetAuth(true);
+	const closeResetAuth = () => setResetAuth(false);
 
 	const onSubmit = async (values: DashboardSettingsForm & { tokens: string[] }, helpers: FormikHelpers<DashboardSettingsForm>) => {
 		const promise = async () => {
@@ -220,18 +229,58 @@ const DashboardSettings: NextPage = () => {
 		} catch (error) {}
 	};
 
+	const resetAuthFn = async (values: ResetAuthForm, helpers: FormikHelpers<ResetAuthForm>) => {
+		const promise = async () => {
+			try {
+				const codes = await axios.post<string[]>("/api/dashboard/reset", values);
+				return codes.data;
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				helpers.resetForm({
+					values,
+					errors: Object.keys(values)
+						.map((key) => ({ [key]: error }))
+						.reduce((a, b) => ({ ...a, ...b }), {})
+				});
+
+				throw new Error();
+			}
+		};
+
+		try {
+			const res = await toast.promise(promise(), {
+				pending: "Repainting the PaperPlane decals...",
+				error: "The paint wasn't dry before the expected end date :(",
+				success: "The repainted PaperPlane is ready to use!"
+			});
+			return res;
+		} catch (error) {}
+
+		return undefined;
+	};
+
+	const downloadCodes = (codes: string[]) => {
+		const blob = new Blob([codes.join("\n")], {
+			type: "data:application/json;charset=utf-8"
+		});
+		saveAs(blob, "paperplane-backup-codes.txt");
+	};
+
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)}>
 			<NextSeo title="Settings" />
 			<TokenModal isOpen={tokenModal} onClick={closeTokenModal} generateToken={createToken} />
 			<EmbedModal isOpen={embedModal} onClick={closeEmbedModal} updateEmbed={updateEmbed} />
 			<ConfirmModal isOpen={ResetAccount} cancel={closeResetAccount} confirm={resetAccount} />
+			<ResetAuthModal isOpen={resetAuth} onClick={closeResetAuth} authMode={authMode} resetAuth={resetAuthFn} downloadCodes={downloadCodes} />
 			<DashboardSettingsForm
 				onSubmit={onSubmit}
 				deleteTokens={deleteTokens}
 				openEmbedModal={openEmbedModal}
 				openTokenModal={openTokenModal}
 				openResetAccount={openResetAccount}
+				openResetAuth={openResetAuth}
 				downloadShareX={downloadShareX}
 			/>
 		</DashboardLayout>

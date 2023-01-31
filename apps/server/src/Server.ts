@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { join } from "node:path";
 import next from "next";
-import { Config, Logger, Api, Utils, AuditLog, Domains } from "./lib/index.js";
+import { Config, Logger, Api, Utils, AuditLog, Domains, Auth } from "./lib/index.js";
 import { LogLevel } from "@snowcrystals/icicle";
 import { readFileSync } from "node:fs";
 import { PrismaClient } from "@prisma/client";
@@ -16,6 +16,7 @@ export default class Server {
 	public logger: Logger;
 	public config = new Config(this);
 	public api = new Api(this);
+	public auth = new Auth();
 
 	public prisma = new PrismaClient();
 	public adminAuditLogs = new AuditLog(this, "admin");

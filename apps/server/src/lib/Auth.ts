@@ -5,9 +5,21 @@ import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 import type { NextFunction, Request, Response } from "express";
 import type Server from "../Server.js";
 import type { DashboardRequest } from "./types.js";
+import { Collection } from "@discordjs/collection";
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Auth {
+	public authReset = new Collection<string, { token: string; timeout: NodeJS.Timeout }>();
+
+	public generateAuthReset(user: string) {
+		const key = Auth.generateToken(12);
+		const token = Auth.generate2FASecret(user);
+
+		const timeout = setTimeout(() => this.authReset.delete(key), 9e5);
+		this.authReset.set(key, { timeout, token: token.secret });
+
+		return { ...token, key };
+	}
+
 	public static generateToken(length = 32) {
 		const charset = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
 		let res = "";

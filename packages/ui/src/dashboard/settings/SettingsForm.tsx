@@ -16,6 +16,7 @@ interface Props {
 	openEmbedModal: () => void;
 	openTokenModal: () => void;
 	openResetAccount: () => void;
+	openResetAuth: () => void;
 	downloadShareX: () => void;
 }
 
@@ -31,6 +32,7 @@ export const DashboardSettingsForm: React.FC<Props> = ({
 	openEmbedModal,
 	openTokenModal,
 	openResetAccount,
+	openResetAuth,
 	downloadShareX
 }) => {
 	const [selected, setSelected] = useState<string[]>([]);
@@ -215,7 +217,9 @@ export const DashboardSettingsForm: React.FC<Props> = ({
 									<DangerButton type="button" onClick={openResetAccount}>
 										Reset Account
 									</DangerButton>
-									<DangerButton type="button">Reset 2FA/Password</DangerButton>
+									<DangerButton type="button" onClick={openResetAuth}>
+										Reset 2FA/Password
+									</DangerButton>
 								</div>
 							</li>
 						</ul>
