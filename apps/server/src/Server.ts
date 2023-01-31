@@ -69,7 +69,7 @@ export default class Server {
 		};
 
 		void updateUsage();
-		setInterval(() => void updateUsage(), 6e4);
+		setInterval(() => void updateUsage(), 3e4);
 		setInterval(async () => {
 			const pid = await pidusage(process.pid);
 			this.uptime = pid.elapsed;
