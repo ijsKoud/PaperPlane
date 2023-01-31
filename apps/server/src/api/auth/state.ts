@@ -17,6 +17,7 @@ export default function handler(server: Server, req: Request, res: Response) {
 	const domain = domainAuthSecret ? Auth.verifyJWTToken(domainAuthSecret, server.envConfig.encryptionKey, host?.domain || req.hostname) : false;
 
 	res.send({
+		mode: server.envConfig.authMode,
 		domain,
 		admin
 	});
