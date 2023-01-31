@@ -19,6 +19,7 @@ export default function handler(server: Server, req: Request, res: Response) {
 		entries = search.search(searchQ).map((sr) => sr.item);
 	}
 
+	entries = entries.sort((a, b) => b.date.getTime() - a.date.getTime());
 	const chunks = Utils.chunk(entries, 50);
 	const chunk = page > chunks.length ? chunks[chunks.length - 1] : chunks[page];
 

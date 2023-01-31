@@ -21,7 +21,7 @@ export class AuditLog {
 	public async start() {
 		const logs = await this.server.prisma.auditlog.findMany({ where: { user: this.user } });
 		this.logs = logs;
-		console.log(logs, this.user);
+
 		this.cron = new CronJob("0 1 * * *", this.removeExpired.bind(this), undefined, true);
 		this.cron.start();
 	}
