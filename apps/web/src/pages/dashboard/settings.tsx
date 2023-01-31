@@ -31,6 +31,10 @@ const DashboardSettings: NextPage = () => {
 	const openTokenModal = () => setTokenModal(true);
 	const closeTokenModal = () => setTokenModal(false);
 
+	const [embedModal, setEmbedModal] = useState(false);
+	const openEmbedModal = () => setEmbedModal(true);
+	const closeEmbedModal = () => setEmbedModal(false);
+
 	const onSubmit = async (values: DashboardSettingsForm & { tokens: string[] }, helpers: FormikHelpers<DashboardSettingsForm>) => {
 		const promise = async () => {
 			try {
@@ -161,7 +165,13 @@ const DashboardSettings: NextPage = () => {
 		<DashboardLayout toastInfo={(str) => toast.info(str)}>
 			<NextSeo title="Settings" />
 			<TokenModal isOpen={tokenModal} onClick={closeTokenModal} generateToken={createToken} />
-			<DashboardSettingsForm onSubmit={onSubmit} deleteTokens={deleteTokens} openTokenModal={openTokenModal} downloadShareX={downloadShareX} />
+			<DashboardSettingsForm
+				onSubmit={onSubmit}
+				deleteTokens={deleteTokens}
+				openEmbedModal={openEmbedModal}
+				openTokenModal={openTokenModal}
+				downloadShareX={downloadShareX}
+			/>
 		</DashboardLayout>
 	);
 };

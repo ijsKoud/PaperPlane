@@ -6,12 +6,14 @@ import { Form, Formik } from "formik";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
-import { number, object, string } from "yup";
+import { boolean, number, object, string } from "yup";
 import { Table, TableEntry } from "../../index";
 
 interface Props {
 	onSubmit: (...props: any) => void | Promise<void>;
 	deleteTokens: (tokens: string[]) => Promise<void>;
+
+	openEmbedModal: () => void;
 	openTokenModal: () => void;
 	downloadShareX: () => void;
 }
@@ -19,11 +21,13 @@ interface Props {
 export interface DashboardSettingsForm {
 	nameStrategy: "id" | "zerowidth" | "name";
 	nameLength: number;
+	embedEnabled: boolean;
 }
 
-export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens: _deleteTokens, openTokenModal, downloadShareX }) => {
+export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens: _deleteTokens, openEmbedModal, openTokenModal, downloadShareX }) => {
 	const [selected, setSelected] = useState<string[]>([]);
 	const [initValues, setInitValues] = useState<DashboardSettingsForm & { tokens: DashboardSettingsGetApi["tokens"] }>({
+		embedEnabled: false,
 		nameLength: 10,
 		nameStrategy: "id",
 		tokens: []
@@ -36,7 +40,8 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens:
 
 	const schema = object({
 		nameStrategy: string().required("A naming strategy is required").oneOf(["id", "zerowidth", "name"]),
-		nameLength: number().required("A name length is required").min(4, "Name length cannot be smaller than 4 characters")
+		nameLength: number().required("A name length is required").min(4, "Name length cannot be smaller than 4 characters"),
+		embedEnabled: boolean().required()
 	});
 
 	const onSelectClick = (token: string) => {
@@ -117,6 +122,30 @@ export const DashboardSettingsForm: React.FC<Props> = ({ onSubmit, deleteTokens:
 									<DangerButton type="button" onClick={deleteTokens}>
 										Delete Selected
 									</DangerButton>
+								</div>
+							</li>
+							<li className="w-full mt-4">
+								<div className="mb-2">
+									<h2 className="text-lg">Embed Settings</h2>
+									<p className="text-base">
+										Certain applications like Discord allow you to set custom embeds (OG Metadata) for your files, you can fully
+										customise it below or disable the feature all together.
+									</p>
+								</div>
+								<div className="flex items-center gap-4 w-full">
+									<div className="w-fit">
+										<TertiaryButton type="button" onClick={openEmbedModal}>
+											Open Editor
+										</TertiaryButton>
+									</div>
+									<div className="w-fit flex items-center gap-2">
+										<input
+											type="checkbox"
+											checked={formik.values.embedEnabled}
+											onChange={(ctx) => formik.setFieldValue("embedEnabled", ctx.currentTarget.checked)}
+										/>
+										<p className="text-left text-base">Show Embeds</p>
+									</div>
 								</div>
 							</li>
 							<li className="w-full mt-4">

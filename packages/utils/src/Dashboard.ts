@@ -75,7 +75,7 @@ export interface ApiUrl {
 export interface DashboardSettingsGetApi {
 	nameStrategy: "id" | "zerowidth" | "name";
 	nameLength: number;
-
+	embedEnabled: boolean;
 	tokens: Token[];
 }
 
