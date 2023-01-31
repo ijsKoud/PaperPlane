@@ -43,8 +43,12 @@ export class Domain {
 
 	public constructor(public server: Server, data: iDomain) {
 		this._parse(data);
-		this.recordStorage();
 		this.auditlogs = new AuditLog(server, this.domain, this.auditlogDuration);
+	}
+
+	public async start() {
+		this.recordStorage();
+		await this.auditlogs.start();
 	}
 
 	public async reset() {
