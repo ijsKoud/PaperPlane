@@ -47,6 +47,25 @@ export class Domain {
 		this.auditlogs = new AuditLog(server, this.domain, this.auditlogDuration);
 	}
 
+	public async reset() {
+		await this.server.prisma.token.deleteMany({ where: { domain: this.domain } });
+		const res = await this.server.prisma.domain.delete({ where: { domain: this.domain } });
+		const newDomain = await this.server.prisma.domain.create({
+			data: {
+				disabled: res.disabled,
+				auditlogDuration: res.auditlogDuration,
+				domain: this.domain,
+				date: this.date,
+				backupCodes: "paperplane-cdn",
+				pathId: res.pathId
+			},
+			include: { apiTokens: true }
+		});
+
+		this.auditlogs.register("Reset", "Full account reset");
+		this._parse(newDomain);
+	}
+
 	public async resetAuth() {
 		const res = await this.server.prisma.domain.update({
 			where: { domain: this.domain },
