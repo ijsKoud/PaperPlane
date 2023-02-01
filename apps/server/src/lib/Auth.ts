@@ -128,4 +128,19 @@ export class Auth {
 			res.status(401).send({ message: err.message });
 		}
 	}
+
+	public static userApiKeyMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
+		try {
+			const authHeader = req.headers.authorization;
+			if (!authHeader?.length) throw new Error("Unauthorized");
+
+			const host = server.domains.domains.find((dm) => dm.apiTokens.find((key) => key.token === authHeader));
+			if (!host) throw new Error("Unauthorized");
+
+			(req as DashboardRequest).locals = { domain: host };
+			next();
+		} catch (err) {
+			res.status(401).send({ message: err.message });
+		}
+	}
 }

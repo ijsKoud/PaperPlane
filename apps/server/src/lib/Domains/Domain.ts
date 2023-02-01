@@ -130,6 +130,23 @@ export class Domain {
 		this.apiTokens = res;
 	}
 
+	public async addFile(file: Express.Multer.File): Promise<string> {
+		const id = Utils.generateId(this.nameStrategy, this.nameLength) || file.originalname.split(".")[0];
+		const fileExt = file.filename.split(".").filter(Boolean).slice(1).join(".");
+		const fileData = await this.server.prisma.file.create({
+			data: {
+				id,
+				date: new Date(),
+				path: join(this.filesPath, file.filename),
+				size: this.server.config.parseStorage(file.size),
+				domain: this.domain
+			}
+		});
+
+		this.auditlogs.register("File Upload", `File: ${fileData.id}, size: ${this.server.config.parseStorage(file.size)}`);
+		return `${fileData.id}${this.nameStrategy === "zerowidth" ? "" : `.${fileExt}`}`;
+	}
+
 	public toString() {
 		return this.domain;
 	}
