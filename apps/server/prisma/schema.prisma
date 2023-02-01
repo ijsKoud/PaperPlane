@@ -38,6 +38,9 @@ model Domain {
   embedDescription String  @default("")
   embedTitle       String  @default("")
   embedColor       String  @default("#000000")
+
+  urls  Url[]
+  files File[]
 }
 
 model Token {
@@ -68,4 +71,31 @@ model Auditlog {
   type    String
   user    String
   details String
+}
+
+model Url {
+  id     String  @id
+  domain String
+  Domain Domain? @relation(fields: [domain], references: [domain])
+
+  url  String
+  date DateTime
+
+  visits  Int     @default(0)
+  visible Boolean @default(true)
+}
+
+model File {
+  id   String @id
+  path String @unique
+
+  domain String
+  Domain Domain? @relation(fields: [domain], references: [domain])
+
+  date  DateTime
+  views Int      @default(0)
+  size  String
+
+  password String?
+  visible  Boolean @default(true)
 }

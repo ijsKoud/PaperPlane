@@ -1,5 +1,7 @@
+import { randomBytes } from "node:crypto";
 import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
+import ShortUniqueId from "short-unique-id";
 import type { Domain } from "./index.js";
 import { AdminUserSort } from "./types.js";
 
@@ -13,6 +15,27 @@ export class Utils {
 		while (i < L) result.push(arr.slice(i, (i += size)));
 
 		return result;
+	}
+
+	public static generateId(strategy: "id" | "zerowidth" | "name", length: number): string | undefined {
+		switch (strategy) {
+			case "id":
+			default: {
+				const genId = new ShortUniqueId.default({ length });
+				return genId();
+			}
+			case "zerowidth": {
+				const invisibleCharset = ["\u200B", "\u2060", "\u200C", "\u200D"];
+				const id = [...randomBytes(length)]
+					.map((byte) => invisibleCharset[Number(byte) % invisibleCharset.length])
+					.join("")
+					.slice(1)
+					.concat(invisibleCharset[0]);
+				return id;
+			}
+			case "name":
+				return undefined;
+		}
 	}
 
 	public static async sizeOfDir(directory: string): Promise<number> {
