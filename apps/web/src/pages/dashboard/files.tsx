@@ -5,6 +5,7 @@ import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
 import { FilesApiRes, FilesSort } from "@paperplane/utils";
 import { toast } from "react-toastify";
+import { NextSeo } from "next-seo";
 
 const FilesDashboard: NextPage = () => {
 	const [data, setData] = useState<FilesApiRes>({ entries: [], pages: 0 });
@@ -47,6 +48,7 @@ const FilesDashboard: NextPage = () => {
 
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)} className="max-w-[1008px]">
+			<NextSeo title="Files Dashboard" />
 			<div className="w-full flex justify-between items-center">
 				<h1 className="text-4xl">Files</h1>
 				<TertiaryButton type="button">Upload</TertiaryButton>
