@@ -1,5 +1,5 @@
 import { TransparentButton } from "@paperplane/buttons";
-import { ApiFile, formatDate, formatBytes } from "@paperplane/utils";
+import { ApiFile, formatDate } from "@paperplane/utils";
 import type React from "react";
 
 interface Props {
@@ -64,7 +64,7 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick }) => {
 				</li>
 				<li className="flex justify-between items-center my-2">
 					<p className="italic text-small font-medium">{formatDate(file.date)}</p>
-					<p className="text-small font-medium">{formatBytes(file.size)}</p>
+					<p className="text-small font-medium">{file.size}</p>
 				</li>
 				<li className="flex items-center justify-between">
 					<p className="text-small font-medium">{file.views} views</p>

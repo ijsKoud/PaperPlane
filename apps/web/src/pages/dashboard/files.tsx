@@ -7,7 +7,7 @@ import { FilesApiRes, FilesSort } from "@paperplane/utils";
 import { toast } from "react-toastify";
 
 const FilesDashboard: NextPage = () => {
-	const [data, setData] = useState<FilesApiRes>({ files: [], pages: 0 });
+	const [data, setData] = useState<FilesApiRes>({ entries: [], pages: 0 });
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 	const [view, setView] = useState<"grid" | "list">("grid");
@@ -21,12 +21,12 @@ const FilesDashboard: NextPage = () => {
 
 	const ViewComponent = () =>
 		view === "grid" ? (
-			<FilesGrid onSelect={onSelect} selected={selected} files={data.files} />
+			<FilesGrid onSelect={onSelect} selected={selected} files={data.entries} />
 		) : (
-			<FilesTable onSelect={onSelect} selected={selected} files={data.files} />
+			<FilesTable onSelect={onSelect} selected={selected} files={data.entries} />
 		);
 
-	const swr = useSwrWithUpdates<FilesApiRes>(`/api/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
+	const swr = useSwrWithUpdates<FilesApiRes>(`/api/dashboard/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 	useEffect(() => {
 		if (swr.data) setData(swr.data);
 	}, [swr.data]);

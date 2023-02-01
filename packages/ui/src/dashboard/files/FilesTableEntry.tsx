@@ -1,5 +1,5 @@
 import { TransparentButton } from "@paperplane/buttons";
-import { ApiFile, formatDate, formatBytes } from "@paperplane/utils";
+import { ApiFile, formatDate } from "@paperplane/utils";
 import type React from "react";
 import { TableEntry } from "../../index";
 
@@ -21,7 +21,7 @@ const FilesTableEntry: React.FC<Props> = ({ file, selected, onClick }) => {
 			<td className="px-2 max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden" title={file.name}>
 				{file.name}
 			</td>
-			<td className="px-2">{formatBytes(file.size)}</td>
+			<td className="px-2">{file.size}</td>
 			<td className="px-2">{formatDate(file.date)}</td>
 			<td className="px-2">
 				<i className={lockIcon} />
