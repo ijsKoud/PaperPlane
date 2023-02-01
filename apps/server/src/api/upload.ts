@@ -2,6 +2,7 @@ import type { NextFunction, Response } from "express";
 import multer, { diskStorage } from "multer";
 import { Auth } from "../lib/Auth.js";
 import type { DashboardRequest, Middleware, RequestMethods } from "../lib/types.js";
+import { Utils } from "../lib/utils.js";
 import type Server from "../Server.js";
 
 export default async function handler(server: Server, req: DashboardRequest, res: Response) {
@@ -10,7 +11,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		return;
 	}
 
-	if (req.files) {
+	if (req.files?.length) {
 		try {
 			const filesArray = (req.files ?? []) as Express.Multer.File[];
 			const _files = await Promise.all(filesArray.map((file) => req.locals.domain.addFile(file)));
@@ -21,6 +22,36 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			server.logger.fatal(`[UPLOAD:POST]: Fatal error while uploading a file`, err);
 			res.status(500).send({ message: "Internal server error occured, please try again later." });
 		}
+
+		return;
+	}
+
+	const data = req.body as { short?: string; path?: string } | undefined;
+	if (!data) {
+		res.status(400).send({ message: "No files or shorturl data provided" });
+		return;
+	}
+
+	if (typeof data.short !== "string") {
+		res.status(400).send({ message: "No shorturl data provided" });
+		return;
+	}
+
+	const links = await server.prisma.url.findMany({ where: { domain: req.locals.domain.domain } });
+	let path = typeof data.path === "string" ? data.path : "";
+	const strategy = req.locals.domain.nameStrategy === "name" ? "id" : req.locals.domain.nameStrategy;
+
+	if (!path.length || links.find((link) => link.id === path)) {
+		path = Utils.generateId(strategy, req.locals.domain.nameLength) as string;
+		while (links.find((link) => link.id === path)) path = Utils.generateId(strategy, req.locals.domain.nameLength) as string;
+	}
+
+	try {
+		await server.prisma.url.create({ data: { date: new Date(), url: data.short, id: path, domain: req.locals.domain.domain } });
+		res.send({ url: `${req.protocol}://${req.locals.domain.domain}/r/${path}` });
+	} catch (err) {
+		server.logger.fatal(`[UPLOAD:POST]: Fatal error while uploading a shorturl`, err);
+		res.status(500).send({ message: "Internal server error occured, please try again later." });
 	}
 }
 
