@@ -74,7 +74,7 @@ model Auditlog {
 }
 
 model Url {
-  id     String  @id
+  id     String
   domain String
   Domain Domain? @relation(fields: [domain], references: [domain])
 
@@ -83,10 +83,12 @@ model Url {
 
   visits  Int     @default(0)
   visible Boolean @default(true)
+
+  @@id([id, domain])
 }
 
 model File {
-  id   String @id
+  id   String
   path String @unique
 
   domain String
@@ -98,4 +100,6 @@ model File {
 
   password String?
   visible  Boolean @default(true)
+
+  @@id([id, domain])
 }
