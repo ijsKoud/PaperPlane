@@ -48,7 +48,19 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			server.auth.authReset.delete(data.key);
 
 			res.send(codes);
+			return;
 		}
+
+		if (typeof data.auth !== "string") {
+			res.status(400).send({ message: "Invalid password provided" });
+			return;
+		}
+
+		const codes = Auth.generateBackupCodes();
+		const hashed = Auth.encryptPassword(data.auth, server.envConfig.encryptionKey);
+		await req.locals.domain.update({ password: hashed, backupCodes: codes.join("\n") });
+
+		res.send(codes);
 	}
 }
 

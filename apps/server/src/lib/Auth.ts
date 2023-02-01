@@ -1,7 +1,7 @@
 import { generateSecret, generateToken, verifyToken } from "node-2fa";
 import Jwt from "jsonwebtoken";
 import _ from "lodash";
-import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "node:crypto";
 import type { NextFunction, Request, Response } from "express";
 import type Server from "../Server.js";
 import type { DashboardRequest } from "./types.js";
@@ -18,6 +18,14 @@ export class Auth {
 		this.authReset.set(key, { timeout, token: token.secret });
 
 		return { ...token, key };
+	}
+
+	public static encryptPassword(password: string, secret: string) {
+		const salt = randomBytes(16).toString("hex");
+		const pwd = scryptSync(password, salt, 64).toString("hex");
+		const str = `${salt}:${pwd}`;
+
+		return Auth.encryptToken(str, secret);
 	}
 
 	public static generateBackupCodes() {
