@@ -6,6 +6,7 @@ import { bold } from "colorette";
 import { Auth } from "./Auth.js";
 import { ConfigNames, EnvConfig, RawEnvConfig } from "./types.js";
 import ms from "ms";
+import { Utils } from "./utils.js";
 
 const DEFAULT_CONFIG: RawEnvConfig = {
 	ENCRYPTION_KEY: "{0}",
@@ -87,31 +88,7 @@ export class Config {
 	public parseStorage(storage: string): number;
 	public parseStorage(storage: number): string;
 	public parseStorage(storage: string | number): number | string {
-		if (typeof storage === "string") {
-			const units = ["B", "kB", "MB", "GB", "TB", "PB"];
-			const INFINITY = units.map((unit) => `0 ${unit}`);
-			if (!storage.length || [INFINITY, "0"].includes(storage)) return 0;
-
-			const [_amount, unit] = storage.split(/ +/g);
-			const unitSize = units.indexOf(unit) || 0;
-
-			const amount = Number(_amount);
-			if (isNaN(amount)) return 0;
-
-			return amount * Math.pow(1024, unitSize);
-		}
-
-		if (storage === Infinity) return "Infinity";
-
-		const units = ["B", "kB", "MB", "GB", "TB", "PB"];
-		let num = 0;
-
-		while (storage > 1024) {
-			storage /= 1024;
-			++num;
-		}
-
-		return `${storage.toFixed(1)} ${units[num]}`;
+		return Utils.parseStorage(storage as any);
 	}
 
 	private parseConfigItem(key: keyof RawEnvConfig, value?: string): any {

@@ -39,7 +39,12 @@ export class Domain {
 	public embedEnabled!: boolean;
 
 	public auditlogs: AuditLog;
+	public views: string[] = [];
+	public visits: string[] = [];
+
 	private storageCheckTimeout!: NodeJS.Timeout;
+	private viewTimeout: NodeJS.Timeout | undefined;
+	private visitTimeout: NodeJS.Timeout | undefined;
 
 	public constructor(public server: Server, data: iDomain) {
 		this._parse(data);
@@ -146,6 +151,40 @@ export class Domain {
 		const filename = `${fileData.id}${this.nameStrategy === "zerowidth" ? "" : `.${fileExt}`}`;
 		this.auditlogs.register("File Upload", `File: ${filename}, size: ${this.server.config.parseStorage(file.size)}`);
 		return filename;
+	}
+
+	public addView(id: string) {
+		this.views.push(id);
+		if (!this.viewTimeout) {
+			const timeout = setTimeout(async () => {
+				await Promise.all(
+					this.views.map((id) =>
+						this.server.prisma.file.update({ where: { id_domain: { domain: this.domain, id } }, data: { views: { increment: 1 } } })
+					)
+				);
+				this.views = [];
+				this.viewTimeout = undefined;
+			}, 3e4);
+
+			this.viewTimeout = timeout;
+		}
+	}
+
+	public addVisit(id: string) {
+		this.visits.push(id);
+		if (!this.visitTimeout) {
+			const timeout = setTimeout(async () => {
+				await Promise.all(
+					this.visits.map((id) =>
+						this.server.prisma.url.update({ where: { id_domain: { domain: this.domain, id } }, data: { visits: { increment: 1 } } })
+					)
+				);
+				this.visits = [];
+				this.visitTimeout = undefined;
+			}, 3e4);
+
+			this.visitTimeout = timeout;
+		}
 	}
 
 	public toString() {
