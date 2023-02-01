@@ -143,8 +143,9 @@ export class Domain {
 			}
 		});
 
-		this.auditlogs.register("File Upload", `File: ${fileData.id}, size: ${this.server.config.parseStorage(file.size)}`);
-		return `${fileData.id}${this.nameStrategy === "zerowidth" ? "" : `.${fileExt}`}`;
+		const filename = `${fileData.id}${this.nameStrategy === "zerowidth" ? "" : `.${fileExt}`}`;
+		this.auditlogs.register("File Upload", `File: ${filename}, size: ${this.server.config.parseStorage(file.size)}`);
+		return filename;
 	}
 
 	public toString() {
