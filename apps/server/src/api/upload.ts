@@ -15,7 +15,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		try {
 			const filesArray = (req.files ?? []) as Express.Multer.File[];
 			const _files = await Promise.all(filesArray.map((file) => req.locals.domain.addFile(file)));
-			const files = _files.map((file) => `${req.protocol}://${req.locals.domain}/files/${file}`);
+			const files = _files.map((filename) => `${req.protocol}://${req.locals.domain}/files/${filename}`);
 
 			res.send({ files, url: files[0] });
 		} catch (err) {
