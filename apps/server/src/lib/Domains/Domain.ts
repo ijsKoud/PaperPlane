@@ -3,7 +3,7 @@ import type { Domain as DomainInterface, Token, Prisma } from "@prisma/client";
 import { Utils } from "../utils.js";
 import { join } from "node:path";
 import ms from "ms";
-import { rm } from "node:fs/promises";
+import { mkdir, rm } from "node:fs/promises";
 import { AuditLog } from "../AuditLog.js";
 import { Auth } from "../Auth.js";
 
@@ -52,7 +52,13 @@ export class Domain {
 	}
 
 	public async reset() {
+		await rm(this.filesPath, { recursive: true });
+		await mkdir(this.filesPath, { recursive: true });
+
+		await this.server.prisma.file.deleteMany({ where: { domain: this.domain } });
+		await this.server.prisma.url.deleteMany({ where: { domain: this.domain } });
 		await this.server.prisma.token.deleteMany({ where: { domain: this.domain } });
+
 		const res = await this.server.prisma.domain.delete({ where: { domain: this.domain } });
 		const newDomain = await this.server.prisma.domain.create({
 			data: {
@@ -68,6 +74,26 @@ export class Domain {
 
 		this.auditlogs.register("Reset", "Full account reset");
 		this._parse(newDomain);
+	}
+
+	public async update(data: Prisma.DomainUpdateArgs["data"], auditlog = true) {
+		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data, include: { apiTokens: true } });
+		this._parse(res);
+
+		if (auditlog) this.server.adminAuditLogs.register("Update User", `User: ${this.domain} (${res.pathId})`);
+		this.auditlogs.maxAge = this.auditlogDuration;
+	}
+
+	public async delete() {
+		await this.auditlogs.delete();
+		await rm(this.filesPath, { recursive: true });
+
+		await this.server.prisma.file.deleteMany({ where: { domain: this.domain } });
+		await this.server.prisma.url.deleteMany({ where: { domain: this.domain } });
+		await this.server.prisma.token.deleteMany({ where: { domain: this.domain } });
+		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
+
+		clearTimeout(this.storageCheckTimeout);
 	}
 
 	public async resetAuth() {
@@ -89,22 +115,6 @@ export class Domain {
 		});
 
 		this._parse(res);
-	}
-
-	public async update(data: Prisma.DomainUpdateArgs["data"], auditlog = true) {
-		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data, include: { apiTokens: true } });
-		this._parse(res);
-
-		if (auditlog) this.server.adminAuditLogs.register("Update User", `User: ${this.domain} (${res.pathId})`);
-		this.auditlogs.maxAge = this.auditlogDuration;
-	}
-
-	public async delete() {
-		await this.auditlogs.delete();
-		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
-		await rm(this.filesPath, { recursive: true });
-
-		clearTimeout(this.storageCheckTimeout);
 	}
 
 	public async createToken(name: string) {
