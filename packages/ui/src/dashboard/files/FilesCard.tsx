@@ -10,9 +10,10 @@ interface Props {
 
 	onClick: (fileName: string) => void;
 	deleteFile: (id: string) => void;
+	updateFile: (...props: any) => Promise<boolean>;
 }
 
-const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile }) => {
+const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile, updateFile }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const ModalonClick = () => setIsOpen(false);
 
@@ -34,9 +35,14 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile }) => 
 		void deleteFile(file.name);
 	};
 
+	const updateFileFn = async (...props: any) => {
+		const success = await updateFile(file.name, ...props);
+		if (success) ModalonClick();
+	};
+
 	return (
 		<>
-			<FileEditModal file={file} isOpen={isOpen} onClick={ModalonClick} onSubmit={() => void 0} />
+			<FileEditModal file={file} isOpen={isOpen} onClick={ModalonClick} onSubmit={updateFileFn} />
 			<div
 				id="filecard"
 				role="checkbox"

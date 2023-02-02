@@ -194,3 +194,10 @@ export const ShortUrlsSortNames = {
 export interface FilesBulkDeleteFormBody {
 	files: string[];
 }
+
+export interface FilesEditFormBody {
+	name: string;
+	password?: string;
+	passwordEnabled: boolean;
+	visible: boolean;
+}

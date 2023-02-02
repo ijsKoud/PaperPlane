@@ -8,6 +8,14 @@ import { toast } from "react-toastify";
 import { NextSeo } from "next-seo";
 import type { AxiosError } from "axios";
 import axios from "axios";
+import type { FormikHelpers } from "formik";
+
+interface FileEditValues {
+	name: string;
+	passwordEnabled: boolean;
+	password: string;
+	visible: boolean;
+}
 
 const FilesDashboard: NextPage = () => {
 	const [data, setData] = useState<FilesApiRes>({ entries: [], pages: 0 });
@@ -77,12 +85,37 @@ const FilesDashboard: NextPage = () => {
 		} catch (error) {}
 	};
 
-	const ViewComponent = () =>
-		view === "grid" ? (
-			<FilesGrid onSelect={onSelect} selected={selected} files={data.entries} deleteFile={deleteFile} />
-		) : (
-			<FilesTable onSelect={onSelect} selected={selected} files={data.entries} deleteFile={deleteFile} />
-		);
+	const updateFile = async (id: string, values: FileEditValues, helpers: FormikHelpers<FileEditValues>) => {
+		const promise = async () => {
+			try {
+				await axios.post(`/api/dashboard/files/${id}`, values);
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				helpers.resetForm({
+					values,
+					errors: Object.keys(values)
+						.map((key) => ({ [key]: error }))
+						.reduce((a, b) => ({ ...a, ...b }), {})
+				});
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Changing a passengers seat...",
+				error: "Unable to change the seat :(",
+				success: "Seating changed."
+			});
+
+			await swr.mutate();
+			return true;
+		} catch (error) {}
+
+		return false;
+	};
 
 	if (swr.error && !swr.data) {
 		console.log(swr.error);
@@ -115,7 +148,11 @@ const FilesDashboard: NextPage = () => {
 				view={view}
 				setView={setView}
 			/>
-			<ViewComponent />
+			{view === "grid" ? (
+				<FilesGrid onSelect={onSelect} selected={selected} files={data.entries} deleteFile={deleteFile} updateFile={updateFile} />
+			) : (
+				<FilesTable onSelect={onSelect} selected={selected} files={data.entries} deleteFile={deleteFile} />
+			)}
 			<DashboardDeleteBanner items={selected} type="file" cancel={cancel} success={success} />
 		</DashboardLayout>
 	);

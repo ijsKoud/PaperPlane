@@ -4,7 +4,7 @@ import { Modal } from "@paperplane/modal";
 import type { ApiFile } from "@paperplane/utils";
 import { Form, Formik } from "formik";
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import ReactSwitch from "react-switch";
 import { boolean, object, string } from "yup";
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const FileEditModal: React.FC<Props> = ({ isOpen, file, onClick, onSubmit }) => {
-	const [initialValues] = useState({ name: file.name, passwordEnabled: file.password, password: "", visible: file.visible });
+	const [initialValues, setInitialValues] = useState({ name: file.name, passwordEnabled: file.password, password: "", visible: file.visible });
 	const schema = object({
 		name: string()
 			.required()
@@ -26,6 +26,10 @@ export const FileEditModal: React.FC<Props> = ({ isOpen, file, onClick, onSubmit
 		passwordEnabled: boolean().required(),
 		password: string().notRequired()
 	});
+
+	useEffect(() => {
+		setInitialValues({ name: file.name, passwordEnabled: file.password, password: "", visible: file.visible });
+	}, []);
 
 	return (
 		<Modal isOpen={isOpen} onClick={onClick}>
@@ -36,7 +40,7 @@ export const FileEditModal: React.FC<Props> = ({ isOpen, file, onClick, onSubmit
 						Here you can edit the file name, set a password and toggle the visibility on or off.
 					</p>
 				</div>
-				<Formik validationSchema={schema} initialValues={initialValues} onSubmit={onSubmit} validateOnMount>
+				<Formik validationSchema={schema} initialValues={initialValues} onSubmit={onSubmit} enableReinitialize validateOnMount>
 					{(formik) => (
 						<Form>
 							<ul className="w-full mt-4 max-h-[45vh] pr-2 overflow-y-auto max-sm:max-h-[35vh]">
@@ -64,6 +68,7 @@ export const FileEditModal: React.FC<Props> = ({ isOpen, file, onClick, onSubmit
 											<Input
 												type="tertiary"
 												placeholder="password here..."
+												formType="password"
 												value={formik.values.password}
 												className="w-full"
 												onChange={(ctx) => formik.setFieldValue("password", ctx.currentTarget.value)}
