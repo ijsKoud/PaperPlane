@@ -29,7 +29,7 @@ export const FileEditModal: React.FC<Props> = ({ isOpen, file, onClick, onSubmit
 
 	useEffect(() => {
 		setInitialValues({ name: file.name, passwordEnabled: file.password, password: "", visible: file.visible });
-	}, []);
+	}, [isOpen]);
 
 	return (
 		<Modal isOpen={isOpen} onClick={onClick}>
