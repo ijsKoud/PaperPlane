@@ -37,7 +37,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 
 	const sorted = Utils.filesSort(entries, sort);
 	const chunks = Utils.chunk(sorted, 50);
-	const chunk = page > chunks.length ? chunks[chunks.length - 1] : chunks[page];
+	const chunk = (page > chunks.length ? chunks[chunks.length - 1] : chunks[page]) ?? [];
 
 	const mapped = chunk.map<ApiFile>((file) => ({
 		name: file.id,
