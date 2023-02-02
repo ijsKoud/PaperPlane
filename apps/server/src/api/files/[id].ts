@@ -9,16 +9,42 @@ export default async function handler(server: Server, req: Request, res: Respons
 	const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
 	const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
 
+	const embed = host?.embedEnabled
+		? {
+				embedTitle: host?.embedTitle,
+				embedDescription: host?.embedDescription,
+				embedColor: host?.embedColor
+		  }
+		: {};
+
 	const { id: _id } = req.params;
 	const [id] = _id.split(".");
 	const file = await server.prisma.file.findFirst({ where: { domain: host?.domain ?? "", id } });
 	if (!file) {
-		res.send({ data: "", charset: "" });
+		res.send({ data: "", charset: "", isImage: false, ...embed });
 		return;
 	}
 
+	const filename = file.path.split(/\//g).reverse()[0];
+	const contentType = lookup(filename) || "";
+
+	let type = "unsupported";
+	switch (contentType.split("/")[0]) {
+		case "image":
+			type = "image";
+			break;
+		case "video":
+			type = "video";
+			break;
+		case "audio":
+			type = "audio";
+			break;
+		default:
+			break;
+	}
+
 	const fileData = await readFile(file.path, "utf-8").catch(() => "");
-	res.send({ data: fileData, charset: charset(lookup(file.path.split(/\//g).reverse()[0]) || "") || "" });
+	res.send({ data: fileData, charset: charset(contentType) || "", type, ...embed });
 }
 
 export const methods: RequestMethods[] = ["get"];
