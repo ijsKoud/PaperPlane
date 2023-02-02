@@ -32,9 +32,12 @@ const variants = {
 interface Props {
 	items: string[];
 	type: "file" | "shorturl";
+
+	cancel: () => void;
+	success: () => void;
 }
 
-export const DashboardDeleteBanner: React.FC<Props> = ({ items, type }) => {
+export const DashboardDeleteBanner: React.FC<Props> = ({ items, type, cancel, success }) => {
 	const correctTypeForm = items.length === 1 ? type : `${type}s`;
 
 	return (
@@ -57,10 +60,10 @@ export const DashboardDeleteBanner: React.FC<Props> = ({ items, type }) => {
 							?
 						</p>
 						<div className="flex items-center justify-center gap-2">
-							<DangerButton type="button" className="rounded-lg">
+							<DangerButton type="button" className="rounded-lg" onClick={success}>
 								Yes do it!
 							</DangerButton>
-							<SuccessButton type="button" className="rounded-lg">
+							<SuccessButton type="button" className="rounded-lg" onClick={cancel}>
 								No go back!
 							</SuccessButton>
 						</div>

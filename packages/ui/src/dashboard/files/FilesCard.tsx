@@ -5,10 +5,12 @@ import type React from "react";
 interface Props {
 	file: ApiFile;
 	selected: boolean;
+
 	onClick: (fileName: string) => void;
+	deleteFile: (id: string) => void;
 }
 
-const FilesCard: React.FC<Props> = ({ file, selected, onClick }) => {
+const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile }) => {
 	const getFilePreviewUrl = () => `${file.url}?preview=true&raw=true`;
 	const lockIcon = file.password ? "fa-solid fa-lock text-base" : "fa-solid fa-lock-open text-base";
 	const viewIcon = file.visible ? "fa-solid fa-eye text-base" : "fa-solid fa-eye-slash text-base";
@@ -21,6 +23,10 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick }) => {
 	const onMouseEvent = (event: React.MouseEvent<HTMLDivElement>) => {
 		if ((event.target as any)?.id === "filebutton" || event.button !== 0) return;
 		onClick(file.name);
+	};
+
+	const deleteFileFn = () => {
+		void deleteFile(file.name);
 	};
 
 	return (
@@ -48,7 +54,7 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick }) => {
 						{file.name}
 					</h1>
 					<div className="flex items-center gap-2">
-						<TransparentButton type="button">
+						<TransparentButton type="button" onClick={deleteFileFn}>
 							<i id="filebutton" className="fa-regular fa-trash-can" />
 						</TransparentButton>
 						<TransparentButton type="button">

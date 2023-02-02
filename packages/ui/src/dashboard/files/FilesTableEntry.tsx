@@ -6,12 +6,16 @@ import { TableEntry } from "../../index";
 interface Props {
 	file: ApiFile;
 	selected: boolean;
+
 	onClick: (fileName: string) => void;
+	deleteFile: (id: string) => void;
 }
 
-const FilesTableEntry: React.FC<Props> = ({ file, selected, onClick }) => {
+const FilesTableEntry: React.FC<Props> = ({ file, selected, onClick, deleteFile }) => {
 	const lockIcon = file.password ? "fa-solid fa-lock text-base" : "fa-solid fa-lock-open text-base";
 	const viewIcon = file.visible ? "fa-solid fa-eye text-base" : "fa-solid fa-eye-slash text-base";
+
+	const deleteFileFn = () => void deleteFile(file.name);
 
 	return (
 		<TableEntry>
@@ -31,7 +35,7 @@ const FilesTableEntry: React.FC<Props> = ({ file, selected, onClick }) => {
 			</td>
 			<td className="flex items-center gap-2 px-2">
 				<TransparentButton type="button">
-					<i id="filebutton" className="fa-regular fa-trash-can" />
+					<i id="filebutton" className="fa-regular fa-trash-can" onClick={deleteFileFn} />
 				</TransparentButton>
 				<TransparentButton type="button">
 					<i id="filebutton" className="fa-regular fa-pen-to-square" />
