@@ -3,10 +3,11 @@ import type { Domain as DomainInterface, Token, Prisma } from "@prisma/client";
 import { Utils } from "../utils.js";
 import { join } from "node:path";
 import ms from "ms";
-import { mkdir, rm } from "node:fs/promises";
+import { mkdir, readdir, rm } from "node:fs/promises";
 import { AuditLog } from "../AuditLog.js";
 import { Auth } from "../Auth.js";
 import { Collection } from "@discordjs/collection";
+import { CronJob } from "cron";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -43,7 +44,9 @@ export class Domain {
 	public views: string[] = [];
 	public visits: string[] = [];
 
-	private storageCheckTimeout!: NodeJS.Timeout;
+	private storageCheckCron!: CronJob;
+	private storageSyncCron!: CronJob;
+
 	private viewTimeout: NodeJS.Timeout | undefined;
 	private visitTimeout: NodeJS.Timeout | undefined;
 
@@ -54,6 +57,8 @@ export class Domain {
 
 	public async start() {
 		this.recordStorage();
+		this.syncStorage();
+
 		await this.auditlogs.start();
 	}
 
@@ -99,7 +104,8 @@ export class Domain {
 		await this.server.prisma.token.deleteMany({ where: { domain: this.domain } });
 		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
 
-		clearTimeout(this.storageCheckTimeout);
+		this.storageCheckCron.stop();
+		this.storageSyncCron.stop();
 	}
 
 	public async resetAuth() {
@@ -243,6 +249,26 @@ export class Domain {
 		this.apiTokens = data.apiTokens;
 	}
 
+	private syncStorage() {
+		const syncFn = async () => {
+			const filesInDir = await readdir(this.filesPath);
+			const filesInDb = (await this.server.prisma.file.findMany({ where: { domain: this.domain } })).map((file) => file.id);
+
+			const missingInDb = filesInDir.filter((file) => !filesInDb.includes(file));
+			const missingInDir = filesInDb.filter((file) => !filesInDb.includes(file));
+
+			for (const file of missingInDb) {
+				await rm(join(this.filesPath, file));
+			}
+
+			await this.server.prisma.file.deleteMany({ where: { domain: this.domain, id: { in: missingInDir } } });
+		};
+
+		const cron = new CronJob("*/10 * * * *", syncFn);
+		this.storageSyncCron = cron;
+		cron.start();
+	}
+
 	private recordStorage() {
 		const updateStorageUsage = async () => {
 			const res = await Utils.sizeOfDir(this.filesPath);
@@ -250,7 +276,9 @@ export class Domain {
 		};
 
 		void updateStorageUsage();
-		const timeout = setTimeout(() => void updateStorageUsage(), 6e4);
-		this.storageCheckTimeout = timeout;
+
+		const cron = new CronJob("* * * * *", updateStorageUsage);
+		this.storageCheckCron = cron;
+		cron.start();
 	}
 }
