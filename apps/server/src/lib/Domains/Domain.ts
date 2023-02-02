@@ -6,6 +6,7 @@ import ms from "ms";
 import { mkdir, rm } from "node:fs/promises";
 import { AuditLog } from "../AuditLog.js";
 import { Auth } from "../Auth.js";
+import { Collection } from "@discordjs/collection";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -155,13 +156,18 @@ export class Domain {
 
 	public addView(id: string) {
 		this.views.push(id);
+
 		if (!this.viewTimeout) {
 			const timeout = setTimeout(async () => {
-				await Promise.all(
-					this.views.map((id) =>
-						this.server.prisma.file.update({ where: { id_domain: { domain: this.domain, id } }, data: { views: { increment: 1 } } })
-					)
-				);
+				const _views = new Collection<string, number>();
+				this.views.forEach((view) => _views.set(view, (_views.get(view) ?? 0) + 1));
+				for await (const [key, amount] of _views) {
+					await this.server.prisma.file.update({
+						where: { id_domain: { domain: this.domain, id: key } },
+						data: { views: { increment: amount } }
+					});
+				}
+
 				this.views = [];
 				this.viewTimeout = undefined;
 			}, 3e4);
@@ -172,13 +178,19 @@ export class Domain {
 
 	public addVisit(id: string) {
 		this.visits.push(id);
+
 		if (!this.visitTimeout) {
 			const timeout = setTimeout(async () => {
-				await Promise.all(
-					this.visits.map((id) =>
-						this.server.prisma.url.update({ where: { id_domain: { domain: this.domain, id } }, data: { visits: { increment: 1 } } })
-					)
-				);
+				const _visits = new Collection<string, number>();
+				this.visits.forEach((visit) => _visits.set(visit, (_visits.get(visit) ?? 0) + 1));
+
+				for await (const [key, amount] of _visits) {
+					await this.server.prisma.url.update({
+						where: { id_domain: { domain: this.domain, id: key } },
+						data: { visits: { increment: amount } }
+					});
+				}
+
 				this.visits = [];
 				this.visitTimeout = undefined;
 			}, 3e4);
