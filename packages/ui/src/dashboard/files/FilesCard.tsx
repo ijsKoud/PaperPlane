@@ -9,7 +9,7 @@ interface Props {
 }
 
 const FilesCard: React.FC<Props> = ({ file, selected, onClick }) => {
-	const getFilePreviewUrl = () => `${file.url}?preview=true`;
+	const getFilePreviewUrl = () => `${file.url}?preview=true&raw=true`;
 	const lockIcon = file.password ? "fa-solid fa-lock text-base" : "fa-solid fa-lock-open text-base";
 	const viewIcon = file.visible ? "fa-solid fa-eye text-base" : "fa-solid fa-eye-slash text-base";
 

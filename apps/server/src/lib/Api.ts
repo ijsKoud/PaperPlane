@@ -36,9 +36,11 @@ export class Api {
 				return;
 			}
 
-			if ((domain.embedEnabled || charset(lookup(file.path.split(/\//g).reverse()[0]) || "") === "UTF-8") && !req.query.raw) {
-				await this.server.next.render(req, res, `/files/${_fileName}`);
-				return;
+			if (!req.query.raw) {
+				if (domain.embedEnabled || charset(lookup(file.path.split(/\//g).reverse()[0]) || "") === "UTF-8") {
+					await this.server.next.render(req, res, `/files/${_fileName}`);
+					return;
+				}
 			}
 
 			res.sendFile(file.path, (err) => {
