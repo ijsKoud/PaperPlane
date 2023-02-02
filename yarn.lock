@@ -1183,6 +1183,7 @@ __metadata:
     rc-progress: ^3.4.1
     react-color: ^2.19.3
     react-spinners: ^0.13.8
+    react-switch: ^7.0.0
     typescript: ^4.5.2
     yup: ^0.32.11
   peerDependencies:
@@ -7179,7 +7180,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.0.0, prop-types@npm:^15.5.10, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.0.0, prop-types@npm:^15.5.10, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -7414,6 +7415,18 @@ __metadata:
     react: ^16.0.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
   checksum: cb58f916bbf00c4f7fc33c1a75a8c0f91a98a42af26944340a0e29e4b3a97937a03f0292bc444eb5f5f0bea099344b580f9c04a81524246dadbf0571bdb57e62
+  languageName: node
+  linkType: hard
+
+"react-switch@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "react-switch@npm:7.0.0"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 1a3caa9a0271dad3acad9fb4c613583e738a8abf8ef67372fc829dfe3e837a23a7a1c1cd29c327ace526039c068a97538ea5659c25bd5bd6d94cc5f804ea843d
   languageName: node
   linkType: hard
 

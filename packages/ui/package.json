@@ -22,6 +22,7 @@
 		"rc-progress": "^3.4.1",
 		"react-color": "^2.19.3",
 		"react-spinners": "^0.13.8",
+		"react-switch": "^7.0.0",
 		"yup": "^0.32.11"
 	},
 	"devDependencies": {
