@@ -190,3 +190,7 @@ export const ShortUrlsSortNames = {
 	[UrlsSort.NAME_A_Z]: "Name: A - Z",
 	[UrlsSort.NAME_Z_A]: "Name: Z - A"
 } as const;
+
+export interface FilesBulkDeleteFormBody {
+	files: string[];
+}
