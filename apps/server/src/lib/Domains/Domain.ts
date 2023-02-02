@@ -252,18 +252,23 @@ export class Domain {
 	private syncStorage() {
 		const syncFn = async () => {
 			const filesInDir = await readdir(this.filesPath);
-			const filesInDb = (await this.server.prisma.file.findMany({ where: { domain: this.domain } })).map((file) => file.id);
+			const filesInDb = (await this.server.prisma.file.findMany({ where: { domain: this.domain } })).map(
+				(file) => file.path.split("/").reverse()[0]
+			);
 
 			const missingInDb = filesInDir.filter((file) => !filesInDb.includes(file));
-			const missingInDir = filesInDb.filter((file) => !filesInDb.includes(file));
+			const missingInDir = filesInDb.filter((file) => !filesInDir.includes(file));
 
 			for (const file of missingInDb) {
 				await rm(join(this.filesPath, file));
 			}
 
-			await this.server.prisma.file.deleteMany({ where: { domain: this.domain, id: { in: missingInDir } } });
+			await this.server.prisma.file.deleteMany({
+				where: { domain: this.domain, path: { in: missingInDir.map((id) => join(this.filesPath, id)) } }
+			});
 		};
 
+		void syncFn();
 		const cron = new CronJob("*/10 * * * *", syncFn);
 		this.storageSyncCron = cron;
 		cron.start();
@@ -276,7 +281,6 @@ export class Domain {
 		};
 
 		void updateStorageUsage();
-
 		const cron = new CronJob("* * * * *", updateStorageUsage);
 		this.storageCheckCron = cron;
 		cron.start();
