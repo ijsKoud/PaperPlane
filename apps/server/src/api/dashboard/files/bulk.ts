@@ -4,6 +4,11 @@ import type { DashboardRequest, FilesBulkDeleteFormBody, Middleware, RequestMeth
 import type Server from "../../../Server.js";
 
 export default async function handler(server: Server, req: DashboardRequest, res: Response) {
+	if (!req.locals.domain) {
+		res.status(500).send({ message: "Internal server error, please try again later." });
+		return;
+	}
+
 	if (req.method === "DELETE") {
 		const data = req.body as FilesBulkDeleteFormBody;
 		if (!Array.isArray(data.files)) {
