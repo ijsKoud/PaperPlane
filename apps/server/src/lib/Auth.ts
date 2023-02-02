@@ -98,7 +98,7 @@ export class Auth {
 
 	public static adminMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
 		try {
-			const authCookie: string = req.cookies["PAPERPLANE-ADMIN"];
+			const authCookie: string = req.cookies["PAPERPLANE-ADMIN"] ?? "";
 			if (!authCookie.length) throw new Error("Unauthorized");
 
 			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, "admin");
@@ -112,7 +112,7 @@ export class Auth {
 
 	public static userMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
 		try {
-			const authCookie: string = req.cookies["PAPERPLANE-AUTH"];
+			const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
 			if (!authCookie.length) throw new Error("Unauthorized");
 
 			const proxyHost = req.headers["x-forwarded-host"];

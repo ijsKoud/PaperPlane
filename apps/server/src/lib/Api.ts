@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import type { ApiRoute, Middleware } from "./types.js";
 import type { NextFunction, Request, Response } from "express";
 import { charset, lookup } from "mime-types";
+import { Auth } from "./Auth.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -31,7 +32,18 @@ export class Api {
 
 			const fileName = _fileName.includes(".") ? _fileName.split(".")[0] : _fileName;
 			const file = await this.server.prisma.file.findFirst({ where: { domain: domain.domain, id: fileName } });
-			if (!file) {
+
+			const checkForAuth = () => {
+				const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
+				if (!authCookie.length) return false;
+
+				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, domain.domain);
+				if (!verify) return false;
+
+				return true;
+			};
+
+			if (!file || (!file.visible && !checkForAuth())) {
 				await this.server.next.render404(req, res);
 				return;
 			}
