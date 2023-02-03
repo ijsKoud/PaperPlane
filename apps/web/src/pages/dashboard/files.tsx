@@ -1,14 +1,32 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGrid, FilesTable, UploadModal } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
-import { FilesApiRes, FilesSort } from "@paperplane/utils";
+import { FilesApiRes, FilesSort, getProtocol } from "@paperplane/utils";
 import { toast } from "react-toastify";
 import { NextSeo } from "next-seo";
 import type { AxiosError } from "axios";
 import axios from "axios";
 import type { FormikHelpers } from "formik";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
+		headers: { "X-PAPERPLANE-AUTH-KEY": context.req.cookies["PAPERPLANE-AUTH"] }
+	});
+
+	if (!stateRes.data.domain)
+		return {
+			redirect: {
+				destination: "/login",
+				permanent: false
+			}
+		};
+
+	return {
+		props: {}
+	};
+};
 
 interface FileEditValues {
 	name: string;

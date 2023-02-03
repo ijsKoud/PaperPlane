@@ -1,10 +1,29 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { DashboardDeleteBanner, DashboardLayout, ShortUrlsDashboardToolbar, ShortUrlsTable } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
-import { UrlsApiRes, UrlsSort } from "@paperplane/utils";
+import { getProtocol, UrlsApiRes, UrlsSort } from "@paperplane/utils";
 import { toast } from "react-toastify";
+import axios from "axios";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
+		headers: { "X-PAPERPLANE-AUTH-KEY": context.req.cookies["PAPERPLANE-AUTH"] }
+	});
+
+	if (!stateRes.data.domain)
+		return {
+			redirect: {
+				destination: "/login",
+				permanent: false
+			}
+		};
+
+	return {
+		props: {}
+	};
+};
 
 const ShortUrlsDashboard: NextPage = () => {
 	const [data, setData] = useState<UrlsApiRes>({ urls: [], pages: 0 });
