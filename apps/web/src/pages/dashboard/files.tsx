@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGrid, FilesTable } from "@paperplane/ui";
+import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGrid, FilesTable, UploadModal } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
@@ -29,6 +29,10 @@ const FilesDashboard: NextPage = () => {
 		if (selected.includes(fileName)) setSelected(selected.filter((str) => str !== fileName));
 		else setSelected([...selected, fileName]);
 	};
+
+	const [fileUploadModal, setFileUploadModal] = useState(false);
+	const openFileUploadModal = () => setFileUploadModal(true);
+	const closeFileUploadModal = () => setFileUploadModal(false);
 
 	const swr = useSwrWithUpdates<FilesApiRes>(`/api/dashboard/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 	useEffect(() => {
@@ -134,9 +138,12 @@ const FilesDashboard: NextPage = () => {
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)} className="max-w-[1008px]">
 			<NextSeo title="Files Dashboard" />
+			<UploadModal isOpen={fileUploadModal} onClick={closeFileUploadModal} toastError={toast.error} />
 			<div className="w-full flex justify-between items-center">
 				<h1 className="text-4xl">Files</h1>
-				<TertiaryButton type="button">Upload</TertiaryButton>
+				<TertiaryButton type="button" onClick={openFileUploadModal}>
+					Upload
+				</TertiaryButton>
 			</div>
 			<FilesDashboardToolbar
 				sort={sort}
