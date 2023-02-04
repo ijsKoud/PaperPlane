@@ -195,9 +195,17 @@ export interface FilesBulkDeleteFormBody {
 	files: string[];
 }
 
+export interface UrlsBulkDeleteFormBody {
+	urls: string[];
+}
+
 export interface FilesEditFormBody {
 	name: string;
 	password?: string;
 	passwordEnabled: boolean;
+	visible: boolean;
+}
+export interface UrlEditFormBody {
+	name: string;
 	visible: boolean;
 }
