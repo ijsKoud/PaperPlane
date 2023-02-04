@@ -7,6 +7,7 @@ import { getProtocol, UrlsApiRes, UrlsSort } from "@paperplane/utils";
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import type { FormikHelpers } from "formik";
+import { NextSeo } from "next-seo";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const stateRes = await axios.get<{ admin: boolean; domain: boolean }>(`${getProtocol()}${context.req.headers.host}/api/auth/state`, {
@@ -146,6 +147,7 @@ const ShortUrlsDashboard: NextPage = () => {
 
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)} className="max-w-[1008px]">
+			<NextSeo title="Shorturls Dashboard" />
 			<div className="w-full flex justify-between items-center">
 				<h1 className="text-4xl">Shorturls</h1>
 				<TertiaryButton type="button">Create</TertiaryButton>
