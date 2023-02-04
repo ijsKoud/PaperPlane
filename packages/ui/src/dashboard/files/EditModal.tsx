@@ -22,7 +22,7 @@ export const FileEditModal: React.FC<Props> = ({ isOpen, file, onClick, onSubmit
 	const schema = object({
 		name: string()
 			.required()
-			.test({ test: (str) => (str ? !str.includes(".") : false), message: "Name cannot include a . (dot)" }),
+			.test({ test: (str) => (str ? !str.includes(".") && !str.includes("/") : false), message: "Name cannot include a . (dot) or / (slash)" }),
 		passwordEnabled: boolean().required(),
 		password: string().notRequired()
 	});
