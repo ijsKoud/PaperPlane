@@ -98,8 +98,10 @@ model File {
   views Int      @default(0)
   size  String
 
-  password String?
-  visible  Boolean @default(true)
+  password   String?
+  authSecret String  @default(uuid())
+
+  visible Boolean @default(true)
 
   @@id([id, domain])
 }
