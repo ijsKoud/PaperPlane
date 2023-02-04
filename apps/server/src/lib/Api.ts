@@ -48,6 +48,22 @@ export class Api {
 				return;
 			}
 
+			const checkForPassword = () => {
+				const authCookie: string = req.cookies[`PAPERPLANE-${_fileName}`] ?? "";
+				if (!authCookie.length) return false;
+
+				const authSecret = Auth.decryptToken(file.authSecret, this.server.envConfig.encryptionKey);
+				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, authSecret);
+				if (!verify) return false;
+
+				return true;
+			};
+
+			if (Boolean(file.password) && !checkForAuth() && !checkForPassword()) {
+				await this.server.next.render(req, res, `/files/${_fileName}/auth`);
+				return;
+			}
+
 			if (!req.query.raw) {
 				if (domain.embedEnabled || charset(lookup(file.path.split(/\//g).reverse()[0]) || "") === "UTF-8") {
 					await this.server.next.render(req, res, `/files/${_fileName}`);

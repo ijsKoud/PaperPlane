@@ -145,13 +145,18 @@ export class Domain {
 	public async addFile(file: Express.Multer.File): Promise<string> {
 		const id = Utils.generateId(this.nameStrategy, this.nameLength) || file.originalname.split(".")[0];
 		const fileExt = file.filename.split(".").filter(Boolean).slice(1).join(".");
+
+		const authBuffer = Buffer.from(`${Auth.generateToken(32)}.${Date.now()}.${this.domain}.${id}`).toString("base64");
+		const authSecret = Auth.encryptToken(authBuffer, this.server.envConfig.encryptionKey);
+
 		const fileData = await this.server.prisma.file.create({
 			data: {
 				id,
 				date: new Date(),
 				path: join(this.filesPath, file.filename),
 				size: this.server.config.parseStorage(file.size),
-				domain: this.domain
+				domain: this.domain,
+				authSecret
 			}
 		});
 
