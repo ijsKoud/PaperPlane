@@ -60,7 +60,7 @@ export class Api {
 			};
 
 			if (Boolean(file.password) && !checkForAuth() && !checkForPassword()) {
-				await this.server.next.render(req, res, `/files/${_fileName}/auth`);
+				res.redirect(`/files/${_fileName}/auth`);
 				return;
 			}
 
