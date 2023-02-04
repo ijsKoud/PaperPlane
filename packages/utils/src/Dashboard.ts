@@ -44,7 +44,7 @@ export interface FilesApiRes {
 }
 
 export interface UrlsApiRes {
-	urls: ApiUrl[];
+	entries: ApiUrl[];
 	pages: number;
 }
 
