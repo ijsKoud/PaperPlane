@@ -1,10 +1,10 @@
 import type { Response } from "express";
 import Fuse from "fuse.js";
 import { lookup } from "mime-types";
-import { Auth } from "../../lib/Auth.js";
-import { DashboardRequest, FilesSort, Middleware, RequestMethods } from "../../lib/types.js";
-import { Utils } from "../../lib/utils.js";
-import type Server from "../../Server.js";
+import { Auth } from "../../../lib/Auth.js";
+import { DashboardRequest, FilesSort, Middleware, RequestMethods } from "../../../lib/types.js";
+import { Utils } from "../../../lib/utils.js";
+import type Server from "../../../Server.js";
 
 interface ApiFile {
 	name: string;
