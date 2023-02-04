@@ -49,11 +49,10 @@ export class Api {
 			}
 
 			const checkForPassword = () => {
-				const authCookie: string = req.cookies[`PAPERPLANE-${_fileName}`] ?? "";
+				const authCookie: string = req.cookies[`PAPERPLANE-${file.id}`] ?? "";
 				if (!authCookie.length) return false;
 
-				const authSecret = Auth.decryptToken(file.authSecret, this.server.envConfig.encryptionKey);
-				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, authSecret);
+				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, file.authSecret);
 				if (!verify) return false;
 
 				return true;
