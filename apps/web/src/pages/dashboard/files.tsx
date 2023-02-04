@@ -174,9 +174,23 @@ const FilesDashboard: NextPage = () => {
 				setView={setView}
 			/>
 			{view === "grid" ? (
-				<FilesGrid onSelect={onSelect} selected={selected} files={data.entries} deleteFile={deleteFile} updateFile={updateFile} />
+				<FilesGrid
+					onSelect={onSelect}
+					selected={selected}
+					files={data.entries}
+					deleteFile={deleteFile}
+					updateFile={updateFile}
+					toastSuccess={toast.success}
+				/>
 			) : (
-				<FilesTable onSelect={onSelect} selected={selected} files={data.entries} deleteFile={deleteFile} />
+				<FilesTable
+					onSelect={onSelect}
+					selected={selected}
+					files={data.entries}
+					deleteFile={deleteFile}
+					updateFile={updateFile}
+					toastSuccess={toast.success}
+				/>
 			)}
 			<DashboardDeleteBanner items={selected} type="file" cancel={cancel} success={success} />
 		</DashboardLayout>

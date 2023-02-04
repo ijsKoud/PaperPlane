@@ -9,9 +9,10 @@ interface Props {
 	onSelect: (fileName: string) => void;
 	deleteFile: (id: string) => void;
 	updateFile: (...props: any) => Promise<boolean>;
+	toastSuccess: (str: string) => void;
 }
 
-export const FilesGrid: React.FC<Props> = ({ files, selected, onSelect, deleteFile, updateFile }) => {
+export const FilesGrid: React.FC<Props> = ({ files, selected, onSelect, deleteFile, updateFile, toastSuccess }) => {
 	return (
 		<div className="w-full flex flex-wrap gap-4 items-center justify-center">
 			{files.map((file, key) => (
@@ -22,6 +23,7 @@ export const FilesGrid: React.FC<Props> = ({ files, selected, onSelect, deleteFi
 					onClick={onSelect}
 					deleteFile={deleteFile}
 					updateFile={updateFile}
+					toastSuccess={toastSuccess}
 				/>
 			))}
 		</div>

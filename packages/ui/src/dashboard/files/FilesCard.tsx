@@ -8,12 +8,13 @@ interface Props {
 	file: ApiFile;
 	selected: boolean;
 
+	toastSuccess: (str: string) => void;
 	onClick: (fileName: string) => void;
 	deleteFile: (id: string) => void;
 	updateFile: (...props: any) => Promise<boolean>;
 }
 
-const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile, updateFile }) => {
+const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile, updateFile, toastSuccess }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const ModalonClick = () => setIsOpen(false);
 
@@ -38,6 +39,11 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile, updat
 	const updateFileFn = async (...props: any) => {
 		const success = await updateFile(file.name, ...props);
 		if (success) ModalonClick();
+	};
+
+	const onCopy = () => {
+		navigator.clipboard.writeText(file.url);
+		toastSuccess("Copied to clipboard!");
 	};
 
 	return (
@@ -73,7 +79,7 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile, updat
 							<TransparentButton type="button" onClick={() => setIsOpen(true)}>
 								<i id="filebutton" className="fa-regular fa-pen-to-square" />
 							</TransparentButton>
-							<TransparentButton type="button">
+							<TransparentButton type="button" onClick={onCopy}>
 								<i id="filebutton" className="fa-regular fa-copy" />
 							</TransparentButton>
 							<TransparentButton type="link" href={file.url} target="_blank">
