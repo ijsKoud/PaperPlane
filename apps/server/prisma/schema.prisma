@@ -99,7 +99,7 @@ model File {
   size  String
 
   password   String?
-  authSecret String  @default(uuid())
+  authSecret String
 
   visible Boolean @default(true)
 
