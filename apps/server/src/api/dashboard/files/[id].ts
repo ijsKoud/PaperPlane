@@ -22,6 +22,11 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		return;
 	}
 
+	if (typeof data.visible !== "boolean") {
+		res.status(400).send({ message: "Invalid visible value provided" });
+		return;
+	}
+
 	try {
 		await server.prisma.file.update({
 			where: { id_domain: { domain: req.locals.domain.domain, id } },
