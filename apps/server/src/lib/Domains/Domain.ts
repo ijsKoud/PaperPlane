@@ -3,9 +3,11 @@ import type { Domain as DomainInterface, Token, Prisma } from "@prisma/client";
 import { Utils } from "../utils.js";
 import { join } from "node:path";
 import ms from "ms";
-import { mkdir, rm } from "node:fs/promises";
+import { mkdir, readdir, rm } from "node:fs/promises";
 import { AuditLog } from "../AuditLog.js";
 import { Auth } from "../Auth.js";
+import { Collection } from "@discordjs/collection";
+import { CronJob } from "cron";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -39,7 +41,14 @@ export class Domain {
 	public embedEnabled!: boolean;
 
 	public auditlogs: AuditLog;
-	private storageCheckTimeout!: NodeJS.Timeout;
+	public views: string[] = [];
+	public visits: string[] = [];
+
+	private storageCheckCron!: CronJob;
+	private storageSyncCron!: CronJob;
+
+	private viewTimeout: NodeJS.Timeout | undefined;
+	private visitTimeout: NodeJS.Timeout | undefined;
 
 	public constructor(public server: Server, data: iDomain) {
 		this._parse(data);
@@ -48,6 +57,8 @@ export class Domain {
 
 	public async start() {
 		this.recordStorage();
+		this.syncStorage();
+
 		await this.auditlogs.start();
 	}
 
@@ -93,7 +104,8 @@ export class Domain {
 		await this.server.prisma.token.deleteMany({ where: { domain: this.domain } });
 		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
 
-		clearTimeout(this.storageCheckTimeout);
+		this.storageCheckCron.stop();
+		this.storageSyncCron.stop();
 	}
 
 	public async resetAuth() {
@@ -133,19 +145,69 @@ export class Domain {
 	public async addFile(file: Express.Multer.File): Promise<string> {
 		const id = Utils.generateId(this.nameStrategy, this.nameLength) || file.originalname.split(".")[0];
 		const fileExt = file.filename.split(".").filter(Boolean).slice(1).join(".");
+
+		const authBuffer = Buffer.from(`${Auth.generateToken(32)}.${Date.now()}.${this.domain}.${id}`).toString("base64");
+		const authSecret = Auth.encryptToken(authBuffer, this.server.envConfig.encryptionKey);
+
 		const fileData = await this.server.prisma.file.create({
 			data: {
 				id,
 				date: new Date(),
 				path: join(this.filesPath, file.filename),
 				size: this.server.config.parseStorage(file.size),
-				domain: this.domain
+				domain: this.domain,
+				authSecret
 			}
 		});
 
 		const filename = `${fileData.id}${this.nameStrategy === "zerowidth" ? "" : `.${fileExt}`}`;
 		this.auditlogs.register("File Upload", `File: ${filename}, size: ${this.server.config.parseStorage(file.size)}`);
 		return filename;
+	}
+
+	public addView(id: string) {
+		this.views.push(id);
+
+		if (!this.viewTimeout) {
+			const timeout = setTimeout(async () => {
+				const _views = new Collection<string, number>();
+				this.views.forEach((view) => _views.set(view, (_views.get(view) ?? 0) + 1));
+				for await (const [key, amount] of _views) {
+					await this.server.prisma.file.update({
+						where: { id_domain: { domain: this.domain, id: key } },
+						data: { views: { increment: amount } }
+					});
+				}
+
+				this.views = [];
+				this.viewTimeout = undefined;
+			}, 3e4);
+
+			this.viewTimeout = timeout;
+		}
+	}
+
+	public addVisit(id: string) {
+		this.visits.push(id);
+
+		if (!this.visitTimeout) {
+			const timeout = setTimeout(async () => {
+				const _visits = new Collection<string, number>();
+				this.visits.forEach((visit) => _visits.set(visit, (_visits.get(visit) ?? 0) + 1));
+
+				for await (const [key, amount] of _visits) {
+					await this.server.prisma.url.update({
+						where: { id_domain: { domain: this.domain, id: key } },
+						data: { visits: { increment: amount } }
+					});
+				}
+
+				this.visits = [];
+				this.visitTimeout = undefined;
+			}, 3e4);
+
+			this.visitTimeout = timeout;
+		}
 	}
 
 	public toString() {
@@ -192,6 +254,31 @@ export class Domain {
 		this.apiTokens = data.apiTokens;
 	}
 
+	private syncStorage() {
+		const syncFn = async () => {
+			const filesInDir = await readdir(this.filesPath);
+			const filesInDb = (await this.server.prisma.file.findMany({ where: { domain: this.domain } })).map(
+				(file) => file.path.split("/").reverse()[0]
+			);
+
+			const missingInDb = filesInDir.filter((file) => !filesInDb.includes(file));
+			const missingInDir = filesInDb.filter((file) => !filesInDir.includes(file));
+
+			for (const file of missingInDb) {
+				await rm(join(this.filesPath, file));
+			}
+
+			await this.server.prisma.file.deleteMany({
+				where: { domain: this.domain, path: { in: missingInDir.map((id) => join(this.filesPath, id)) } }
+			});
+		};
+
+		void syncFn();
+		const cron = new CronJob("*/10 * * * *", syncFn);
+		this.storageSyncCron = cron;
+		cron.start();
+	}
+
 	private recordStorage() {
 		const updateStorageUsage = async () => {
 			const res = await Utils.sizeOfDir(this.filesPath);
@@ -199,7 +286,8 @@ export class Domain {
 		};
 
 		void updateStorageUsage();
-		const timeout = setTimeout(() => void updateStorageUsage(), 6e4);
-		this.storageCheckTimeout = timeout;
+		const cron = new CronJob("* * * * *", updateStorageUsage);
+		this.storageCheckCron = cron;
+		cron.start();
 	}
 }

@@ -42,8 +42,8 @@ const Colors = {
 		hoverBorder: "hover:border-secondary"
 	},
 	tertiary: {
-		bg: "bg-highlight-400",
-		border: "border-highlight-800",
+		bg: "bg-highlight-400 disabled:bg-highlight-100",
+		border: "border-highlight-800 disabled:border-highlight-200",
 		hoverBg: "hover:bg-highlight-600",
 		hoverBorder: "hover:border-highlight"
 	},

@@ -4,6 +4,8 @@ import type Server from "../Server.js";
 import { fileURLToPath } from "node:url";
 import type { ApiRoute, Middleware } from "./types.js";
 import type { NextFunction, Request, Response } from "express";
+import { charset, lookup } from "mime-types";
+import { Auth } from "./Auth.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -13,6 +15,71 @@ export class Api {
 	public async start() {
 		const files = this.readdirRecursive(join(__dirname, "..", "api")).filter((file) => file.endsWith(".js"));
 		await Promise.all(files.map((filePath) => this.loadFile(filePath)));
+
+		this.server.express.get("/files/:file", async (req, res) => {
+			const { file: _fileName } = req.params;
+
+			const domain = this.server.domains.get(req.headers.host || req.hostname);
+			if (!domain) {
+				await this.server.next.render404(req, res);
+				return;
+			}
+
+			if (domain.disabled) {
+				await this.server.next.render404(req, res);
+				return;
+			}
+
+			const fileName = _fileName.includes(".") ? _fileName.split(".")[0] : _fileName;
+			const file = await this.server.prisma.file.findFirst({ where: { domain: domain.domain, id: fileName } });
+
+			const checkForAuth = () => {
+				const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
+				if (!authCookie.length) return false;
+
+				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, domain.domain);
+				if (!verify) return false;
+
+				return true;
+			};
+
+			if (!file || (!file.visible && !checkForAuth())) {
+				await this.server.next.render404(req, res);
+				return;
+			}
+
+			const checkForPassword = () => {
+				const authCookie: string = req.cookies[`PAPERPLANE-${file.id}`] ?? "";
+				if (!authCookie.length) return false;
+
+				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, file.authSecret);
+				if (!verify) return false;
+
+				return true;
+			};
+
+			if (Boolean(file.password) && !checkForAuth() && !checkForPassword()) {
+				res.redirect(`/files/${_fileName}/auth`);
+				return;
+			}
+
+			if (!req.query.raw) {
+				if (domain.embedEnabled || charset(lookup(file.path.split(/\//g).reverse()[0]) || "") === "UTF-8") {
+					await this.server.next.render(req, res, `/files/${_fileName}`);
+					return;
+				}
+			}
+
+			res.sendFile(file.path, (err) => {
+				if (err) {
+					res.end();
+					this.server.logger.error(err);
+					return;
+				}
+
+				if (!req.query.preview) domain.addView(file.id);
+			});
+		});
 	}
 
 	private async loadFile(filePath: string) {
@@ -20,11 +87,17 @@ export class Api {
 		const route = filePath.replace(dirname, "").replace(".js", "");
 
 		const { default: handler, methods, middleware } = (await import(filePath)) as ApiRoute;
-		methods.forEach((method) =>
-			this.server.express[method](`/api${route}`, ...(middleware ?? []).map((m) => this.middlewareHandler(m)), (req, res, next) =>
-				handler(this.server, req, res, next)
-			)
-		);
+		methods.forEach((method) => {
+			const middlewareArray = (middleware ?? []).map((m) => this.middlewareHandler(m));
+
+			const routePaths = route.split(/\//g);
+			const endPath = routePaths.pop()!;
+			const endRoute =
+				endPath === "index" ? "" : endPath.startsWith("[") && endPath.endsWith("]") ? `:${endPath.slice(1, endPath.length - 1)}` : endPath;
+
+			const correctRoute = [...routePaths, endRoute].join("/");
+			this.server.express[method](`/api${correctRoute}`, ...middlewareArray, (req, res, next) => handler(this.server, req, res, next));
+		});
 	}
 
 	private middlewareHandler(middleware: Middleware) {

@@ -3,7 +3,8 @@ import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import ShortUniqueId from "short-unique-id";
 import type { Domain } from "./index.js";
-import { AdminUserSort } from "./types.js";
+import { AdminUserSort, FilesSort, UrlsSort } from "./types.js";
+import type { File, Url } from "@prisma/client";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Utils {
@@ -36,6 +37,36 @@ export class Utils {
 			case "name":
 				return undefined;
 		}
+	}
+
+	public static parseStorage(storage: string): number;
+	public static parseStorage(storage: number): string;
+	public static parseStorage(storage: string | number): number | string {
+		if (typeof storage === "string") {
+			const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+			const INFINITY = units.map((unit) => `0 ${unit}`);
+			if (!storage.length || [INFINITY, "0"].includes(storage)) return 0;
+
+			const [_amount, unit] = storage.split(/ +/g);
+			const unitSize = units.indexOf(unit) || 0;
+
+			const amount = Number(_amount);
+			if (isNaN(amount)) return 0;
+
+			return amount * Math.pow(1024, unitSize);
+		}
+
+		if (storage === Infinity) return "Infinity";
+
+		const units = ["B", "kB", "MB", "GB", "TB", "PB"];
+		let num = 0;
+
+		while (storage > 1024) {
+			storage /= 1024;
+			++num;
+		}
+
+		return `${storage.toFixed(1)} ${units[num]}`;
 	}
 
 	public static async sizeOfDir(directory: string): Promise<number> {
@@ -86,6 +117,76 @@ export class Utils {
 		}
 
 		return users;
+	}
+
+	public static filesSort(files: File[], sort: FilesSort) {
+		const sortByName = (a: File, b: File) => {
+			if (a.id < b.id) return -1;
+			if (a.id > b.id) return 1;
+
+			return 0;
+		};
+
+		switch (sort) {
+			case FilesSort.DATE_NEW_OLD:
+				files = files.sort((a, b) => b.date.getTime() - a.date.getTime());
+				break;
+			case FilesSort.DATE_OLD_NEW:
+				files = files.sort((a, b) => a.date.getTime() - b.date.getTime());
+				break;
+			case FilesSort.NAME_A_Z:
+				files = files.sort(sortByName);
+				break;
+			case FilesSort.NAME_Z_A:
+				files = files.sort(sortByName).reverse();
+				break;
+			case FilesSort.SIZE_LARGE_SMALL:
+				files = files.sort((a, b) => Utils.parseStorage(b.size) - Utils.parseStorage(a.size));
+				break;
+			case FilesSort.SIZE_SMALL_LARGE:
+				files = files.sort((a, b) => Utils.parseStorage(a.size) - Utils.parseStorage(b.size));
+				break;
+			case FilesSort.VIEWS_HIGH_LOW:
+				files = files.sort((a, b) => b.views - a.views);
+				break;
+			case FilesSort.VIEWS_LOW_HIGH:
+				files = files.sort((a, b) => a.views - b.views);
+				break;
+		}
+
+		return files;
+	}
+
+	public static urlSort(urls: Url[], sort: UrlsSort) {
+		const sortByName = (a: Url, b: Url) => {
+			if (a.id < b.id) return -1;
+			if (a.id > b.id) return 1;
+
+			return 0;
+		};
+
+		switch (sort) {
+			case UrlsSort.DATE_NEW_OLD:
+				urls = urls.sort((a, b) => b.date.getTime() - a.date.getTime());
+				break;
+			case UrlsSort.DATE_OLD_NEW:
+				urls = urls.sort((a, b) => a.date.getTime() - b.date.getTime());
+				break;
+			case UrlsSort.NAME_A_Z:
+				urls = urls.sort(sortByName);
+				break;
+			case UrlsSort.NAME_Z_A:
+				urls = urls.sort(sortByName).reverse();
+				break;
+			case UrlsSort.VISITS_HIGH_LOW:
+				urls = urls.sort((a, b) => b.visits - a.visits);
+				break;
+			case UrlsSort.VISITS_LOW_HIGH:
+				urls = urls.sort((a, b) => a.visits - b.visits);
+				break;
+		}
+
+		return urls;
 	}
 
 	public static checkColor(color: string): boolean {

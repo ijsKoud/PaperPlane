@@ -6,10 +6,14 @@ import FilesTableEntry from "./FilesTableEntry";
 interface Props {
 	files: ApiFile[];
 	selected: string[];
+
 	onSelect: (fileName: string) => void;
+	deleteFile: (id: string) => void;
+	updateFile: (...props: any) => Promise<boolean>;
+	toastSuccess: (str: string) => void;
 }
 
-export const FilesTable: React.FC<Props> = ({ files, selected, onSelect }) => {
+export const FilesTable: React.FC<Props> = ({ files, selected, onSelect, deleteFile, updateFile, toastSuccess }) => {
 	return (
 		<div className="w-full flex flex-wrap gap-4 items-center justify-center bg-main p-8 rounded-xl">
 			<div className="overflow-auto w-full max-w-[calc(100vw-16px-64px)]">
@@ -20,7 +24,15 @@ export const FilesTable: React.FC<Props> = ({ files, selected, onSelect }) => {
 					heads={["", "Name", "Size", "Date", "Locked", "Visible", "Options"]}
 				>
 					{files.map((file, key) => (
-						<FilesTableEntry file={file} key={key} selected={selected.includes(file.name)} onClick={onSelect} />
+						<FilesTableEntry
+							file={file}
+							key={key}
+							selected={selected.includes(file.name)}
+							onClick={onSelect}
+							deleteFile={deleteFile}
+							updateFile={updateFile}
+							toastSuccess={toastSuccess}
+						/>
 					))}
 				</Table>
 			</div>

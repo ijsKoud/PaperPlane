@@ -39,12 +39,12 @@ export const ShortUrlsSortNames = {
 } as const;
 
 export interface FilesApiRes {
-	files: ApiFile[];
+	entries: ApiFile[];
 	pages: number;
 }
 
 export interface UrlsApiRes {
-	urls: ApiUrl[];
+	entries: ApiUrl[];
 	pages: number;
 }
 
@@ -53,10 +53,10 @@ export interface ApiFile {
 	url: string;
 
 	visible: boolean;
-	size: number;
+	size: string;
 	isImage: boolean;
 
-	password: string | null;
+	password: boolean;
 
 	date: Date;
 	views: number;
