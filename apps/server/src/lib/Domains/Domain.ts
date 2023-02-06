@@ -173,10 +173,12 @@ export class Domain {
 				const _views = new Collection<string, number>();
 				this.views.forEach((view) => _views.set(view, (_views.get(view) ?? 0) + 1));
 				for await (const [key, amount] of _views) {
-					await this.server.prisma.file.update({
-						where: { id_domain: { domain: this.domain, id: key } },
-						data: { views: { increment: amount } }
-					});
+					await this.server.prisma.file
+						.update({
+							where: { id_domain: { domain: this.domain, id: key } },
+							data: { views: { increment: amount } }
+						})
+						.catch(() => void 0); // 99% of the errors come from deleted items
 				}
 
 				this.views = [];
@@ -196,10 +198,12 @@ export class Domain {
 				this.visits.forEach((visit) => _visits.set(visit, (_visits.get(visit) ?? 0) + 1));
 
 				for await (const [key, amount] of _visits) {
-					await this.server.prisma.url.update({
-						where: { id_domain: { domain: this.domain, id: key } },
-						data: { visits: { increment: amount } }
-					});
+					await this.server.prisma.url
+						.update({
+							where: { id_domain: { domain: this.domain, id: key } },
+							data: { visits: { increment: amount } }
+						})
+						.catch(() => void 0); // 99% of the errors come from deleted items
 				}
 
 				this.visits = [];
