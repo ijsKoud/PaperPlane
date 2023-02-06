@@ -52,6 +52,12 @@ export class Domains {
 		this.server.adminAuditLogs.register("AuthMode Change", `Mode: ${this.server.envConfig.authMode}`);
 	}
 
+	public async resetEncryption(oldKey: string) {
+		for await (const [, domain] of this.domains) {
+			await domain.resetEncryption(oldKey);
+		}
+	}
+
 	public async create(data: Prisma.Prisma.DomainCreateArgs["data"]) {
 		const res = await this.server.prisma.domain.create({ data, include: { apiTokens: true } });
 

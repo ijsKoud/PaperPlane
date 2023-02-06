@@ -85,6 +85,17 @@ export class Config {
 		await this.triggerUpdate();
 	}
 
+	public async resetEncryptionKey() {
+		const oldKey = this.config.encryptionKey;
+
+		this.config.encryptionKey = Auth.generateToken(32);
+		await this.triggerUpdate();
+
+		await this.server.domains.resetEncryption(oldKey);
+		this.server.logger.info("[CONFIG]: Encryption key reset initiated");
+		this.server.adminAuditLogs.register("Encryption Reset", "N/A");
+	}
+
 	public parseStorage(storage: string): number;
 	public parseStorage(storage: number): string;
 	public parseStorage(storage: string | number): number | string {
