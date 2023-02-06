@@ -156,6 +156,32 @@ const AdminSettingsPanel: NextPage = () => {
 		} catch (error) {}
 	};
 
+	const resetEncryptionKey = async (): Promise<boolean> => {
+		const promise = async () => {
+			try {
+				await axios.post("/api/admin/reset");
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Building new hanger...",
+				error: "Hanger collapsed during the construction :(",
+				success: "New hanger is completed and ready to use!."
+			});
+
+			return true;
+		} catch (error) {}
+
+		return false;
+	};
+
 	const [inviteModal, setInviteModal] = useState(false);
 	const enableInviteModal = () => setInviteModal(true);
 	const disableInviteModal = () => setInviteModal(false);
@@ -173,7 +199,7 @@ const AdminSettingsPanel: NextPage = () => {
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
 			<AdminDomains createDomain={createDomain} deleteDomain={deleteDomain} toastSuccess={(str) => toast.success(str)} />
 			<AdminBackups />
-			<AdminResetButtons />
+			<AdminResetButtons resetEncryptionKey={resetEncryptionKey} />
 		</AdminLayout>
 	);
 };
