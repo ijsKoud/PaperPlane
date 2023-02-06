@@ -87,6 +87,27 @@ export class Domain {
 		this._parse(newDomain);
 	}
 
+	public async resetEncryption(oldKey: string) {
+		if (this.server.envConfig.authMode === "password") {
+			const decrypted = Auth.decryptToken(this.secret, oldKey);
+			const encrypted = Auth.encryptToken(decrypted, this.server.envConfig.encryptionKey);
+			const domain = await this.server.prisma.domain.update({
+				where: { domain: this.domain },
+				data: { password: encrypted },
+				include: { apiTokens: true }
+			});
+			this._parse(domain);
+		}
+
+		const files = await this.server.prisma.file.findMany({ where: { domain: this.domain } });
+		for await (const file of files) {
+			if (!file.password) continue;
+			const decrypted = Auth.decryptToken(file.password, oldKey);
+			const encrypted = Auth.encryptToken(decrypted, this.server.envConfig.encryptionKey);
+			await this.server.prisma.file.update({ where: { id_domain: { domain: this.domain, id: file.id } }, data: { password: encrypted } });
+		}
+	}
+
 	public async update(data: Prisma.DomainUpdateArgs["data"], auditlog = true) {
 		const res = await this.server.prisma.domain.update({ where: { domain: this.domain }, data, include: { apiTokens: true } });
 		this._parse(res);
