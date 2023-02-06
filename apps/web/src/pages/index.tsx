@@ -7,7 +7,9 @@ export default function Web() {
 			<div className="flex flex-col gap-y-3 items-center justify-center">
 				<div className="flex flex-col items-center">
 					<LogoText height={45} width={45} textClassName="text-4xl max-sm:text-2xl" />
-					<h2 className="text-base max-sm:text-comment max-sm:font-medium">File uploading. URL Shortening. Protected views.</h2>
+					<h2 className="text-base max-sm:text-comment max-sm:font-medium">
+						An open-source customisable solution to storing files in the cloud. ✈️
+					</h2>
 				</div>
 				<div className="flex gap-2 max-sm:flex-col max-sm:w-full text-center">
 					<PrimaryButton type="link" href="https://github.com/ijsKoud/paperplane">
