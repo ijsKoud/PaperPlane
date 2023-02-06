@@ -3,6 +3,7 @@ import axios from "axios";
 import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
 import { PrimaryButton } from "@paperplane/buttons";
 import { useState } from "react";
+import { getProtocol } from "@paperplane/utils";
 
 // TODO: Remove MOCK_DOMAINS and fetch domains instead
 const MOCK_DOMAINS = [
@@ -26,12 +27,18 @@ const MOCK_DOMAINS = [
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
-		// TODO: replace this with .env checker!!
-		const res = await axios.get<string>(`http://${ctx.req.headers.host}/api/signup`);
-		if (res.data === "password")
+		const res = await axios.get<{ type: "2fa" | "password"; mode: "closed" | "open" | "invite " }>(
+			`${getProtocol()}${ctx.req.headers.host}/api/auth/signup`,
+			{
+				headers: { "X-PAPERPLANE-API": process.env.INTERNAL_API_KEY }
+			}
+		);
+		if (res.data.mode === "closed") return { notFound: true };
+		if (res.data.type === "password")
 			return {
 				props: {
-					domains: MOCK_DOMAINS
+					domains: MOCK_DOMAINS,
+					mode: res.data.mode
 				}
 			};
 
