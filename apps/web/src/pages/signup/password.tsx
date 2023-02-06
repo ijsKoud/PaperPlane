@@ -11,6 +11,7 @@ import { PulseLoader } from "react-spinners";
 import { useRouter } from "next/router";
 import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
+import { NextSeo } from "next-seo";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
@@ -114,6 +115,7 @@ export default function SignUp({ domains, mode }: Props) {
 
 	return (
 		<div className="grid place-items-center h-screen bg-login bg-cover bg-center">
+			<NextSeo title="Sign Up" />
 			<BackUpCodesModal isOpen={Boolean(backupCodes.length)} codes={backupCodes} onClick={onClick} downloadCodes={downloadCodes} />
 			<div className="bg-main p-8 rounded-xl flex flex-col gap-y-8 items-center justify-center">
 				<div>
