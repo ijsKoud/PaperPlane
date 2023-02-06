@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { DashboardDeleteBanner, DashboardLayout, ShortUrlsDashboardToolbar, ShortUrlsTable } from "@paperplane/ui";
+import { CreateModal, DashboardDeleteBanner, DashboardLayout, ShortUrlsDashboardToolbar, ShortUrlsTable } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
@@ -32,11 +32,20 @@ interface UrlEditValues {
 	visible: boolean;
 }
 
+interface UrlCreateValues {
+	name: string;
+	url: string;
+}
+
 const ShortUrlsDashboard: NextPage = () => {
 	const [data, setData] = useState<UrlsApiRes>({ entries: [], pages: 0 });
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 	const [sort, setSort] = useState<UrlsSort>(UrlsSort.DATE_NEW_OLD);
+
+	const [createModal, setCreateModal] = useState(false);
+	const openCreateModal = () => setCreateModal(true);
+	const closeCreateModal = () => setCreateModal(false);
 
 	const [selected, setSelected] = useState<string[]>([]);
 	const onSelect = (fileName: string) => {
@@ -131,6 +140,48 @@ const ShortUrlsDashboard: NextPage = () => {
 		return false;
 	};
 
+	const createUrl = async (values: UrlCreateValues, helpers: FormikHelpers<UrlCreateValues>) => {
+		const promise = async () => {
+			try {
+				const data = new FormData();
+				data.append("short", values.url);
+				data.append("path", values.name);
+
+				await axios({
+					url: "/api/upload",
+					method: "POST",
+					data,
+					withCredentials: true,
+					headers: { "Content-Type": "multipart/form-data" }
+				});
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				helpers.resetForm({
+					values,
+					errors: Object.keys(values)
+						.map((key) => ({ [key]: error }))
+						.reduce((a, b) => ({ ...a, ...b }), {})
+				});
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Creating new conveyor belt...",
+				error: "Conveyor belt failed to start :(",
+				success: "New conveyor belt created."
+			});
+
+			await swr.mutate();
+			return true;
+		} catch (error) {}
+
+		return false;
+	};
+
 	if (swr.error && !swr.data) {
 		console.log(swr.error);
 
@@ -148,9 +199,12 @@ const ShortUrlsDashboard: NextPage = () => {
 	return (
 		<DashboardLayout toastInfo={(str) => toast.info(str)} className="max-w-[1008px]">
 			<NextSeo title="Shorturls Dashboard" />
+			<CreateModal isOpen={createModal} onClick={closeCreateModal} createUrl={createUrl} />
 			<div className="w-full flex justify-between items-center">
 				<h1 className="text-4xl">Shorturls</h1>
-				<TertiaryButton type="button">Create</TertiaryButton>
+				<TertiaryButton type="button" onClick={openCreateModal}>
+					Create
+				</TertiaryButton>
 			</div>
 			<ShortUrlsDashboardToolbar
 				sort={sort}
