@@ -80,6 +80,41 @@ export class Api {
 				if (!req.query.preview) domain.addView(file.id);
 			});
 		});
+
+		this.server.express.get("/r/:id", async (req, res) => {
+			const { id: urlId } = req.params;
+
+			const domain = this.server.domains.get(req.headers.host || req.hostname);
+			if (!domain) {
+				await this.server.next.render404(req, res);
+				return;
+			}
+
+			if (domain.disabled) {
+				await this.server.next.render404(req, res);
+				return;
+			}
+
+			const url = await this.server.prisma.url.findFirst({ where: { domain: domain.domain, id: urlId } });
+
+			const checkForAuth = () => {
+				const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
+				if (!authCookie.length) return false;
+
+				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, domain.domain);
+				if (!verify) return false;
+
+				return true;
+			};
+
+			if (!url || (!url.visible && !checkForAuth())) {
+				await this.server.next.render404(req, res);
+				return;
+			}
+
+			res.redirect(url.url);
+			domain.addVisit(url.id);
+		});
 	}
 
 	private async loadFile(filePath: string) {
