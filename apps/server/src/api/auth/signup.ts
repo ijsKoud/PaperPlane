@@ -5,6 +5,8 @@ import { Auth } from "../../lib/Auth.js";
 import ms from "ms";
 
 export default async function handler(server: Server, req: Request, res: Response) {
+	const domains = await server.prisma.signupDomain.findMany();
+
 	if (req.method === "GET") {
 		if (req.headers["x-paperplane-api"] !== server.envConfig.internalApiKey) {
 			res.status(401).send({ message: "Unauthorized request" });
@@ -13,7 +15,8 @@ export default async function handler(server: Server, req: Request, res: Respons
 
 		res.send({
 			mode: server.envConfig.signUpMode,
-			type: server.envConfig.authMode
+			type: server.envConfig.authMode,
+			domains: domains.map((dm) => dm.domain)
 		});
 		return;
 	}
@@ -37,7 +40,6 @@ export default async function handler(server: Server, req: Request, res: Respons
 	if (req.method === "PATCH") {
 		const data = req.body as { key?: string; auth: string; invite?: string; extension?: string; domain: string };
 
-		const domains = await server.prisma.signupDomain.findMany();
 		if (!domains.map((dm) => dm.domain).includes(data.domain)) {
 			res.status(400).send({ message: "Invalid domain provided" });
 			return;
