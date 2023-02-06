@@ -62,3 +62,4 @@ export const generateToken = (length = 32) => {
 
 export * from "./Dashboard";
 export * from "./Admin";
+export * from "./SignUp";
