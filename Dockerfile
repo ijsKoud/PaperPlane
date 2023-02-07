@@ -5,8 +5,7 @@ WORKDIR /paperplane
 
 # Install and run Turbo
 COPY . .
-RUN yarn global add turbo
-RUN turbo prune --docker
+RUN yarn turbo prune --docker
 
 FROM node:19-alpine as installer
 WORKDIR /paperplane
