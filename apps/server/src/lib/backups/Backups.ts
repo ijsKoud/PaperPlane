@@ -1,8 +1,8 @@
-import type Server from "../Server.js";
+import type Server from "../../Server.js";
 import { Zip } from "zip-lib";
 import { join } from "node:path";
 import { rm, writeFile } from "node:fs/promises";
-import { Auth } from "./Auth.js";
+import { Auth } from "../Auth.js";
 
 export class Backups {
 	public baseDataFolder = join(process.cwd(), "..", "..", "data");
