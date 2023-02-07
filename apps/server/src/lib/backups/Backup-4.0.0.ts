@@ -54,6 +54,9 @@ export class BackupV400 {
 		for (const signupDomain of data.signupDomains) {
 			await this.server.prisma.signupDomain.create({ data: signupDomain });
 		}
+
+		this.server.config.config.encryptionKey = data.encryption;
+		await this.server.config.triggerUpdate();
 	}
 
 	private parseDatabase(_data: string) {
@@ -130,7 +133,8 @@ export class BackupV400 {
 			urls,
 			auditLogs,
 			invites,
-			signupDomains
+			signupDomains,
+			encryption: data.encryption
 		};
 	}
 

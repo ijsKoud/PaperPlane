@@ -104,6 +104,37 @@ export class Config {
 		return Utils.parseStorage(storage as any);
 	}
 
+	public async triggerUpdate() {
+		const getCleanKey = (key: keyof EnvConfig) => {
+			const configKey = ConfigNames[key];
+			let value = this.config[key] ?? "";
+
+			switch (key) {
+				case "auditLogDuration":
+					value = ms((value as number) || 0) ?? DEFAULT_CONFIG.AUDIT_LOG_DURATION;
+					break;
+				case "extensionsList":
+					value = (value as string[]).join(",");
+					break;
+				case "maxStorage":
+				case "maxUpload":
+					value = this.parseStorage(value as number);
+					break;
+				default:
+					break;
+			}
+
+			return `${configKey}="${value}"`;
+		};
+
+		const config = Object.keys(this.config)
+			.map((key) => getCleanKey(key as keyof EnvConfig))
+			.join("\n");
+
+		const dataDir = join(process.cwd(), "..", "..", "data");
+		await writeFile(join(dataDir, ".env"), config);
+	}
+
 	private parseConfigItem(key: keyof RawEnvConfig, value?: string): any {
 		if (!value) value = process.env[key];
 
@@ -182,36 +213,5 @@ export class Config {
 		);
 
 		return config;
-	}
-
-	private async triggerUpdate() {
-		const getCleanKey = (key: keyof EnvConfig) => {
-			const configKey = ConfigNames[key];
-			let value = this.config[key] ?? "";
-
-			switch (key) {
-				case "auditLogDuration":
-					value = ms((value as number) || 0) ?? DEFAULT_CONFIG.AUDIT_LOG_DURATION;
-					break;
-				case "extensionsList":
-					value = (value as string[]).join(",");
-					break;
-				case "maxStorage":
-				case "maxUpload":
-					value = this.parseStorage(value as number);
-					break;
-				default:
-					break;
-			}
-
-			return `${configKey}="${value}"`;
-		};
-
-		const config = Object.keys(this.config)
-			.map((key) => getCleanKey(key as keyof EnvConfig))
-			.join("\n");
-
-		const dataDir = join(process.cwd(), "..", "..", "data");
-		await writeFile(join(dataDir, ".env"), config);
 	}
 }
