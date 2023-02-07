@@ -1,16 +1,14 @@
 FROM ghcr.io/diced/prisma-binaries:4.7.x as prisma
 
-FROM node:19-alpine
+FROM node:19-alpine as builder
+WORKDIR /paperplane
 
-# Create user PaperPlane
-RUN addgroup --system --gid 1639 paperplane
-RUN adduser --system --uid 1639 paperplane
+# Install and run Turbo
+COPY . .
+RUN yarn global add turbo
+RUN turbo prune --docker
 
-# Create Directories with correct permissions
-RUN mkdir -p /paperplane/node_modules && chown -R paperplane:paperplane /paperplane/
-RUN mkdir -p /prisma-engines
-
-# Move to correct dir
+FROM node:19-alpine as installer
 WORKDIR /paperplane
 
 # Prisma binary libraries
@@ -24,26 +22,36 @@ ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
 RUN apk update \
   && apk add openssl1.1-compat
 
-# Register Environment Variables
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
-
-# Copy Existing Files
-COPY package.json yarn.lock .yarnrc.yml next.config.js global.d.ts next-env.d.ts tsconfig.json ./
-copy prisma ./prisma
+# Copy yarn executables
+COPY .yarnrc.yml
 COPY .yarn ./.yarn
-COPY public ./public
-COPY src ./src
 
-# Install dependencies
+# Copy and install dependencies
+COPY --from=builder /paperplane/out/json/ .
+COPY --from=builder /paperplane/out/yarn.lock ./yarn.lock
 RUN yarn install --immutable
-RUN yarn prisma generate
 
 # Build the application
-RUN yarn build
+COPY --from=builder /app/out/full/ .
+COPY turbo.json turbo.json
+RUN yarn turbo run build
 
-# Change User
-USER paperplane
+FROM node:19-alpine as runner
+WORKDIR /paperplane
 
-# Run NodeJS script
-CMD ["node", "."]
+# Create user PaperPlane
+RUN addgroup --system --gid 1639 paperplane
+RUN adduser --system --uid 1639 paperplane
+
+COPY --from=installer /paperplane/apps/web/next.config.js ./apps/web/next.config.js
+COPY --from=installer /paperplane/apps/web/package.json ./apps/web/package.json
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/web/.next/standalone ./
+COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/web/.next/static ./apps/web/.next/static
+
+COPY --from=installer /paperplane/apps/server/package.json ./apps/server/package.json
+COPY --from=installer /paperplane/apps/server/dist/ ./apps/server/dist/
+
+cmd node apps/server/dist/index.js
