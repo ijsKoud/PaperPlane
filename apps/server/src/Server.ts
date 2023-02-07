@@ -49,7 +49,7 @@ export default class Server {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
 		this.express = express();
 
-		this.logger = new Logger({ level: this.dev ? LogLevel.Debug : LogLevel.Info });
+		this.logger = new Logger({ level: LogLevel.Debug });
 
 		const updateUsage = async () => {
 			const pid = await pidusage(process.pid);

@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc --build",
-		"start": "node ./dist",
+		"start": "node ./dist/index.js",
 		"lint": "eslint src",
 		"dev:watch": "tsc --watch",
 		"dev": "NODE_ENV=development nodemon ./dist"

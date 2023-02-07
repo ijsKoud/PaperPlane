@@ -8,7 +8,8 @@ Below you can find a table of all supported versions, check this table **before*
 | ------- | ------------------ |
 | 1.x.x   | :x:                |
 | 2.x.x   | :x:                |
-| 3.x.x   | :white_check_mark: |
+| 3.x.x   | :x:                |
+| 4.x.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
