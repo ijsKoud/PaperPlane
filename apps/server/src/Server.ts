@@ -80,7 +80,7 @@ export default class Server {
 	public async run() {
 		process.env.INSECURE_REQUESTS = (this.dev || this.envConfig.insecureRequests) as any;
 
-		this.next = next({
+		this.next = next.default({
 			dev: this.dev,
 			quiet: !this.dev,
 			isNextDevCommand: true,
