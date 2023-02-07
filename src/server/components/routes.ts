@@ -132,7 +132,12 @@ export class Routes {
 			const databaseData = {
 				version: "3.0.0",
 				user: await prisma.user.findFirst(),
-				files: (await prisma.file.findMany()).map((file) => ({ ...file, size: formatBytes(Number(file.size)) })) ?? [],
+				files:
+					(await prisma.file.findMany()).map((file) => ({
+						...file,
+						size: formatBytes(Number(file.size)),
+						password: file.password ? decryptToken(file.password) : null
+					})) ?? [],
 				urls: (await prisma.url.findMany()) ?? []
 			};
 
