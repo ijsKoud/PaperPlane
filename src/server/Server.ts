@@ -50,7 +50,8 @@ export class Server {
 		this.next = next({
 			dev: this.dev,
 			quiet: !this.dev,
-			customServer: true
+			customServer: true,
+			port: this.port
 		});
 
 		this.express.use(cookieParser(), json(), urlencoded({ extended: true }));

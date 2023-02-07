@@ -6,6 +6,7 @@ import {
 	CleanUser,
 	decryptToken,
 	formatBytes,
+	getConfig,
 	getFileExt,
 	getProtocol,
 	getUser,
@@ -40,7 +41,7 @@ export class Websocket {
 	public async init() {
 		this.socketServer.on("connection", (ws, req) => this.onWebsocket(ws as iWebsocket, req));
 		this.server._server.on("upgrade", (request, socket, head) => {
-			if (new URL(request.url ?? "", "http://localhost:3000").pathname !== "/websocket") return;
+			if (new URL(request.url ?? "", `http://localhost:${getConfig().port}`).pathname !== "/websocket") return;
 			this.socketServer.handleUpgrade(request, socket, head, (socket) => this.socketServer.emit("connection", socket, request));
 		});
 
