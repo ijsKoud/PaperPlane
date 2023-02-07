@@ -18,9 +18,6 @@ export class BackupV400 {
 		const dbData = await readFile(filePath, "utf8");
 		const data = this.parseDatabase(dbData);
 
-		await rm(join(this.dataDir, "files"), { recursive: true });
-		await rename(dir, join(this.dataDir, "files"));
-
 		await this.server.prisma.auditlog.deleteMany();
 		await this.server.prisma.file.deleteMany();
 		await this.server.prisma.invites.deleteMany();
@@ -32,7 +29,7 @@ export class BackupV400 {
 
 		for (const user of data.users) {
 			const { apiTokens, ...data } = user;
-			await this.server.prisma.domain.create({ data: { ...data, apiTokens: { create: apiTokens } } });
+			await this.server.prisma.domain.create({ data: { ...data, apiTokens: { create: apiTokens.map(({ domain, ...rest }) => rest) } } });
 		}
 
 		for (const auditlog of data.auditLogs) {
@@ -57,6 +54,9 @@ export class BackupV400 {
 
 		this.server.config.config.encryptionKey = data.encryption;
 		await this.server.config.triggerUpdate();
+
+		await rm(join(this.dataDir, "files"), { recursive: true });
+		await rename(join(dir, "files"), join(this.dataDir, "files"));
 	}
 
 	private parseDatabase(_data: string) {
