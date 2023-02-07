@@ -1,42 +1,22 @@
 import { DangerButton } from "@paperplane/buttons";
 import type React from "react";
+import { useState } from "react";
+import { ConfirmModal } from "../../index";
 
-interface Props {}
+interface Props {
+	createBackup: () => Promise<void>;
+}
 
-export const AdminBackups: React.FC<Props> = () => {
-	// const [isOpen, setIsOpen] = useState(false);
-	// const [page, setPage] = useState(0);
-	// const [selected, setSelected] = useState<string[]>([]);
-	// const [domains, setDomains] = useState<SignUpDomainGetApi>({ entries: [], pages: 0 });
-	// const { data: domainsGetData, mutate } = useSwrWithUpdates<SignUpDomainGetApi>(`/api/admin/domains?page=${page}`, {
-	// 	refreshInterval: isOpen ? 5e3 : 0
-	// });
-
-	// useEffect(() => {
-	// 	if (domainsGetData) setDomains(domainsGetData);
-	// }, [domainsGetData]);
-
-	// const createBackup = async () => {
-	// await _createBackup();
-	// await mutate();
-	// };
-
-	// const pageOptions: SelectOption[] = Array(domains.pages)
-	// 	.fill(null)
-	// 	.map((_, key) => ({ label: `Page ${key + 1}`, value: key.toString() }));
-	// const pageValue: SelectOption = { label: `Page ${page + 1}`, value: page.toString() };
-
-	// const previousPage = () => setPage(page - 1);
-	// const nextPage = () => setPage(page + 1);
-	// const onPageChange = (option: any) => {
-	// 	if (typeof option !== "object") return;
-	// 	const { value } = option as SelectOption;
-
-	// 	setPage(Number(value));
-	// };
+export const AdminBackups: React.FC<Props> = ({ createBackup: _createBackup }) => {
+	const [backupCreateModal, setBackupCreateModal] = useState(false);
+	const createBackup = async () => {
+		await _createBackup();
+		setBackupCreateModal(false);
+	};
 
 	return (
 		<>
+			<ConfirmModal cancel={() => setBackupCreateModal(false)} confirm={createBackup} isOpen={backupCreateModal} />
 			<div className="max-w-[50vw] max-xl:max-w-[75vw] max-md:max-w-[100vw] w-full">
 				<div className="w-full">
 					<h1 className="text-xl">Backups</h1>
@@ -47,7 +27,9 @@ export const AdminBackups: React.FC<Props> = () => {
 					</p>
 				</div>
 				<div className="w-full mt-4 flex items-center gap-2">
-					<DangerButton type="button">Create Backup</DangerButton>
+					<DangerButton type="button" onClick={() => setBackupCreateModal(true)}>
+						Create Backup
+					</DangerButton>
 					<DangerButton type="button">Import Backup</DangerButton>
 				</div>
 			</div>

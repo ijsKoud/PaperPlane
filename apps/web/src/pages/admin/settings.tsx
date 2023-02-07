@@ -182,6 +182,31 @@ const AdminSettingsPanel: NextPage = () => {
 		return false;
 	};
 
+	const createBackup = async () => {
+		const promise = async () => {
+			try {
+				const res = await axios.post<{ name: string }>("/api/admin/backups/create", undefined, { withCredentials: true, timeout: 9e5 });
+				return res.data;
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			const res = await toast.promise(promise(), {
+				pending: "Building backup airport...",
+				error: "Not enough money to build it :(",
+				success: "New airport created."
+			});
+
+			toast.success(`New backup created with id: ${res.name}`);
+		} catch (error) {}
+	};
+
 	const [inviteModal, setInviteModal] = useState(false);
 	const enableInviteModal = () => setInviteModal(true);
 	const disableInviteModal = () => setInviteModal(false);
@@ -198,7 +223,7 @@ const AdminSettingsPanel: NextPage = () => {
 			/>
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
 			<AdminDomains createDomain={createDomain} deleteDomain={deleteDomain} toastSuccess={(str) => toast.success(str)} />
-			<AdminBackups />
+			<AdminBackups createBackup={createBackup} />
 			<AdminResetButtons resetEncryptionKey={resetEncryptionKey} />
 		</AdminLayout>
 	);
