@@ -60,6 +60,7 @@ export class Backups {
 			await rm(extractFolder, { recursive: true, maxRetries: 5, retryDelay: 1e3 });
 		} catch (err) {
 			if ("message" in err && err.message.includes("errors:")) return JSON.parse(err.message);
+			this.server.logger.fatal("[BACKUP]: Fatal error while importing a backup ", err);
 			return false;
 		}
 
