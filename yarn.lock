@@ -1058,7 +1058,7 @@ __metadata:
   resolution: "@paperplane/buttons@workspace:packages/buttons"
   dependencies:
     "@types/react": ^18.0.27
-    "@types/react-dom": ^17.0.18
+    "@types/react-dom": ^18.0.10
     eslint: ^7.32.0
     typescript: ^4.9.5
   peerDependencies:
@@ -1072,7 +1072,7 @@ __metadata:
   resolution: "@paperplane/forms@workspace:packages/forms"
   dependencies:
     "@types/react": ^18.0.27
-    "@types/react-dom": ^17.0.18
+    "@types/react-dom": ^18.0.10
     eslint: ^7.32.0
     react-select: ^5.7.0
     typescript: ^4.9.5
@@ -1086,7 +1086,7 @@ __metadata:
   resolution: "@paperplane/logo@workspace:packages/logo"
   dependencies:
     "@types/react": ^18.0.27
-    "@types/react-dom": ^17.0.18
+    "@types/react-dom": ^18.0.10
     eslint: ^7.32.0
     typescript: ^4.9.5
   peerDependencies:
@@ -1100,7 +1100,7 @@ __metadata:
   resolution: "@paperplane/markdown@workspace:packages/markdown"
   dependencies:
     "@types/react": ^18.0.27
-    "@types/react-dom": ^17.0.18
+    "@types/react-dom": ^18.0.10
     eslint: ^7.32.0
     react-markdown: ^8.0.5
     remark-gfm: ^3.0.1
@@ -1116,7 +1116,7 @@ __metadata:
   dependencies:
     "@paperplane/buttons": "*"
     "@types/react": ^18.0.27
-    "@types/react-dom": ^17.0.18
+    "@types/react-dom": ^18.0.10
     eslint: ^7.32.0
     framer-motion: ^8.5.5
     typescript: ^4.9.5
@@ -1137,7 +1137,7 @@ __metadata:
     "@paperplane/swr": "*"
     "@paperplane/utils": "*"
     "@types/react": ^18.0.27
-    "@types/react-dom": ^17.0.18
+    "@types/react-dom": ^18.0.10
     axios: ^1.3.2
     cookies-next: ^2.1.1
     eslint: ^7.32.0
@@ -1155,7 +1155,7 @@ __metadata:
   resolution: "@paperplane/swr@workspace:packages/swr"
   dependencies:
     "@types/react": ^18.0.27
-    "@types/react-dom": ^17.0.18
+    "@types/react-dom": ^18.0.10
     axios: ^1.3.2
     eslint: ^7.32.0
     swr: ^2.0.3
@@ -1174,7 +1174,7 @@ __metadata:
     "@paperplane/utils": "*"
     "@types/react": ^18.0.27
     "@types/react-color": ^3.0.6
-    "@types/react-dom": ^17.0.18
+    "@types/react-dom": ^18.0.10
     axios: ^1.3.2
     eslint: ^7.32.0
     formik: ^2.2.9
@@ -1652,15 +1652,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.18":
-  version: 17.0.18
-  resolution: "@types/react-dom@npm:17.0.18"
-  dependencies:
-    "@types/react": ^17
-  checksum: b74525b1a13a0e27fe20859ff7a7e8f7e4581fb9d45ed1b6447ad1534d86f813818353c39d0df2e28f9d2b9be2e3af1908c244b2214a979393d19f217665e614
-  languageName: node
-  linkType: hard
-
 "@types/react-dom@npm:^18.0.10":
   version: 18.0.10
   resolution: "@types/react-dom@npm:18.0.10"
@@ -1687,17 +1678,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 600fdbc39a92ea4a77047db3e12f05f67776a710f5918248c0189a59ac2a38900c9db5a5d2e433a16df528a3ecab1aa114b322cacea573bb1ca2fc0b094c52d1
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^17":
-  version: 17.0.53
-  resolution: "@types/react@npm:17.0.53"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: dacfde02c260fd98bed2eb775ed0c7ce1397be4c0844f907a50763b081a4008f81f57071889a16eb1350ddcf0927f3cf1a6541702c8ad03de3c70383ef931e3f
   languageName: node
   linkType: hard
 
