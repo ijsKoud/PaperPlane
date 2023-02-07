@@ -49,7 +49,7 @@ export default class Server {
 		this.dev = Boolean(process.env.NODE_ENV === "development");
 		this.express = express();
 
-		this.logger = new Logger({ level: this.dev ? LogLevel.Debug : LogLevel.Info });
+		this.logger = new Logger({ level: LogLevel.Debug });
 
 		const updateUsage = async () => {
 			const pid = await pidusage(process.pid);
@@ -80,7 +80,7 @@ export default class Server {
 	public async run() {
 		process.env.INSECURE_REQUESTS = (this.dev || this.envConfig.insecureRequests) as any;
 
-		this.next = next.default({
+		this.next = next({
 			dev: this.dev,
 			quiet: !this.dev,
 			isNextDevCommand: true,
