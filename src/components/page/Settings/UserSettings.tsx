@@ -1,5 +1,6 @@
 import React from "react";
 import type { FC } from "../../../lib/types";
+import BackupCreation from "./BackupCreation";
 import ConfigDownload from "./ConfigDownload";
 import PasswordForm from "./Forms/PasswordForm";
 import TokenRegen from "./Forms/TokenRegen";
@@ -14,6 +15,7 @@ const UserSettings: FC = () => {
 				<PasswordForm />
 				<TokenRegen />
 				<ConfigDownload />
+				<BackupCreation />
 			</div>
 		</div>
 	);
