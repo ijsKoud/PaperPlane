@@ -27,12 +27,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
-			authMode: stateRes.data.mode
+			authMode: stateRes.data.mode,
+			authModal: context.query.action === "reset-auth"
 		}
 	};
 };
 
-const DashboardSettings: NextPage<{ authMode: "2fa" | "password" }> = ({ authMode }) => {
+const DashboardSettings: NextPage<{ authMode: "2fa" | "password"; authModal: boolean }> = ({ authMode, authModal }) => {
 	const router = useRouter();
 
 	const [tokenModal, setTokenModal] = useState(false);
@@ -47,7 +48,7 @@ const DashboardSettings: NextPage<{ authMode: "2fa" | "password" }> = ({ authMod
 	const openResetAccount = () => setResetAccount(true);
 	const closeResetAccount = () => setResetAccount(false);
 
-	const [resetAuth, setResetAuth] = useState(false);
+	const [resetAuth, setResetAuth] = useState(authModal);
 	const openResetAuth = () => setResetAuth(true);
 	const closeResetAuth = () => setResetAuth(false);
 

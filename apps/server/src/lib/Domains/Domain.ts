@@ -17,6 +17,7 @@ export class Domain {
 	public domain!: string;
 	public date!: Date;
 
+	public pathId!: string;
 	public filesPath!: string;
 	public disabled!: boolean;
 
@@ -256,6 +257,7 @@ export class Domain {
 		this.domain = data.domain;
 		this.date = data.date;
 
+		this.pathId = data.pathId;
 		this.filesPath = join(process.cwd(), "..", "..", "data", "files", data.pathId);
 		this.disabled = data.disabled;
 

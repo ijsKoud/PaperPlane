@@ -119,7 +119,7 @@ export class Auth {
 			const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
 			const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
 
-			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.domain || req.hostname);
+			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.pathId || req.hostname);
 			if (!verify) throw new Error("Unauthorized");
 
 			(req as DashboardRequest).locals = { domain: host! };
@@ -146,7 +146,7 @@ export class Auth {
 				const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
 				const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
 
-				const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.domain || req.hostname);
+				const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.pathId || req.hostname);
 				if (!verify) throw new Error("Unauthorized");
 
 				(req as DashboardRequest).locals = { domain: host! };
