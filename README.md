@@ -1,6 +1,6 @@
 <div align="center">
     <img src="apps/web/public/logo/text.png" width="500px" />
-    <h1>PaperPlane</h1>
+    <h1></h1>
   
   <p>An open-source customisable solution to storing files in the cloud. ✈️</p>
   
@@ -20,11 +20,36 @@
 
 ## Information
 
-- Customisable ✏️,- Blazingly fast thanks to Next.js ⚡,- File uploading and URL shortening ☁️,- Password Protection for files 🔐,- Discord Embeds using OG Metadata 🔗,- 2FA Authentication to protect the vulnerable data 🔄️,- Gallery and Table viewing options 📃,- Support for multiple users using domains 🧑‍🤝‍🧑,- Clean and modern design 🖌️,- User invite-only mode 📨,- Backup import and export functionality 📂,- Easy install using Docker! 🚢
+- Customisable ✏️
+
+- Blazingly fast thanks to Next.js ⚡
+
+- File uploading and URL shortening ☁️
+
+- Password Protection for files 🔐
+
+- Discord Embeds using OG Metadata 🔗
+
+- 2FA Authentication to protect the vulnerable data 🔄️
+
+- Gallery and Table viewing options 📃
+
+- Support for multiple users using domains 🧑‍🤝‍🧑
+
+- Clean and modern design 🖌️
+
+- User invite-only mode 📨
+
+- Backup import and export functionality 📂
+
+- Easy install using Docker! 🚢
+
 
 ## Install
 
-The following guide only shows you the Docker installation steps, for more details visit [the documentation page](https://paperplane.ijskoud.dev/). We are using `~/paperplane` as data folder, `paperplane` as name for the docker container and port `3000` (the first one and not the second one) here, you can customise all the options.,```bash
+The following guide only shows you the Docker installation steps, for more details visit [the documentation page](https://paperplane.ijskoud.dev/). We are using `~/paperplane` as data folder, `paperplane` as name for the docker container and port `3000` (the first one and not the second one) here, you can customise all the options.
+
+```bash
 docker pull ghcr.io/ijskoud/paperplane:latest
 docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p 3000:3000 ghcr.io/ijskoud/paperplane:latest
 ```
