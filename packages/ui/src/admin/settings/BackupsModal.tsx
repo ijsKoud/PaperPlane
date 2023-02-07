@@ -58,12 +58,15 @@ export const BackupsModal: React.FC<Props> = ({ isOpen, onClick, importBackup, t
 						{backups.entries.map((backup) => (
 							<TableEntry key={backup}>
 								<td>
-									<p title={backup} className="max-w-[300px] overflow-hidden whitespace-nowrap text-ellipsis text-base">
-										{backup}
+									<p
+										title={backup.replace(".zip", "")}
+										className="max-w-[300px] overflow-hidden whitespace-nowrap text-ellipsis text-base"
+									>
+										{backup.replace(".zip", "")}
 									</p>
 								</td>
 								<td className="flex items-center gap-2">
-									<PrimaryButton type="button" onClick={() => importBackup(backup)}>
+									<PrimaryButton type="button" onClick={() => importBackup(backup.replace(".zip", ""))}>
 										Import
 									</PrimaryButton>
 								</td>
