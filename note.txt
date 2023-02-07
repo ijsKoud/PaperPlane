@@ -1,3 +1,0 @@
-PAPERPLANE DEV CSS ISSUE:
-- Turn ReactStrictMode Off and On
-- Run Web with all packages instead of server
