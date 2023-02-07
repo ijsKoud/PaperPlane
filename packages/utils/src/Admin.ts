@@ -114,6 +114,11 @@ export interface SignUpDomain {
 	date: Date;
 }
 
+export interface BackupsGetApi {
+	entries: string[];
+	pages: number;
+}
+
 export const TIME_UNITS = [
 	{ label: "Seconds", value: "s" },
 	{ label: "Minutes", value: "m" },

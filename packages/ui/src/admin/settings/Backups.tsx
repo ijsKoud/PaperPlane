@@ -5,9 +5,10 @@ import { ConfirmModal } from "../../index";
 
 interface Props {
 	createBackup: () => Promise<void>;
+	backupModal: () => void;
 }
 
-export const AdminBackups: React.FC<Props> = ({ createBackup: _createBackup }) => {
+export const AdminBackups: React.FC<Props> = ({ createBackup: _createBackup, backupModal }) => {
 	const [backupCreateModal, setBackupCreateModal] = useState(false);
 	const createBackup = async () => {
 		await _createBackup();
@@ -30,7 +31,9 @@ export const AdminBackups: React.FC<Props> = ({ createBackup: _createBackup }) =
 					<DangerButton type="button" onClick={() => setBackupCreateModal(true)}>
 						Create Backup
 					</DangerButton>
-					<DangerButton type="button">Import Backup</DangerButton>
+					<DangerButton type="button" onClick={backupModal}>
+						Import Backup
+					</DangerButton>
 				</div>
 			</div>
 		</>
