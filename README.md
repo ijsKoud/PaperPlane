@@ -38,7 +38,8 @@
 The following guide only shows you the Docker installation steps, for more details visit [the documentation page](https://paperplane.ijskoud.dev/). We are using `~/paperplane` as data folder, `paperplane` as name for the docker container and port `3000` (the first one and not the second one) here, you can customise all the options.
 ```bash
 docker pull ghcr.io/ijskoud/paperplane:latest
-docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p 3000:3000 ghcr.io/ijskoud/paperplane:latest```
+docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p 3000:3000 ghcr.io/ijskoud/paperplane:latest
+```
 
 
 
