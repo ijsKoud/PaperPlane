@@ -4,12 +4,14 @@ import { join } from "node:path";
 import { readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { Auth } from "../Auth.js";
 import { BackupV400 } from "./versions/Backup-4.0.0.js";
+import { BackupV300 } from "./versions/backup-3.0.0.js";
 
 export class Backups {
 	public baseDataFolder = join(process.cwd(), "..", "..", "data");
 	public baseBackupFolder = join(this.baseDataFolder, "backups");
 
 	public v400 = new BackupV400(this.server, this.baseDataFolder);
+	public v300 = new BackupV300(this.server, this.baseDataFolder);
 
 	public constructor(public server: Server) {}
 
@@ -55,7 +57,9 @@ export class Backups {
 			await unzip.extract(join(this.baseBackupFolder, "archives", `${id}.zip`), extractFolder);
 
 			const jsonStr = await readFile(join(extractFolder, "db.json"), "utf8");
-			if (JSON.parse(jsonStr).version === "4.0.0") await this.v400.import(extractFolder);
+			const version: string = JSON.parse(jsonStr).version ?? "";
+			if (version === "4.0.0") await this.v400.import(extractFolder);
+			else if (version === "3.0.0") await this.v300.import(extractFolder);
 
 			await rm(extractFolder, { recursive: true, maxRetries: 5, retryDelay: 1e3 });
 		} catch (err) {

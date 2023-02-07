@@ -56,3 +56,32 @@ export interface iBackupV400 {
 	invites: { invite: string; date: string }[];
 	signupDomains: { domain: string; date: string }[];
 }
+
+export interface iBackupV300 {
+	version: string;
+	user: {
+		username: string;
+		password: string;
+		token: string;
+		embedEnabled: boolean;
+		embedTitle: string | null;
+		embedDescription: string | null;
+		embedColour: string;
+	};
+	files: {
+		id: string;
+		path: string;
+		date: string;
+		views: number;
+		size: string;
+		password: string | null;
+		visible: boolean;
+	}[];
+	urls: {
+		id: string;
+		url: string;
+		date: string;
+		visits: number;
+		visible: boolean;
+	}[];
+}
