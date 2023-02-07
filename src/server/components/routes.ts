@@ -1,11 +1,12 @@
 import type { NextFunction, Request, Response } from "express";
 import type { Server } from "../Server";
 import multer from "multer";
-import { readdir, unlink } from "node:fs/promises";
+import { mkdir, readdir, rm, unlink, writeFile } from "node:fs/promises";
 import { createToken, decryptToken, encryptPassword, encryptToken, formatBytes, generateId, getConfig, getProtocol, getUser } from "../utils";
 import { join } from "node:path";
 import { rateLimit } from "express-rate-limit";
 import { boolean, object, string, ValidationError } from "yup";
+import { Zip } from "zip-lib";
 
 const config = getConfig();
 
@@ -72,6 +73,8 @@ export class Routes {
 			.patch("/api/user", this.ratelimit, this.userAuth.bind(this), this.updateUser.bind(this))
 			.patch("/api/user/embed", this.ratelimit, this.userAuth.bind(this), this.userEmbed.bind(this))
 			.post("/api/user/token", this.ratelimit, this.userAuth.bind(this), this.userToken.bind(this));
+
+		this.server.express.post("/api/backup/create", this.ratelimit, this.userAuth.bind(this), this.backup.bind(this));
 	}
 
 	private async auth(req: Request, res: Response, next: NextFunction) {
@@ -117,6 +120,37 @@ export class Routes {
 		}
 
 		next();
+	}
+
+	private async backup(req: Request, res: Response) {
+		const backupDir = join(this.server.data.filesDir, "..", "backups");
+		await mkdir(join(backupDir, "temp"), { recursive: true });
+		await mkdir(join(backupDir, "archives"), { recursive: true });
+
+		try {
+			const { prisma } = this.server;
+			const databaseData = {
+				version: "3.0.0",
+				user: await prisma.user.findFirst(),
+				files: await prisma.file.findMany(),
+				urls: await prisma.url.findMany()
+			};
+
+			const id = `backup-${generateId(true)}`;
+			const filePath = join(backupDir, "temp", `${id}-file.json`);
+			await writeFile(filePath, JSON.stringify(databaseData));
+
+			const zip = new Zip();
+			zip.addFolder(this.server.data.filesDir, "files");
+			zip.addFile(filePath, "db.json");
+
+			await zip.archive(join(backupDir, "archives", `${id}.zip`));
+			await rm(filePath, { maxRetries: 4, retryDelay: 1e3 });
+			res.sendStatus(204);
+		} catch (err) {
+			this.server.logger.fatal("[BACKUP]: Fatal error while creating a backup ", err);
+			res.sendStatus(500);
+		}
 	}
 
 	private async getFile(req: Request, res: Response) {
