@@ -1,0 +1,18 @@
+# .kodiak.toml
+
+version = 1
+
+[merge]
+automerge_label = "Merge 🚢" # default: "automerge"
+require_automerge_label = true
+
+method = "squash" # default: first valid merge method in list "merge", "squash", "rebase", options: "merge", "squash", "rebase"
+delete_branch_on_merge = true # default: false
+
+[merge.message]
+title = "pull_request_title" # default: "github_default", options: "github_default", "pull_request_title"
+include_pr_number = true # default: true
+
+[merge.automerge_dependencies]
+versions = ["minor", "patch"]
+usernames = ["dependabot", "renovate"]

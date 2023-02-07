@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../../../data/data.db"
+}
+
+model Domain {
+  pathId String @default(uuid())
+
+  domain   String   @id
+  date     DateTime @default(now())
+  disabled Boolean
+
+  password        String?
+  twoFactorSecret String? @map("two_factor_secret")
+
+  backupCodes String  @default("paperplane-cdn") @map("backup_codes")
+  apiTokens   Token[]
+
+  maxStorage    String @default("0 B") @map("max_storage")
+  maxUploadSize String @default("0 B") @map("max_upload_size")
+
+  extensionsList String @default("") @map("extensions_list")
+  extensionsMode String @default("block") @map("extensions_mode")
+
+  auditlogDuration String @map("audit_log_duration")
+
+  nameLength   Int    @default(10) @map("name_length")
+  nameStrategy String @default("id") @map("name_strategy")
+
+  embedEnabled     Boolean @default(false) @map("embed_enabled")
+  embedDescription String  @default("")
+  embedTitle       String  @default("")
+  embedColor       String  @default("#000000")
+
+  urls  Url[]
+  files File[]
+}
+
+model Token {
+  name  String   @id
+  token String
+  date  DateTime @default(now())
+
+  domain String
+  Domain Domain? @relation(fields: [domain], references: [domain])
+}
+
+model SignupDomain {
+  domain String   @id
+  Date   DateTime @default(now())
+
+  @@map("signup_domain")
+}
+
+model Invites {
+  invite String   @id
+  Date   DateTime @default(now())
+}
+
+model Auditlog {
+  id   String   @id @unique @default(uuid())
+  date DateTime @default(now())
+
+  type    String
+  user    String
+  details String
+}
+
+model Url {
+  id     String
+  domain String
+  Domain Domain? @relation(fields: [domain], references: [domain])
+
+  url  String
+  date DateTime
+
+  visits  Int     @default(0)
+  visible Boolean @default(true)
+
+  @@id([id, domain])
+}
+
+model File {
+  id   String
+  path String @unique
+
+  domain String
+  Domain Domain? @relation(fields: [domain], references: [domain])
+
+  date  DateTime
+  views Int      @default(0)
+  size  String
+
+  password   String?
+  authSecret String
+
+  visible Boolean @default(true)
+
+  @@id([id, domain])
+}

@@ -1,0 +1,5 @@
+-- CreateTable
+CREATE TABLE "signup_domain" (
+    "domain" TEXT NOT NULL PRIMARY KEY,
+    "Date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

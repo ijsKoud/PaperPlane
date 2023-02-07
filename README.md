@@ -1,6 +1,6 @@
 <div align="center">
-    <img src="public/assets/images/paperplane.png" width="100px" />
-    <h1>PaperPlane</h1>
+    <img src="apps/web/public/logo/text.png" width="500px" />
+    <!-- <h1>PaperPlane</h1> -->
   
   <p>A fast file/shorturl upload server packed with lots of cool features!</p>
   

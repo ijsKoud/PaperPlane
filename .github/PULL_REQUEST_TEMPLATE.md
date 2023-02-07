@@ -2,14 +2,14 @@
 
 <!--
 Examples:
-- fixes autocomplete: return suggestions even when no input is provided
-- adds all the basic moderation commands
+- Removes <class/code> in favour of <other class/code>
+- adds <Class> for <reason>
 - removes unused dependencies
 -->
 
 <!--
 ### Linked Issues:
-Mention an issue here (example: #1)
+Mention an issue here (example: closes #1)
 -->
 
 ---

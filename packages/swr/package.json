@@ -1,0 +1,23 @@
+{
+	"name": "@paperplane/swr",
+	"version": "0.0.0",
+	"main": "./src/index.tsx",
+	"types": "./src/index.tsx",
+	"license": "MIT",
+	"scripts": {
+		"lint": "TIMING=1 eslint"
+	},
+	"peerDependencies": {
+		"react": "^18.2.0"
+	},
+	"dependencies": {
+		"axios": "^1.2.2",
+		"swr": "^2.0.0"
+	},
+	"devDependencies": {
+		"@types/react": "^18.0.22",
+		"@types/react-dom": "^17.0.11",
+		"eslint": "^7.32.0",
+		"typescript": "^4.5.2"
+	}
+}

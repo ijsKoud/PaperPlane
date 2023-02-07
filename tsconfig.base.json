@@ -1,0 +1,10 @@
+{
+	"extends": "@sapphire/ts-config/extra-strict-without-decorators",
+	"compilerOptions": {
+		"noUnusedParameters": false,
+		"useUnknownInCatchVariables": false,
+		"module": "ESNext",
+		"moduleResolution": "NodeNext"
+	},
+	"exclude": ["node_modules"]
+}

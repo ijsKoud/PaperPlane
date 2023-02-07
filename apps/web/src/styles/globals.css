@@ -1,0 +1,66 @@
+@config "../../tailwind.config.cjs";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	html {
+		@apply text-white;
+		@apply bg-bg-dark;
+	}
+}
+
+@layer components {
+	.react_markdown-components a {
+		@apply text-blue;
+		@apply hover:text-blue-600;
+		@apply transition-colors;
+	}
+}
+
+html {
+	scrollbar-face-color: #3d3d3d;
+	scrollbar-base-color: #3d3d3d;
+	scrollbar-3dlight-color: #3d3d3d;
+	scrollbar-highlight-color: #3d3d3d;
+	scrollbar-track-color: rgb(27, 27, 27);
+	scrollbar-arrow-color: rgb(27, 27, 27);
+	scrollbar-shadow-color: #3d3d3d;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 3px;
+}
+::-webkit-scrollbar-button {
+	background-color: #2b2b2b;
+}
+::-webkit-scrollbar-track {
+	background-color: #3d3d3d;
+}
+::-webkit-scrollbar-track-piece {
+	background-color: rgb(27, 27, 27);
+}
+::-webkit-scrollbar-thumb {
+	height: 50px;
+	background-color: #3d3d3d;
+}
+::-webkit-scrollbar-corner {
+	background-color: #3d3d3d;
+}
+::-webkit-resizer {
+	background-color: #3d3d3d;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}
