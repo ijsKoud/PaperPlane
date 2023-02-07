@@ -6,6 +6,7 @@ import type { ApiRoute, Middleware } from "./types.js";
 import type { NextFunction, Request, Response } from "express";
 import { charset, lookup } from "mime-types";
 import { Auth } from "./Auth.js";
+import rateLimit from "express-rate-limit";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -131,7 +132,15 @@ export class Api {
 				endPath === "index" ? "" : endPath.startsWith("[") && endPath.endsWith("]") ? `:${endPath.slice(1, endPath.length - 1)}` : endPath;
 
 			const correctRoute = [...routePaths, endRoute].join("/");
-			this.server.express[method](`/api${correctRoute}`, ...middlewareArray, (req, res, next) => handler(this.server, req, res, next));
+			this.server.express[method](
+				`/api${correctRoute}`,
+				rateLimit({
+					windowMs: 2e3,
+					max: 25
+				}),
+				...middlewareArray,
+				(req, res, next) => handler(this.server, req, res, next)
+			);
 		});
 	}
 

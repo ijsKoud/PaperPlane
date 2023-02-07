@@ -1402,6 +1402,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/express-rate-limit@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@types/express-rate-limit@npm:6.0.0"
+  dependencies:
+    express-rate-limit: "*"
+  checksum: fde7ba340887a0862cd8abc1ff1dcba18b8d5eeddddfde5a6c35d3a97cc80b8a3c1d6ce42bbc4085643f62b01a90e44533f764d388e44ee39f893b5207b17407
+  languageName: node
+  linkType: hard
+
 "@types/express-serve-static-core@npm:^4.17.31":
   version: 4.17.32
   resolution: "@types/express-serve-static-core@npm:4.17.32"
@@ -3867,6 +3876,15 @@ __metadata:
     signal-exit: ^3.0.7
     strip-final-newline: ^3.0.0
   checksum: 1a4af799839134f5c72eb63d525b87304c1114a63aa71676c91d57ccef2e26f2f53e14c11384ab11c4ec479be1efa83d11c8190e00040355c2c5c3364327fa8e
+  languageName: node
+  linkType: hard
+
+"express-rate-limit@npm:*, express-rate-limit@npm:^6.7.0":
+  version: 6.7.0
+  resolution: "express-rate-limit@npm:6.7.0"
+  peerDependencies:
+    express: ^4 || ^5
+  checksum: 7bd3f298b202cdb11c3d7c2dcff9be12c6885be5e64fb112f6c79103ba93a8e5d899ce15a5a3ce48f82190ab3515bed403e067dc3e42fc2832558cbe2620f955
   languageName: node
   linkType: hard
 
@@ -7944,6 +7962,7 @@ __metadata:
     "@types/cookie-parser": ^1.4.3
     "@types/cron": ^2.0.0
     "@types/express": ^4.17.15
+    "@types/express-rate-limit": ^6.0.0
     "@types/jsonwebtoken": ^9.0.1
     "@types/lodash": ^4.14.191
     "@types/mime-types": ^2.1.1
@@ -7961,6 +7980,7 @@ __metadata:
     dotenv: ^16.0.3
     eslint: 7.32.0
     express: ^4.18.2
+    express-rate-limit: ^6.7.0
     fuse.js: ^6.6.2
     jsonwebtoken: ^9.0.0
     lodash: ^4.17.21
