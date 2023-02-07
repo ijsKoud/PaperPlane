@@ -23,7 +23,7 @@ RUN apk update \
   && apk add openssl1.1-compat
 
 # Copy yarn executables
-COPY .yarnrc.yml
+COPY .yarnrc.yml ./.yarnrc.yml
 COPY .yarn ./.yarn
 
 # Copy and install dependencies
