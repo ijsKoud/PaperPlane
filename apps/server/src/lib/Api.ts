@@ -37,7 +37,7 @@ export class Api {
 				const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
 				if (!authCookie.length) return false;
 
-				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, domain.domain);
+				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, domain.pathId);
 				if (!verify) return false;
 
 				return true;
@@ -101,7 +101,7 @@ export class Api {
 				const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
 				if (!authCookie.length) return false;
 
-				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, domain.domain);
+				const verify = Auth.verifyJWTToken(authCookie, this.server.envConfig.encryptionKey, domain.pathId);
 				if (!verify) return false;
 
 				return true;

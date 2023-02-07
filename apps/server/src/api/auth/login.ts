@@ -27,7 +27,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 			await domain!.removeCode(sliced);
 
 			domain!.auditlogs.register("Login: Backup Code", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
-			res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
+			res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.pathId, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 			res.sendStatus(204);
 			return;
 		}
@@ -69,7 +69,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 		}
 
 		domain!.auditlogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
-		res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
+		res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.pathId, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 		res.sendStatus(204);
 		return;
 	}
@@ -90,7 +90,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 	}
 
 	domain!.auditlogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
-	res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.domain, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
+	res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.pathId, server.envConfig.encryptionKey), { maxAge: 6.048e8 });
 	res.sendStatus(204);
 }
 
