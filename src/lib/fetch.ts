@@ -11,9 +11,9 @@ export function fetch<V = unknown>(path: string, cancelToken?: CancelToken, opti
 	options.cancelToken ??= cancelToken;
 
 	options.headers ??= {};
-	options.headers["Authorization"] ??= `Bearer ${getCookie("PAPERPLANE_AUTH")}`;
+	(options.headers as Record<string, any>)["Authorization"] ??= `Bearer ${getCookie("PAPERPLANE_AUTH")}`;
 
-	if (options.method !== "get" && options.method !== "GET") options.headers["Content-Type"] ??= "application/json";
+	if (options.method !== "get" && options.method !== "GET") (options.headers as Record<string, any>)["Content-Type"] ??= "application/json";
 
 	return axios(options) as AxiosPromise<V>;
 }
