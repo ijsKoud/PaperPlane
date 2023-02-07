@@ -1,12 +1,15 @@
 import type Server from "../../Server.js";
-import { Zip } from "zip-lib";
+import { Unzip, Zip } from "zip-lib";
 import { join } from "node:path";
-import { rm, writeFile } from "node:fs/promises";
+import { readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { Auth } from "../Auth.js";
+import { BackupV400 } from "./Backup-4.0.0.js";
 
 export class Backups {
 	public baseDataFolder = join(process.cwd(), "..", "..", "data");
 	public baseBackupFolder = join(this.baseDataFolder, "backups");
+
+	public v400 = new BackupV400(this.server, this.baseDataFolder);
 
 	public constructor(public server: Server) {}
 
@@ -40,5 +43,26 @@ export class Backups {
 		}
 
 		return undefined;
+	}
+
+	public async import(id: string): Promise<boolean | { errors: Record<string, any> }> {
+		try {
+			const backups = await readdir(join(this.baseBackupFolder, "archives"));
+			if (!backups.includes(`${id}.zip`)) return false;
+
+			const extractFolder = join(this.baseBackupFolder, "temp", id);
+			const unzip = new Unzip();
+			await unzip.extract(join(this.baseBackupFolder, "archives", `${id}.zip`), extractFolder);
+
+			const jsonStr = await readFile(join(extractFolder, "db.json"), "utf8");
+			if (JSON.parse(jsonStr).version === "4.0.0") await this.v400.import(extractFolder);
+
+			await rm(extractFolder, { recursive: true, maxRetries: 5, retryDelay: 1e3 });
+		} catch (err) {
+			if ("message" in err && err.message.includes("errors:")) return JSON.parse(err.message);
+			return false;
+		}
+
+		return true;
 	}
 }
