@@ -8,7 +8,7 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"peerDependencies": {
-		"next": "^13.1.3",
+		"next": "^13.1.6",
 		"react": "^18.2.0"
 	},
 	"dependencies": {
@@ -18,15 +18,15 @@
 		"@paperplane/modal": "*",
 		"@paperplane/swr": "*",
 		"@paperplane/utils": "*",
-		"axios": "^1.2.2",
+		"axios": "^1.3.2",
 		"cookies-next": "^2.1.1",
-		"framer-motion": "^8.1.7",
-		"react-spinners": "^0.13.7"
+		"framer-motion": "^9.0.2",
+		"react-spinners": "^0.13.8"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.22",
-		"@types/react-dom": "^17.0.11",
-		"eslint": "^8.33.0",
-		"typescript": "^4.5.2"
+		"@types/react": "^18.0.27",
+		"@types/react-dom": "^18.0.10",
+		"eslint": "8.33.0",
+		"typescript": "^4.9.5"
 	}
 }
