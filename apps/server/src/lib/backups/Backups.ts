@@ -3,7 +3,7 @@ import { Unzip, Zip } from "zip-lib";
 import { join } from "node:path";
 import { readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { Auth } from "../Auth.js";
-import { BackupV400 } from "./Backup-4.0.0.js";
+import { BackupV400 } from "./versions/Backup-4.0.0.js";
 
 export class Backups {
 	public baseDataFolder = join(process.cwd(), "..", "..", "data");

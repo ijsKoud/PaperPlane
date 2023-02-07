@@ -2,9 +2,9 @@ import type { Domain, File, Token, Url, Auditlog, Invites, SignupDomain } from "
 import _ from "lodash";
 import { readdir, readFile, rename, rm } from "node:fs/promises";
 import { join } from "node:path";
-import type Server from "../../Server.js";
-import { BackupUtils } from "./BackupUtils.js";
-import type { iBackupV400 } from "./types.js";
+import type Server from "../../../Server.js";
+import { BackupUtils } from "../BackupUtils.js";
+import type { iBackupV400 } from "../types.js";
 
 export class BackupV400 {
 	public constructor(public server: Server, public dataDir: string) {}
