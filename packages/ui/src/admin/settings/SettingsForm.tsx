@@ -112,7 +112,7 @@ export const AdminSettingsForm: React.FC<Props> = ({ onSubmit, enableInviteModal
 								</div>
 								<div className="bg-red p-2 rounded-xl my-4">
 									⚠️ <strong>Warning</strong>: changing this may have unintended side-effects. This could also lead to accounts
-									being compromised if not handled correctly.All accounts will start with the default password or back-up code:
+									being compromised if not handled correctly. All accounts will start with the default password or back-up code:
 									<span className="bg-main p-1 rounded-xl ml-1">paperplane-cdn</span> if they one or both are unset.
 								</div>
 								<div className="flex items-center gap-2 w-full">

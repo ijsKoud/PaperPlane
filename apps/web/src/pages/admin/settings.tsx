@@ -1,5 +1,14 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminBackups, AdminDomains, AdminLayout, AdminResetButtons, AdminSettingsForm, InvitesModal, SettingsForm } from "@paperplane/ui";
+import {
+	AdminBackups,
+	AdminDomains,
+	AdminLayout,
+	AdminResetButtons,
+	AdminSettingsForm,
+	BackupsModal,
+	InvitesModal,
+	SettingsForm
+} from "@paperplane/ui";
 import axios, { AxiosError } from "axios";
 import { getProtocol, Invite, parseToDay } from "@paperplane/utils";
 import type { FormikHelpers } from "formik";
@@ -182,9 +191,60 @@ const AdminSettingsPanel: NextPage = () => {
 		return false;
 	};
 
+	const createBackup = async () => {
+		const promise = async () => {
+			try {
+				const res = await axios.post<{ name: string }>("/api/admin/backups/create", undefined, { withCredentials: true, timeout: 9e5 });
+				return res.data;
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			const res = await toast.promise(promise(), {
+				pending: "Building backup airport...",
+				error: "Not enough money to build it :(",
+				success: "New airport created."
+			});
+
+			toast.success(`New backup created with id: ${res.name}`);
+		} catch (error) {}
+	};
+
+	const importBackup = async (id: string) => {
+		const promise = async () => {
+			try {
+				await axios.post("/api/admin/backups/import", { id }, { withCredentials: true, timeout: 9e5 });
+			} catch (err) {
+				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+				const error = _error || "Unknown error, please try again later.";
+				console.log(error);
+
+				throw new Error();
+			}
+		};
+
+		try {
+			await toast.promise(promise(), {
+				pending: "Moving to different airport...",
+				error: "Not enough money to move :(",
+				success: "Moved to new aiport, please restart the server as soon as possible!"
+			});
+		} catch (error) {}
+	};
+
 	const [inviteModal, setInviteModal] = useState(false);
 	const enableInviteModal = () => setInviteModal(true);
 	const disableInviteModal = () => setInviteModal(false);
+
+	const [backupModal, setBackupModal] = useState(false);
+	const enableBackupModal = () => setBackupModal(true);
+	const disableBackupModal = () => setBackupModal(false);
 
 	return (
 		<AdminLayout toastInfo={(str) => toast.info(str)}>
@@ -196,9 +256,10 @@ const AdminSettingsPanel: NextPage = () => {
 				deleteInvite={deleteInviteCode}
 				toastSuccess={(str) => toast.success(str)}
 			/>
+			<BackupsModal isOpen={backupModal} onClick={disableBackupModal} toastSuccess={toast.success} importBackup={importBackup} />
 			<AdminSettingsForm onSubmit={onSubmit} enableInviteModal={enableInviteModal} />
 			<AdminDomains createDomain={createDomain} deleteDomain={deleteDomain} toastSuccess={(str) => toast.success(str)} />
-			<AdminBackups />
+			<AdminBackups createBackup={createBackup} backupModal={enableBackupModal} />
 			<AdminResetButtons resetEncryptionKey={resetEncryptionKey} />
 		</AdminLayout>
 	);
