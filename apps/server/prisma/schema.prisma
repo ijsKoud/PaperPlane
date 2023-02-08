@@ -44,12 +44,14 @@ model Domain {
 }
 
 model Token {
-  name  String   @id
+  name  String
   token String
   date  DateTime @default(now())
 
   domain String
   Domain Domain? @relation(fields: [domain], references: [domain])
+
+  @@id([name, domain])
 }
 
 model SignupDomain {

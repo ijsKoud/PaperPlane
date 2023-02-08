@@ -80,7 +80,7 @@ export class BackupV300 {
 		if (typeof user !== "object") {
 			return "INVALID_USER_OBJECT";
 		}
-		if (!BackupUtils.typeofString(user.embedColour)) {
+		if (typeof user.embedColour !== "string" && !_.isNull(user.embedColour)) {
 			return "INVALID_EMBED_COLOR";
 		}
 		if (typeof user.embedDescription !== "string" && !_.isNull(user.embedDescription)) {
@@ -110,7 +110,7 @@ export class BackupV300 {
 			apiTokens: { create: apiTokens },
 			date,
 			backupCodes: "paperplane-cdn",
-			embedColor: user.embedColour,
+			embedColor: user.embedColour || "#000000",
 			embedDescription: user.embedDescription || undefined,
 			embedEnabled: user.embedEnabled,
 			embedTitle: user.embedTitle || undefined,

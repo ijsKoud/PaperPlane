@@ -66,7 +66,7 @@ export interface iBackupV300 {
 		embedEnabled: boolean;
 		embedTitle: string | null;
 		embedDescription: string | null;
-		embedColour: string;
+		embedColour: string | null;
 	};
 	files: {
 		id: string;
