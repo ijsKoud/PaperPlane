@@ -1,4 +1,4 @@
-FROM ghcr.io/diced/prisma-binaries:4.7.x as prisma
+FROM ghcr.io/diced/prisma-binaries:4.8.x as prisma
 
 FROM node:19-alpine as builder
 WORKDIR /paperplane
@@ -22,7 +22,8 @@ ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
   PRISMA_INTROSPECTION_ENGINE_BINARY=/prisma-engines/introspection-engine \
   PRISMA_FMT_BINARY=/prisma-engines/prisma-fmt \
   PRISMA_CLI_QUERY_ENGINE_TYPE=binary \
-  PRISMA_CLIENT_ENGINE_TYPE=binary
+  PRISMA_CLIENT_ENGINE_TYPE=binary \
+
 RUN apk update
 RUN apk add --no-cache libc6-compat
 RUN apk add --no-cache openssl1.1-compat-dev
@@ -57,7 +58,7 @@ RUN adduser --system --uid 1639 paperplane
 
 # Copy Prisma Engines
 COPY --chown=paperplane:paperplane apps/server/prisma/ ./apps/server/prisma/
-COPY --from=installer --chown=paperplane:paperplane /prisma-engines /prisma-engines
+COPY --from=prisma /prisma-engines /prisma-engines
 ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
   PRISMA_MIGRATION_ENGINE_BINARY=/prisma-engines/migration-engine \
   PRISMA_INTROSPECTION_ENGINE_BINARY=/prisma-engines/introspection-engine \
