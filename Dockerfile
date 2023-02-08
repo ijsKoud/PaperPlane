@@ -74,6 +74,7 @@ COPY --chown=paperplane:paperplane apps/web/public/ ./apps/web/public
 
 COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/server/package.json ./apps/server/package.json
 COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/server/dist/ ./apps/server/dist/
+COPY --chown=paperplane:paperplane apps/server/prisma/ ./apps/server/prisma/
 
 COPY --from=installer --chown=paperplane:paperplane /paperplane/package.json ./package.json
 COPY --from=installer --chown=paperplane:paperplane /paperplane/node_modules/ ./node_modules/
