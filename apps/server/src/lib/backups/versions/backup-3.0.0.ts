@@ -32,8 +32,6 @@ export class BackupV300 {
 			await this.server.prisma.url.create({ data: url });
 		}
 
-		await rm(join(this.dataDir, "files"), { recursive: true });
-		await mkdir(join(this.dataDir, "files"), { recursive: true });
 		await rename(join(dir, "files"), join(this.dataDir, "files", domain.pathId));
 	}
 
