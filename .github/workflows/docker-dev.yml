@@ -1,3 +1,5 @@
+name: "CD(Docker): Publish dev image"
+
 on:
   workflow_dispatch:
   schedule:
