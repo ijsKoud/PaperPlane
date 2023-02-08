@@ -51,19 +51,20 @@ RUN yarn turbo run build
 FROM node:19-alpine as runner
 WORKDIR /paperplane
 
+# Create user PaperPlane
+RUN addgroup --system --gid 1639 paperplane
+RUN adduser --system --uid 1639 paperplane
+
 # Copy Prisma Engines
-COPY apps/server/prisma/ ./apps/server/prisma/
-COPY --from=prisma /prisma-engines /prisma-engines
+COPY --chown=paperplane:paperplane apps/server/prisma/ ./apps/server/prisma/
+COPY --from=prisma --chown=paperplane:paperplane /prisma-engines /prisma-engines
 ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
   PRISMA_MIGRATION_ENGINE_BINARY=/prisma-engines/migration-engine \
   PRISMA_INTROSPECTION_ENGINE_BINARY=/prisma-engines/introspection-engine \
   PRISMA_FMT_BINARY=/prisma-engines/prisma-fmt \
   PRISMA_CLI_QUERY_ENGINE_TYPE=binary \
-  PRISMA_CLIENT_ENGINE_TYPE=binary
-
-# Create user PaperPlane
-RUN addgroup --system --gid 1639 paperplane
-RUN adduser --system --uid 1639 paperplane
+  PRISMA_CLIENT_ENGINE_TYPE=binary \
+  NEXT_TELEMETRY_DISABLED=1
 
 # Copy build data
 COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/web/next.config.js ./apps/web/next.config.js
@@ -82,6 +83,8 @@ COPY --from=installer --chown=paperplane:paperplane /paperplane/node_modules/@pr
 # Create data folder
 RUN mkdir /paperplane/data
 RUN chown -R paperplane:paperplane /paperplane/data
+
+USER paperplane
 
 # Start app
 cmd yarn start
