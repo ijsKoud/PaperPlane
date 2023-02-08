@@ -1,7 +1,7 @@
 import type { File, Token, Url, Prisma } from "@prisma/client";
 import _ from "lodash";
 import ms from "ms";
-import { mkdir, readdir, readFile, rename, rm } from "node:fs/promises";
+import { readdir, readFile, rename } from "node:fs/promises";
 import { join } from "node:path";
 import type Server from "../../../Server.js";
 import { Auth } from "../../Auth.js";
