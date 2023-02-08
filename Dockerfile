@@ -1,4 +1,4 @@
-FROM ghcr.io/diced/prisma-binaries:4.8.x as prisma
+# FROM ghcr.io/diced/prisma-binaries:4.8.x as prisma
 
 FROM node:19-alpine as builder
 WORKDIR /paperplane
@@ -16,17 +16,17 @@ WORKDIR /paperplane
 RUN apk add --no-cache libc6-compat
 
 # Prisma binary libraries
-COPY --from=prisma /prisma-engines /prisma-engines
-ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
-  PRISMA_MIGRATION_ENGINE_BINARY=/prisma-engines/migration-engine \
-  PRISMA_INTROSPECTION_ENGINE_BINARY=/prisma-engines/introspection-engine \
-  PRISMA_FMT_BINARY=/prisma-engines/prisma-fmt \
-  PRISMA_CLI_QUERY_ENGINE_TYPE=binary \
-  PRISMA_CLIENT_ENGINE_TYPE=binary \
+# COPY --from=prisma /prisma-engines /prisma-engines
+# ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
+#   PRISMA_MIGRATION_ENGINE_BINARY=/prisma-engines/migration-engine \
+#   PRISMA_INTROSPECTION_ENGINE_BINARY=/prisma-engines/introspection-engine \
+#   PRISMA_FMT_BINARY=/prisma-engines/prisma-fmt \
+#   PRISMA_CLI_QUERY_ENGINE_TYPE=binary \
+#   PRISMA_CLIENT_ENGINE_TYPE=binary \
 
-RUN apk update
-RUN apk add --no-cache libc6-compat
-RUN apk add --no-cache openssl1.1-compat-dev
+# RUN apk update
+# RUN apk add --no-cache libc6-compat
+# RUN apk add --no-cache openssl1.1-compat-dev
 
 # Copy yarn executables
 COPY .yarnrc.yml ./.yarnrc.yml
@@ -57,15 +57,14 @@ RUN addgroup --system --gid 1639 paperplane
 RUN adduser --system --uid 1639 paperplane
 
 # Copy Prisma Engines
-COPY --chown=paperplane:paperplane apps/server/prisma/ ./apps/server/prisma/
-COPY --from=prisma /prisma-engines /prisma-engines
-ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
-  PRISMA_MIGRATION_ENGINE_BINARY=/prisma-engines/migration-engine \
-  PRISMA_INTROSPECTION_ENGINE_BINARY=/prisma-engines/introspection-engine \
-  PRISMA_FMT_BINARY=/prisma-engines/prisma-fmt \
-  PRISMA_CLI_QUERY_ENGINE_TYPE=binary \
-  PRISMA_CLIENT_ENGINE_TYPE=binary \
-  NEXT_TELEMETRY_DISABLED=1
+# COPY --from=installer /prisma-engines /prisma-engines
+# ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
+#   PRISMA_MIGRATION_ENGINE_BINARY=/prisma-engines/migration-engine \
+#   PRISMA_INTROSPECTION_ENGINE_BINARY=/prisma-engines/introspection-engine \
+#   PRISMA_FMT_BINARY=/prisma-engines/prisma-fmt \
+#   PRISMA_CLI_QUERY_ENGINE_TYPE=binary \
+#   PRISMA_CLIENT_ENGINE_TYPE=binary \
+#   NEXT_TELEMETRY_DISABLED=1
 
 # Copy build data
 COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/web/next.config.js ./apps/web/next.config.js
