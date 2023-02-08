@@ -57,7 +57,7 @@ RUN adduser --system --uid 1639 paperplane
 
 # Copy Prisma Engines
 COPY --chown=paperplane:paperplane apps/server/prisma/ ./apps/server/prisma/
-COPY --from=prisma --chown=paperplane:paperplane /prisma-engines /prisma-engines
+COPY --from=installer --chown=paperplane:paperplane /prisma-engines /prisma-engines
 ENV PRISMA_QUERY_ENGINE_BINARY=/prisma-engines/query-engine \
   PRISMA_MIGRATION_ENGINE_BINARY=/prisma-engines/migration-engine \
   PRISMA_INTROSPECTION_ENGINE_BINARY=/prisma-engines/introspection-engine \
