@@ -8,7 +8,7 @@
 	"private": true,
 	"scripts": {
 		"build": "turbo run build",
-		"start": "yarn cmd:server start",
+		"start": "yarn cmd:server prisma migrate deploy && yarn cmd:server start",
 		"start:dev": "turbo run dev --parallel",
 		"start:web:dev": "yarn workspace web run dev",
 		"start:server:dev": "yarn workspace server run dev:watch",
