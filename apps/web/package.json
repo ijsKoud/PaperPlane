@@ -29,7 +29,7 @@
 		"rc-progress": "^3.4.1",
 		"react-spinners": "^0.13.8",
 		"react-toastify": "^9.1.1",
-		"yup": "^0.32.11"
+		"yup": "^1.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.20.12",
