@@ -87,7 +87,7 @@ export const DashboardSettingsForm: React.FC<Props> = ({
 									<h2 className="text-lg">API Access</h2>
 									<p className="text-base">
 										This allows you to create <strong>API Tokens</strong> and a <strong>Generate ShareX configuration</strong>{" "}
-										which can be used to interact with the upload API. For more information of the Upload API, read the
+										which can be used to interact with the upload API. For more information of the Upload API, read the{" "}
 										<strong>documentation</strong>.
 									</p>
 								</div>
