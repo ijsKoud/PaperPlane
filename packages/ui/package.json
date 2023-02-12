@@ -25,7 +25,7 @@
 		"react-spinners": "^0.13.8",
 		"react-switch": "^7.0.0",
 		"short-unique-id": "^4.4.4",
-		"yup": "^0.32.11"
+		"yup": "^1.0.0"
 	},
 	"devDependencies": {
 		"@types/react": "^18.0.28",
