@@ -87,7 +87,7 @@ const ShortUrlsDashboard: NextPage = () => {
 	const deleteUrl = async (id: string) => {
 		const promise = async () => {
 			try {
-				await axios.delete("/api/dashboard/urls/bulk", { data: { files: [id] } });
+				await axios.delete("/api/dashboard/urls/bulk", { data: { urls: [id] } });
 			} catch (err) {
 				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
 				const error = _error || "Unknown error, please try again later.";

@@ -37,7 +37,7 @@ const ShortUrlsTableEntry: React.FC<Props> = ({ url, selected, onClick, deleteUr
 				<td>
 					<input type="checkbox" onChange={() => onClick(url.name)} checked={selected} />
 				</td>
-				<td className="px-2 max-w-[200px] text-ellipsis whitespace-nowrap overflow-hidden" title={url.name}>
+				<td className="px-2 max-w-[175px] text-ellipsis whitespace-nowrap overflow-hidden" title={url.name}>
 					{url.name}
 				</td>
 				<td className="px-2 max-w-[250px] overflow-hidden whitespace-nowrap text-ellipsis" title={url.redirect}>
