@@ -17,7 +17,7 @@
 		"@paperplane/utils": "*",
 		"axios": "^1.3.4",
 		"formik": "^2.2.9",
-		"framer-motion": "^9.1.7",
+		"framer-motion": "^10.0.0",
 		"ms": "^2.1.3",
 		"rc-progress": "^3.4.1",
 		"react-color": "^2.19.3",
