@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@paperplane/buttons": "*",
-		"framer-motion": "^9.1.7"
+		"framer-motion": "^10.0.0"
 	},
 	"devDependencies": {
 		"@types/react": "^18.0.28",
