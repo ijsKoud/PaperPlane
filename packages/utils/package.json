@@ -12,6 +12,6 @@
 		"typescript": "^4.9.5"
 	},
 	"dependencies": {
-		"@sapphire/timestamp": "^1.0.0"
+		"@sapphire/timestamp": "^1.0.1"
 	}
 }
