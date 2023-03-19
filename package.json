@@ -17,7 +17,7 @@
 		"postinstall": "is-ci || husky install"
 	},
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^5.54.1"
+		"@typescript-eslint/eslint-plugin": "^5.55.0"
 	},
 	"dependencies": {
 		"@next/font": "13.2.4",
@@ -31,9 +31,9 @@
 		"@sapphire/eslint-config": "^4.3.8",
 		"@sapphire/prettier-config": "^1.4.5",
 		"@sapphire/ts-config": "^3.3.4",
-		"@types/node": "18.15.0",
-		"@typescript-eslint/eslint-plugin": "^5.54.1",
-		"@typescript-eslint/parser": "^5.54.1",
+		"@types/node": "18.15.3",
+		"@typescript-eslint/eslint-plugin": "^5.55.0",
+		"@typescript-eslint/parser": "^5.55.0",
 		"eslint": "^8.36.0",
 		"eslint-config-next": "13.2.4",
 		"eslint-config-prettier": "^8.7.0",
@@ -48,5 +48,5 @@
 	"engines": {
 		"node": ">= v18.15.0"
 	},
-	"packageManager": "yarn@3.4.1"
+	"packageManager": "yarn@3.5.0"
 }
