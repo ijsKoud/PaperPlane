@@ -71,6 +71,20 @@ export class Api {
 				}
 			}
 
+			if (req.query.download) {
+				res.download(file.path, (err) => {
+					if (err) {
+						res.end();
+						this.server.logger.error(err);
+						return;
+					}
+
+					if (!req.query.preview) domain.addView(file.id);
+				});
+
+				return;
+			}
+
 			res.sendFile(file.path, (err) => {
 				if (err) {
 					res.end();
