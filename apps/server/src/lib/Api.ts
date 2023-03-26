@@ -17,7 +17,7 @@ export class Api {
 		const files = this.readdirRecursive(join(__dirname, "..", "api")).filter((file) => file.endsWith(".js"));
 		await Promise.all(files.map((filePath) => this.loadFile(filePath)));
 
-		this.server.express.get("/files/:file", rateLimit({ max: 50, windowMs: 1e3 }), async (req, res) => {
+		this.server.express.get("/files/:file", rateLimit({ max: 2e2, windowMs: 1e3 }), async (req, res) => {
 			const { file: _fileName } = req.params;
 
 			const domain = this.server.domains.get(req.headers.host || req.hostname);
