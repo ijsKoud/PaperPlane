@@ -12,11 +12,11 @@
 		"react": "^18.2.0"
 	},
 	"dependencies": {
-		"react-markdown": "^8.0.5",
+		"react-markdown": "^8.0.6",
 		"remark-gfm": "^3.0.1"
 	},
 	"devDependencies": {
-		"@types/react": "^18.0.28",
+		"@types/react": "^18.0.29",
 		"@types/react-dom": "^18.0.11",
 		"eslint": "8.36.0",
 		"typescript": "^4.9.5"
