@@ -5,7 +5,7 @@
   <p>An open-source customisable solution to storing files in the cloud. ✈️</p>
   
   <p align="center">
-    <img alt="Version" src="https://img.shields.io/badge/version-4.0.2-blue.svg" />
+    <img alt="Version" src="https://img.shields.io/badge/version-4.0.3-blue.svg" />
     <a href="/LICENSE" target="_blank">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
     </a>
