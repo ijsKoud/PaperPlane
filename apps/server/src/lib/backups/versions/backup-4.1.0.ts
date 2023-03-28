@@ -1,4 +1,4 @@
-import type { Domain, File, Token, Url, Auditlog, Invites, SignupDomain } from "@prisma/client";
+import type { Domain, File, Token, Url, Auditlog, Invites, SignupDomain, Pastebin } from "@prisma/client";
 import _ from "lodash";
 import { readdir, readFile, rename, rm } from "node:fs/promises";
 import { join } from "node:path";
@@ -14,6 +14,7 @@ export class BackupV410 {
 		const files = await readdir(dir);
 		if (!files.includes("db.json")) throw new Error(JSON.stringify({ errors: { backup: "Unknown db.json file" } }));
 		if (!files.includes("files")) throw new Error(JSON.stringify({ errors: { backup: "Unknown files folder" } }));
+		if (!files.includes("paste-bins")) throw new Error(JSON.stringify({ errors: { backup: "Unknown paste-bins folder" } }));
 
 		const filePath = join(dir, "db.json");
 		const dbData = await readFile(filePath, "utf8");
@@ -41,6 +42,10 @@ export class BackupV410 {
 			await this.server.prisma.file.create({ data: file });
 		}
 
+		for (const bins of data.bins) {
+			await this.server.prisma.pastebin.create({ data: bins });
+		}
+
 		for (const url of data.urls) {
 			await this.server.prisma.url.create({ data: url });
 		}
@@ -58,6 +63,9 @@ export class BackupV410 {
 
 		await rm(join(this.dataDir, "files"), { recursive: true });
 		await rename(join(dir, "files"), join(this.dataDir, "files"));
+
+		await rm(join(this.dataDir, "paste-bins"), { recursive: true });
+		await rename(join(dir, "paste-bins"), join(this.dataDir, "paste-bins"));
 	}
 
 	private parseDatabase(_data: string) {
@@ -86,6 +94,16 @@ export class BackupV410 {
 			errors.files = results;
 		}
 		const files = _files as File[];
+
+		const _bins = [...this.parsePasteBins(data.pastebins)];
+		if (_bins.some((bin) => typeof bin === "string")) {
+			const results = _bins
+				.map((res, key) => ({ res, key }))
+				.filter((res) => typeof res.res === "string")
+				.map((res) => ({ [res.key]: res.res as string }));
+			errors.bins = results;
+		}
+		const bins = _bins as Pastebin[];
 
 		const _urls = [...this.parseUrls(data.urls)];
 		if (_urls.some((url) => typeof url === "string")) {
@@ -131,6 +149,7 @@ export class BackupV410 {
 		return {
 			users,
 			files,
+			bins,
 			urls,
 			auditLogs,
 			invites,
@@ -297,6 +316,56 @@ export class BackupV410 {
 			const filePath = join(this.dataDir, "files", userId, fileName);
 			const fileObj: File = { ...file, path: filePath, date: new Date(file.date) };
 			yield fileObj;
+		}
+	}
+
+	private *parsePasteBins(pasteBins: iBackupV410["pastebins"]) {
+		for (const bin of pasteBins) {
+			if (typeof bin !== "object") {
+				yield "INVALID_FILE_OBJECT";
+				continue;
+			}
+			if (!BackupUtils.typeofString(bin.authSecret)) {
+				yield "INVALID_AUTH_SECRET";
+				continue;
+			}
+			if (!BackupUtils.typeofString(bin.date)) {
+				yield "INVALID_DATE";
+				continue;
+			}
+			if (!BackupUtils.typeofString(bin.domain)) {
+				yield "INVALID_DOMAIN";
+				continue;
+			}
+			if (!BackupUtils.typeofString(bin.id)) {
+				yield "INVALID_ID";
+				continue;
+			}
+			if (bin.password && !BackupUtils.typeofString(bin.password)) {
+				yield "INVALID_PASSWORD";
+				continue;
+			}
+			if (!BackupUtils.typeofString(bin.path)) {
+				yield "INVALID_bin_PATH";
+				continue;
+			}
+			if (!BackupUtils.typeofString(bin.highlight)) {
+				yield "INVALID_HIGHLIGHT_TYPE";
+				continue;
+			}
+			if (!BackupUtils.typeofNumber(bin.views)) {
+				yield "INVALID_VIEWS";
+				continue;
+			}
+			if (!BackupUtils.typeofBoolean(bin.visible)) {
+				yield "INVALID_VISIBLE";
+				continue;
+			}
+
+			const [binName, userId] = bin.path.split("/").reverse();
+			const binPath = join(this.dataDir, "bins", userId, binName);
+			const binObj: Pastebin = { ...bin, path: binPath, date: new Date(bin.date) };
+			yield binObj;
 		}
 	}
 

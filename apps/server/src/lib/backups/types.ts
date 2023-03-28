@@ -98,6 +98,17 @@ export interface iBackupV410 {
 		visible: boolean;
 		mimeType: string;
 	}[];
+	pastebins: {
+		id: string;
+		path: string;
+		domain: string;
+		date: string;
+		views: number;
+		highlight: string;
+		password: null | string;
+		authSecret: string;
+		visible: boolean;
+	}[];
 	urls: {
 		id: string;
 		domain: string;
