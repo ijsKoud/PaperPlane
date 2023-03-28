@@ -26,7 +26,7 @@ const UploadItem: React.FC<Props> = ({ file, toastError }) => {
 				.on("finish", () => setUploaded(true))
 				.on("progress", (d) => setProgress(d.detail))
 				.on("error", (err) => {
-					throw new Error(err.details);
+					throw new Error(err.detail);
 				});
 
 			setUploaded(true);
