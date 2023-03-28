@@ -57,6 +57,66 @@ export interface iBackupV400 {
 	signupDomains: { domain: string; date: string }[];
 }
 
+export interface iBackupV410 {
+	version: string;
+	encryption: string;
+	users: {
+		pathId: string;
+		domain: string;
+		date: string;
+		disabled: boolean;
+		password: string | null;
+		twoFactorSecret: string | null;
+		backupCodes: string;
+		maxStorage: string;
+		maxUploadSize: string;
+		extensionsList: string;
+		extensionsMode: string;
+		auditlogDuration: string;
+		nameLength: number;
+		nameStrategy: "id" | "zerowidth" | "name";
+		embedEnabled: boolean;
+		embedDescription: string;
+		embedTitle: string;
+		embedColor: string;
+		apiTokens: {
+			name: string;
+			token: string;
+			date: string;
+			domain: string;
+		}[];
+	}[];
+	files: {
+		id: string;
+		path: string;
+		domain: string;
+		date: string;
+		views: number;
+		size: string;
+		password: null | string;
+		authSecret: string;
+		visible: boolean;
+		mimeType: string;
+	}[];
+	urls: {
+		id: string;
+		domain: string;
+		url: string;
+		date: string;
+		visits: number;
+		visible: boolean;
+	}[];
+	auditlogs: {
+		id: string;
+		date: string;
+		type: string;
+		user: string;
+		details: string;
+	}[];
+	invites: { invite: string; date: string }[];
+	signupDomains: { domain: string; date: string }[];
+}
+
 export interface iBackupV300 {
 	version: string;
 	user: {
