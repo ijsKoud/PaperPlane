@@ -1,7 +1,6 @@
 import { TransparentButton } from "@paperplane/buttons";
 import { formatBytes } from "@paperplane/utils";
-import type { AxiosError, CancelTokenSource } from "axios";
-import axios from "axios";
+import type { AxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 import Uploader from "huge-uploader";
 
@@ -15,7 +14,7 @@ const UploadItem: React.FC<Props> = ({ file, toastError }) => {
 	const [uploaded, setUploaded] = useState(false);
 	const [isError, setIsError] = useState(false);
 
-	const func = (token: CancelTokenSource) => {
+	const func = () => {
 		if (uploaded) return;
 
 		const data = new FormData();
@@ -26,7 +25,9 @@ const UploadItem: React.FC<Props> = ({ file, toastError }) => {
 			uploader
 				.on("finish", () => setUploaded(true))
 				.on("progress", (d) => setProgress(d.detail))
-				.on("error", console.error);
+				.on("error", (err) => {
+					throw new Error(err.details);
+				});
 
 			setUploaded(true);
 		} catch (error) {
@@ -44,20 +45,15 @@ const UploadItem: React.FC<Props> = ({ file, toastError }) => {
 	};
 
 	const runAgain = () => {
-		const token = axios.CancelToken.source();
 		setProgress(0);
 		setUploaded(false);
 		setIsError(false);
 
-		void func(token);
-		window.onbeforeunload = () => token.cancel("cancelled");
+		void func();
 	};
 
 	useEffect(() => {
-		const token = axios.CancelToken.source();
-		void func(token);
-
-		return () => token.cancel("cancelled");
+		void func();
 	}, []);
 
 	return (

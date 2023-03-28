@@ -1,6 +1,6 @@
 import type { Response } from "express";
 import Fuse from "fuse.js";
-import { lookup } from "mime-types";
+import { lookup, extension } from "mime-types";
 import { Auth } from "../../../lib/Auth.js";
 import { DashboardRequest, FilesSort, Middleware, RequestMethods } from "../../../lib/types.js";
 import { Utils } from "../../../lib/utils.js";
@@ -13,6 +13,7 @@ interface ApiFile {
 	visible: boolean;
 	size: string;
 	isImage: boolean;
+	ext: string;
 
 	password: boolean;
 
@@ -42,11 +43,12 @@ export default async function handler(server: Server, req: DashboardRequest, res
 	const mapped = chunk.map<ApiFile>((file) => ({
 		name: file.id,
 		date: file.date,
-		isImage: (lookup(file.path) || "").includes("image"),
+		isImage: (file.mimeType || lookup(file.path) || "").includes("image"),
 		password: Boolean(file.password),
 		size: file.size,
 		views: file.views,
 		visible: file.visible,
+		ext: extension(file.mimeType || lookup(file.path) || "") || "",
 		url: `${req.protocol}://${req.locals.domain}/files/${file.id}.${file.path.split(".").filter(Boolean).slice(1).join(".")}`
 	}));
 
