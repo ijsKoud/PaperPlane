@@ -33,6 +33,7 @@ export class Config {
 		const dataDir = join(process.cwd(), "..", "..", "data");
 		await mkdir(join(dataDir, "logs"), { recursive: true });
 		await mkdir(join(dataDir, "files"), { recursive: true });
+		await mkdir(join(dataDir, "paste-bins"), { recursive: true });
 		await mkdir(join(dataDir, "backups", "archives"), { recursive: true });
 		await mkdir(join(dataDir, "backups", "temp"), { recursive: true });
 

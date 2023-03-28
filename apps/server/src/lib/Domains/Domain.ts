@@ -19,6 +19,7 @@ export class Domain {
 
 	public pathId!: string;
 	public filesPath!: string;
+	public pastebinPath!: string;
 	public disabled!: boolean;
 
 	public uploadSize!: number;
@@ -44,12 +45,14 @@ export class Domain {
 	public auditlogs: AuditLog;
 	public views: string[] = [];
 	public visits: string[] = [];
+	public reads: string[] = [];
 
 	private storageCheckCron!: CronJob;
 	private storageSyncCron!: CronJob;
 
 	private viewTimeout: NodeJS.Timeout | undefined;
 	private visitTimeout: NodeJS.Timeout | undefined;
+	private readTimeout: NodeJS.Timeout | undefined;
 
 	public constructor(public server: Server, data: iDomain) {
 		this._parse(data);
@@ -67,9 +70,13 @@ export class Domain {
 		await rm(this.filesPath, { recursive: true });
 		await mkdir(this.filesPath, { recursive: true });
 
+		await rm(this.pastebinPath, { recursive: true });
+		await mkdir(this.pastebinPath, { recursive: true });
+
 		await this.server.prisma.file.deleteMany({ where: { domain: this.domain } });
 		await this.server.prisma.url.deleteMany({ where: { domain: this.domain } });
 		await this.server.prisma.token.deleteMany({ where: { domain: this.domain } });
+		await this.server.prisma.pastebin.deleteMany({ where: { domain: this.domain } });
 
 		const res = await this.server.prisma.domain.delete({ where: { domain: this.domain } });
 		const newDomain = await this.server.prisma.domain.create({
@@ -107,6 +114,14 @@ export class Domain {
 			const encrypted = Auth.encryptToken(decrypted, this.server.envConfig.encryptionKey);
 			await this.server.prisma.file.update({ where: { id_domain: { domain: this.domain, id: file.id } }, data: { password: encrypted } });
 		}
+
+		const bins = await this.server.prisma.file.findMany({ where: { domain: this.domain } });
+		for await (const bin of bins) {
+			if (!bin.password) continue;
+			const decrypted = Auth.decryptToken(bin.password, oldKey);
+			const encrypted = Auth.encryptToken(decrypted, this.server.envConfig.encryptionKey);
+			await this.server.prisma.pastebin.update({ where: { id_domain: { domain: this.domain, id: bin.id } }, data: { password: encrypted } });
+		}
 	}
 
 	public async update(data: Prisma.DomainUpdateArgs["data"], auditlog = true) {
@@ -120,11 +135,13 @@ export class Domain {
 	public async delete() {
 		await this.auditlogs.delete();
 		await rm(this.filesPath, { recursive: true });
+		await rm(this.pastebinPath, { recursive: true });
 
 		await this.server.prisma.file.deleteMany({ where: { domain: this.domain } });
 		await this.server.prisma.url.deleteMany({ where: { domain: this.domain } });
 		await this.server.prisma.token.deleteMany({ where: { domain: this.domain } });
 		await this.server.prisma.domain.delete({ where: { domain: this.domain } });
+		await this.server.prisma.pastebin.deleteMany({ where: { domain: this.domain } });
 
 		this.storageCheckCron.stop();
 		this.storageSyncCron.stop();
@@ -237,6 +254,31 @@ export class Domain {
 		}
 	}
 
+	public addRead(id: string) {
+		this.reads.push(id);
+
+		if (!this.readTimeout) {
+			const timeout = setTimeout(async () => {
+				const _reads = new Collection<string, number>();
+				this.reads.forEach((visit) => _reads.set(visit, (_reads.get(visit) ?? 0) + 1));
+
+				for await (const [key, amount] of _reads) {
+					await this.server.prisma.pastebin
+						.update({
+							where: { id_domain: { domain: this.domain, id: key } },
+							data: { views: { increment: amount } }
+						})
+						.catch(() => void 0); // 99% of the errors come from deleted items
+				}
+
+				this.reads = [];
+				this.readTimeout = undefined;
+			}, 3e4);
+
+			this.readTimeout = timeout;
+		}
+	}
+
 	public toString() {
 		return this.domain;
 	}
@@ -260,6 +302,7 @@ export class Domain {
 
 		this.pathId = data.pathId;
 		this.filesPath = join(process.cwd(), "..", "..", "data", "files", data.pathId);
+		this.pastebinPath = join(process.cwd(), "..", "..", "data", "paste-bins", data.pathId);
 		this.disabled = data.disabled;
 
 		this.uploadSize = this.server.config.parseStorage(data.maxUploadSize);
@@ -283,7 +326,7 @@ export class Domain {
 	}
 
 	private syncStorage() {
-		const syncFn = async () => {
+		const syncFnFile = async () => {
 			const filesInDir = await readdir(this.filesPath);
 			const filesInDb = (await this.server.prisma.file.findMany({ where: { domain: this.domain } })).map(
 				(file) => file.path.split("/").reverse()[0]
@@ -299,6 +342,29 @@ export class Domain {
 			await this.server.prisma.file.deleteMany({
 				where: { domain: this.domain, path: { in: missingInDir.map((id) => join(this.filesPath, id)) } }
 			});
+		};
+
+		const syncFnBin = async () => {
+			const binInDir = await readdir(this.pastebinPath);
+			const binInDb = (await this.server.prisma.pastebin.findMany({ where: { domain: this.domain } })).map(
+				(file) => file.path.split("/").reverse()[0]
+			);
+
+			const missingInDb = binInDir.filter((file) => !binInDb.includes(file));
+			const missingInDir = binInDb.filter((file) => !binInDir.includes(file));
+
+			for (const file of missingInDb) {
+				await rm(join(this.pastebinPath, file));
+			}
+
+			await this.server.prisma.pastebin.deleteMany({
+				where: { domain: this.domain, path: { in: missingInDir.map((id) => join(this.pastebinPath, id)) } }
+			});
+		};
+
+		const syncFn = async () => {
+			await syncFnFile();
+			await syncFnBin();
 		};
 
 		void syncFn();
