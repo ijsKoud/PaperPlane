@@ -39,8 +39,9 @@ model Domain {
   embedTitle       String  @default("")
   embedColor       String  @default("#000000")
 
-  urls  Url[]
-  files File[]
+  urls      Url[]
+  files     File[]
+  pasteBins Pastebin[]
 }
 
 model Token {
@@ -100,6 +101,25 @@ model File {
   views    Int      @default(0)
   size     String
   mimeType String   @default("") @map("mime_type")
+
+  password   String?
+  authSecret String
+
+  visible Boolean @default(true)
+
+  @@id([id, domain])
+}
+
+model Pastebin {
+  id   String
+  path String @unique
+
+  domain String
+  Domain Domain? @relation(fields: [domain], references: [domain])
+
+  date      DateTime
+  views     Int      @default(0)
+  highlight String
 
   password   String?
   authSecret String
