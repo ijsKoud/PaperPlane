@@ -3,6 +3,7 @@ import { formatBytes } from "@paperplane/utils";
 import type { AxiosError, CancelTokenSource } from "axios";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Uploader from "huge-uploader";
 
 interface Props {
 	file: File;
@@ -14,21 +15,18 @@ const UploadItem: React.FC<Props> = ({ file, toastError }) => {
 	const [uploaded, setUploaded] = useState(false);
 	const [isError, setIsError] = useState(false);
 
-	const func = async (token: CancelTokenSource) => {
+	const func = (token: CancelTokenSource) => {
 		if (uploaded) return;
 
 		const data = new FormData();
 		data.append("upload", file);
 
 		try {
-			await axios("/api/upload", {
-				data,
-				method: "POST",
-				cancelToken: token.token,
-				withCredentials: true,
-				headers: { "Content-Type": "multipart/form-data" },
-				onUploadProgress: (ev) => setProgress(Math.round((100 * ev.loaded) / (ev.total ?? ev.bytes)))
-			});
+			const uploader = new Uploader({ endpoint: "/api/upload-chunk", file, postParams: { type: file.type } });
+			uploader
+				.on("finish", () => setUploaded(true))
+				.on("progress", (d) => setProgress(d.detail))
+				.on("error", console.error);
 
 			setUploaded(true);
 		} catch (error) {
