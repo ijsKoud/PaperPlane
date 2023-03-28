@@ -160,6 +160,7 @@ export class BackupV300 {
 			const authSecret = Auth.encryptToken(authBuffer, this.server.envConfig.encryptionKey);
 			const fileObj: File = {
 				...file,
+				mimeType: "",
 				date: new Date(file.date),
 				authSecret,
 				domain,

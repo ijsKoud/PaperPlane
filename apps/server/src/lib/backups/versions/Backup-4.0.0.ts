@@ -290,7 +290,7 @@ export class BackupV400 {
 
 			const [fileName, userId] = file.path.split("/").reverse();
 			const filePath = join(this.dataDir, "files", userId, fileName);
-			const fileObj: File = { ...file, path: filePath, date: new Date(file.date) };
+			const fileObj: File = { ...file, mimeType: "", path: filePath, date: new Date(file.date) };
 			yield fileObj;
 		}
 	}

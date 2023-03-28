@@ -96,9 +96,10 @@ model File {
   domain String
   Domain Domain? @relation(fields: [domain], references: [domain])
 
-  date  DateTime
-  views Int      @default(0)
-  size  String
+  date     DateTime
+  views    Int      @default(0)
+  size     String
+  mimeType String   @default("") @map("mime_type")
 
   password   String?
   authSecret String
