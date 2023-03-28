@@ -73,7 +73,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			buffer: null as any,
 			originalname: name,
 			size: stats.size,
-			mimetype: "",
+			mimetype: file.postParams.type,
 			stream: null as any,
 			path: "",
 			encoding: ""
