@@ -55,6 +55,7 @@ export interface ApiFile {
 	visible: boolean;
 	size: string;
 	isImage: boolean;
+	ext: string;
 
 	password: boolean;
 

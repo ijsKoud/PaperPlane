@@ -178,6 +178,7 @@ export class Domain {
 				path: join(this.filesPath, file.filename),
 				size: this.server.config.parseStorage(file.size),
 				domain: this.domain,
+				mimeType: file.mimetype,
 				authSecret
 			}
 		});

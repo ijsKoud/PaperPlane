@@ -19,8 +19,8 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile, updat
 	const ModalonClick = () => setIsOpen(false);
 
 	const getFilePreviewUrl = () => `${file.url}?preview=true&raw=true`;
-	const lockIcon = file.password ? "fa-solid fa-lock text-base" : "fa-solid fa-lock-open text-base";
-	const viewIcon = file.visible ? "fa-solid fa-eye text-base" : "fa-solid fa-eye-slash text-base";
+	const lockIcon = file.password ? "fa-solid fa-lock text-[18px]" : "fa-solid fa-lock-open text-[18px]";
+	const viewIcon = file.visible ? "fa-solid fa-eye text-[18px]" : "fa-solid fa-eye-slash text-[18px]";
 
 	const onKeyEvent = (event: React.KeyboardEvent<HTMLDivElement>) => {
 		if ((event.target as any)?.id !== "filecard" || event.key !== "Enter") return;
@@ -64,7 +64,9 @@ const FilesCard: React.FC<Props> = ({ file, selected, onClick, deleteFile, updat
 					{file.isImage ? (
 						<img className="w-full" src={getFilePreviewUrl()} alt={`${file.name} preview image`} />
 					) : (
-						<i className="fa-solid fa-file text-xl" />
+						<div className="h-full w-full relative grid place-items-center">
+							<p className="text-3xl font-semibold uppercase absolute text-gray-400">{file.ext}</p>
+						</div>
 					)}
 				</div>
 				<ul className="max-w-[18rem]">

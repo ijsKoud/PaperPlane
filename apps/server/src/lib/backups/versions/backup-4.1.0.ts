@@ -4,9 +4,10 @@ import { readdir, readFile, rename, rm } from "node:fs/promises";
 import { join } from "node:path";
 import type Server from "../../../Server.js";
 import { BackupUtils } from "../BackupUtils.js";
-import type { iBackupV400 } from "../types.js";
+import type { iBackupV410 } from "../types.js";
+import { extension } from "mime-types";
 
-export class BackupV400 {
+export class BackupV410 {
 	public constructor(public server: Server, public dataDir: string) {}
 
 	public async import(dir: string) {
@@ -61,7 +62,7 @@ export class BackupV400 {
 
 	private parseDatabase(_data: string) {
 		const errors: Record<string, any> = {};
-		const data = JSON.parse(_data) as iBackupV400;
+		const data = JSON.parse(_data) as iBackupV410;
 
 		if (typeof data.version !== "string" || data.version !== "4.0.0") errors.version = "INVALID_VERSION";
 		if (typeof data.encryption !== "string") errors.encryptionKey = "INVALID_ENCRYPTION_KEY";
@@ -138,7 +139,7 @@ export class BackupV400 {
 		};
 	}
 
-	private *parseUsers(users: iBackupV400["users"]) {
+	private *parseUsers(users: iBackupV410["users"]) {
 		for (const user of users) {
 			if (typeof user !== "object") {
 				yield "INVALID_USER_OBJECT";
@@ -228,7 +229,7 @@ export class BackupV400 {
 		}
 	}
 
-	private *parseTokens(tokens: iBackupV400["users"][0]["apiTokens"]) {
+	private *parseTokens(tokens: iBackupV410["users"][0]["apiTokens"]) {
 		for (const _token of tokens) {
 			if (typeof _token !== "object") {
 				yield null;
@@ -245,7 +246,7 @@ export class BackupV400 {
 		}
 	}
 
-	private *parseFiles(files: iBackupV400["files"]) {
+	private *parseFiles(files: iBackupV410["files"]) {
 		for (const file of files) {
 			if (typeof file !== "object") {
 				yield "INVALID_FILE_OBJECT";
@@ -279,6 +280,10 @@ export class BackupV400 {
 				yield "INVALID_SIZE";
 				continue;
 			}
+			if (!BackupUtils.typeofString(file.mimeType) || typeof extension(file.mimeType) !== "boolean") {
+				yield "INVALID_MIME_TYPE";
+				continue;
+			}
 			if (!BackupUtils.typeofNumber(file.views)) {
 				yield "INVALID_VIEWS";
 				continue;
@@ -290,12 +295,12 @@ export class BackupV400 {
 
 			const [fileName, userId] = file.path.split("/").reverse();
 			const filePath = join(this.dataDir, "files", userId, fileName);
-			const fileObj: File = { ...file, mimeType: "", path: filePath, date: new Date(file.date) };
+			const fileObj: File = { ...file, path: filePath, date: new Date(file.date) };
 			yield fileObj;
 		}
 	}
 
-	private *parseUrls(urls: iBackupV400["urls"]) {
+	private *parseUrls(urls: iBackupV410["urls"]) {
 		for (const url of urls) {
 			if (typeof url !== "object") {
 				yield "INVALID_URL_OBJECT";
@@ -330,7 +335,7 @@ export class BackupV400 {
 		}
 	}
 
-	private *parseAuditLogs(logs: iBackupV400["auditlogs"]) {
+	private *parseAuditLogs(logs: iBackupV410["auditlogs"]) {
 		for (const log of logs) {
 			if (typeof log !== "object") {
 				yield "INVALID_AUDITLOG_OBJECT";
@@ -361,7 +366,7 @@ export class BackupV400 {
 		}
 	}
 
-	private *parseInvites(invites: iBackupV400["invites"]) {
+	private *parseInvites(invites: iBackupV410["invites"]) {
 		for (const invite of invites) {
 			if (typeof invite !== "object") {
 				yield "INVALID_INVITE_OBJECT";
@@ -381,7 +386,7 @@ export class BackupV400 {
 		}
 	}
 
-	private *parseSignUpDomains(domains: iBackupV400["signupDomains"]) {
+	private *parseSignUpDomains(domains: iBackupV410["signupDomains"]) {
 		for (const domain of domains) {
 			if (typeof domain !== "object") {
 				yield "INVALID_SIGNUP_DOMAIN_OBJECT";

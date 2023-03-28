@@ -33,7 +33,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		}
 
 		const file = await assembleChunks();
-		if (!file.postParams.type || typeof file.postParams.type !== "string" || file.postParams.type.includes("/")) {
+		if (!file.postParams.type || typeof file.postParams.type !== "string") {
 			res.status(400).send("Missing file type in postParams");
 			await rm(file.filePath).catch(() => void 0);
 			return;
@@ -64,7 +64,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 				break;
 		}
 
-		const name = `${Auth.generateToken(32)}.${file.postParams.type}`;
+		const name = `${Auth.generateToken(32)}.${ext}`;
 		await rename(file.filePath, join(req.locals.domain.filesPath, name));
 		const fileData = await req.locals.domain.addFile({
 			destination: file.filePath,
@@ -73,7 +73,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			buffer: null as any,
 			originalname: name,
 			size: stats.size,
-			mimetype: "",
+			mimetype: file.postParams.type,
 			stream: null as any,
 			path: "",
 			encoding: ""

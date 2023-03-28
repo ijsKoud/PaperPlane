@@ -7,6 +7,7 @@ import { Auth } from "./Auth.js";
 import { ConfigNames, EnvConfig, RawEnvConfig } from "./types.js";
 import ms from "ms";
 import { Utils } from "./utils.js";
+import { lookup } from "mime-types";
 
 const DEFAULT_CONFIG: RawEnvConfig = {
 	ENCRYPTION_KEY: "{0}",
@@ -70,6 +71,7 @@ export class Config {
 		};
 
 		await this.triggerUpdate();
+		await this.updateFiles();
 	}
 
 	public async update(config: Partial<Omit<EnvConfig, "encryptionKey" | "internalApiKey" | "admin2FASecret" | "PORT" | "INSECURE_REQUESTS">>) {
@@ -213,5 +215,21 @@ export class Config {
 		);
 
 		return config;
+	}
+
+	private async updateFiles() {
+		const files = await this.server.prisma.file.findMany();
+		let count = 0;
+
+		for await (const file of files) {
+			if (file.mimeType.length) continue;
+
+			const filename = file.path.split("/").reverse()[0];
+			const mimeType = lookup(filename);
+			await this.server.prisma.file.update({ where: { id_domain: { id: file.id, domain: file.domain } }, data: { mimeType: mimeType || "" } });
+			count++;
+		}
+
+		this.server.logger.info(`[CONFIG]: Updated mime-types for ${count} files`);
 	}
 }
