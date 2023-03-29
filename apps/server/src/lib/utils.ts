@@ -19,7 +19,7 @@ export class Utils {
 	}
 
 	public static getProtocol() {
-		return process.env.INSECURE_REQUESTS ? "http://" : "https://";
+		return process.env.INSECURE_REQUESTS === "true" ? "http://" : "https://";
 	}
 
 	public static generateId(strategy: "id" | "zerowidth" | "name", length: number): string | undefined {
