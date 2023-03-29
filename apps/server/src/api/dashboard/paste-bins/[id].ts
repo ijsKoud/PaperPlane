@@ -75,5 +75,5 @@ export default async function handler(server: Server, req: DashboardRequest, res
 	}
 }
 
-export const methods: RequestMethods[] = ["post", "get"];
+export const methods: RequestMethods[] = ["put", "get"];
 export const middleware: Middleware[] = [Auth.userMiddleware.bind(Auth)];

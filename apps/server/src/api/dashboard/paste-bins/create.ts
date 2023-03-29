@@ -29,11 +29,6 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		return;
 	}
 
-	if (typeof data.passwordEnabled !== "boolean") {
-		res.status(400).send({ message: "Invalid passwordEnabled value provided" });
-		return;
-	}
-
 	if (typeof data.visible !== "boolean") {
 		res.status(400).send({ message: "Invalid visible value provided" });
 		return;
@@ -52,11 +47,6 @@ export default async function handler(server: Server, req: DashboardRequest, res
 
 		await server.prisma.pastebin.create({
 			data: {
-				password: data.password
-					? Auth.encryptPassword(data.password, server.envConfig.encryptionKey)
-					: data.passwordEnabled
-					? undefined
-					: null,
 				visible: data.visible,
 				id: data.name ? (bins.map((bin) => bin.id).includes(data.name) ? id : data.name) : id,
 				date: new Date(),

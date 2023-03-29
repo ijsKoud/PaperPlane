@@ -244,8 +244,6 @@ export interface BinEditFormBody {
 
 export interface BinCreateFormBody {
 	name?: string;
-	password?: string;
-	passwordEnabled: boolean;
 	visible: boolean;
 	data: string;
 	highlight: string;
