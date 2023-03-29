@@ -57,6 +57,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			}
 		});
 
+		req.locals.domain.auditlogs.register("Pastebin Created", `Id: ${id}`);
 		res.sendStatus(204);
 	} catch (err) {
 		server.logger.fatal(`[PASTEBIN:CREATE]: Fatal error while updating a bin `, err);

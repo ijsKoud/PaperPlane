@@ -18,6 +18,8 @@ export default async function handler(server: Server, req: DashboardRequest, res
 
 		const bins = data.bins.filter((bin) => typeof bin === "string");
 		await server.prisma.pastebin.deleteMany({ where: { id: { in: bins }, domain: req.locals.domain.domain } });
+		req.locals.domain.auditlogs.register("Pastebins Deleted", `Ids: ${bins.join(", ")}`);
+
 		res.sendStatus(204);
 	}
 }

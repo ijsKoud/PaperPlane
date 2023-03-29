@@ -129,6 +129,7 @@ export interface DashboardEmbedGetApi {
 export interface DashboardStatsGetApi {
 	files: number;
 	shorturls: number;
+	pastebins: number;
 	storage: {
 		total: number;
 		used: number;

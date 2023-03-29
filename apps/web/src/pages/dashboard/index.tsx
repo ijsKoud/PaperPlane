@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Dashboard: NextPage = () => {
-	const [stats, setStats] = useState<DashboardStatsGetApi>({ files: 0, shorturls: 0, storage: { total: 0, used: 0 } });
+	const [stats, setStats] = useState<DashboardStatsGetApi>({ files: 0, shorturls: 0, pastebins: 0, storage: { total: 0, used: 0 } });
 	const { data: statsData } = useSwrWithUpdates("/api/dashboard/stats");
 
 	const [page, setPage] = useState(0);
@@ -44,7 +44,7 @@ const Dashboard: NextPage = () => {
 			<NextSeo title="Dashboard" />
 			<div className="w-full h-80 flex gap-8 items-center px-2 max-md:flex-col max-md:h-auto">
 				<DashboardStorageUsage used={stats.storage.used} total={stats.storage.total} />
-				<DashboardStatistics files={stats.files} shorturls={stats.shorturls} />
+				<DashboardStatistics files={stats.files} shorturls={stats.shorturls} pastebins={stats.pastebins} />
 			</div>
 			<div className="w-full px-2">
 				<div className="w-full rounded-lg bg-main p-8 flex flex-col gap-2">

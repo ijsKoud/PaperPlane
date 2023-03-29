@@ -50,7 +50,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			});
 
 			if (typeof data.data === "string" && data.data.length) await writeFile(bin.path, data.data);
-
+			req.locals.domain.auditlogs.register("Pastebin Updated", `Id: ${bin.id}`);
 			res.sendStatus(204);
 		} catch (err) {
 			server.logger.fatal(`[PASTEBIN:POST]: Fatal error while updating a bin `, err);
