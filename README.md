@@ -21,29 +21,17 @@
 ## Information
 
 - Customisable ✏️
-
 - Blazingly fast thanks to Next.js ⚡
-
 - File uploading and URL shortening ☁️
-
 - Password Protection for files 🔐
-
 - Discord Embeds using OG Metadata 🔗
-
 - 2FA Authentication to protect the vulnerable data 🔄️
-
 - Gallery and Table viewing options 📃
-
 - Support for multiple users using domains 🧑‍🤝‍🧑
-
 - Clean and modern design 🖌️
-
 - User invite-only mode 📨
-
 - Backup import and export functionality 📂
-
 - Easy install using Docker! 🚢
-
 
 ## Install
 
