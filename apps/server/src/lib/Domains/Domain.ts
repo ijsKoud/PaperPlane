@@ -8,6 +8,7 @@ import { AuditLog } from "../AuditLog.js";
 import { Auth } from "../Auth.js";
 import { Collection } from "@discordjs/collection";
 import { CronJob } from "cron";
+import { existsSync } from "node:fs";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -327,6 +328,7 @@ export class Domain {
 
 	private syncStorage() {
 		const syncFnFile = async () => {
+			if (!existsSync(this.filesPath)) await mkdir(this.filesPath);
 			const filesInDir = await readdir(this.filesPath).catch<string[]>(() => []);
 			const filesInDb = (await this.server.prisma.file.findMany({ where: { domain: this.domain } })).map(
 				(file) => file.path.split("/").reverse()[0]
@@ -345,6 +347,7 @@ export class Domain {
 		};
 
 		const syncFnBin = async () => {
+			if (!existsSync(this.pastebinPath)) await mkdir(this.pastebinPath);
 			const binInDir = await readdir(this.pastebinPath).catch<string[]>(() => []);
 			const binInDb = (await this.server.prisma.pastebin.findMany({ where: { domain: this.domain } })).map(
 				(file) => file.path.split("/").reverse()[0]
