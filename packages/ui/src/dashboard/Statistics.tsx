@@ -4,9 +4,10 @@ import type React from "react";
 interface Props {
 	files: number;
 	shorturls: number;
+	pastebins: number;
 }
 
-export const DashboardStatistics: React.FC<Props> = ({ files, shorturls }) => {
+export const DashboardStatistics: React.FC<Props> = ({ files, shorturls, pastebins }) => {
 	return (
 		<div className="bg-main p-8 rounded-xl h-full w-full">
 			<h1 className="text-xl">Statistics</h1>
@@ -20,8 +21,12 @@ export const DashboardStatistics: React.FC<Props> = ({ files, shorturls }) => {
 					<p className="text-4xl">{shorturls}</p>
 				</div>
 				<div>
+					<h2 className="text-lg">Pastebins</h2>
+					<p className="text-4xl">{pastebins}</p>
+				</div>
+				<div>
 					<h2 className="text-lg">Total</h2>
-					<p className="text-4xl">{files + shorturls}</p>
+					<p className="text-4xl">{files + shorturls + pastebins}</p>
 				</div>
 				<div>
 					<h2 className="text-lg">Version</h2>

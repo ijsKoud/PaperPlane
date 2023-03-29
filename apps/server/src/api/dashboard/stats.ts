@@ -11,10 +11,12 @@ export default async function handler(server: Server, req: DashboardRequest, res
 
 	const files = await server.prisma.file.count({ where: { domain: req.locals.domain.domain } });
 	const shorturls = await server.prisma.url.count({ where: { domain: req.locals.domain.domain } });
+	const pastebins = await server.prisma.pastebin.count({ where: { domain: req.locals.domain.domain } });
 
 	res.send({
 		files,
 		shorturls,
+		pastebins,
 		storage: {
 			total: req.locals.domain.maxStorage,
 			used: req.locals.domain.storage

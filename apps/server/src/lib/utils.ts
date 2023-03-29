@@ -3,8 +3,8 @@ import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import ShortUniqueId from "short-unique-id";
 import type { Domain } from "./index.js";
-import { AdminUserSort, FilesSort, UrlsSort } from "./types.js";
-import type { File, Url } from "@prisma/client";
+import { AdminUserSort, BinSort, FilesSort, UrlsSort } from "./types.js";
+import type { File, Pastebin, Url } from "@prisma/client";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Utils {
@@ -155,6 +155,38 @@ export class Utils {
 		}
 
 		return files;
+	}
+
+	public static binSort(bins: Pastebin[], sort: BinSort) {
+		const sortByName = (a: Pastebin, b: Pastebin) => {
+			if (a.id < b.id) return -1;
+			if (a.id > b.id) return 1;
+
+			return 0;
+		};
+
+		switch (sort) {
+			case BinSort.DATE_NEW_OLD:
+				bins = bins.sort((a, b) => b.date.getTime() - a.date.getTime());
+				break;
+			case BinSort.DATE_OLD_NEW:
+				bins = bins.sort((a, b) => a.date.getTime() - b.date.getTime());
+				break;
+			case BinSort.NAME_A_Z:
+				bins = bins.sort(sortByName);
+				break;
+			case BinSort.NAME_Z_A:
+				bins = bins.sort(sortByName).reverse();
+				break;
+			case BinSort.VIEWS_HIGH_LOW:
+				bins = bins.sort((a, b) => b.views - a.views);
+				break;
+			case BinSort.VIEWS_LOW_HIGH:
+				bins = bins.sort((a, b) => a.views - b.views);
+				break;
+		}
+
+		return bins;
 	}
 
 	public static urlSort(urls: Url[], sort: UrlsSort) {

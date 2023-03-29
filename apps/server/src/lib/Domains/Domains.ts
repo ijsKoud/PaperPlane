@@ -62,6 +62,7 @@ export class Domains {
 		const res = await this.server.prisma.domain.create({ data, include: { apiTokens: true } });
 
 		await mkdir(join(process.cwd(), "..", "..", "data", "files", res.pathId), { recursive: true });
+		await mkdir(join(process.cwd(), "..", "..", "data", "paste-bins", res.pathId), { recursive: true });
 		const domain = new Domain(this.server, res);
 		this.domains.set(res.domain, domain);
 

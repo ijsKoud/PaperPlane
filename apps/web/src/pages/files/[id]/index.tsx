@@ -11,7 +11,9 @@ const Markdown = dynamic(() => import("@paperplane/markdown"));
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id: _id } = context.params!;
 	const id = Array.isArray(_id) ? _id[0] : _id ?? "";
-	const fileRes = await axios.get<Omit<Props, "openGraph">>(`${getProtocol()}${context.req.headers.host}/api/files/${id}`);
+	const fileRes = await axios.get<Omit<Props, "openGraph">>(`${getProtocol()}${context.req.headers.host}/api/files/${id}`, {
+		headers: { Cookie: context.req.headers.cookie }
+	});
 
 	const openGraph: OpenGraph = {};
 	const url = `${getProtocol()}${context.req.headers.host}/files/${id}`;

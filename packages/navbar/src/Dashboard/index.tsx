@@ -14,6 +14,7 @@ export const DashboardNavbar: React.FC<Props> = ({ toastInfo }) => {
 				<DashboardNavButton href="/dashboard">Home</DashboardNavButton>
 				<DashboardNavButton href="/dashboard/files">Files</DashboardNavButton>
 				<DashboardNavButton href="/dashboard/shorturls">Shorturls</DashboardNavButton>
+				<DashboardNavButton href="/dashboard/pastebin">Pastebin</DashboardNavButton>
 			</div>
 		</nav>
 	);

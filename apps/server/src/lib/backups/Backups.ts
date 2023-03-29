@@ -27,6 +27,7 @@ export class Backups {
 				encryption: envConfig.encryptionKey,
 				users: await prisma.domain.findMany({ include: { apiTokens: true } }),
 				files: await prisma.file.findMany(),
+				pasteBins: await prisma.pastebin.findMany(),
 				urls: await prisma.url.findMany(),
 				auditlogs: await prisma.auditlog.findMany(),
 				invites: await prisma.invites.findMany(),
@@ -39,6 +40,7 @@ export class Backups {
 
 			const zip = new Zip();
 			zip.addFolder(join(this.baseDataFolder, "files"), "files");
+			zip.addFolder(join(this.baseDataFolder, "paste-bins"), "paste-bins");
 			zip.addFile(filePath, "db.json");
 
 			await zip.archive(join(this.baseBackupFolder, "archives", `${id}.zip`));

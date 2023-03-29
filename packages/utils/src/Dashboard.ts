@@ -18,6 +18,23 @@ export enum UrlsSort {
 	NAME_Z_A
 }
 
+export enum BinSort {
+	DATE_NEW_OLD,
+	DATE_OLD_NEW,
+	VIEWS_HIGH_LOW,
+	VIEWS_LOW_HIGH,
+	NAME_A_Z,
+	NAME_Z_A
+}
+export const BinSortNames = {
+	[BinSort.DATE_NEW_OLD]: "Date: new - old",
+	[BinSort.DATE_OLD_NEW]: "Date: old - new",
+	[BinSort.VIEWS_HIGH_LOW]: "Views: high - low",
+	[BinSort.VIEWS_LOW_HIGH]: "Views: low - high",
+	[BinSort.NAME_A_Z]: "Name: A - Z",
+	[BinSort.NAME_Z_A]: "Name: Z - A"
+} as const;
+
 export const FilesSortNames = {
 	[FilesSort.DATE_NEW_OLD]: "Date: new - old",
 	[FilesSort.DATE_OLD_NEW]: "Date: old - new",
@@ -48,6 +65,11 @@ export interface UrlsApiRes {
 	pages: number;
 }
 
+export interface BinApiRes {
+	entries: ApiBin[];
+	pages: number;
+}
+
 export interface ApiFile {
 	name: string;
 	url: string;
@@ -73,6 +95,19 @@ export interface ApiUrl {
 	visits: number;
 }
 
+export interface ApiBin {
+	name: string;
+	url: string;
+
+	visible: boolean;
+	highlight: string;
+
+	password: boolean;
+
+	date: Date;
+	views: number;
+}
+
 export interface DashboardSettingsGetApi {
 	nameStrategy: "id" | "zerowidth" | "name";
 	nameLength: number;
@@ -94,6 +129,7 @@ export interface DashboardEmbedGetApi {
 export interface DashboardStatsGetApi {
 	files: number;
 	shorturls: number;
+	pastebins: number;
 	storage: {
 		total: number;
 		used: number;
