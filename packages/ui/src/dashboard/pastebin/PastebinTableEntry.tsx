@@ -3,6 +3,7 @@ import { ApiBin, formatDate } from "@paperplane/utils";
 import type React from "react";
 import { useState } from "react";
 import { TableEntry } from "../../index";
+import { EditPastebinModal } from "./EditModal";
 
 interface Props {
 	bin: ApiBin;
@@ -31,7 +32,7 @@ const PastebinTableEntry: React.FC<Props> = ({ bin, selected, onClick, deleteBin
 
 	return (
 		<>
-			{/* <UrlEditModal isOpen={isOpen} onClick={ModalonClick} onSubmit={updateBinFn} url={url} /> */}
+			<EditPastebinModal isOpen={isOpen} onClick={ModalonClick} onSubmit={updateBinFn} bin={bin} />
 			<TableEntry>
 				<td>
 					<input type="checkbox" onChange={() => onClick(bin.name)} checked={selected} />

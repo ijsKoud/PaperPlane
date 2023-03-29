@@ -1,15 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import {
-	CreatePastebinModal,
-	DashboardDeleteBanner,
-	DashboardLayout,
-	FilesDashboardToolbar,
-	FilesGrid,
-	FilesTable,
-	PastebinDashboardToolbar,
-	PastebinsTable,
-	UploadModal
-} from "@paperplane/ui";
+import { CreatePastebinModal, DashboardDeleteBanner, DashboardLayout, PastebinDashboardToolbar, PastebinsTable } from "@paperplane/ui";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
@@ -220,6 +210,7 @@ const PastebinDashboard: NextPage = () => {
 				updateBin={updateBin}
 				toastSuccess={toast.success}
 			/>
+			<DashboardDeleteBanner type="pastebin" cancel={cancel} success={success} items={selected} />
 		</DashboardLayout>
 	);
 };

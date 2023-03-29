@@ -11,7 +11,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		return;
 	}
 
-	if (req.method === "POST") {
+	if (req.method === "PUT") {
 		const bins = await server.prisma.pastebin.findMany({ where: { domain: req.locals.domain.domain } });
 		const data = req.body as BinEditFormBody;
 		if (typeof data.name !== "string" || data.name.includes(".") || data.name.includes("/")) {
