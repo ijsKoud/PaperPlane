@@ -44,7 +44,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		highlight: bin.highlight,
 		views: bin.views,
 		visible: bin.visible,
-		url: `${req.protocol}://${req.locals.domain}/bins/${bin.id}`
+		url: `${Utils.getProtocol()}${req.locals.domain}/bins/${bin.id}`
 	}));
 
 	res.send({

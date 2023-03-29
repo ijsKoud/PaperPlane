@@ -49,7 +49,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		views: file.views,
 		visible: file.visible,
 		ext: extension(file.mimeType || lookup(file.path) || "") || "",
-		url: `${req.protocol}://${req.locals.domain}/files/${file.id}.${file.path.split(".").filter(Boolean).slice(1).join(".")}`
+		url: `${Utils.getProtocol()}${req.locals.domain}/files/${file.id}.${file.path.split(".").filter(Boolean).slice(1).join(".")}`
 	}));
 
 	res.send({

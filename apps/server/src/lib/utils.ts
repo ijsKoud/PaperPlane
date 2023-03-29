@@ -18,6 +18,10 @@ export class Utils {
 		return result;
 	}
 
+	public static getProtocol() {
+		return process.env.INSECURE_REQUESTS ? "http://" : "https://";
+	}
+
 	public static generateId(strategy: "id" | "zerowidth" | "name", length: number): string | undefined {
 		switch (strategy) {
 			case "id":

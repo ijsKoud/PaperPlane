@@ -40,7 +40,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		visits: url.visits,
 		visible: url.visible,
 		redirect: url.url,
-		url: `${req.protocol}://${req.locals.domain}/r/${url.id}`
+		url: `${Utils.getProtocol()}${req.locals.domain}/r/${url.id}`
 	}));
 
 	res.send({

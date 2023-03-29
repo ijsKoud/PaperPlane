@@ -2,7 +2,7 @@ import type { Response } from "express";
 import { rm, stat, rename } from "node:fs/promises";
 import { join } from "node:path";
 import { Auth } from "../lib/Auth.js";
-import { chunkUpload } from "../lib/index.js";
+import { chunkUpload, Utils } from "../lib/index.js";
 import type { DashboardRequest, Middleware, RequestMethods } from "../lib/types.js";
 import type Server from "../Server.js";
 import { extension } from "mime-types";
@@ -78,7 +78,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			path: "",
 			encoding: ""
 		});
-		const fileUrl = `${req.protocol}://${req.locals.domain}/files/${fileData}`;
+		const fileUrl = `${Utils.getProtocol()}${req.locals.domain}/files/${fileData}`;
 
 		res.send({ files: [fileUrl], url: fileUrl });
 	} catch (err) {

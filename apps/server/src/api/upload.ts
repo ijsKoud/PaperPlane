@@ -16,7 +16,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		try {
 			const filesArray = (req.files ?? []) as Express.Multer.File[];
 			const _files = await Promise.all(filesArray.map((file) => req.locals.domain.addFile(file)));
-			const files = _files.map((filename) => `${req.protocol}://${req.locals.domain}/files/${filename}`);
+			const files = _files.map((filename) => `${Utils.getProtocol()}${req.locals.domain}/files/${filename}`);
 
 			res.send({ files, url: files[0] });
 		} catch (err) {
@@ -49,7 +49,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 
 	try {
 		await server.prisma.url.create({ data: { date: new Date(), url: data.short, id: path, domain: req.locals.domain.domain } });
-		res.send({ url: `${req.protocol}://${req.locals.domain.domain}/r/${path}` });
+		res.send({ url: `${Utils.getProtocol()}${req.locals.domain.domain}/r/${path}` });
 	} catch (err) {
 		server.logger.fatal(`[UPLOAD:POST]: Fatal error while uploading a shorturl`, err);
 		res.status(500).send({ message: "Internal server error occured, please try again later." });
