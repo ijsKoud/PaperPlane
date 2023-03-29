@@ -31,7 +31,7 @@ const variants = {
 
 interface Props {
 	items: string[];
-	type: "file" | "shorturl";
+	type: "file" | "shorturl" | "pastebin";
 
 	cancel: () => void;
 	success: () => void;
