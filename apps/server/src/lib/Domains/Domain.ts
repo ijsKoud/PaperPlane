@@ -327,7 +327,7 @@ export class Domain {
 
 	private syncStorage() {
 		const syncFnFile = async () => {
-			const filesInDir = await readdir(this.filesPath);
+			const filesInDir = await readdir(this.filesPath).catch<string[]>(() => []);
 			const filesInDb = (await this.server.prisma.file.findMany({ where: { domain: this.domain } })).map(
 				(file) => file.path.split("/").reverse()[0]
 			);
@@ -345,7 +345,7 @@ export class Domain {
 		};
 
 		const syncFnBin = async () => {
-			const binInDir = await readdir(this.pastebinPath);
+			const binInDir = await readdir(this.pastebinPath).catch<string[]>(() => []);
 			const binInDb = (await this.server.prisma.pastebin.findMany({ where: { domain: this.domain } })).map(
 				(file) => file.path.split("/").reverse()[0]
 			);
