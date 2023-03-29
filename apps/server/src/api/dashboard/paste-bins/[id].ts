@@ -19,6 +19,11 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			return;
 		}
 
+		if (typeof data.highlight !== "string" || data.highlight.includes(".") || data.highlight.includes("/")) {
+			res.status(400).send({ message: "Invalid pastebin highlight provided" });
+			return;
+		}
+
 		if (typeof data.passwordEnabled !== "boolean") {
 			res.status(400).send({ message: "Invalid passwordEnabled value provided" });
 			return;
@@ -39,7 +44,8 @@ export default async function handler(server: Server, req: DashboardRequest, res
 						? undefined
 						: null,
 					visible: data.visible,
-					id: bins.map((bin) => bin.id).includes(data.name) ? undefined : data.name
+					id: bins.map((bin) => bin.id).includes(data.name) ? undefined : data.name,
+					highlight: data.highlight
 				}
 			});
 
