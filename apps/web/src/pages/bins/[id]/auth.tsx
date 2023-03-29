@@ -14,15 +14,15 @@ import { object, string } from "yup";
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id: _id } = context.params!;
 	const id = Array.isArray(_id) ? _id[0] : _id ?? "";
-	const fileRes = await axios.get<Record<string, any> | null>(`${getProtocol()}${context.req.headers.host}/api/files/${id}`, {
+	const binRes = await axios.get<Record<string, any> | null>(`${getProtocol()}${context.req.headers.host}/api/bins/${id}`, {
 		headers: { Cookie: context.req.headers.cookie }
 	});
 
-	if (typeof fileRes.data === "object")
+	if (typeof binRes.data === "object")
 		return {
 			props: {},
 			redirect: {
-				destination: `/files/${id}`
+				destination: `/bins/${id}`
 			}
 		};
 
@@ -46,7 +46,7 @@ const File: NextPage<Props> = ({ id }) => {
 	useEffect(() => {
 		const { cancel, token } = axios.CancelToken.source();
 		axios
-			.get<Record<string, any> | null>(`/api/files/${id}`, { withCredentials: true, cancelToken: token })
+			.get<Record<string, any> | null>(`/api/bins/${id}`, { withCredentials: true, cancelToken: token })
 			.then((res) => (typeof res.data === "object" ? (location.pathname = router.asPath.replace("/auth", "")) : void 0))
 			.catch(() => void 0);
 
@@ -56,7 +56,7 @@ const File: NextPage<Props> = ({ id }) => {
 	const onSubmit = async (values: { password: string }, helpers: FormikHelpers<{ password: string }>) => {
 		const promise = async () => {
 			try {
-				await axios.post(`/api/files/${id}`, values);
+				await axios.post(`/api/bins/${id}`, values);
 			} catch (err) {
 				const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
 				const error = _error || "Unknown error, please try again later.";
@@ -87,8 +87,8 @@ const File: NextPage<Props> = ({ id }) => {
 			<NextSeo defaultTitle={router.asPath.split("/")[2]} />
 			<div>
 				<div className="mb-8 text-center">
-					<h1 className="text-3xl">Enter file password</h1>
-					<p className="text-base">A password is required to view this shared file.</p>
+					<h1 className="text-3xl">Enter pastebin password</h1>
+					<p className="text-base">A password is required to view this shared pastebin.</p>
 				</div>
 				<Formik initialValues={{ password: "" }} validationSchema={schema} onSubmit={onSubmit} validateOnMount>
 					{(formik) => (
