@@ -171,6 +171,15 @@ export enum UrlsSort {
 	NAME_Z_A
 }
 
+export enum BinSort {
+	DATE_NEW_OLD,
+	DATE_OLD_NEW,
+	VIEWS_HIGH_LOW,
+	VIEWS_LOW_HIGH,
+	NAME_A_Z,
+	NAME_Z_A
+}
+
 export const FilesSortNames = {
 	[FilesSort.DATE_NEW_OLD]: "Date: new - old",
 	[FilesSort.DATE_OLD_NEW]: "Date: old - new",
@@ -189,6 +198,15 @@ export const ShortUrlsSortNames = {
 	[UrlsSort.VISITS_LOW_HIGH]: "Visits: low - high",
 	[UrlsSort.NAME_A_Z]: "Name: A - Z",
 	[UrlsSort.NAME_Z_A]: "Name: Z - A"
+} as const;
+
+export const BinSortNames = {
+	[BinSort.DATE_NEW_OLD]: "Date: new - old",
+	[BinSort.DATE_OLD_NEW]: "Date: old - new",
+	[BinSort.VIEWS_HIGH_LOW]: "Views: high - low",
+	[BinSort.VIEWS_LOW_HIGH]: "Views: low - high",
+	[BinSort.NAME_A_Z]: "Name: A - Z",
+	[BinSort.NAME_Z_A]: "Name: Z - A"
 } as const;
 
 export interface FilesBulkDeleteFormBody {
