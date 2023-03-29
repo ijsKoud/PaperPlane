@@ -37,6 +37,8 @@ export default async function handler(server: Server, req: Request, res: Respons
 
 		const pastebinData = await readFile(pastebin.path, "utf-8").catch(() => "");
 		res.send({ data: pastebinData, highlight: pastebin.highlight });
+
+		host?.addRead(pastebin.id);
 		return;
 	}
 

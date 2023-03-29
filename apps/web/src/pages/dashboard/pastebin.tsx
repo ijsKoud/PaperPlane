@@ -189,7 +189,7 @@ const PastebinDashboard: NextPage = () => {
 			<CreatePastebinModal isOpen={createModal} onClick={closeCreateModal} createBin={createBin} />
 			<NextSeo title="Pastebin Dashboard" />
 			<div className="w-full flex justify-between items-center">
-				<h1 className="text-4xl">Paste bin</h1>
+				<h1 className="text-4xl">Pastebin</h1>
 				<TertiaryButton type="button" onClick={openCreateModal}>
 					Create
 				</TertiaryButton>
