@@ -80,7 +80,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		});
 		const fileUrl = `${Utils.getProtocol()}${req.locals.domain}/files/${fileData}`;
 
-		res.send({ files: [fileUrl], url: fileUrl });
+		res.send(fileUrl);
 	} catch (err) {
 		console.log(err);
 		res.sendStatus(500);
