@@ -11,6 +11,7 @@ import { readFileSync } from "node:fs";
 import { PrismaClient } from "@prisma/client";
 import osUtils from "node-os-utils";
 import pidusage from "pidusage";
+import cors from "cors";
 
 export default class Server {
 	public logger: Logger;
@@ -89,7 +90,7 @@ export default class Server {
 			dir: join(process.cwd(), "..", "web")
 		});
 
-		this.express.use(cookieParser(), bodyParser.json(), bodyParser.urlencoded({ extended: true }));
+		this.express.use(cors({ origin: "*" }), cookieParser(), bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 
 		await this.api.start();
 		await this.config.start();
