@@ -90,7 +90,12 @@ export default class Server {
 			dir: join(process.cwd(), "..", "web")
 		});
 
-		this.express.use(cors({ origin: "*" }), cookieParser(), bodyParser.json(), bodyParser.urlencoded({ extended: true }));
+		this.express.use(
+			cors({ origin: "*", methods: ["GET", "DELETE", "POST", "PUT"] }),
+			cookieParser(),
+			bodyParser.json(),
+			bodyParser.urlencoded({ extended: true })
+		);
 
 		await this.api.start();
 		await this.config.start();
