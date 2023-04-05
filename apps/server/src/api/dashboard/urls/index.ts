@@ -24,7 +24,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 	let entries = await server.prisma.url.findMany({ where: { domain: req.locals.domain.domain } });
 	if (searchQ.length) {
 		const search = new Fuse(entries, {
-			keys: ["name", "url", "visits"],
+			keys: ["id", "url", "visits"],
 			isCaseSensitive: false
 		});
 		entries = search.search(searchQ).map((sr) => sr.item);
