@@ -1,6 +1,6 @@
 # FROM ghcr.io/diced/prisma-binaries:4.8.x as prisma
 
-FROM node:19-alpine as builder
+FROM node:20-alpine as builder
 WORKDIR /paperplane
 RUN apk add --no-cache libc6-compat
 
@@ -11,7 +11,7 @@ RUN yarn install
 RUN yarn turbo prune --scope=web --docker
 RUN yarn turbo prune --scope=server --docker
 
-FROM node:19-alpine as installer
+FROM node:20-alpine as installer
 WORKDIR /paperplane
 RUN apk add --no-cache libc6-compat
 
@@ -49,7 +49,7 @@ COPY tailwind.config.cjs ./tailwind.config.cjs
 RUN yarn cmd:server prisma generate
 RUN yarn turbo run build
 
-FROM node:19-alpine as runner
+FROM node:20-alpine as runner
 WORKDIR /paperplane
 
 # Create user PaperPlane
