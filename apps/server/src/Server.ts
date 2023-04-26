@@ -1,6 +1,6 @@
 import type { Server as HttpServer } from "node:http";
 import type { NextServer } from "next/dist/server/next.js";
-import express, { Express } from "express";
+import express, { type Express } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { join } from "node:path";

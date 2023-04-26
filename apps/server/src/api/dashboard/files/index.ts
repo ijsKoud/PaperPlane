@@ -2,7 +2,7 @@ import type { Response } from "express";
 import Fuse from "fuse.js";
 import { lookup, extension } from "mime-types";
 import { Auth } from "../../../lib/Auth.js";
-import { DashboardRequest, FilesSort, Middleware, RequestMethods } from "../../../lib/types.js";
+import { type DashboardRequest, FilesSort, type Middleware, type RequestMethods } from "../../../lib/types.js";
 import { Utils } from "../../../lib/utils.js";
 import type Server from "../../../Server.js";
 

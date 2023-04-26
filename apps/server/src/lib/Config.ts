@@ -4,7 +4,7 @@ import { config } from "dotenv";
 import type Server from "../Server.js";
 import { bold } from "colorette";
 import { Auth } from "./Auth.js";
-import { ConfigNames, EnvConfig, RawEnvConfig } from "./types.js";
+import { ConfigNames, type EnvConfig, type RawEnvConfig } from "./types.js";
 import ms from "ms";
 import { Utils } from "./utils.js";
 import { lookup } from "mime-types";

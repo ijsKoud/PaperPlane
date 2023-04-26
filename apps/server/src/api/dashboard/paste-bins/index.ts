@@ -1,7 +1,7 @@
 import type { Response } from "express";
 import Fuse from "fuse.js";
 import { Auth } from "../../../lib/Auth.js";
-import { DashboardRequest, BinSort, Middleware, RequestMethods } from "../../../lib/types.js";
+import { type DashboardRequest, BinSort, type Middleware, type RequestMethods } from "../../../lib/types.js";
 import { Utils } from "../../../lib/utils.js";
 import type Server from "../../../Server.js";
 
