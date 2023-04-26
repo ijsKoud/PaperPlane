@@ -1,5 +1,5 @@
 import type React from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { PrimaryButton, TransparentButton } from "@paperplane/buttons";
 import { useRouter } from "next/router";
 import { deleteCookie } from "cookies-next";

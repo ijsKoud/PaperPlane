@@ -1,5 +1,5 @@
 import { PrimaryButton, TransparentButton } from "@paperplane/buttons";
-import { SelectMenu, SelectOption } from "@paperplane/forms";
+import { SelectMenu, type SelectOption } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import type { BackupsGetApi } from "@paperplane/utils";

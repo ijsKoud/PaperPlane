@@ -1,6 +1,6 @@
 import { DangerButton, SuccessButton } from "@paperplane/buttons";
 import type React from "react";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 

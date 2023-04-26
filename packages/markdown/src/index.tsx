@@ -1,6 +1,6 @@
 import type React from "react";
 import ReactMarkdown from "react-markdown";
-import remarkGfm, { Options } from "remark-gfm";
+import remarkGfm, { type Options } from "remark-gfm";
 
 interface Props {
 	children: string;

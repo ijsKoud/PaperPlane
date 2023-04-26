@@ -1,6 +1,7 @@
 {
 	"name": "@paperplane/swr",
 	"version": "0.0.0",
+	"type": "module",
 	"main": "./src/index.tsx",
 	"types": "./src/index.tsx",
 	"license": "MIT",

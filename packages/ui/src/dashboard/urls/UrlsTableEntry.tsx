@@ -1,5 +1,5 @@
 import { TransparentButton } from "@paperplane/buttons";
-import { ApiUrl, formatDate } from "@paperplane/utils";
+import { type ApiUrl, formatDate } from "@paperplane/utils";
 import type React from "react";
 import { useState } from "react";
 import { TableEntry } from "../../index";

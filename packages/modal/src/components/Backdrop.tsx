@@ -1,5 +1,5 @@
 import type React from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 const variants: Variants = {
 	hidden: {

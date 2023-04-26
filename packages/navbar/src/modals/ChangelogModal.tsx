@@ -1,12 +1,10 @@
 import type React from "react";
 import { HashLoader } from "react-spinners";
-import dynamic from "next/dynamic";
 import { TransparentButton } from "@paperplane/buttons";
 import { PAPERPLANE_VERSION, parseReleaseMarkdown } from "@paperplane/utils";
 import { useSwr } from "@paperplane/swr";
 import axios from "axios";
-
-const Markdown = dynamic(() => import("@paperplane/markdown"));
+import Markdown from "@paperplane/markdown";
 
 interface ReleaseApiRes {
 	body: string;

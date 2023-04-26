@@ -1,5 +1,5 @@
 import { TransparentButton } from "@paperplane/buttons";
-import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
+import { Input, SelectMenu, type SelectOption } from "@paperplane/forms";
 import { UrlsSort, ShortUrlsSortNames } from "@paperplane/utils";
 import type React from "react";
 import { useEffect, useState } from "react";

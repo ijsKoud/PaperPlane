@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState } from "react";
-import { SWRConfig, Cache } from "swr";
+import { SWRConfig, type Cache } from "swr";
 
 export const SwrWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
 	const [cache] = useState(new Map<string, any>());
