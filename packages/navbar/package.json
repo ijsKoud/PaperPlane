@@ -10,9 +10,11 @@
 	},
 	"peerDependencies": {
 		"next": "^13.3.1",
-		"react": "^18.2.0"
+		"react": "^18.2.0",
+		"react-dom": "18.2.0"
 	},
 	"dependencies": {
+		"@next/font": "13.3.1",
 		"@paperplane/buttons": "*",
 		"@paperplane/logo": "*",
 		"@paperplane/markdown": "*",
