@@ -1042,7 +1042,7 @@ __metadata:
     "@types/react": ^18.0.38
     "@types/react-dom": ^18.0.11
     eslint: 8.39.0
-    typescript: ^4.9.5
+    typescript: ^5.0.4
   peerDependencies:
     next: ^13.3.1
     react: ^18.2.0
@@ -1057,7 +1057,7 @@ __metadata:
     "@types/react-dom": ^18.0.11
     eslint: 8.39.0
     react-select: ^5.7.2
-    typescript: ^4.9.5
+    typescript: ^5.0.4
   peerDependencies:
     react: ^18.2.0
   languageName: unknown
@@ -1070,7 +1070,7 @@ __metadata:
     "@types/react": ^18.0.38
     "@types/react-dom": ^18.0.11
     eslint: 8.39.0
-    typescript: ^4.9.5
+    typescript: ^5.0.4
   peerDependencies:
     "@next/font": ^13.3.1
     react: ^18.2.0
@@ -1086,7 +1086,7 @@ __metadata:
     eslint: 8.39.0
     react-markdown: ^8.0.7
     remark-gfm: ^3.0.1
-    typescript: ^4.9.5
+    typescript: ^5.0.4
   peerDependencies:
     react: ^18.2.0
   languageName: unknown
@@ -1101,7 +1101,7 @@ __metadata:
     "@types/react-dom": ^18.0.11
     eslint: 8.39.0
     framer-motion: ^10.12.4
-    typescript: ^4.9.5
+    typescript: ^5.0.4
   peerDependencies:
     next: ^13.3.1
     react: ^18.2.0
@@ -1125,7 +1125,7 @@ __metadata:
     eslint: 8.39.0
     framer-motion: ^10.12.4
     react-spinners: ^0.13.8
-    typescript: ^4.9.5
+    typescript: ^5.0.4
   peerDependencies:
     next: ^13.3.1
     react: ^18.2.0
@@ -1141,7 +1141,7 @@ __metadata:
     axios: ^1.3.6
     eslint: 8.39.0
     swr: ^2.1.3
-    typescript: ^4.9.5
+    typescript: ^5.0.4
   peerDependencies:
     react: ^18.2.0
   languageName: unknown
@@ -1171,7 +1171,7 @@ __metadata:
     react-switch: ^7.0.0
     react-syntax-highlighter: ^15.5.0
     short-unique-id: ^4.4.4
-    typescript: ^4.9.5
+    typescript: ^5.0.4
     yup: ^1.1.1
   peerDependencies:
     react: ^18.2.0
@@ -1185,7 +1185,7 @@ __metadata:
   dependencies:
     "@sapphire/timestamp": ^1.0.1
     eslint: 8.39.0
-    typescript: ^4.9.5
+    typescript: ^5.0.4
   languageName: unknown
   linkType: soft
 
@@ -8277,7 +8277,7 @@ __metadata:
     pidusage: ^3.0.2
     prisma: ^4.13.0
     short-unique-id: ^4.4.4
-    typescript: ^4.9.5
+    typescript: ^5.0.4
     ua-parser-js: ^1.0.35
     winston: ^3.8.2
     winston-daily-rotate-file: ^4.7.1
@@ -9241,16 +9241,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.5":
-  version: 4.9.5
-  resolution: "typescript@npm:4.9.5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: ee000bc26848147ad423b581bd250075662a354d84f0e06eb76d3b892328d8d4440b7487b5a83e851b12b255f55d71835b008a66cbf8f255a11e4400159237db
-  languageName: node
-  linkType: hard
-
 "typescript@patch:typescript@5.0.4#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>":
   version: 5.0.4
   resolution: "typescript@patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"
@@ -9268,16 +9258,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: b63cb742fbb9aeb3085e002ad8f10d5fd963606aa4d6b3b65b4e76c396ff09739f03b5dbae08e1698c3bce9d5619d3f67aeb7ee470ed4016bd345b3cfe37b54a
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
-  version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
   languageName: node
   linkType: hard
 
@@ -9555,7 +9535,7 @@ __metadata:
     react-syntax-highlighter: ^15.5.0
     react-toastify: ^9.1.2
     tailwindcss: ^3.3.1
-    typescript: ^4.9.5
+    typescript: ^5.0.4
     yup: ^1.1.1
   peerDependencies:
     "@next/font": ^13.3.1
