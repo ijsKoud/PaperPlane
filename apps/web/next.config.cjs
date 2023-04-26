@@ -7,5 +7,15 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
 	reactStrictMode: true,
-	transpilePackages: ["buttons", "forms", "logo", "markdown", "modal", "navbar", "swr", "ui", "utils"]
+	transpilePackages: [
+		"@paperplane/buttons",
+		"@paperplane/forms",
+		"@paperplane/logo",
+		"@paperplane/markdown",
+		"@paperplane/modal",
+		"@paperplane/navbar",
+		"@paperplane/swr",
+		"@paperplane/ui",
+		"@paperplane/utils"
+	]
 };
