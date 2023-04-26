@@ -4,14 +4,14 @@ import {
 	AdminLayout,
 	AdminUserToolbar,
 	ConfirmModal,
-	CreateUserForm,
+	type CreateUserForm,
 	CreateUserModal,
 	Table,
 	TableEntry,
 	UpdateUserModal
 } from "@paperplane/ui";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
-import { AdminUserSort, formatBytes, formatDate, getProtocol, parseToDay, UsersApi } from "@paperplane/utils";
+import { AdminUserSort, formatBytes, formatDate, getProtocol, parseToDay, type UsersApi } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useSwrWithUpdates } from "@paperplane/swr";

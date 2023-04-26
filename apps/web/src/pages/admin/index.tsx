@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { AdminLayout, AdminStatistics, AdminUsage, AuditLogToolbar, Table, TableEntry } from "@paperplane/ui";
 import axios from "axios";
-import { AuditLogApi, formatDate, getProtocol, ServiceApi } from "@paperplane/utils";
+import { type AuditLogApi, formatDate, getProtocol, type ServiceApi } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
 import { NextSeo } from "next-seo";

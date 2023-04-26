@@ -2,7 +2,7 @@ import { TertiaryButton } from "@paperplane/buttons";
 import { Input } from "@paperplane/forms";
 import { getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, type FormikHelpers } from "formik";
 import type { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";

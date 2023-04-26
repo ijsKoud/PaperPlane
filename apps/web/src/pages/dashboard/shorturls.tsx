@@ -3,7 +3,7 @@ import { CreateModal, DashboardDeleteBanner, DashboardLayout, ShortUrlsDashboard
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
-import { getProtocol, UrlsApiRes, UrlsSort } from "@paperplane/utils";
+import { getProtocol, type UrlsApiRes, UrlsSort } from "@paperplane/utils";
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import type { FormikHelpers } from "formik";

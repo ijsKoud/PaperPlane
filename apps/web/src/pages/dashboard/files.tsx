@@ -3,7 +3,7 @@ import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGri
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
-import { FilesApiRes, FilesSort, getProtocol } from "@paperplane/utils";
+import { type FilesApiRes, FilesSort, getProtocol } from "@paperplane/utils";
 import { toast } from "react-toastify";
 import { NextSeo } from "next-seo";
 import type { AxiosError } from "axios";

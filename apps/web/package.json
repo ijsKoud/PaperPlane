@@ -2,6 +2,7 @@
 	"name": "web",
 	"version": "0.0.0",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "tailwindcss -i ./src/styles/globals.css -o ./src/styles/output.css --watch",
 		"build:css": "tailwindcss -i ./src/styles/globals.css -o ./src/styles/output.css",

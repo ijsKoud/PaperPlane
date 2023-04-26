@@ -3,7 +3,7 @@ import "../styles/output.css";
 import "../styles/fontawesome.css";
 import "react-toastify/dist/ReactToastify.min.css";
 
-import SEO from "../../next-seo.config";
+import SEO from "../next-seo.config";
 
 import type { AppProps } from "next/app";
 import { Poppins } from "@next/font/google";
