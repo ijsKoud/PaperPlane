@@ -1,5 +1,5 @@
 {
-	"extends": "../../tsconfig.base.json",
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "ESNext",
@@ -15,5 +15,5 @@
 		"esModuleInterop": true,
 		"resolveJsonModule": true
 	},
-	"include": ["src"]
+	"include": ["**/*.ts", "**/*.tsx"]
 }

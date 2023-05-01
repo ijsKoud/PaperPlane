@@ -843,95 +843,88 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/env@npm:13.3.2"
-  checksum: 4921cccfb966ea6da284164906485ac0013be18d957b8b83c98e2b4f7897eb81c07b151a3e6ed2a2508b5a5d329174efe5fa8b57163ad26db3c39001e66a4012
+"@next/env@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/env@npm:13.3.4"
+  checksum: 442a06b95814ffc483e60892bc105f4e381cbd78ae436b649d41cbb6fee87f30ce431743dedc83178a09ec00fc80dcbf154184b21ae20ffa268d1115212657af
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/eslint-plugin-next@npm:13.3.2"
+"@next/eslint-plugin-next@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/eslint-plugin-next@npm:13.3.4"
   dependencies:
     glob: 7.1.7
-  checksum: 3101dd5c9e37412b552a5c27f936e5fead103a2db0549639580231605585931c53034d9d5307175a299f38afb1f300feb7e2c047406825058126fd67b2bbee11
+  checksum: 7e4ed26f4dbbf9ea86a089af628e7a901898a3793775656e23371f347ece2c81dd605e9e7eaa4098762c9a8364237d9a463cc74f7f7b51ac6bdc22bce19bf532
   languageName: node
   linkType: hard
 
-"@next/font@npm:13.3.1":
-  version: 13.3.1
-  resolution: "@next/font@npm:13.3.1"
-  checksum: c248bb0b84d522a9ebb3d6da7638127cc7978b72106de068f29ca5288ebb75e0b8330f9591bf0b0f195c9343d5bbc4f2903196bbc3a235a36ed849e78ee99957
+"@next/font@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/font@npm:13.3.4"
+  checksum: 7f3d7f7c8057477b542575b8370432ae147bab8f01e454f9417ca247e34b230a619281c9a967c7375978857f48871a691616941ea771c6cd0446c3bf66c2793b
   languageName: node
   linkType: hard
 
-"@next/font@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/font@npm:13.3.2"
-  checksum: 82abe01ba3ee729835227c4a791cd1027f9e12a06957db17e0c4a7310a9b7b69f53870791a5846052f02c6c1d7f34c5dea9d151c7627a662a93e49a0476bcbc6
-  languageName: node
-  linkType: hard
-
-"@next/swc-darwin-arm64@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-darwin-arm64@npm:13.3.2"
+"@next/swc-darwin-arm64@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-darwin-arm64@npm:13.3.4"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-darwin-x64@npm:13.3.2"
+"@next/swc-darwin-x64@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-darwin-x64@npm:13.3.4"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-linux-arm64-gnu@npm:13.3.2"
+"@next/swc-linux-arm64-gnu@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-linux-arm64-gnu@npm:13.3.4"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-linux-arm64-musl@npm:13.3.2"
+"@next/swc-linux-arm64-musl@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-linux-arm64-musl@npm:13.3.4"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-linux-x64-gnu@npm:13.3.2"
+"@next/swc-linux-x64-gnu@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-linux-x64-gnu@npm:13.3.4"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-linux-x64-musl@npm:13.3.2"
+"@next/swc-linux-x64-musl@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-linux-x64-musl@npm:13.3.4"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-win32-arm64-msvc@npm:13.3.2"
+"@next/swc-win32-arm64-msvc@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-win32-arm64-msvc@npm:13.3.4"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-ia32-msvc@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-win32-ia32-msvc@npm:13.3.2"
+"@next/swc-win32-ia32-msvc@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-win32-ia32-msvc@npm:13.3.4"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:13.3.2":
-  version: 13.3.2
-  resolution: "@next/swc-win32-x64-msvc@npm:13.3.2"
+"@next/swc-win32-x64-msvc@npm:13.3.4":
+  version: 13.3.4
+  resolution: "@next/swc-win32-x64-msvc@npm:13.3.4"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -992,7 +985,7 @@ __metadata:
     eslint: 8.39.0
     typescript: ^5.0.4
   peerDependencies:
-    next: ^13.3.2
+    next: ^13.3.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -1022,7 +1015,7 @@ __metadata:
     eslint: 8.39.0
     typescript: ^5.0.4
   peerDependencies:
-    "@next/font": ^13.3.2
+    "@next/font": ^13.3.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -1054,7 +1047,7 @@ __metadata:
     framer-motion: ^10.12.4
     typescript: ^5.0.4
   peerDependencies:
-    next: ^13.3.2
+    next: ^13.3.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -1064,7 +1057,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/navbar@workspace:packages/navbar"
   dependencies:
-    "@next/font": 13.3.1
+    "@next/font": 13.3.4
     "@paperplane/buttons": "*"
     "@paperplane/logo": "*"
     "@paperplane/markdown": "*"
@@ -1080,7 +1073,7 @@ __metadata:
     react-spinners: ^0.13.8
     typescript: ^5.0.4
   peerDependencies:
-    next: ^13.3.2
+    next: ^13.3.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -1128,7 +1121,7 @@ __metadata:
     typescript: ^5.0.4
     yup: ^1.1.1
   peerDependencies:
-    next: 13.3.1
+    next: 13.3.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -3398,11 +3391,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:13.3.2":
-  version: 13.3.2
-  resolution: "eslint-config-next@npm:13.3.2"
+"eslint-config-next@npm:13.3.4":
+  version: 13.3.4
+  resolution: "eslint-config-next@npm:13.3.4"
   dependencies:
-    "@next/eslint-plugin-next": 13.3.2
+    "@next/eslint-plugin-next": 13.3.4
     "@rushstack/eslint-patch": ^1.1.3
     "@typescript-eslint/parser": ^5.42.0
     eslint-import-resolver-node: ^0.3.6
@@ -3417,7 +3410,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 3097beba03dc1510e54857e56dc39a8e56b1a6655c2d8152020c9f598d8da6dfd5de18a81ba46b59766be384acaa592c9deb842a4c64d5fc5edcbb97bef05628
+  checksum: f87ef8ade3fb94dcdc59810c4d9f39efd2c1e36dacf7ed02ccfd9d31b3b16931a0a5df7803c6426c785090d0382d1d0cd3ffc0ad9fe1c020ca137236f913b4e7
   languageName: node
   linkType: hard
 
@@ -6473,20 +6466,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^13.3.2":
-  version: 13.3.2
-  resolution: "next@npm:13.3.2"
+"next@npm:^13.3.4":
+  version: 13.3.4
+  resolution: "next@npm:13.3.4"
   dependencies:
-    "@next/env": 13.3.2
-    "@next/swc-darwin-arm64": 13.3.2
-    "@next/swc-darwin-x64": 13.3.2
-    "@next/swc-linux-arm64-gnu": 13.3.2
-    "@next/swc-linux-arm64-musl": 13.3.2
-    "@next/swc-linux-x64-gnu": 13.3.2
-    "@next/swc-linux-x64-musl": 13.3.2
-    "@next/swc-win32-arm64-msvc": 13.3.2
-    "@next/swc-win32-ia32-msvc": 13.3.2
-    "@next/swc-win32-x64-msvc": 13.3.2
+    "@next/env": 13.3.4
+    "@next/swc-darwin-arm64": 13.3.4
+    "@next/swc-darwin-x64": 13.3.4
+    "@next/swc-linux-arm64-gnu": 13.3.4
+    "@next/swc-linux-arm64-musl": 13.3.4
+    "@next/swc-linux-x64-gnu": 13.3.4
+    "@next/swc-linux-x64-musl": 13.3.4
+    "@next/swc-win32-arm64-msvc": 13.3.4
+    "@next/swc-win32-ia32-msvc": 13.3.4
+    "@next/swc-win32-x64-msvc": 13.3.4
     "@swc/helpers": 0.5.1
     busboy: 1.6.0
     caniuse-lite: ^1.0.30001406
@@ -6529,7 +6522,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: dad2469eda0b5dff1d5eddf1fdc473c7e25daf7821c4779edc8d804f972c2b81403ca0c9ec1765f617487cd661fd0647a9c7651db7c1fcbb76f0039f4dae5ca5
+  checksum: ed3a2e39a23250f370ecf1bfb6765f79fa3b31f1e5103a79752e7a4b07b608e1a30c8121992a38167cffe3b0df16fb7ec684f871f2ca62801233807321ba2e71
   languageName: node
   linkType: hard
 
@@ -6886,7 +6879,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.6.1
     "@commitlint/config-angular": ^17.6.1
-    "@next/font": 13.3.2
+    "@next/font": 13.3.4
     "@sapphire/eslint-config": ^4.4.1
     "@sapphire/prettier-config": ^1.4.5
     "@sapphire/ts-config": 4.0.0
@@ -6894,13 +6887,13 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.59.1
     "@typescript-eslint/parser": ^5.59.1
     eslint: ^8.39.0
-    eslint-config-next: 13.3.2
+    eslint-config-next: 13.3.4
     eslint-config-prettier: ^8.8.0
     eslint-plugin-prettier: ^4.2.1
     husky: ^8.0.3
     is-ci: ^3.0.1
     lint-staged: ^13.2.2
-    next: ^13.3.2
+    next: ^13.3.4
     prettier: ^2.8.8
     react: 18.2.0
     react-dom: ^18.2.0
@@ -8026,7 +8019,7 @@ __metadata:
     winston-daily-rotate-file: ^4.7.1
     zip-lib: ^0.7.3
   peerDependencies:
-    next: ^13.3.2
+    next: ^13.3.4
   languageName: unknown
   linkType: soft
 
@@ -9256,8 +9249,8 @@ __metadata:
     typescript: ^5.0.4
     yup: ^1.1.1
   peerDependencies:
-    "@next/font": ^13.3.2
-    next: ^13.3.2
+    "@next/font": ^13.3.4
+    next: ^13.3.4
     react: ^18.2.0
     react-dom: ^18.2.0
   languageName: unknown

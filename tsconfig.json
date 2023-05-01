@@ -1,22 +1,11 @@
 {
-	"extends": "@sapphire/ts-config",
+	"extends": "@sapphire/ts-config/extra-strict-without-decorators",
 	"compilerOptions": {
-		"target": "es5",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"allowJs": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"noEmit": true,
-		"esModuleInterop": true,
-		"module": "esnext",
-		"moduleResolution": "node",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"jsx": "preserve",
-		"incremental": true,
-		"noUnusedParameters": false
+		"noUnusedParameters": false,
+		"useUnknownInCatchVariables": false,
+		"module": "ESNext",
+		"moduleResolution": "NodeNext"
 	},
-	"include": ["next-env.d.ts", "global.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules", "src/server"]
+	"exclude": ["node_modules"],
+	"include": ["./apps/**/*.ts", "./apps/**/*.tsx", "./packages/**/*.ts", "./packages/**/*.tsx"]
 }

@@ -1,6 +1,10 @@
 {
-	"extends": "../../tsconfig.base.json",
+	"extends": "@sapphire/ts-config/extra-strict-without-decorators",
 	"compilerOptions": {
+		"noUnusedParameters": false,
+		"useUnknownInCatchVariables": false,
+		"module": "ESNext",
+		"moduleResolution": "node",
 		"outDir": "dist",
 		"skipLibCheck": true,
 		"esModuleInterop": true
