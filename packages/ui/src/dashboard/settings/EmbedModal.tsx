@@ -3,7 +3,7 @@ import { Input } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
 import { useSwr } from "@paperplane/swr";
 import type { DashboardEmbedGetApi } from "@paperplane/utils";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, type FormikHelpers } from "formik";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";

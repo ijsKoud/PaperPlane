@@ -1,7 +1,7 @@
 import type { Response, Request } from "express";
 import Fuse from "fuse.js";
 import { Auth } from "../../lib/Auth.js";
-import { AdminUserSort, Middleware, RequestMethods } from "../../lib/types.js";
+import { AdminUserSort, type Middleware, type RequestMethods } from "../../lib/types.js";
 import { Utils } from "../../lib/utils.js";
 import type Server from "../../Server.js";
 

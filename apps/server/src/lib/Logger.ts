@@ -1,4 +1,4 @@
-import { Logger as IcicleLogger, LoggerOptions, LogLevel } from "@snowcrystals/icicle";
+import { Logger as IcicleLogger, type LoggerOptions, LogLevel } from "@snowcrystals/icicle";
 import "winston-daily-rotate-file";
 import winston from "winston";
 import { join } from "node:path";

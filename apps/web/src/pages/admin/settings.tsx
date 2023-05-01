@@ -7,10 +7,10 @@ import {
 	AdminSettingsForm,
 	BackupsModal,
 	InvitesModal,
-	SettingsForm
+	type SettingsForm
 } from "@paperplane/ui";
 import axios, { AxiosError } from "axios";
-import { getProtocol, Invite, parseToDay } from "@paperplane/utils";
+import { getProtocol, type Invite, parseToDay } from "@paperplane/utils";
 import type { FormikHelpers } from "formik";
 import { toast } from "react-toastify";
 import { useState } from "react";

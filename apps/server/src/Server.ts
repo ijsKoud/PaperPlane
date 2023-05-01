@@ -1,6 +1,6 @@
 import type { Server as HttpServer } from "node:http";
 import type { NextServer } from "next/dist/server/next.js";
-import express, { Express } from "express";
+import express, { type Express } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { join } from "node:path";
@@ -81,7 +81,7 @@ export default class Server {
 	public async run() {
 		process.env.INSECURE_REQUESTS = (this.dev || this.envConfig.insecureRequests) as any;
 
-		this.next = next.default({
+		this.next = next({
 			dev: this.dev,
 			quiet: !this.dev,
 			isNextDevCommand: true,

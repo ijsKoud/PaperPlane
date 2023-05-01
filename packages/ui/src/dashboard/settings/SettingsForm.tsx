@@ -1,7 +1,7 @@
 import { DangerButton, PrimaryButton, TertiaryButton, TransparentButton } from "@paperplane/buttons";
-import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
+import { Input, SelectMenu, type SelectOption } from "@paperplane/forms";
 import { useSwrWithUpdates } from "@paperplane/swr";
-import { DashboardSettingsGetApi, formatDate } from "@paperplane/utils";
+import { type DashboardSettingsGetApi, formatDate } from "@paperplane/utils";
 import { Form, Formik } from "formik";
 import type React from "react";
 import { useEffect, useState } from "react";

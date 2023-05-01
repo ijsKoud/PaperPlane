@@ -1,5 +1,5 @@
 import { PrimaryButton, TertiaryButton, TransparentButton } from "@paperplane/buttons";
-import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
+import { Input, SelectMenu, type SelectOption } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
 import { Form, Formik } from "formik";
 import type React from "react";

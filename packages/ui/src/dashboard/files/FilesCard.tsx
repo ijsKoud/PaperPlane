@@ -1,5 +1,5 @@
 import { TransparentButton } from "@paperplane/buttons";
-import { ApiFile, formatDate } from "@paperplane/utils";
+import { type ApiFile, formatDate } from "@paperplane/utils";
 import type React from "react";
 import { useState } from "react";
 import { FileEditModal } from "./EditModal";

@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@paperplane/buttons";
-import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
+import { Input, SelectMenu, type SelectOption } from "@paperplane/forms";
 import { useSwr } from "@paperplane/swr";
-import { SettingsGetApi, formatBytes, STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
+import { type SettingsGetApi, formatBytes, STORAGE_UNITS, TIME_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
 import axios from "axios";
 import { Form, Formik } from "formik";
 import ms from "ms";

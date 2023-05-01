@@ -1,15 +1,19 @@
 {
-	"extends": "../../tsconfig.base.json",
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"rootDir": "./src",
-		"outDir": "../dist",
-		"composite": true,
-		"preserveConstEnums": true,
-		"tsBuildInfoFile": "../dist/.tsbuildinfo",
-		"jsx": "react-jsx",
-		"lib": ["ES2015"],
+		"target": "ESNext",
 		"module": "ESNext",
-		"target": "es6"
+		"moduleResolution": "node",
+		"jsx": "preserve",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"incremental": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true
 	},
-	"include": ["src"]
+	"include": ["**/*.ts", "**/*.tsx"]
 }

@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { ConfirmModal, DashboardLayout, DashboardSettingsForm, EmbedModal, ResetAuthForm, ResetAuthModal, TokenModal } from "@paperplane/ui";
+import { ConfirmModal, DashboardLayout, DashboardSettingsForm, EmbedModal, type ResetAuthForm, ResetAuthModal, TokenModal } from "@paperplane/ui";
 import { toast } from "react-toastify";
-import { DashboardEmbedGetApi, generateToken, getProtocol } from "@paperplane/utils";
+import { type DashboardEmbedGetApi, generateToken, getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
 import { NextSeo } from "next-seo";
 import type { FormikHelpers } from "formik";

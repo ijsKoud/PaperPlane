@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@paperplane/buttons";
 import { Input } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, type FormikHelpers } from "formik";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";

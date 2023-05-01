@@ -1,10 +1,10 @@
 import { PrimaryButton } from "@paperplane/buttons";
-import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
+import { Input, SelectMenu, type SelectOption } from "@paperplane/forms";
 import { getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { Formik, Form, FormikHelpers } from "formik";
+import { Formik, Form, type FormikHelpers } from "formik";
 import * as yup from "yup";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";

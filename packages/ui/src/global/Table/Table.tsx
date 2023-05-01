@@ -1,5 +1,5 @@
 import type React from "react";
-import { TableHead, TableHeadProps } from "./TableHead";
+import { TableHead, type TableHeadProps } from "./TableHead";
 
 interface Props {
 	className: string;

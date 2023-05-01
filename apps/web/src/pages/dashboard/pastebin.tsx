@@ -3,7 +3,7 @@ import { CreatePastebinModal, DashboardDeleteBanner, DashboardLayout, PastebinDa
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
-import { BinApiRes, BinSort, getProtocol } from "@paperplane/utils";
+import { type BinApiRes, BinSort, getProtocol } from "@paperplane/utils";
 import { toast } from "react-toastify";
 import { NextSeo } from "next-seo";
 import type { AxiosError } from "axios";

@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { AuditLogToolbar, DashboardLayout, DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { AuditLogApi, DashboardStatsGetApi, formatDate, getProtocol } from "@paperplane/utils";
+import { type AuditLogApi, type DashboardStatsGetApi, formatDate, getProtocol } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import axios from "axios";
 import { NextSeo } from "next-seo";

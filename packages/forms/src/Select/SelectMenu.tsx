@@ -1,5 +1,5 @@
 import type React from "react";
-import ReactSelect, { Props } from "react-select";
+import ReactSelect, { type Props } from "react-select";
 import { getCleanProps } from "../utils";
 import { SelectInput, SelectControl, SelectOption, SelectDropdownIndicator, SelectSingleValue } from "./custom";
 import type { SelectOption as SelectOptionType } from "./types";

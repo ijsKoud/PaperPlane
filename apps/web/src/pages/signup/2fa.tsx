@@ -1,12 +1,12 @@
 import type { GetServerSideProps } from "next";
 import axios, { AxiosError } from "axios";
-import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
+import { Input, SelectMenu, type SelectOption } from "@paperplane/forms";
 import { PrimaryButton } from "@paperplane/buttons";
 import { useEffect, useState } from "react";
-import { getProtocol, SignUpGetApi } from "@paperplane/utils";
-import { BackUpCodesModal, TwoFAGetApi } from "@paperplane/ui";
+import { getProtocol, type SignUpGetApi } from "@paperplane/utils";
+import { BackUpCodesModal, type TwoFAGetApi } from "@paperplane/ui";
 import { object, string } from "yup";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, type FormikHelpers } from "formik";
 import { PulseLoader } from "react-spinners";
 import { useRouter } from "next/router";
 import { saveAs } from "file-saver";

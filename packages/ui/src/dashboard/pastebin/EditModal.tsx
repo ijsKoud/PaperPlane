@@ -1,5 +1,5 @@
 import { PrimaryButton, TertiaryButton, TransparentButton } from "@paperplane/buttons";
-import { Input, SelectMenu, SelectOption } from "@paperplane/forms";
+import { Input, SelectMenu, type SelectOption } from "@paperplane/forms";
 import { Modal } from "@paperplane/modal";
 import { Form, Formik } from "formik";
 import type React from "react";
@@ -176,7 +176,7 @@ export const EditPastebinModal: React.FC<Props> = ({ onSubmit, bin, ...props }) 
 												</SyntaxHighlighter>
 											)}
 											<p className="text-red text-left text-small font-normal">
-												{formik.errors.data && `* ${formik.errors.data}`}&#8203;
+												{formik.errors.data && `* ${formik.errors.data as string}`}&#8203;
 											</p>
 										</div>
 									</div>
