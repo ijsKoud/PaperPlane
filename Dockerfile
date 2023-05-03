@@ -39,8 +39,6 @@ RUN yarn install --immutable
 
 # Copy build files
 COPY --from=builder /paperplane/out/full/ .
-COPY tsconfig.base.json ./tsconfig.base.json
-COPY tsconfig.next.json ./tsconfig.next.json
 COPY tsconfig.json ./tsconfig.json
 COPY turbo.json turbo.json
 COPY tailwind.config.cjs ./tailwind.config.cjs
