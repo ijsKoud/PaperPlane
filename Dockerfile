@@ -65,7 +65,7 @@ RUN adduser --system --uid 1639 paperplane
 #   NEXT_TELEMETRY_DISABLED=1
 
 # Copy build data
-COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/web/next.config.js ./apps/web/next.config.js
+COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/web/next.config.mjs ./apps/web/next.config.mjs
 COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/web/package.json ./apps/web/package.json
 COPY --from=installer --chown=paperplane:paperplane /paperplane/apps/web/.next/ ./apps/web/.next
 COPY --chown=paperplane:paperplane apps/web/public/ ./apps/web/public
