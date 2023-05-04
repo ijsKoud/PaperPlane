@@ -1,3 +1,4 @@
+import Markdown from "@paperplane/markdown";
 import { getProtocol } from "@paperplane/utils";
 import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
@@ -39,9 +40,13 @@ const Pastebin: NextPage<Props> = ({ data, highlight, id }) => {
 	return (
 		<div className="w-screen min-h-screen">
 			<NextSeo title={`pastebin • ${id}`} />
-			<SyntaxHighlighter style={atomOneDark} language={highlight} showLineNumbers>
-				{data}
-			</SyntaxHighlighter>
+			{highlight === "markdown" ? (
+				<Markdown>{data}</Markdown>
+			) : (
+				<SyntaxHighlighter style={atomOneDark} language={highlight} showLineNumbers>
+					{data}
+				</SyntaxHighlighter>
+			)}
 		</div>
 	);
 };
