@@ -4,9 +4,8 @@ import axios from "axios";
 import type { GetServerSideProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import type { OpenGraph } from "next-seo/lib/types";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-const Markdown = dynamic(() => import("@paperplane/markdown"));
+import Markdown from "@paperplane/markdown";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id: _id } = context.params!;
