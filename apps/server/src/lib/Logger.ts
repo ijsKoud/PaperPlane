@@ -27,9 +27,12 @@ export class Logger extends IcicleLogger {
 
 	public override write(level: LogLevel, ...values: readonly unknown[]) {
 		super.write(level, ...values);
+		const styles = this.styles.get(level);
+		const content = this.parser.parse(values);
+
 		this.winston.log({
 			level: this.getLevel(level),
-			message: this.preprocess(values)
+			message: this.process(content, `[${LogLevel[level].toUpperCase()}]`, styles?.message)
 		});
 	}
 
