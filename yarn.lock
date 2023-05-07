@@ -1227,13 +1227,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snowcrystals/icicle@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@snowcrystals/icicle@npm:2.0.0"
+"@snowcrystals/icicle@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@snowcrystals/icicle@npm:2.0.1"
   dependencies:
     "@sapphire/timestamp": ^1.0.1
     colorette: ^2.0.20
-  checksum: 371eb0c2255040ee1ecfafb05faeb30655bccab8b787b75f03a7de7a5719017b3f8255819b3df208470892c3e47a80bcd1470e5e7e904bcbeea2e5c1a83654f1
+  checksum: ddf43a018fb0202a1d11076bee3397875a60b98df57aabe46ba6c57b36aeaa5502eb021f76222383c2b56d78b8ba8a2910bc452437f5dde9c4ec282191010995
   languageName: node
   linkType: hard
 
@@ -7977,7 +7977,7 @@ __metadata:
   dependencies:
     "@discordjs/collection": ^1.5.0
     "@prisma/client": ^4.13.0
-    "@snowcrystals/icicle": ^2.0.0
+    "@snowcrystals/icicle": ^2.0.1
     "@types/busboy": ^1.5.0
     "@types/cookie-parser": ^1.4.3
     "@types/cron": ^2.0.1
