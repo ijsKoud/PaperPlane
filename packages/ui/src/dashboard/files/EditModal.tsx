@@ -78,6 +78,7 @@ export const FileEditModal: React.FC<Props> = ({ isOpen, file, onClick, onSubmit
 											</p>
 										</div>
 										<div className="w-fit">
+											{/* @ts-expect-error it is a JSX component */}
 											<ReactSwitch
 												checkedIcon={false}
 												uncheckedIcon={false}
@@ -94,6 +95,7 @@ export const FileEditModal: React.FC<Props> = ({ isOpen, file, onClick, onSubmit
 									<h2 className="text-lg mb-2">Visibility</h2>
 									<div className="flex items-center gap-2 w-full">
 										<div className="w-fit">
+											{/* @ts-expect-error it is a JSX component */}
 											<ReactSwitch
 												checkedIcon={false}
 												uncheckedIcon={false}

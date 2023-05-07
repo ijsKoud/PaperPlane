@@ -11,10 +11,13 @@ import { SwrWrapper } from "@paperplane/swr";
 import { ToastContainer } from "react-toastify";
 import { DefaultSeo } from "next-seo";
 import Head from "next/head";
+import React from "react";
 
 const poppins = Poppins({ weight: ["300", "400", "500", "600", "700", "800", "900"], subsets: ["latin"], display: "swap" });
 
 const App = ({ Component, pageProps }: AppProps) => {
+	const AppComponent = Component as React.FC;
+
 	return (
 		<SwrWrapper>
 			<Head>
@@ -33,7 +36,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 			<DefaultSeo {...SEO} />
 			<ToastContainer position="top-right" theme="dark" bodyStyle={poppins.style} />
 			<main className={`bg-bg-dark min-h-screen min-w-full ${poppins.className}`}>
-				<Component {...pageProps} />
+				<AppComponent {...pageProps} />
 			</main>
 		</SwrWrapper>
 	);
