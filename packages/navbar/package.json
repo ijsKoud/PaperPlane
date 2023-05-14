@@ -23,7 +23,7 @@
 		"@paperplane/utils": "*",
 		"axios": "^1.4.0",
 		"cookies-next": "^2.1.1",
-		"framer-motion": "^10.12.8",
+		"framer-motion": "^10.12.9",
 		"react-spinners": "^0.13.8"
 	},
 	"devDependencies": {
