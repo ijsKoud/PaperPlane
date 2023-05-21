@@ -9,12 +9,12 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"peerDependencies": {
-		"next": "^13.4.1",
+		"next": "^13.4.3",
 		"react": "^18.2.0",
 		"react-dom": "18.2.0"
 	},
 	"dependencies": {
-		"@next/font": "13.4.1",
+		"@next/font": "13.4.3",
 		"@paperplane/buttons": "*",
 		"@paperplane/logo": "*",
 		"@paperplane/markdown": "*",
@@ -23,13 +23,13 @@
 		"@paperplane/utils": "*",
 		"axios": "^1.4.0",
 		"cookies-next": "^2.1.1",
-		"framer-motion": "^10.12.9",
+		"framer-motion": "^10.12.12",
 		"react-spinners": "^0.13.8"
 	},
 	"devDependencies": {
 		"@types/react": "^18.2.6",
 		"@types/react-dom": "^18.2.4",
-		"eslint": "8.40.0",
+		"eslint": "8.41.0",
 		"typescript": "^5.0.4"
 	}
 }
