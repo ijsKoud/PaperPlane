@@ -777,7 +777,7 @@ __metadata:
     eslint: 8.41.0
     typescript: ^5.0.4
   peerDependencies:
-    next: ^13.4.3
+    next: ^13.4.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -807,7 +807,7 @@ __metadata:
     eslint: 8.41.0
     typescript: ^5.0.4
   peerDependencies:
-    "@next/font": ^13.4.3
+    "@next/font": ^13.4.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -839,7 +839,7 @@ __metadata:
     framer-motion: ^10.12.12
     typescript: ^5.0.4
   peerDependencies:
-    next: ^13.4.3
+    next: ^13.4.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -865,7 +865,7 @@ __metadata:
     react-spinners: ^0.13.8
     typescript: ^5.0.4
   peerDependencies:
-    next: ^13.4.3
+    next: ^13.4.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -913,7 +913,7 @@ __metadata:
     typescript: ^5.0.4
     yup: ^1.1.1
   peerDependencies:
-    next: 13.4.3
+    next: 13.4.4
     react: ^18.2.0
     react-dom: 18.2.0
   languageName: unknown
@@ -7941,7 +7941,7 @@ __metadata:
     winston-daily-rotate-file: ^4.7.1
     zip-lib: ^0.7.3
   peerDependencies:
-    next: ^13.4.3
+    next: ^13.4.4
   languageName: unknown
   linkType: soft
 
@@ -9156,8 +9156,8 @@ __metadata:
     typescript: ^5.0.4
     yup: ^1.1.1
   peerDependencies:
-    "@next/font": ^13.4.3
-    next: ^13.4.3
+    "@next/font": ^13.4.4
+    next: ^13.4.4
     react: ^18.2.0
     react-dom: ^18.2.0
   languageName: unknown
