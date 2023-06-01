@@ -16,7 +16,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 	}
 
 	if (typeof backup === "object") {
-		res.status(500).send(backup);
+		res.status(500).json(backup);
 		return;
 	}
 
