@@ -18,8 +18,8 @@
 		"@paperplane/navbar": "*",
 		"@paperplane/utils": "*",
 		"axios": "^1.4.0",
-		"formik": "^2.2.9",
-		"framer-motion": "^10.12.12",
+		"formik": "^2.4.0",
+		"framer-motion": "^10.12.16",
 		"huge-uploader": "^1.0.6",
 		"ms": "^2.1.3",
 		"rc-progress": "^3.4.1",
@@ -29,7 +29,7 @@
 		"react-switch": "^7.0.0",
 		"react-syntax-highlighter": "^15.5.0",
 		"short-unique-id": "^4.4.4",
-		"yup": "^1.1.1"
+		"yup": "^1.2.0"
 	},
 	"devDependencies": {
 		"@types/react": "^18.2.7",
