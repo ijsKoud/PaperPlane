@@ -159,7 +159,7 @@ export default function SignUp({ domains, mode }: Props) {
 									}}
 									onChange={(opt) => {
 										setSelectedDomain((opt as SelectOption).value);
-										formik.setFieldValue("domain", (opt as SelectOption).value);
+										formik.setFieldValue("domain", (opt as SelectOption).value).catch(() => void 0);
 									}}
 									className="w-full"
 								/>
