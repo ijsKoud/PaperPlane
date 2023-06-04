@@ -899,7 +899,7 @@ __metadata:
     "@types/react-syntax-highlighter": ^15.5.7
     axios: ^1.4.0
     eslint: 8.41.0
-    formik: ^2.4.0
+    formik: ^2.4.1
     framer-motion: ^10.12.16
     huge-uploader: ^1.0.6
     ms: ^2.1.3
@@ -943,24 +943,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:^4.14.1":
-  version: 4.14.1
-  resolution: "@prisma/client@npm:4.14.1"
+"@prisma/client@npm:^4.15.0":
+  version: 4.15.0
+  resolution: "@prisma/client@npm:4.15.0"
   dependencies:
-    "@prisma/engines-version": 4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c
+    "@prisma/engines-version": 4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944
   peerDependencies:
     prisma: "*"
   peerDependenciesMeta:
     prisma:
       optional: true
-  checksum: 24d0696cfb714f50ef95eab87f260c06402b255eff529d3fbd6ae0752a42df8f63b18f5268d9b2c47261a7316299b16b6fc4079b725750eb951b4dde5ddb1d16
+  checksum: 875eb31e702e16a50188f4762d9689a930aeb4f18a158a0a5270feefc80dc9a30935890df65d98fc9c6655d5f4f65d9943997bb86a51dd904577e7d19c6a2a7c
   languageName: node
   linkType: hard
 
-"@prisma/engines-version@npm:4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c":
-  version: 4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c
-  resolution: "@prisma/engines-version@npm:4.14.0-67.d9a4c5988f480fa576d43970d5a23641aa77bc9c"
-  checksum: 0df2c9e7434ced708a202cb572e5cf433aae55332819700edb394b7d9c29742a6d2fd65abb778e80f9b1cc1f90daae5e331f4acd070bed395982856ff5ceccee
+"@prisma/engines-version@npm:4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944":
+  version: 4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944
+  resolution: "@prisma/engines-version@npm:4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944"
+  checksum: 6da6f076746aac2db043a9f15790f51c6d0e86139e1ebd83e6e046e799c0dbfa0d2df14cd7c70cc9583ce85b4bfc02e48fe1461077b79ed31ba83ad9440bb90f
   languageName: node
   linkType: hard
 
@@ -3072,10 +3072,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.3":
-  version: 16.0.3
-  resolution: "dotenv@npm:16.0.3"
-  checksum: afcf03f373d7a6d62c7e9afea6328e62851d627a4e73f2e12d0a8deae1cd375892004f3021883f8aec85932cd2834b091f568ced92b4774625b321db83b827f8
+"dotenv@npm:^16.1.3":
+  version: 16.1.3
+  resolution: "dotenv@npm:16.1.3"
+  checksum: 8f73bae720161cf365b679de162fe79a05f5b7a21d0d2b8bf9fb0601a2ed30f7e9dc49fa8b752d93206e4b7d427eccea2f383a1622cd5da4a1824f43bf8f780b
   languageName: node
   linkType: hard
 
@@ -3991,9 +3991,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"formik@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "formik@npm:2.4.0"
+"formik@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "formik@npm:2.4.1"
   dependencies:
     deepmerge: ^2.1.1
     hoist-non-react-statics: ^3.3.0
@@ -4004,7 +4004,7 @@ __metadata:
     tslib: ^1.10.0
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 54ada391af4e59f6439ac3492f66fbe562523de585b47b7169964d7f32b2ed03d8bfe485e7a14bd69ae5e76a77aa8cebd950a7a64822b77822a43b7801096ac2
+  checksum: c4238b81c7780b3772f2ef2a439f676822f5c4a944de45505fd15eaf8dd84051420c91ce2ccc72da047d89e2ab630a76c992719de643fe3f302fb4af948d4bbc
   languageName: node
   linkType: hard
 
@@ -7895,7 +7895,7 @@ __metadata:
   resolution: "server@workspace:apps/server"
   dependencies:
     "@discordjs/collection": ^1.5.1
-    "@prisma/client": ^4.14.1
+    "@prisma/client": ^4.15.0
     "@snowcrystals/icicle": ^2.0.2
     "@types/busboy": ^1.5.0
     "@types/cookie-parser": ^1.4.3
@@ -7917,7 +7917,7 @@ __metadata:
     colorette: ^2.0.20
     cookie-parser: ^1.4.6
     cron: ^2.3.1
-    dotenv: ^16.0.3
+    dotenv: ^16.1.3
     eslint: 8.41.0
     express: ^4.18.2
     express-rate-limit: ^6.7.0
@@ -9143,7 +9143,7 @@ __metadata:
     cors: ^2.8.5
     eslint: 8.41.0
     file-saver: ^2.0.5
-    formik: ^2.4.0
+    formik: ^2.4.1
     next-seo: ^6.0.0
     rc-progress: ^3.4.1
     react-spinners: ^0.13.8
