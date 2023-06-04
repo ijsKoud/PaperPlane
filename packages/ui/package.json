@@ -18,7 +18,7 @@
 		"@paperplane/navbar": "*",
 		"@paperplane/utils": "*",
 		"axios": "^1.4.0",
-		"formik": "^2.4.0",
+		"formik": "^2.4.1",
 		"framer-motion": "^10.12.16",
 		"huge-uploader": "^1.0.6",
 		"ms": "^2.1.3",
