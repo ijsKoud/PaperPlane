@@ -14,7 +14,7 @@
 		"react-dom": "18.2.0"
 	},
 	"dependencies": {
-		"@next/font": "13.4.5",
+		"@next/font": "13.4.6",
 		"@paperplane/buttons": "*",
 		"@paperplane/logo": "*",
 		"@paperplane/markdown": "*",
@@ -22,7 +22,7 @@
 		"@paperplane/swr": "*",
 		"@paperplane/utils": "*",
 		"axios": "^1.4.0",
-		"cookies-next": "^2.1.1",
+		"cookies-next": "^2.1.2",
 		"framer-motion": "^10.12.16",
 		"react-spinners": "^0.13.8"
 	},
