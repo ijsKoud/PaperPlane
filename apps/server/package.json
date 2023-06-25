@@ -11,7 +11,7 @@
 		"dev": "NODE_ENV=development nodemon ./dist"
 	},
 	"peerDependencies": {
-		"next": "^13.4.6"
+		"next": "^13.4.7"
 	},
 	"dependencies": {
 		"@discordjs/collection": "^1.5.1",
