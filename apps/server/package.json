@@ -15,7 +15,7 @@
 	},
 	"dependencies": {
 		"@discordjs/collection": "^1.5.1",
-		"@prisma/client": "^4.15.0",
+		"@prisma/client": "^4.16.1",
 		"@snowcrystals/icicle": "^2.0.4",
 		"axios": "^1.4.0",
 		"body-parser": "^1.20.2",
