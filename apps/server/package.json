@@ -57,7 +57,7 @@
 		"@types/pidusage": "^2.0.2",
 		"@types/ua-parser-js": "^0.7.36",
 		"eslint": "8.43.0",
-		"prisma": "^4.15.0",
+		"prisma": "^4.16.1",
 		"typescript": "^5.1.3"
 	}
 }
