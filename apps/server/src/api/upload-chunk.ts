@@ -1,4 +1,4 @@
-import type { Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { rm, stat, rename } from "node:fs/promises";
 import { join } from "node:path";
 import { Auth } from "../lib/Auth.js";
@@ -87,5 +87,10 @@ export default async function handler(server: Server, req: DashboardRequest, res
 	}
 }
 
+function timeoutMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
+	res.socket!.setTimeout(3.6e6);
+	next();
+}
+
 export const methods: RequestMethods[] = ["post"];
-export const middleware: Middleware[] = [Auth.userApiKeyMiddleware.bind(Auth)];
+export const middleware: Middleware[] = [timeoutMiddleware.bind(timeoutMiddleware), Auth.userApiKeyMiddleware.bind(Auth)];
