@@ -1,6 +1,6 @@
 <div align="center">
     <img src="apps/web/public/logo/text.png" width="500px" />
-    <h1></h1>
+    <h1>PaperPlane</h1>
   
   <p>An open-source customisable solution to storing files in the cloud. ✈️</p>
   
@@ -41,8 +41,6 @@ The following guide only shows you the Docker installation steps, for more detai
 docker pull ghcr.io/ijskoud/paperplane:latest
 docker run --name=paperplane -d -v ~/paperplane:/paperplane/data -p 3000:3000 ghcr.io/ijskoud/paperplane:latest
 ```
-
-
 
 ## Author
 
