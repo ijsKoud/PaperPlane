@@ -1,3 +1,6 @@
+[repo]
+name = ""
+
 [project]
 icon = "apps/web/public/logo/text.png"
 icon_width = "500px"
