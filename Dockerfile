@@ -47,6 +47,9 @@ COPY tailwind.config.cjs ./tailwind.config.cjs
 RUN yarn cmd:server prisma generate
 RUN yarn turbo run build
 
+RUN yarn pinst --disable
+RUN yarn workspaces focus --production --all
+
 FROM node:18-alpine as runner
 WORKDIR /paperplane
 
@@ -86,4 +89,4 @@ RUN chown -R paperplane:paperplane /paperplane/data
 USER paperplane
 
 # Start app
-cmd yarn start
+CMD yarn start
