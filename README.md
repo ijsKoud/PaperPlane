@@ -1,6 +1,6 @@
 <div align="center">
     <img src="apps/web/public/logo/text.png" width="500px" />
-    <h1>PaperPlane</h1>
+    <h1></h1>
   
   <p>An open-source customisable solution to storing files in the cloud. ✈️</p>
   
