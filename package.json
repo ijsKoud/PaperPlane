@@ -17,12 +17,12 @@
 		"postinstall": "is-ci || husky install"
 	},
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^5.60.1"
+		"@typescript-eslint/eslint-plugin": "^5.61.0"
 	},
 	"dependencies": {
-		"@next/font": "13.4.7",
-		"next": "^13.4.7",
-		"prettier": "^2.8.8",
+		"@next/font": "13.4.9",
+		"next": "^13.4.9",
+		"prettier": "^3.0.0",
 		"react": "18.2.0",
 		"react-dom": "^18.2.0"
 	},
@@ -50,5 +50,5 @@
 	"engines": {
 		"node": ">= v18.16.0"
 	},
-	"packageManager": "yarn@3.6.0"
+	"packageManager": "yarn@3.6.1"
 }
