@@ -14,7 +14,7 @@
 		"react-dom": "18.2.0"
 	},
 	"dependencies": {
-		"@next/font": "13.4.7",
+		"@next/font": "13.4.9",
 		"@paperplane/buttons": "*",
 		"@paperplane/logo": "*",
 		"@paperplane/markdown": "*",
