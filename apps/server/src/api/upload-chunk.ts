@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { rm, stat, rename } from "node:fs/promises";
 import { join } from "node:path";
 import { Auth } from "../lib/Auth.js";
-import { chunkUpload, Utils } from "../lib/index.js";
+import { ChunkUpload, Utils } from "../lib/index.js";
 import type { DashboardRequest, Middleware, RequestMethods } from "../lib/types.js";
 import type Server from "../Server.js";
 import { extension } from "mime-types";
@@ -21,12 +21,12 @@ export default async function handler(server: Server, req: DashboardRequest, res
 	const maxSize = getSize(req.locals.domain.maxStorage === 0 ? 0 : req.locals.domain.maxStorage - req.locals.domain.storage);
 
 	try {
-		const assembleChunks = await chunkUpload(
-			req,
-			join(req.locals.domain.filesPath, "..", "tmp"),
-			maxSize ?? Infinity,
-			req.locals.domain.server.config.parseStorage("10 MB")
-		);
+		const assembleChunks = await ChunkUpload(req, {
+			tmpDir: join(req.locals.domain.filesPath, "..", "tmp"),
+			maxChunkSize: req.locals.domain.server.config.parseStorage("10 MB"),
+			maxFileSize: maxSize ?? Infinity
+		});
+
 		if (!assembleChunks) {
 			res.sendStatus(204);
 			return;
