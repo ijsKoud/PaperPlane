@@ -38,7 +38,7 @@
 		"prisma": "^4.16.2",
 		"short-unique-id": "^4.4.4",
 		"ua-parser-js": "^1.0.35",
-		"winston": "^3.9.0",
+		"winston": "^3.10.0",
 		"winston-daily-rotate-file": "^4.7.1",
 		"zip-lib": "^0.7.3"
 	},
