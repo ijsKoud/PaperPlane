@@ -17,7 +17,7 @@
 		"postinstall": "is-ci || husky install"
 	},
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^5.62.0"
+		"@typescript-eslint/eslint-plugin": "^6.0.0"
 	},
 	"dependencies": {
 		"@next/font": "13.4.10",
@@ -33,8 +33,8 @@
 		"@sapphire/prettier-config": "^1.4.5",
 		"@sapphire/ts-config": "4.0.0",
 		"@types/node": "18.16.19",
-		"@typescript-eslint/eslint-plugin": "^5.61.0",
-		"@typescript-eslint/parser": "^5.61.0",
+		"@typescript-eslint/eslint-plugin": "^6.0.0",
+		"@typescript-eslint/parser": "^6.0.0",
 		"eslint": "^8.44.0",
 		"eslint-config-next": "13.4.9",
 		"eslint-config-prettier": "^8.8.0",
