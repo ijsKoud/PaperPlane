@@ -9,12 +9,12 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"peerDependencies": {
-		"next": "^13.4.9",
+		"next": "^13.4.10",
 		"react": "^18.2.0",
 		"react-dom": "18.2.0"
 	},
 	"dependencies": {
-		"@next/font": "13.4.9",
+		"@next/font": "13.4.10",
 		"@paperplane/buttons": "*",
 		"@paperplane/logo": "*",
 		"@paperplane/markdown": "*",
@@ -23,7 +23,7 @@
 		"@paperplane/utils": "*",
 		"axios": "^1.4.0",
 		"cookies-next": "^2.1.2",
-		"framer-motion": "^10.12.18",
+		"framer-motion": "^10.12.21",
 		"react-spinners": "^0.13.8"
 	},
 	"devDependencies": {
