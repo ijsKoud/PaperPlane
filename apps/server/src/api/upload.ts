@@ -1,5 +1,4 @@
 import type { NextFunction, Response } from "express";
-import { extension } from "mime-types";
 import multer, { diskStorage } from "multer";
 import { Auth } from "../lib/Auth.js";
 import type { DashboardRequest, Middleware, RequestMethods } from "../lib/types.js";
@@ -79,7 +78,9 @@ const getSize = (size: number): number | undefined => {
 };
 
 const multerMiddleware = (server: Server, req: any, res: Response, next: NextFunction) => {
-	const getExtension = (file: Express.Multer.File) => extension(file.mimetype) || file.originalname.split(".").filter(Boolean).slice(1).join(".");
+	const getExtension = (file: Express.Multer.File) =>
+		Utils.getExtension(file.mimetype) || file.originalname.split(".").filter(Boolean).slice(1).join(".");
+
 	const limits: multer.Options["limits"] = {
 		fileSize: getSize(req.locals.domain.uploadSize),
 		fieldSize: getSize(req.locals.domain.maxStorage === 0 ? 0 : req.locals.domain.maxStorage - req.locals.domain.storage)

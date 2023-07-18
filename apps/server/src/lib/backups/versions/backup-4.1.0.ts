@@ -5,10 +5,17 @@ import { join } from "node:path";
 import type Server from "../../../Server.js";
 import { BackupUtils } from "../BackupUtils.js";
 import type { iBackupV410 } from "../types.js";
-import { extension } from "mime-types";
+import { Utils } from "../../utils.js";
 
 export class BackupV410 {
-	public constructor(public server: Server, public dataDir: string) {}
+	public server: Server;
+
+	public dataDir: string;
+
+	public constructor(server: Server, dataDir: string) {
+		this.server = server;
+		this.dataDir = dataDir;
+	}
 
 	public async import(dir: string) {
 		const files = await readdir(dir);
@@ -299,7 +306,7 @@ export class BackupV410 {
 				yield "INVALID_SIZE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.mimeType) || typeof extension(file.mimeType) !== "boolean") {
+			if (!BackupUtils.typeofString(file.mimeType) || !Utils.getExtension(file.mimeType)) {
 				yield "INVALID_MIME_TYPE";
 				continue;
 			}

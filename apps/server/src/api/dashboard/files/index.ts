@@ -48,7 +48,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		size: file.size,
 		views: file.views,
 		visible: file.visible,
-		ext: extension(file.mimeType || lookup(file.path) || "") || "",
+		ext: Utils.getExtension(file.mimeType || lookup(file.path) || "") || "",
 		url: `${Utils.getProtocol()}${req.locals.domain}/files/${file.id}.${file.path.split(".").filter(Boolean).slice(1).join(".")}`
 	}));
 

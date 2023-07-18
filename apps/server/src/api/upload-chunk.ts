@@ -5,7 +5,6 @@ import { Auth } from "../lib/Auth.js";
 import { ChunkUpload, Utils } from "../lib/index.js";
 import type { DashboardRequest, Middleware, RequestMethods } from "../lib/types.js";
 import type Server from "../Server.js";
-import { extension } from "mime-types";
 
 const getSize = (size: number): number | undefined => {
 	if (size < 0) return 0;
@@ -40,7 +39,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		}
 
 		const stats = await stat(file.filePath);
-		const ext = extension(file.postParams.type);
+		const ext = Utils.getExtension(file.postParams.type);
 		if (!ext) {
 			res.status(400).send("Missing file type in postParams");
 			await rm(file.filePath).catch(() => void 0);
