@@ -625,12 +625,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:13.4.9":
-  version: 13.4.9
-  resolution: "@next/eslint-plugin-next@npm:13.4.9"
+"@next/eslint-plugin-next@npm:13.4.10":
+  version: 13.4.10
+  resolution: "@next/eslint-plugin-next@npm:13.4.10"
   dependencies:
     glob: 7.1.7
-  checksum: d57f1246fac54173c47a065404ba7237cfd6618648db4effbcdb30b5578b99edb3a2593df13ca617aa63c40e5e1336551089c506b2168a69a6cf8d5d7d045c0b
+  checksum: f14b99eb5d33b6ede9666ffafb596ee6be52157fc87b59d10d94e44b1e9836099ad450a67558c2aecf09c84b55f65a33c9254ab72df33f55f7cc9f4abee7b38c
   languageName: node
   linkType: hard
 
@@ -755,9 +755,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/buttons@workspace:packages/buttons"
   dependencies:
-    "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
-    eslint: 8.44.0
+    "@types/react": ^18.2.15
+    "@types/react-dom": ^18.2.7
+    eslint: 8.45.0
     typescript: ^5.1.6
   peerDependencies:
     next: ^13.4.10
@@ -770,9 +770,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/forms@workspace:packages/forms"
   dependencies:
-    "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
-    eslint: 8.44.0
+    "@types/react": ^18.2.15
+    "@types/react-dom": ^18.2.7
+    eslint: 8.45.0
     react-select: ^5.7.4
     typescript: ^5.1.6
   peerDependencies:
@@ -785,9 +785,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/logo@workspace:packages/logo"
   dependencies:
-    "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
-    eslint: 8.44.0
+    "@types/react": ^18.2.15
+    "@types/react-dom": ^18.2.7
+    eslint: 8.45.0
     typescript: ^5.1.6
   peerDependencies:
     "@next/font": ^13.4.10
@@ -800,9 +800,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/markdown@workspace:packages/markdown"
   dependencies:
-    "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
-    eslint: 8.44.0
+    "@types/react": ^18.2.15
+    "@types/react-dom": ^18.2.7
+    eslint: 8.45.0
     react-markdown: ^8.0.7
     remark-gfm: ^3.0.1
     typescript: ^5.1.6
@@ -816,9 +816,9 @@ __metadata:
   resolution: "@paperplane/modal@workspace:packages/modal"
   dependencies:
     "@paperplane/buttons": "*"
-    "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
-    eslint: 8.44.0
+    "@types/react": ^18.2.15
+    "@types/react-dom": ^18.2.7
+    eslint: 8.45.0
     framer-motion: ^10.12.21
     typescript: ^5.1.6
   peerDependencies:
@@ -839,11 +839,11 @@ __metadata:
     "@paperplane/modal": "*"
     "@paperplane/swr": "*"
     "@paperplane/utils": "*"
-    "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
+    "@types/react": ^18.2.15
+    "@types/react-dom": ^18.2.7
     axios: ^1.4.0
     cookies-next: ^2.1.2
-    eslint: 8.44.0
+    eslint: 8.45.0
     framer-motion: ^10.12.21
     react-spinners: ^0.13.8
     typescript: ^5.1.6
@@ -858,10 +858,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@paperplane/swr@workspace:packages/swr"
   dependencies:
-    "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
+    "@types/react": ^18.2.15
+    "@types/react-dom": ^18.2.7
     axios: ^1.4.0
-    eslint: 8.44.0
+    eslint: 8.45.0
     swr: ^2.2.0
     typescript: ^5.1.6
   peerDependencies:
@@ -876,12 +876,12 @@ __metadata:
     "@paperplane/forms": "*"
     "@paperplane/navbar": "*"
     "@paperplane/utils": "*"
-    "@types/react": ^18.2.14
+    "@types/react": ^18.2.15
     "@types/react-color": ^3.0.6
-    "@types/react-dom": ^18.2.6
+    "@types/react-dom": ^18.2.7
     "@types/react-syntax-highlighter": ^15.5.7
     axios: ^1.4.0
-    eslint: 8.44.0
+    eslint: 8.45.0
     formik: ^2.4.2
     framer-motion: ^10.12.21
     huge-uploader: ^1.0.6
@@ -907,7 +907,7 @@ __metadata:
   resolution: "@paperplane/utils@workspace:packages/utils"
   dependencies:
     "@sapphire/timestamp": ^1.0.1
-    eslint: 8.44.0
+    eslint: 8.45.0
     typescript: ^5.1.6
   languageName: unknown
   linkType: soft
@@ -1356,12 +1356,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.6":
-  version: 18.2.6
-  resolution: "@types/react-dom@npm:18.2.6"
+"@types/react-dom@npm:^18.2.7":
+  version: 18.2.7
+  resolution: "@types/react-dom@npm:18.2.7"
   dependencies:
     "@types/react": "*"
-  checksum: b56e42efab121a3a8013d2eb8c1688e6028a25ea6d33c4362d2846f0af3760b164b4d7c34846614024cfb8956cca70dd1743487f152e32ff89a00fe6fbd2be54
+  checksum: e02ea908289a7ad26053308248d2b87f6aeafd73d0e2de2a3d435947bcea0422599016ffd1c3e38ff36c42f5e1c87c7417f05b0a157e48649e4a02f21727d54f
   languageName: node
   linkType: hard
 
@@ -1394,14 +1394,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.14":
-  version: 18.2.14
-  resolution: "@types/react@npm:18.2.14"
+"@types/react@npm:^18.2.15":
+  version: 18.2.15
+  resolution: "@types/react@npm:18.2.15"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: a6a5e8cc78f486b9020d1ad009aa6c56943c68c7c6376e0f8399e9cbcd950b7b8f5d73f00200f5379f5e58d31d57d8aed24357f301d8e86108cd438ce6c8b3dd
+  checksum: 36989f638201bfe2f4110b06c119180f6df9c0e13d7060481e82e7a745f81745a01ae543c478a25b61e0767cb52e82da2ad5b0dedacabf99339e523d06176705
   languageName: node
   linkType: hard
 
@@ -1524,6 +1524,23 @@ __metadata:
     typescript:
       optional: true
   checksum: 2422bca03ecc6830700aaa739ec46b8e9ab6c0a47a67f140dc6b62a42a8b98997e73bce52c6a010b8a9b461211c46ba865d5b7f680a7823cf5c245d3b61f7fd5
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/parser@npm:^5.62.0":
+  version: 5.62.0
+  resolution: "@typescript-eslint/parser@npm:5.62.0"
+  dependencies:
+    "@typescript-eslint/scope-manager": 5.62.0
+    "@typescript-eslint/types": 5.62.0
+    "@typescript-eslint/typescript-estree": 5.62.0
+    debug: ^4.3.4
+  peerDependencies:
+    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: d168f4c7f21a7a63f47002e2d319bcbb6173597af5c60c1cf2de046b46c76b4930a093619e69faf2d30214c29ab27b54dcf1efc7046a6a6bd6f37f59a990e752
   languageName: node
   linkType: hard
 
@@ -3272,11 +3289,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:13.4.9":
-  version: 13.4.9
-  resolution: "eslint-config-next@npm:13.4.9"
+"eslint-config-next@npm:13.4.10":
+  version: 13.4.10
+  resolution: "eslint-config-next@npm:13.4.10"
   dependencies:
-    "@next/eslint-plugin-next": 13.4.9
+    "@next/eslint-plugin-next": 13.4.10
     "@rushstack/eslint-patch": ^1.1.3
     "@typescript-eslint/parser": ^5.42.0
     eslint-import-resolver-node: ^0.3.6
@@ -3291,7 +3308,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 83d990f3529f84dda9e54ce8cef64802490850f47d63b51176695a4f327a6b0e0a0847e1af4f11e00e662db8103af197c37d30b878cfe0593477ebc0b43d2b10
+  checksum: d555e077e5045f045e5bdab58429b2245993a0e28d3030209766558a6d32ae165496030cafbab8e6aaf714947d895ee30d1ecdb49263abdb23b6889a333ea714
   languageName: node
   linkType: hard
 
@@ -3501,7 +3518,54 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.44.0, eslint@npm:^8.44.0":
+"eslint@npm:8.45.0, eslint@npm:^8.45.0":
+  version: 8.45.0
+  resolution: "eslint@npm:8.45.0"
+  dependencies:
+    "@eslint-community/eslint-utils": ^4.2.0
+    "@eslint-community/regexpp": ^4.4.0
+    "@eslint/eslintrc": ^2.1.0
+    "@eslint/js": 8.44.0
+    "@humanwhocodes/config-array": ^0.11.10
+    "@humanwhocodes/module-importer": ^1.0.1
+    "@nodelib/fs.walk": ^1.2.8
+    ajv: ^6.10.0
+    chalk: ^4.0.0
+    cross-spawn: ^7.0.2
+    debug: ^4.3.2
+    doctrine: ^3.0.0
+    escape-string-regexp: ^4.0.0
+    eslint-scope: ^7.2.0
+    eslint-visitor-keys: ^3.4.1
+    espree: ^9.6.0
+    esquery: ^1.4.2
+    esutils: ^2.0.2
+    fast-deep-equal: ^3.1.3
+    file-entry-cache: ^6.0.1
+    find-up: ^5.0.0
+    glob-parent: ^6.0.2
+    globals: ^13.19.0
+    graphemer: ^1.4.0
+    ignore: ^5.2.0
+    imurmurhash: ^0.1.4
+    is-glob: ^4.0.0
+    is-path-inside: ^3.0.3
+    js-yaml: ^4.1.0
+    json-stable-stringify-without-jsonify: ^1.0.1
+    levn: ^0.4.1
+    lodash.merge: ^4.6.2
+    minimatch: ^3.1.2
+    natural-compare: ^1.4.0
+    optionator: ^0.9.3
+    strip-ansi: ^6.0.1
+    text-table: ^0.2.0
+  bin:
+    eslint: bin/eslint.js
+  checksum: 3e6dcce5cc43c5e301662db88ee26d1d188b22c177b9f104d7eefd1191236980bd953b3670fe2fac287114b26d7c5420ab48407d7ea1c3a446d6313c000009da
+  languageName: node
+  linkType: hard
+
+"eslint@npm:^8.44.0":
   version: 8.44.0
   resolution: "eslint@npm:8.44.0"
   dependencies:
@@ -6750,10 +6814,10 @@ __metadata:
     "@sapphire/prettier-config": ^1.4.5
     "@sapphire/ts-config": 4.0.0
     "@types/node": 18.16.19
-    "@typescript-eslint/eslint-plugin": ^5.61.0
-    "@typescript-eslint/parser": ^5.61.0
-    eslint: ^8.44.0
-    eslint-config-next: 13.4.9
+    "@typescript-eslint/eslint-plugin": ^5.62.0
+    "@typescript-eslint/parser": ^5.62.0
+    eslint: ^8.45.0
+    eslint-config-next: 13.4.10
     eslint-config-prettier: ^8.8.0
     eslint-plugin-prettier: ^5.0.0
     husky: ^8.0.3
@@ -6764,7 +6828,7 @@ __metadata:
     prettier: ^3.0.0
     react: 18.2.0
     react-dom: ^18.2.0
-    tailwindcss: ^3.3.2
+    tailwindcss: ^3.3.3
     turbo: ^1.10.7
     typescript: 5.1.6
   languageName: unknown
@@ -6986,7 +7050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-value-parser@npm:^4.0.0, postcss-value-parser@npm:^4.2.0":
+"postcss-value-parser@npm:^4.0.0":
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: 819ffab0c9d51cf0acbabf8996dffbfafbafa57afc0e4c98db88b67f2094cb44488758f06e5da95d7036f19556a4a732525e84289a425f4f6fd8e412a9d7442f
@@ -7872,7 +7936,7 @@ __metadata:
     cookie-parser: ^1.4.6
     cron: ^2.3.1
     dotenv: ^16.3.1
-    eslint: 8.44.0
+    eslint: 8.45.0
     express: ^4.18.2
     express-rate-limit: ^6.7.1
     fuse.js: ^6.6.2
@@ -8394,9 +8458,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.3.2":
-  version: 3.3.2
-  resolution: "tailwindcss@npm:3.3.2"
+"tailwindcss@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "tailwindcss@npm:3.3.3"
   dependencies:
     "@alloc/quick-lru": ^5.2.0
     arg: ^5.0.2
@@ -8418,13 +8482,12 @@ __metadata:
     postcss-load-config: ^4.0.1
     postcss-nested: ^6.0.1
     postcss-selector-parser: ^6.0.11
-    postcss-value-parser: ^4.2.0
     resolve: ^1.22.2
     sucrase: ^3.32.0
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: 4897c70e671c885e151f57434d87ccb806f468a11900f028245b351ffbca5245ff0c10ca5dbb6eb4c7c4df3de8a15a05fe08c2aea4b152cb07bee9bb1d8a14a8
+  checksum: 0195c7a3ebb0de5e391d2a883d777c78a4749f0c532d204ee8aea9129f2ed8e701d8c0c276aa5f7338d07176a3c2a7682c1d0ab9c8a6c2abe6d9325c2954eb50
   languageName: node
   linkType: hard
 
@@ -9127,12 +9190,12 @@ __metadata:
     "@types/cors": ^2.8.13
     "@types/file-saver": ^2.0.5
     "@types/node": ^18.16.19
-    "@types/react": ^18.2.14
-    "@types/react-dom": ^18.2.6
+    "@types/react": ^18.2.15
+    "@types/react-dom": ^18.2.7
     "@types/react-syntax-highlighter": ^15.5.7
     axios: ^1.4.0
     cors: ^2.8.5
-    eslint: 8.44.0
+    eslint: 8.45.0
     file-saver: ^2.0.5
     formik: ^2.4.2
     next-seo: ^6.1.0
@@ -9140,7 +9203,7 @@ __metadata:
     react-spinners: ^0.13.8
     react-syntax-highlighter: ^15.5.0
     react-toastify: ^9.1.3
-    tailwindcss: ^3.3.2
+    tailwindcss: ^3.3.3
     typescript: ^5.1.6
     yup: ^1.2.0
   peerDependencies:
