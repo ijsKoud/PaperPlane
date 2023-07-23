@@ -20,8 +20,8 @@
 		"@typescript-eslint/eslint-plugin": "^5.62.0"
 	},
 	"dependencies": {
-		"@next/font": "13.4.10",
-		"next": "^13.4.10",
+		"@next/font": "13.4.12",
+		"next": "^13.4.12",
 		"prettier": "^3.0.0",
 		"react": "18.2.0",
 		"react-dom": "^18.2.0"
