@@ -819,7 +819,7 @@ __metadata:
     "@types/react": ^18.2.15
     "@types/react-dom": ^18.2.7
     eslint: 8.45.0
-    framer-motion: ^10.13.0
+    framer-motion: ^10.15.0
     typescript: ^5.1.6
   peerDependencies:
     next: ^13.4.12
@@ -844,7 +844,7 @@ __metadata:
     axios: ^1.4.0
     cookies-next: ^2.1.2
     eslint: 8.45.0
-    framer-motion: ^10.13.0
+    framer-motion: ^10.15.0
     react-spinners: ^0.13.8
     typescript: ^5.1.6
   peerDependencies:
@@ -883,7 +883,7 @@ __metadata:
     axios: ^1.4.0
     eslint: 8.45.0
     formik: ^2.4.2
-    framer-motion: ^10.13.0
+    framer-motion: ^10.15.0
     huge-uploader: ^1.0.6
     ms: ^2.1.3
     rc-progress: ^3.4.2
@@ -2793,12 +2793,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "cron@npm:2.3.1"
+"cron@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "cron@npm:2.4.0"
   dependencies:
     luxon: ^3.2.1
-  checksum: ac27c257cb8dba4b51978b4767119fc79bfc0dfa35ef0be2533bc4142ae006130515236e2102d04ee3ce44bffc2a4e37a3bee18a2152bbb303bf5ff944e25204
+  checksum: e1dfc2d2a8cfdee0c17daac791074d904b8d7ecdcd3cf9ca969f8efb00371113d1eb69d60fdebb9e94ac5b3bb3e904a7e687a2fcd276ffdb1f0381e8b6df26bd
   languageName: node
   linkType: hard
 
@@ -3721,12 +3721,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:^6.8.0":
-  version: 6.8.0
-  resolution: "express-rate-limit@npm:6.8.0"
+"express-rate-limit@npm:^6.8.1":
+  version: 6.8.1
+  resolution: "express-rate-limit@npm:6.8.1"
   peerDependencies:
     express: ^4 || ^5
-  checksum: 57b92d9bbe90a98fe9326b8f3d81081714e6ecef80c082ab354aba4ed7e52472618e97800f3e449f3db5ba4ac79f5fa2034e4a3ce921bdb7ee3fc0cf32e34a1d
+  checksum: 50b928b21d3a6e4fb6029e4c597ad3a90c326fe2b3f2e1810cb7ee6a44f25bc268c3444f13b79b88e70e932ac5c8fadeef85acddaf7bd5ff22f9799de5e1056a
   languageName: node
   linkType: hard
 
@@ -4021,9 +4021,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^10.13.0":
-  version: 10.13.0
-  resolution: "framer-motion@npm:10.13.0"
+"framer-motion@npm:^10.15.0":
+  version: 10.15.0
+  resolution: "framer-motion@npm:10.15.0"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     tslib: ^2.4.0
@@ -4038,7 +4038,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: b84b78b6994bd77814a3fa0dfb4f266b74221369d9e82e350f8c8b2ec952d683597a373fe49609645631af020de42a6ec041bac60a022e396ff0be70c4233d87
+  checksum: 29f9d4368d7ed8f14e4f4a1979d2071b5745a1575bcf96120f3a4c2ac400a7bec8755139f9439ab19e0fc1225568af1270a88443e75d91bfbe71e21681ce5a88
   languageName: node
   linkType: hard
 
@@ -7934,11 +7934,11 @@ __metadata:
     busboy: ^1.6.0
     colorette: ^2.0.20
     cookie-parser: ^1.4.6
-    cron: ^2.3.1
+    cron: ^2.4.0
     dotenv: ^16.3.1
     eslint: 8.45.0
     express: ^4.18.2
-    express-rate-limit: ^6.8.0
+    express-rate-limit: ^6.8.1
     fuse.js: ^6.6.2
     jsonwebtoken: ^9.0.1
     lodash: ^4.17.21
