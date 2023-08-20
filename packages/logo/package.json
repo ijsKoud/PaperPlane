@@ -9,7 +9,7 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"peerDependencies": {
-		"@next/font": "^13.4.13",
+		"@next/font": "^13.4.19",
 		"react": "^18.2.0",
 		"react-dom": "18.2.0"
 	},
