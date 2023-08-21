@@ -41,7 +41,6 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			await req.locals.domain.update({ embedTitle: data.title, embedDescription: data.description, embedColor: data.color });
 			req.locals.domain.auditlogs.register("Embed Update", "N/A");
 			res.sendStatus(204);
-			return;
 		} catch (err) {
 			server.logger.fatal(`[EMBED:POST]: Fatal error while updating a PaperPlane account `, err);
 			res.status(500).send({ message: "Internal server error occured, please try again later." });

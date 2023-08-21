@@ -55,7 +55,10 @@ export class Domain {
 	private visitTimeout: NodeJS.Timeout | undefined;
 	private readTimeout: NodeJS.Timeout | undefined;
 
-	public constructor(public server: Server, data: iDomain) {
+	public constructor(
+		public server: Server,
+		data: iDomain
+	) {
 		this._parse(data);
 		this.auditlogs = new AuditLog(server, this.domain, this.auditlogDuration);
 	}
