@@ -26,16 +26,16 @@
 		"react-dom": "^18.2.0"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^17.6.6",
-		"@commitlint/config-angular": "^17.6.6",
+		"@commitlint/cli": "^17.6.7",
+		"@commitlint/config-angular": "^17.6.7",
 		"@sapphire/eslint-config": "^5.0.1",
-		"@sapphire/ts-config": "4.0.0",
+		"@sapphire/ts-config": "4.0.1",
 		"@snowcrystals/prettier-config": "^1.0.0",
-		"@types/node": "18.16.19",
+		"@types/node": "18.17.0",
 		"@typescript-eslint/eslint-plugin": "^6.4.0",
 		"@typescript-eslint/parser": "^6.4.0",
 		"eslint": "^8.47.0",
-		"eslint-config-next": "13.4.10",
+		"eslint-config-next": "13.4.12",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-prettier": "^5.0.0",
 		"husky": "^8.0.3",
@@ -44,7 +44,7 @@
 		"pinst": "^3.0.0",
 		"prettier": "^3.0.2",
 		"tailwindcss": "^3.3.3",
-		"turbo": "^1.10.7",
+		"turbo": "^1.10.9",
 		"typescript": "5.1.6"
 	},
 	"engines": {
