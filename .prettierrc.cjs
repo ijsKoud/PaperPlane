@@ -1,5 +1,2 @@
-const config = require("@sapphire/prettier-config");
-config.singleQuote = false;
-config.endOfLine = "auto";
-
+const config = require("@snowcrystals/prettier-config");
 module.exports = config;
