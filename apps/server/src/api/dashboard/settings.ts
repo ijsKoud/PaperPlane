@@ -44,7 +44,6 @@ export default async function handler(server: Server, req: DashboardRequest, res
 				`Length: ${data.nameLength}, strategy: ${data.nameStrategy}, embedEnabled: ${data.embedEnabled}`
 			);
 			res.sendStatus(204);
-			return;
 		} catch (err) {
 			server.logger.fatal(`[SETTINGS:POST]: Fatal error while updating a PaperPlane account `, err);
 			res.status(500).send({ message: "Internal server error occured, please try again later." });

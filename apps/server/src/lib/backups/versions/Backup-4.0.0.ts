@@ -7,7 +7,10 @@ import { BackupUtils } from "../BackupUtils.js";
 import type { iBackupV400 } from "../types.js";
 
 export class BackupV400 {
-	public constructor(public server: Server, public dataDir: string) {}
+	public constructor(
+		public server: Server,
+		public dataDir: string
+	) {}
 
 	public async import(dir: string) {
 		const files = await readdir(dir);

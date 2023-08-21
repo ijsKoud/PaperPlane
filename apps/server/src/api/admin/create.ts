@@ -129,7 +129,6 @@ export default async function handler(server: Server, req: Request, res: Respons
 
 			await server.domains.delete(data.domains);
 			res.sendStatus(204);
-			return;
 		} catch (err) {
 			server.logger.fatal(`[CREATE:POST]: Fatal error while creating a new PaperPlane account `, err);
 			res.status(500).send({ message: "Internal server error occured, please try again later." });
