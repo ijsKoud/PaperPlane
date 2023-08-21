@@ -13,7 +13,11 @@ export class AuditLog {
 
 	private cron!: CronJob;
 
-	public constructor(public server: Server, public user: string, maxAge?: number) {
+	public constructor(
+		public server: Server,
+		public user: string,
+		maxAge?: number
+	) {
 		if (user === "admin") this.maxAge = this.server.envConfig.auditLogDuration;
 		else this.maxAge = maxAge ?? 0;
 	}

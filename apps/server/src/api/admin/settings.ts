@@ -54,7 +54,6 @@ export default async function handler(server: Server, req: Request, res: Respons
 			if (server.envConfig.authMode !== data.authMode) await server.domains.resetAuth();
 			server.adminAuditLogs.register("Default Settings Update", "N/A");
 			res.sendStatus(204);
-			return;
 		} catch (err) {
 			server.logger.fatal(`[CREATE:POST]: Fatal error while creating a new PaperPlane account `, err);
 			res.status(500).send({ message: "Internal server error occured, please try again later." });

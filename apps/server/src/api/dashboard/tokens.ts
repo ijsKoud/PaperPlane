@@ -45,7 +45,6 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			await req.locals.domain.deleteTokens(filtered);
 			req.locals.domain.auditlogs.register("Token Delted", `Tokens: ${filtered.join(",")}`);
 			res.sendStatus(204);
-			return;
 		} catch (err) {
 			server.logger.fatal(`[TOKENS:DELETE]: Fatal error while updating a PaperPlane account `, err);
 			res.status(500).send({ message: "Internal server error occured, please try again later." });

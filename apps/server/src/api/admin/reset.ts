@@ -7,7 +7,6 @@ export default async function handler(server: Server, req: Request, res: Respons
 	try {
 		await server.config.resetEncryptionKey();
 		res.sendStatus(204);
-		return;
 	} catch (err) {
 		server.logger.fatal(`[RESET:POST]: Fatal error while resetting the encryption key`, err);
 		res.status(500).send({ message: "Internal server error occured, please try again later." });
