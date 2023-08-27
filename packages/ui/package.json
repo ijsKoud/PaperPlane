@@ -32,11 +32,11 @@
 		"yup": "^1.2.0"
 	},
 	"devDependencies": {
-		"@types/react": "^18.2.20",
+		"@types/react": "^18.2.21",
 		"@types/react-color": "^3.0.6",
 		"@types/react-dom": "^18.2.7",
 		"@types/react-syntax-highlighter": "^15.5.7",
-		"eslint": "8.47.0",
-		"typescript": "^5.1.6"
+		"eslint": "8.48.0",
+		"typescript": "^5.2.2"
 	}
 }
