@@ -8,8 +8,8 @@
 		"lint": "TIMING=1 eslint"
 	},
 	"devDependencies": {
-		"eslint": "8.47.0",
-		"typescript": "^5.1.6"
+		"eslint": "8.48.0",
+		"typescript": "^5.2.2"
 	},
 	"dependencies": {
 		"@sapphire/timestamp": "^1.0.1"
