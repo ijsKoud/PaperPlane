@@ -4,7 +4,7 @@ import { Input, SelectMenu, type SelectOption } from "@paperplane/forms";
 import { PrimaryButton } from "@paperplane/buttons";
 import { useEffect, useState } from "react";
 import { getProtocol, type SignUpGetApi } from "@paperplane/utils";
-import { BackUpCodesModal, type TwoFAGetApi } from "@paperplane/ui";
+import { BackUpCodesModal, type TwoFAGetApi } from "@paperplane/componentsmponents";
 import { object, string } from "yup";
 import { Form, Formik, type FormikHelpers } from "formik";
 import { PulseLoader } from "react-spinners";

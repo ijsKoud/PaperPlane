@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { CreatePastebinModal, DashboardDeleteBanner, DashboardLayout, PastebinDashboardToolbar, PastebinsTable } from "@paperplane/ui";
+import { CreatePastebinModal, DashboardDeleteBanner, DashboardLayout, PastebinDashboardToolbar, PastebinsTable } from "@paperplane/components";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";

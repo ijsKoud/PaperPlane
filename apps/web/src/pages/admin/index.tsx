@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AdminLayout, AdminStatistics, AdminUsage, AuditLogToolbar, Table, TableEntry } from "@paperplane/ui";
+import { AdminLayout, AdminStatistics, AdminUsage, AuditLogToolbar, Table, TableEntry } from "@paperplane/componentsmponents";
 import axios from "axios";
 import { type AuditLogApi, formatDate, getProtocol, type ServiceApi } from "@paperplane/utils";
 import { useSwrWithUpdates } from "@paperplane/swr";

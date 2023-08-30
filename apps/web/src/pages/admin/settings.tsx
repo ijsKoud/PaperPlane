@@ -8,7 +8,7 @@ import {
 	BackupsModal,
 	InvitesModal,
 	type SettingsForm
-} from "@paperplane/ui";
+} from "@paperplane/components";
 import axios, { AxiosError } from "axios";
 import { getProtocol, type Invite, parseToDay } from "@paperplane/utils";
 import type { FormikHelpers } from "formik";

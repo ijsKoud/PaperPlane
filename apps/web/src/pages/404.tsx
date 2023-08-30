@@ -1,6 +1,6 @@
 import { Logo } from "@paperplane/logo";
 import { PrimaryButton } from "@paperplane/buttons";
-import { Glitch } from "@paperplane/ui";
+import { Glitch } from "@paperplane/components";
 import { useEffect, useState } from "react";
 import { Nunito } from "@next/font/google";
 

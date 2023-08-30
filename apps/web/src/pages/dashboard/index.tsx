@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { AuditLogToolbar, DashboardLayout, DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/ui";
+import { AuditLogToolbar, DashboardLayout, DashboardStatistics, DashboardStorageUsage, Table, TableEntry } from "@paperplane/componentsmponents";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { type AuditLogApi, type DashboardStatsGetApi, formatDate, getProtocol } from "@paperplane/utils";

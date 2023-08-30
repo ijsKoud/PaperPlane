@@ -1,5 +1,13 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { ConfirmModal, DashboardLayout, DashboardSettingsForm, EmbedModal, type ResetAuthForm, ResetAuthModal, TokenModal } from "@paperplane/ui";
+import {
+	ConfirmModal,
+	DashboardLayout,
+	DashboardSettingsForm,
+	EmbedModal,
+	type ResetAuthForm,
+	ResetAuthModal,
+	TokenModal
+} from "@paperplane/components";
 import { toast } from "react-toastify";
 import { type DashboardEmbedGetApi, generateToken, getProtocol } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";
