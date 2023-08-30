@@ -9,7 +9,7 @@ import {
 	Table,
 	TableEntry,
 	UpdateUserModal
-} from "@paperplane/componentsmponents";
+} from "@paperplane/components";
 import { TertiaryButton, TransparentButton } from "@paperplane/buttons";
 import { AdminUserSort, formatBytes, formatDate, getProtocol, parseToDay, type UsersApi } from "@paperplane/utils";
 import axios, { AxiosError } from "axios";

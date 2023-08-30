@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGrid, FilesTable, UploadModal } from "@paperplane/componentsmponents";
+import { DashboardDeleteBanner, DashboardLayout, FilesDashboardToolbar, FilesGrid, FilesTable, UploadModal } from "@paperplane/components";
 import { TertiaryButton } from "@paperplane/buttons";
 import { useSwrWithUpdates } from "@paperplane/swr";
 import { useEffect, useState } from "react";
