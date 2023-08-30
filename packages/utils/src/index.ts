@@ -66,6 +66,7 @@ export const generateToken = (length = 32) => {
 	return res;
 };
 
+export * from "./NotFound";
 export * from "./Dashboard";
 export * from "./Admin";
 export * from "./SignUp";
