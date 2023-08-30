@@ -1,7 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { LogoText } from "@paperplane/logo";
-import { Button } from "@paperplane/ui";
+import { Button } from "@paperplane/ui/button";
 import Link from "next/link";
 import { GithubIcon, LayoutDashboardIcon, ShieldIcon } from "lucide-react";
 

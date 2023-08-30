@@ -12,7 +12,9 @@
 		"react-dom": "18.2.0"
 	},
 	"dependencies": {
-		"@paperplane/utils": "*"
+		"@paperplane/utils": "*",
+		"@radix-ui/react-dropdown-menu": "^2.0.5",
+		"@radix-ui/react-slot": "^1.0.2"
 	},
 	"devDependencies": {
 		"@types/react": "^18.2.21",

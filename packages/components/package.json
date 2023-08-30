@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@paperplane/forms": "*",
 		"@paperplane/navbar": "*",
+		"@paperplane/ui": "*",
 		"@paperplane/utils": "*",
 		"axios": "^1.5.0",
 		"formik": "^2.4.3",
