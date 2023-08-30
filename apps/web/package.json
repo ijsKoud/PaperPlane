@@ -18,10 +18,10 @@
 	},
 	"dependencies": {
 		"@paperplane/buttons": "*",
+		"@paperplane/components": "*",
 		"@paperplane/forms": "*",
 		"@paperplane/logo": "*",
 		"@paperplane/swr": "*",
-		"@paperplane/ui": "*",
 		"@paperplane/utils": "*",
 		"axios": "^1.5.0",
 		"cors": "^2.8.5",

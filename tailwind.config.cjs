@@ -1,23 +1,50 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: [],
+	darkMode: "class",
 	theme: {
+		container: {
+			center: true,
+			padding: "2rem",
+			screens: {
+				"2xl": "1400px"
+			}
+		},
 		extend: {
-			fontSize: {
-				note: ["9.2px", { fontWeight: 600 }],
-				comment: ["11.5px", { fontWeight: 600 }],
-				small: ["14.4px", { fontWeight: 600 }],
-				base: ["18px", { fontWeight: 400 }],
-				lg: ["22.5px", { fontWeight: 600 }],
-				xl: ["28.13px", { fontWeight: 600 }],
-				"2xl": ["35.16px", { fontWeight: 600 }],
-				"3xl": ["43.95px", { fontWeight: 600 }],
-				"4xl": ["54.9px", { fontWeight: 700, lineHeight: "50px" }]
-			},
-			backgroundImage: {
-				login: "url('/backgrounds/login.svg')"
-			},
 			colors: {
+				border: "hsl(var(--border))",
+				input: "hsl(var(--input))",
+				ring: "hsl(var(--ring))",
+				background: "hsl(var(--background))",
+				foreground: "hsl(var(--foreground))",
+				primary: {
+					DEFAULT: "hsl(var(--primary))",
+					foreground: "hsl(var(--primary-foreground))"
+				},
+				secondary: {
+					DEFAULT: "hsl(var(--secondary))",
+					foreground: "hsl(var(--secondary-foreground))"
+				},
+				destructive: {
+					DEFAULT: "hsl(var(--destructive))",
+					foreground: "hsl(var(--destructive-foreground))"
+				},
+				muted: {
+					DEFAULT: "hsl(var(--muted))",
+					foreground: "hsl(var(--muted-foreground))"
+				},
+				accent: {
+					DEFAULT: "hsl(var(--accent))",
+					foreground: "hsl(var(--accent-foreground))"
+				},
+				popover: {
+					DEFAULT: "hsl(var(--popover))",
+					foreground: "hsl(var(--popover-foreground))"
+				},
+				card: {
+					DEFAULT: "hsl(var(--card))",
+					foreground: "hsl(var(--card-foreground))"
+				},
+
 				// main
 				"main-100": "rgba(36,37,38,0.1)",
 				"main-200": "rgba(36,37,38,0.2)",
@@ -55,7 +82,7 @@ module.exports = {
 				"black-100": "rgba(0, 0, 0, 0.1)",
 
 				// bg
-				"bg-dark": "#1F2021",
+				"bg-dark": "#121215",
 
 				// primary
 				"primary-100": "rgba(75,95,115,0.1)",
@@ -128,8 +155,41 @@ module.exports = {
 				"red-800": "rgba(234,59,62,0.8)",
 				"red-900": "rgba(234,59,62,0.9)",
 				red: "rgba(234,59,62,1)"
+			},
+			borderRadius: {
+				lg: `var(--radius)`,
+				md: `calc(var(--radius) - 2px)`,
+				sm: "calc(var(--radius) - 4px)"
+			},
+			keyframes: {
+				"accordion-down": {
+					from: { height: 0 },
+					to: { height: "var(--radix-accordion-content-height)" }
+				},
+				"accordion-up": {
+					from: { height: "var(--radix-accordion-content-height)" },
+					to: { height: 0 }
+				}
+			},
+			animation: {
+				"accordion-down": "accordion-down 0.2s ease-out",
+				"accordion-up": "accordion-up 0.2s ease-out"
+			},
+			fontSize: {
+				note: ["9.2px", { fontWeight: 600 }],
+				comment: ["11.5px", { fontWeight: 600 }],
+				small: ["14.4px", { fontWeight: 600 }],
+				base: ["18px", { fontWeight: 400 }],
+				lg: ["22.5px", { fontWeight: 600 }],
+				xl: ["28.13px", { fontWeight: 600 }],
+				"2xl": ["35.16px", { fontWeight: 600 }],
+				"3xl": ["43.95px", { fontWeight: 600 }],
+				"4xl": ["54.9px", { fontWeight: 700, lineHeight: "50px" }]
+			},
+			backgroundImage: {
+				login: "url('/backgrounds/login.svg')"
 			}
 		}
 	},
-	plugins: []
+	plugins: [require("tailwindcss-animate")]
 };
