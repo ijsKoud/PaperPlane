@@ -8,6 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
+export function parseSearchParam(param: string | string[] | undefined): string | undefined {
+	return Array.isArray(param) ? param[0] : param;
+}
+
 export const PAPERPLANE_VERSION = packageJSON.version;
 export const STORAGE_UNITS = ["B", "kB", "MB", "GB", "TB", "PB"] as const;
 
@@ -66,7 +70,9 @@ export const generateToken = (length = 32) => {
 	return res;
 };
 
-export * from "./NotFound";
 export * from "./Dashboard";
 export * from "./Admin";
 export * from "./SignUp";
+
+export * from "./NotFound";
+export * from "./types";
