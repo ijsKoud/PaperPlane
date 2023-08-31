@@ -5,7 +5,6 @@ import axios from "axios";
 import { SelectOption } from "@paperplane/forms";
 import { headers } from "next/headers";
 import { AuthForm } from "./AuthForm";
-import { ThemeToggle } from "@paperplane/components/ThemeToggle";
 
 export const metadata: Metadata = {
 	title: "Sign in to your account - Paperplane",
@@ -31,10 +30,6 @@ const Page: React.FC<PageProps<undefined, SearchParams<"user" | "type">>> = asyn
 				<h1 className="text-lg font-normal">Welcome Back!</h1>
 				<h2 className="text-xl">Sign in to your account</h2>
 			</div>
-			<div className="fixed top-4 right-4">
-				<ThemeToggle />
-			</div>
-
 			<AuthForm options={mode.options} mode={mode.mode} user={user} />
 		</>
 	);
