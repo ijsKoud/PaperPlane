@@ -12,7 +12,7 @@ import { Loader2, LogInIcon } from "lucide-react";
 import { Input } from "@paperplane/ui/input";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export interface AuthFormProps {
 	options: SelectOption[];
@@ -38,6 +38,7 @@ const AuthProps = {
 };
 
 export const AuthForm: React.FC<AuthFormProps> = ({ mode, options, user }) => {
+	const router = useRouter();
 	const defaultValue = user ? options.find((opt) => opt.value === user)?.value : undefined;
 	const correctAuthProps = AuthProps[mode];
 	const FormSchema = z.object({
@@ -55,12 +56,14 @@ export const AuthForm: React.FC<AuthFormProps> = ({ mode, options, user }) => {
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
 			await axios.post("/api/auth/login", data);
-			redirect(data.domain === "admin" ? "/admin" : "/dashboard");
+			void router.push(data.domain === "admin" ? "/admin" : "/dashboard");
 		} catch (err) {
 			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
 			const error = _error || "Unknown error, please try again later.";
 			form.setError("domain", { message: error });
 			form.setError(correctAuthProps.key, { message: error });
+
+			console.log(err);
 		}
 	}
 
