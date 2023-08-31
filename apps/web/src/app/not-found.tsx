@@ -10,6 +10,7 @@ import { Inter } from "@next/font/google";
 import { Glitch } from "@paperplane/components";
 import { useEffect, useState } from "react";
 import { NotFoundError } from "@paperplane/utils";
+import { ThemeToggle } from "@paperplane/components/ThemeToggle";
 
 export const metadata: Metadata = {
 	title: "404 Not Found - Paperplane",
@@ -32,6 +33,10 @@ const Page: React.FC = () => {
 	return (
 		<div className="grid place-items-center h-screen">
 			<title>404 Not Found - Paperplane</title>
+			<div className="fixed top-4 right-4">
+				<ThemeToggle />
+			</div>
+
 			<div className="flex flex-col gap-y-3 items-center justify-center">
 				<div className="flex flex-col items-center">
 					<div className="flex items-center">

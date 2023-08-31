@@ -2,6 +2,7 @@ import type React from "react";
 import type { Metadata } from "next";
 import { LogoText } from "@paperplane/logo";
 import { Button } from "@paperplane/ui/button";
+import { ThemeToggle } from "@paperplane/components/ThemeToggle";
 import Link from "next/link";
 import { GithubIcon, LayoutDashboardIcon, ShieldIcon } from "lucide-react";
 
@@ -13,6 +14,10 @@ export const metadata: Metadata = {
 const Page: React.FC = () => {
 	return (
 		<div className="grid place-items-center h-screen">
+			<div className="fixed top-4 right-4">
+				<ThemeToggle />
+			</div>
+
 			<main className="flex flex-col gap-y-3 items-center justify-center">
 				<div className="flex flex-col items-center">
 					<LogoText height={45} width={45} textClassName="text-4xl max-sm:text-2xl" />
