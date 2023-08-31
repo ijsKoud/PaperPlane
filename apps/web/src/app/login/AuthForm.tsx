@@ -6,7 +6,7 @@ import { SelectOption } from "@paperplane/forms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@paperplane/ui/button";
 import { Loader2, LogInIcon } from "lucide-react";
 import { Input } from "@paperplane/ui/input";
@@ -39,14 +39,23 @@ const AuthProps = {
 
 export const AuthForm: React.FC<AuthFormProps> = ({ mode, options, user }) => {
 	const router = useRouter();
+	const [authMode, setAuthMode] = useState(mode);
+
 	const defaultValue = user ? options.find((opt) => opt.value === user)?.value : undefined;
-	const correctAuthProps = AuthProps[mode];
+	const correctAuthProps = AuthProps[authMode];
 	const FormSchema = z.object({
 		domain: z
 			.string({ required_error: "A valid domain is required" })
 			.refine((arg) => options.map((opt) => opt.value).includes(arg), { message: "Please select a valid domain" }),
 		[correctAuthProps.key]: correctAuthProps.zod
 	});
+
+	const redirectUser = (value: string, setValues: (...props: any) => void) => {
+		setAuthMode(value === "admin" ? "2fa" : mode);
+
+		if (value === "admin" || value === defaultValue) return setValues(value);
+		router.push(`https://${value}/login`);
+	};
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -77,7 +86,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ mode, options, user }) => {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Domain</FormLabel>
-								<Select required defaultValue={field.value} onValueChange={field.onChange}>
+								<Select required defaultValue={field.value} onValueChange={(val) => redirectUser(val, field.onChange)}>
 									<FormControl>
 										<SelectTrigger className="w-full">
 											<SelectValue placeholder="Select a domain" />
