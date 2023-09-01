@@ -23,7 +23,7 @@ async function getSignUpData() {
 
 const Page: React.FC<PageProps> = async () => {
 	const signUpData = await getSignUpData();
-	if (signUpData.mode === "closed") return notFound();
+	if (signUpData.mode === "closed") notFound();
 
 	return (
 		<>
