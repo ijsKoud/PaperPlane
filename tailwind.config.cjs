@@ -1,3 +1,9 @@
+const generateSizes = (count, unit) =>
+	Array(count)
+		.fill(null)
+		.map((_, key) => ({ [key + 1]: `${(key + 1) * 4}${unit || "px"}` }))
+		.reduce((a, b) => ({ ...a, ...b }), {});
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: "class",
@@ -172,7 +178,8 @@ module.exports = {
 				xl: ["28.13px", { fontWeight: 600 }],
 				"2xl": ["35.16px", { fontWeight: 600 }],
 				"3xl": ["43.95px", { fontWeight: 600 }],
-				"4xl": ["54.9px", { fontWeight: 700, lineHeight: "50px" }]
+				"4xl": ["54.9px", { fontWeight: 700, lineHeight: "50px" }],
+				...generateSizes(24)
 			},
 			backgroundImage: {
 				login: "url('/backgrounds/login.svg')",
