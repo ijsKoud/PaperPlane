@@ -11,7 +11,8 @@
 		"input.tsx",
 		"form.tsx",
 		"dialog.tsx",
-		"avatar.tsx"
+		"avatar.tsx",
+		"sheet.tsx"
 	],
 	"scripts": {
 		"lint": "TIMING=1 eslint"
