@@ -63,7 +63,7 @@ export const AdminNavbar: React.FC = () => {
 	};
 
 	return (
-		<header className="top-0 sticky border-b border-zinc-600 py-2 dark:bg-bg-dark bg-white">
+		<header className="top-0 sticky border-b dark:border-zinc-600 border-zinc-200 py-2 dark:bg-bg-dark bg-white z-10">
 			<div className="flex justify-between w-full container">
 				<LogoText height={24} width={24} textClassName="text-6 ml-1" className="max-sm:hidden" />
 				<Sheet>
