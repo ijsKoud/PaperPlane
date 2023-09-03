@@ -819,7 +819,7 @@ __metadata:
     "@types/react": ^18.2.21
     "@types/react-dom": ^18.2.7
     eslint: 8.48.0
-    framer-motion: ^10.16.1
+    framer-motion: ^10.16.2
     typescript: ^5.2.2
   peerDependencies:
     next: ^13.4.19
@@ -844,7 +844,7 @@ __metadata:
     axios: ^1.5.0
     cookies-next: ^3.0.0
     eslint: 8.48.0
-    framer-motion: ^10.16.1
+    framer-motion: ^10.16.2
     react-spinners: ^0.13.8
     typescript: ^5.2.2
   peerDependencies:
@@ -862,7 +862,7 @@ __metadata:
     "@types/react-dom": ^18.2.7
     axios: ^1.5.0
     eslint: 8.48.0
-    swr: ^2.2.1
+    swr: ^2.2.2
     typescript: ^5.2.2
   peerDependencies:
     react: ^18.2.0
@@ -883,7 +883,7 @@ __metadata:
     axios: ^1.5.0
     eslint: 8.48.0
     formik: ^2.4.3
-    framer-motion: ^10.16.1
+    framer-motion: ^10.16.2
     huge-uploader: ^1.0.6
     ms: ^2.1.3
     rc-progress: ^3.5.1
@@ -3598,12 +3598,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:^6.9.0":
-  version: 6.9.0
-  resolution: "express-rate-limit@npm:6.9.0"
+"express-rate-limit@npm:^6.10.0":
+  version: 6.10.0
+  resolution: "express-rate-limit@npm:6.10.0"
   peerDependencies:
     express: ^4 || ^5
-  checksum: a90662ecc1fb91f9accfcee5de90e4ee7ce486b6f806c22609213675ae0425c7c5d1b288c51907aeb347f1a5a492994032b805839a63f235c91c9235845c75f9
+  checksum: f8319d137f77ba622dfb545d17829ae92d9540aad012c16c519a8a6f5b2b11b1766de58d9ce01ff0881ee618f6a19583311e6f986e8c4c48f8f7435b23d95bbc
   languageName: node
   linkType: hard
 
@@ -3898,9 +3898,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^10.16.1":
-  version: 10.16.1
-  resolution: "framer-motion@npm:10.16.1"
+"framer-motion@npm:^10.16.2":
+  version: 10.16.2
+  resolution: "framer-motion@npm:10.16.2"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.2
     tslib: ^2.4.0
@@ -3915,7 +3915,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: cce24975992020dbbdf426058a2a067ead262f7f264d28d2ed7570cb59e0f175267d7a05d0a1c1335c7bee486bc9dcf1f3940f474e4ba6fc47bb19eebb9f79d2
+  checksum: 341de9ed9ad26e67306d6467a17f5260ce0e8a034f936f2af22f03a7fe4087de487a8aebcbc396ab591de7fe181926d0cd6a79ec1dca6172e85f7fdf5103484f
   languageName: node
   linkType: hard
 
@@ -5041,15 +5041,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "jsonwebtoken@npm:9.0.1"
+"jsonwebtoken@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "jsonwebtoken@npm:9.0.2"
   dependencies:
     jws: ^3.2.2
-    lodash: ^4.17.21
+    lodash.includes: ^4.3.0
+    lodash.isboolean: ^3.0.3
+    lodash.isinteger: ^4.0.4
+    lodash.isnumber: ^3.0.3
+    lodash.isplainobject: ^4.0.6
+    lodash.isstring: ^4.0.1
+    lodash.once: ^4.0.0
     ms: ^2.1.1
-    semver: ^7.3.8
-  checksum: 0eafe268896f4e8f9ab1f0f20e8c645721b7a9cddc41c0aba1e58da5c34564e8c9990817c1a5b646d795bcbb1339350826fe57c4569b5379ba9eea4a9aa5bbd0
+    semver: ^7.5.4
+  checksum: fc739a6a8b33f1974f9772dca7f8493ca8df4cc31c5a09dcfdb7cff77447dcf22f4236fb2774ef3fe50df0abeb8e1c6f4c41eba82f500a804ab101e2fbc9d61a
   languageName: node
   linkType: hard
 
@@ -5223,6 +5229,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.includes@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "lodash.includes@npm:4.3.0"
+  checksum: 71092c130515a67ab3bd928f57f6018434797c94def7f46aafa417771e455ce3a4834889f4267b17887d7f75297dfabd96231bf704fd2b8c5096dc4a913568b6
+  languageName: node
+  linkType: hard
+
+"lodash.isboolean@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "lodash.isboolean@npm:3.0.3"
+  checksum: b70068b4a8b8837912b54052557b21fc4774174e3512ed3c5b94621e5aff5eb6c68089d0a386b7e801d679cd105d2e35417978a5e99071750aa2ed90bffd0250
+  languageName: node
+  linkType: hard
+
 "lodash.isfunction@npm:^3.0.9":
   version: 3.0.9
   resolution: "lodash.isfunction@npm:3.0.9"
@@ -5230,10 +5250,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isinteger@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "lodash.isinteger@npm:4.0.4"
+  checksum: 6034821b3fc61a2ffc34e7d5644bb50c5fd8f1c0121c554c21ac271911ee0c0502274852845005f8651d51e199ee2e0cfebfe40aaa49c7fe617f603a8a0b1691
+  languageName: node
+  linkType: hard
+
+"lodash.isnumber@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "lodash.isnumber@npm:3.0.3"
+  checksum: 913784275b565346255e6ae6a6e30b760a0da70abc29f3e1f409081585875105138cda4a429ff02577e1bc0a7ae2a90e0a3079a37f3a04c3d6c5aaa532f4cab2
+  languageName: node
+  linkType: hard
+
 "lodash.isplainobject@npm:^4.0.6":
   version: 4.0.6
   resolution: "lodash.isplainobject@npm:4.0.6"
   checksum: 29c6351f281e0d9a1d58f1a4c8f4400924b4c79f18dfc4613624d7d54784df07efaff97c1ff2659f3e085ecf4fff493300adc4837553104cef2634110b0d5337
+  languageName: node
+  linkType: hard
+
+"lodash.isstring@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "lodash.isstring@npm:4.0.1"
+  checksum: eaac87ae9636848af08021083d796e2eea3d02e80082ab8a9955309569cb3a463ce97fd281d7dc119e402b2e7d8c54a23914b15d2fc7fff56461511dc8937ba0
   languageName: node
   linkType: hard
 
@@ -5255,6 +5296,13 @@ __metadata:
   version: 4.6.2
   resolution: "lodash.mergewith@npm:4.6.2"
   checksum: a6db2a9339752411f21b956908c404ec1e088e783a65c8b29e30ae5b3b6384f82517662d6f425cc97c2070b546cc2c7daaa8d33f78db7b6e9be06cd834abdeb8
+  languageName: node
+  linkType: hard
+
+"lodash.once@npm:^4.0.0":
+  version: 4.1.1
+  resolution: "lodash.once@npm:4.1.1"
+  checksum: d768fa9f9b4e1dc6453be99b753906f58990e0c45e7b2ca5a3b40a33111e5d17f6edf2f768786e2716af90a8e78f8f91431ab8435f761fef00f9b0c256f6d245
   languageName: node
   linkType: hard
 
@@ -7722,7 +7770,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.8":
+"semver@npm:^7.3.4, semver@npm:^7.3.5":
   version: 7.5.2
   resolution: "semver@npm:7.5.2"
   dependencies:
@@ -7796,9 +7844,9 @@ __metadata:
     dotenv: ^16.3.1
     eslint: 8.48.0
     express: ^4.18.2
-    express-rate-limit: ^6.9.0
+    express-rate-limit: ^6.10.0
     fuse.js: ^6.6.2
-    jsonwebtoken: ^9.0.1
+    jsonwebtoken: ^9.0.2
     lodash: ^4.17.21
     mime-types: ^2.1.35
     ms: ^2.1.3
@@ -8273,15 +8321,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swr@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "swr@npm:2.2.1"
+"swr@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "swr@npm:2.2.2"
   dependencies:
     client-only: ^0.0.1
     use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ^16.11.0 || ^17.0.0 || ^18.0.0
-  checksum: 62ff1b8132966fc977df192cf4452bab94c73dbea304a1438745f27041917154dad32448d8a65fb40d5e3de0b1751ef3fd57b1d71ba450e031517f009d0fc052
+  checksum: afb3d4824f7631bc3a045483f4e4beb5ca9bfa82b64690b3d1133cdf0666ad8e4a9a879657fac5b34dbf19ea9a1503cf92c9bde972f3d40cefe434c73bd9627a
   languageName: node
   linkType: hard
 
