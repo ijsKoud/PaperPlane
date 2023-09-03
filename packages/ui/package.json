@@ -12,7 +12,8 @@
 		"form.tsx",
 		"dialog.tsx",
 		"avatar.tsx",
-		"sheet.tsx"
+		"sheet.tsx",
+		"table.tsx"
 	],
 	"scripts": {
 		"lint": "TIMING=1 eslint"
