@@ -34,7 +34,7 @@ import Link from "next/link";
 import { Button } from "@paperplane/ui/button";
 import { useTheme } from "next-themes";
 import { deleteCookie } from "cookies-next";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export const DashboardNavbar: React.FC = () => {
 	const { setTheme } = useTheme();
