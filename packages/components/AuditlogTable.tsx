@@ -43,7 +43,7 @@ export const AuditlogToolbar: React.FC<ToolbarProps> = ({ page, pages, setPage, 
 	}, [_search]);
 
 	return (
-		<div className="w-full flex justify-between items-center mt-2 gap-4 flex-wrap max-[512px]:flex-col max-[512px]:flex-nowrap">
+		<div className="w-full flex justify-between items-center mt-2 max-sm:flex-col gap-y-4">
 			<Input placeholder="Search for a specific event" className="w-fit" onChange={(ctx) => _setSearch(ctx.currentTarget.value)} />
 			<div className="flex gap-4">
 				<Button variant="ghost" onClick={previousPage} disabled={page <= 0}>
@@ -78,7 +78,7 @@ export interface AuditLogEntryProps {
 
 export const AuditlogTable: React.FC<AuditLogEntryProps> = ({ logs }) => {
 	return (
-		<Table>
+		<Table className="min-w-[750px]">
 			<TableHeader>
 				<TableRow className="hover:bg-zinc-200">
 					<TableHead className="w-48">Action</TableHead>
