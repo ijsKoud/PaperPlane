@@ -1,7 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { headers, cookies } from "next/headers";
-import { getAuthenticationState } from "../utils";
+import { getAuthenticationState } from "../_lib/utils";
 import { redirect } from "next/navigation";
 import { ShortcutsTable } from "./ShortcutsTable";
 

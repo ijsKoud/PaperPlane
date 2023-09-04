@@ -1,8 +1,8 @@
 "use client";
 
-import { AuditlogTable, AuditlogToolbar } from "@paperplane/components/AuditlogTable";
+import { AuditlogTable, AuditlogToolbar } from "./DataTable";
 import React from "react";
-import { UseDashboardAudit } from "./hooks";
+import { UseDashboardAudit } from "./_lib/hooks";
 
 export const Auditlog: React.FC = () => {
 	const { logs, page, pages, setPage, setSearch } = UseDashboardAudit();
