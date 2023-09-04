@@ -80,7 +80,7 @@ export const AuditlogTable: React.FC<AuditLogEntryProps> = ({ logs }) => {
 	return (
 		<Table className="min-w-[750px]">
 			<TableHeader>
-				<TableRow className="hover:bg-zinc-200">
+				<TableRow className="hover:bg-zinc-200 dark:border-zinc-800">
 					<TableHead className="w-48">Action</TableHead>
 					<TableHead>Description</TableHead>
 					<TableHead className="w-48">Date</TableHead>
@@ -88,7 +88,7 @@ export const AuditlogTable: React.FC<AuditLogEntryProps> = ({ logs }) => {
 			</TableHeader>
 			<TableBody>
 				{logs.map((log, key) => (
-					<TableRow key={key} className="hover:bg-zinc-200">
+					<TableRow key={key} className="hover:bg-zinc-200 dark:border-zinc-800">
 						<TableCell className="font-medium">{log.type}</TableCell>
 						<TableCell>{log.details}</TableCell>
 						<TableCell>{formatDate(log.date)}</TableCell>
