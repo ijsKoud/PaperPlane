@@ -18,7 +18,8 @@
 		"toast.tsx",
 		"toaster.tsx",
 		"use-toast.ts",
-		"switch.tsx"
+		"switch.tsx",
+		"checkbox.tsx"
 	],
 	"scripts": {
 		"lint": "TIMING=1 eslint"
@@ -31,6 +32,7 @@
 	"dependencies": {
 		"@paperplane/utils": "*",
 		"@radix-ui/react-avatar": "^1.0.3",
+		"@radix-ui/react-checkbox": "^1.0.4",
 		"@radix-ui/react-dialog": "^1.0.4",
 		"@radix-ui/react-dropdown-menu": "^2.0.5",
 		"@radix-ui/react-label": "^2.0.2",
