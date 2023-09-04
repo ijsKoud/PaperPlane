@@ -20,7 +20,8 @@
 		"use-toast.ts",
 		"switch.tsx",
 		"checkbox.tsx",
-		"tabs.tsx"
+		"tabs.tsx",
+		"textarea.tsx"
 	],
 	"scripts": {
 		"lint": "TIMING=1 eslint"
