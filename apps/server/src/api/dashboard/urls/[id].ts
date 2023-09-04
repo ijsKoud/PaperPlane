@@ -1,10 +1,12 @@
-import type { Response } from "express";
+import type { NextFunction, Response } from "express";
 import { Auth } from "../../../lib/Auth.js";
 import type { DashboardRequest, UrlEditFormBody, Middleware, RequestMethods } from "../../../lib/types.js";
 import type Server from "../../../Server.js";
 
-export default async function handler(server: Server, req: DashboardRequest, res: Response) {
+export default async function handler(server: Server, req: DashboardRequest, res: Response, next: NextFunction) {
 	const { id } = req.params;
+	if (id === "create") return next();
+
 	if (!req.locals.domain) {
 		res.status(500).send({ message: "Internal server error, please try again later." });
 		return;
