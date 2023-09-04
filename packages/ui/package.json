@@ -13,7 +13,8 @@
 		"dialog.tsx",
 		"avatar.tsx",
 		"sheet.tsx",
-		"table.tsx"
+		"table.tsx",
+		"skeleton.tsx"
 	],
 	"scripts": {
 		"lint": "TIMING=1 eslint"
