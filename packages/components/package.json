@@ -9,6 +9,7 @@
 		"src",
 		"layouts",
 		"navbar",
+		"Context",
 		"ThemeToggle.tsx"
 	],
 	"scripts": {

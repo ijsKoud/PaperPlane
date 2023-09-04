@@ -35,9 +35,11 @@ import { Button } from "@paperplane/ui/button";
 import { useTheme } from "next-themes";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { UseChangelog } from "../Context/ChangelogProvider";
 
 export const AdminNavbar: React.FC = () => {
 	const { setTheme } = useTheme();
+	const changelog = UseChangelog();
 	const router = useRouter();
 
 	/**
@@ -59,7 +61,7 @@ export const AdminNavbar: React.FC = () => {
 	 * handles the changelog button click event
 	 */
 	const handleChangelog = () => {
-		void 0;
+		changelog.setState(true);
 	};
 
 	return (
