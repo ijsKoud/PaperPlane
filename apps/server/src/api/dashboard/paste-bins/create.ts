@@ -53,7 +53,8 @@ export default async function handler(server: Server, req: DashboardRequest, res
 				domain: req.locals.domain.domain,
 				path,
 				highlight: data.highlight,
-				authSecret
+				authSecret,
+				password: data.password ? Auth.encryptPassword(data.password, server.envConfig.encryptionKey) : undefined
 			}
 		});
 
