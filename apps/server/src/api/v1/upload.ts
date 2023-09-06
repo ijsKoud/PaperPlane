@@ -20,7 +20,6 @@ export default async function handler(server: Server, req: DashboardRequest, res
 
 	try {
 		const [fields, files] = await form.parse(req);
-		console.log(fields, files);
 		const uploadedFiles = files.file;
 		if (!uploadedFiles) {
 			res.status(400).send({ errors: [{ field: "upload", code: "MISSING_UPLOAD_FILES", message: "Missing uploaded files." }] });
@@ -32,7 +31,8 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		const visible = fields.visible?.[0];
 		if (uploadedFiles.length === 1) {
 			const file = await req.locals.domain.registerUpload(uploadedFiles[0], { name, password, visible: visible === "true" ? true : false });
-			res.send({ url: file, files: { [uploadedFiles[0].originalFilename!]: `${Utils.getProtocol()}${req.locals.domain}/files/${file}` } });
+			const fileUrl = `${Utils.getProtocol()}${req.locals.domain}/files/${file}`;
+			res.send({ url: fileUrl, files: { [uploadedFiles[0].originalFilename!]: fileUrl } });
 			return;
 		}
 

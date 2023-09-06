@@ -212,19 +212,19 @@ export class Domain {
 	}
 
 	public async registerUpload(file: File, options: { name?: string; password?: string; visible?: boolean } = {}): Promise<string> {
+		const fileExt = file.newFilename.split(".").filter(Boolean).slice(1).join(".");
 		const id =
 			options.name ||
 			Utils.generateId(this.nameStrategy, this.nameLength) ||
 			file.originalFilename?.split(".")[0] ||
 			Utils.generateId("id", 32)!;
-		const fileExt = file.newFilename.split(".").filter(Boolean).slice(1).join(".");
 
 		const authBuffer = Buffer.from(`${Auth.generateToken(32)}.${Date.now()}.${this.domain}.${id}`).toString("base64");
 		const authSecret = Auth.encryptToken(authBuffer, this.server.envConfig.encryptionKey);
 
 		const fileData = await this.server.prisma.file.create({
 			data: {
-				id,
+				id: this.nameStrategy === "zerowidth" ? id : `${id}.${fileExt}`,
 				authSecret,
 				date: new Date(),
 				mimeType: file.mimetype!,
@@ -236,9 +236,8 @@ export class Domain {
 			}
 		});
 
-		const filename = `${fileData.id}${this.nameStrategy === "zerowidth" ? "" : `.${fileExt}`}`;
-		this.auditlogs.register("File Upload", `File: ${filename}, size: ${this.server.config.parseStorage(file.size)}`);
-		return filename;
+		this.auditlogs.register("File Upload", `File: ${fileData.id}, size: ${this.server.config.parseStorage(file.size)}`);
+		return fileData.id;
 	}
 
 	public addView(id: string) {
