@@ -2021,6 +2021,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/formidable@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "@types/formidable@npm:3.4.2"
+  dependencies:
+    "@types/node": "*"
+  checksum: 1ecb7876969bf4f515fe8169b5f312aba7ad4a92d1e233167031d12c0482aacc5c91fa96fb56b22a55eb2f28e2b69e878115ece3ebd3d60fefa7a0664cfce3ed
+  languageName: node
+  linkType: hard
+
 "@types/hast@npm:^2.0.0":
   version: 2.3.4
   resolution: "@types/hast@npm:2.3.4"
@@ -2851,6 +2860,13 @@ __metadata:
   version: 1.0.1
   resolution: "arrify@npm:1.0.1"
   checksum: 745075dd4a4624ff0225c331dacb99be501a515d39bcb7c84d24660314a6ec28e68131b137e6f7e16318170842ce97538cd298fc4cd6b2cc798e0b957f2747e7
+  languageName: node
+  linkType: hard
+
+"asap@npm:^2.0.0":
+  version: 2.0.6
+  resolution: "asap@npm:2.0.6"
+  checksum: b296c92c4b969e973260e47523207cd5769abd27c245a68c26dc7a0fe8053c55bb04360237cb51cab1df52be939da77150ace99ad331fb7fb13b3423ed73ff3d
   languageName: node
   linkType: hard
 
@@ -3807,6 +3823,16 @@ __metadata:
   version: 1.1.0
   resolution: "detect-node-es@npm:1.1.0"
   checksum: e46307d7264644975b71c104b9f028ed1d3d34b83a15b8a22373640ce5ea630e5640b1078b8ea15f202b54641da71e4aa7597093bd4b91f113db520a26a37449
+  languageName: node
+  linkType: hard
+
+"dezalgo@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "dezalgo@npm:1.0.4"
+  dependencies:
+    asap: ^2.0.0
+    wrappy: 1
+  checksum: 895389c6aead740d2ab5da4d3466d20fa30f738010a4d3f4dcccc9fc645ca31c9d10b7e1804ae489b1eb02c7986f9f1f34ba132d409b043082a86d9a4e745624
   languageName: node
   linkType: hard
 
@@ -4808,6 +4834,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"formidable@npm:^3.5.1":
+  version: 3.5.1
+  resolution: "formidable@npm:3.5.1"
+  dependencies:
+    dezalgo: ^1.0.4
+    hexoid: ^1.0.0
+    once: ^1.4.0
+  checksum: 46b21496f9f985161cf7636163147b6728f9997c7e1d59433680d92619758bf6862330e6d105b5816bafcd1ab32f27ef183455991f93ef836ea731c68db62af9
+  languageName: node
+  linkType: hard
+
 "formik@npm:^2.4.3":
   version: 2.4.3
   resolution: "formik@npm:2.4.3"
@@ -5290,6 +5327,13 @@ __metadata:
     property-information: ^5.0.0
     space-separated-tokens: ^1.0.0
   checksum: 5e50b85af0d2cb7c17979cb1ddca75d6b96b53019dd999b39e7833192c9004201c3cee6445065620ea05d0087d9ae147a4844e582d64868be5bc6b0232dfe52d
+  languageName: node
+  linkType: hard
+
+"hexoid@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "hexoid@npm:1.0.0"
+  checksum: 27a148ca76a2358287f40445870116baaff4a0ed0acc99900bf167f0f708ffd82e044ff55e9949c71963852b580fc024146d3ac6d5d76b508b78d927fa48ae2d
   languageName: node
   linkType: hard
 
@@ -7523,7 +7567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"once@npm:^1.3.0":
+"once@npm:^1.3.0, once@npm:^1.4.0":
   version: 1.4.0
   resolution: "once@npm:1.4.0"
   dependencies:
@@ -8817,6 +8861,7 @@ __metadata:
     "@types/cron": ^2.0.1
     "@types/express": ^4.17.17
     "@types/express-rate-limit": ^6.0.0
+    "@types/formidable": ^3.4.2
     "@types/jsonwebtoken": ^9.0.2
     "@types/lodash": ^4.14.197
     "@types/mime-types": ^2.1.1
@@ -8836,6 +8881,7 @@ __metadata:
     eslint: 8.48.0
     express: ^4.18.2
     express-rate-limit: ^6.9.0
+    formidable: ^3.5.1
     fuse.js: ^6.6.2
     jsonwebtoken: ^9.0.1
     lodash: ^4.17.21
@@ -10142,6 +10188,7 @@ __metadata:
     formik: ^2.4.3
     next-seo: ^6.1.0
     rc-progress: ^3.5.1
+    react-dropzone: ^14.2.3
     react-spinners: ^0.13.8
     react-syntax-highlighter: ^15.5.0
     react-toastify: ^9.1.3

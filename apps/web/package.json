@@ -30,6 +30,7 @@
 		"formik": "^2.4.3",
 		"next-seo": "^6.1.0",
 		"rc-progress": "^3.5.1",
+		"react-dropzone": "^14.2.3",
 		"react-spinners": "^0.13.8",
 		"react-syntax-highlighter": "^15.5.0",
 		"react-toastify": "^9.1.3",
