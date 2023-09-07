@@ -29,7 +29,7 @@ const UseFilesList = () => {
 
 export const FilesDisplay: React.FC = () => {
 	const data = UseFilesList();
-	const [display, setDisplay] = useState<"grid" | "list">("list");
+	const [display, setDisplay] = useState<"grid" | "list">("grid");
 
 	return (
 		<div className="w-full">
@@ -86,7 +86,6 @@ export const FilesDisplay: React.FC = () => {
 				<CreateDialog />
 			</div>
 
-			{/* TODO: ADD DISPLAY CHANGE BUTTONS AND GRID VIEW */}
 			{display === "list" && <DataTable columns={columns} data={data.entries} page={data.page} pages={data.pages} setPage={data.setPage} />}
 			{display === "grid" && <GridView files={data.entries} page={data.page} pages={data.pages} setPage={data.setPage} />}
 		</div>
