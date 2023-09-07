@@ -13,7 +13,7 @@ import { Switch } from "@paperplane/ui/switch";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import Dropzone from "react-dropzone";
-import { formatBytes } from "@paperplane/utils";
+import { ApiErrorResponse, formatBytes } from "@paperplane/utils";
 
 export const CreateDialog: React.FC = () => {
 	const { toast } = useToast();
@@ -44,9 +44,13 @@ export const CreateDialog: React.FC = () => {
 			void navigator.clipboard.writeText(response.data.url);
 			toast({ title: "File uploaded", description: "A new file has been created and the url has been copied to your clipboard." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			console.log(err);
+			const errors = "isAxiosError" in err ? (err as AxiosError<ApiErrorResponse>).response?.data.errors ?? [] : [];
+			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: "There was a problem with your request" });
+			console.log(errors);
+
+			for (const error of errors) {
+				form.setError(error.field as any, { message: error.message });
+			}
 		}
 	}
 

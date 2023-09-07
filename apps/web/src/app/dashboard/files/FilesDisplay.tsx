@@ -8,6 +8,10 @@ import { CreateDialog } from "./CreateDialog";
 import { DataTable } from "./_table/data-table";
 import { columns } from "./_table/columns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
+import { Button } from "@paperplane/ui/button";
+import { LayoutPanelTopIcon, Table2Icon } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@paperplane/ui/tooltip";
+import { GridView } from "./_grid/GridView";
 
 const UseFilesList = () => {
 	const [data, setData] = useState<FilesApiRes>({ entries: [], pages: 0 });
@@ -50,12 +54,41 @@ export const FilesDisplay: React.FC = () => {
 							))}
 						</SelectContent>
 					</Select>
+
+					<div className="flex items-center gap-1 ml-2">
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button onClick={() => setDisplay("grid")} variant="outline" className="px-2">
+										<LayoutPanelTopIcon />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Grid layout</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button onClick={() => setDisplay("list")} variant="outline" className="px-2">
+										<Table2Icon />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Table layout</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					</div>
 				</div>
 				<CreateDialog />
 			</div>
 
+			{/* TODO: ADD DISPLAY CHANGE BUTTONS AND GRID VIEW */}
 			{display === "list" && <DataTable columns={columns} data={data.entries} page={data.page} pages={data.pages} setPage={data.setPage} />}
-			{display === "grid" && <DataTable columns={columns} data={data.entries} page={data.page} pages={data.pages} setPage={data.setPage} />}
+			{display === "grid" && <GridView files={data.entries} page={data.page} pages={data.pages} setPage={data.setPage} />}
 		</div>
 	);
 };
