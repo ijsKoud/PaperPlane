@@ -166,8 +166,8 @@ export const DashboardNavbar: React.FC = () => {
 									<FileQuestionIcon className="mr-2 h-4 w-4" />
 									Support
 								</DropdownMenuSubTrigger>
-								<DropdownMenuSubContent className="dark:bg-zinc-800 dark:border-zinc-600" onClick={handleChangelog}>
-									<DropdownMenuItem className="dark:focus:bg-zinc-700">
+								<DropdownMenuSubContent className="dark:bg-zinc-800 dark:border-zinc-600">
+									<DropdownMenuItem className="dark:focus:bg-zinc-700" onClick={handleChangelog}>
 										<TextIcon className="mr-2 h-4 w-4" />
 										Changelog
 									</DropdownMenuItem>
