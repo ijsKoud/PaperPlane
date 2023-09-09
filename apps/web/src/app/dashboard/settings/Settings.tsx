@@ -5,6 +5,7 @@ import { DashboardSettingsGetApi } from "@paperplane/utils";
 import React, { useEffect, useState } from "react";
 import ApiTokenSettings from "./_sections/ApiTokenSettings";
 import SettingsForm from "./_sections/Form";
+import BigRedButtons from "./_sections/BigRedButtons";
 
 const UseDashboardSettings = () => {
 	const [settings, setSettings] = useState<DashboardSettingsGetApi>({
@@ -30,6 +31,7 @@ const Settings: React.FC = () => {
 		<div className="space-y-20">
 			<ApiTokenSettings tokens={settings.tokens} />
 			<SettingsForm {...settings} />
+			<BigRedButtons />
 		</div>
 	);
 };
