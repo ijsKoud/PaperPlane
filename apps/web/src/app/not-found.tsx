@@ -7,7 +7,7 @@ import { Button } from "@paperplane/ui/button";
 import Link from "next/link";
 import { GithubIcon, LayoutDashboardIcon, ShieldIcon } from "lucide-react";
 import { Inter } from "@next/font/google";
-import { Glitch } from "@paperplane/components";
+import { GlitchText } from "@paperplane/components/glitch";
 import { useEffect, useState } from "react";
 import { NotFoundError } from "@paperplane/utils";
 import { ThemeToggle } from "@paperplane/components/ThemeToggle";
@@ -42,11 +42,11 @@ const Page: React.FC = () => {
 					<div className="flex items-center">
 						<Logo width={45} height={45} />{" "}
 						<h1 className="font-normal text-4xl max-sm:text-2xl" style={InterFont.style}>
-							<Glitch className={`${InterFont.className}`} text={titleFront} />
-							<Glitch className={`${InterFont.className} font-bold`} text={titleBack} />
+							<GlitchText className={`${InterFont.className}`} text={titleFront} />
+							<GlitchText className={`${InterFont.className} font-bold`} text={titleBack} />
 						</h1>
 					</div>
-					<Glitch text={subtitle} className="text-base max-sm:text-comment max-sm:font-medium" />
+					<GlitchText text={subtitle} className="text-base max-sm:text-comment max-sm:font-medium" />
 				</div>
 				<p className="mt-4 max-w-[512px] text-center text-base">
 					That’s weird, someone led you to a broken page. Why don’t you go back while we figure out the problem?
