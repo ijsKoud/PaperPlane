@@ -1,5 +1,5 @@
 import { useSwrWithUpdates } from "@paperplane/swr";
-import { ServiceApi } from "@paperplane/utils";
+import { AuditLogApi, ServiceApi } from "@paperplane/utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -23,4 +23,25 @@ export const UseAdminStats = () => {
 	}, [data]);
 
 	return service;
+};
+
+export const UseAdminAudit = () => {
+	const [page, setPage] = useState(0);
+	const [search, setSearch] = useState("");
+
+	const [auditLogData, setAuditLogData] = useState<AuditLogApi>({ entries: [], pages: 0 });
+	const { data: auditData } = useSwrWithUpdates<AuditLogApi>(`/api/admin/audit?page=${page}&search=${encodeURIComponent(search)}`);
+
+	useEffect(() => {
+		if (auditData) setAuditLogData(auditData);
+	}, [auditData]);
+
+	return {
+		logs: auditLogData.entries,
+		pages: auditLogData.pages,
+		page,
+		setPage,
+		search,
+		setSearch
+	};
 };
