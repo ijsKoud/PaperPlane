@@ -127,7 +127,7 @@ export const AdminNavbar: React.FC = () => {
 							<DropdownMenuSeparator className="dark:bg-zinc-600" />
 
 							<DropdownMenuItem className="dark:focus:bg-zinc-700" asChild>
-								<Link href="/dashboard/settings">
+								<Link href="/admin/settings">
 									<SettingsIcon className="mr-2 h-4 w-4" /> Settings
 								</Link>
 							</DropdownMenuItem>
