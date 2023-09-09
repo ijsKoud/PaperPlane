@@ -11,7 +11,8 @@ const UseDashboardSettings = () => {
 		embedEnabled: false,
 		nameLength: 10,
 		nameStrategy: "id",
-		tokens: []
+		tokens: [],
+		embed: { title: "", description: "", color: "" }
 	});
 	const { data } = useSwrWithUpdates<DashboardSettingsGetApi>("/api/dashboard/settings");
 

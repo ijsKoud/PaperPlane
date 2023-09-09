@@ -13,10 +13,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@paperplane/ui/switch";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
+import { EmbedSettingsDialog } from "./EmbedSettingsDialog";
 
 type SettingsFormProps = Omit<DashboardSettingsGetApi, "tokens">;
 
-const SettingsForm: React.FC<SettingsFormProps> = ({ nameLength, nameStrategy, embedEnabled }) => {
+const SettingsForm: React.FC<SettingsFormProps> = ({ nameLength, nameStrategy, embedEnabled, embed }) => {
 	const { toast } = useToast();
 	const FormSchema = z.object({
 		embedEnabled: z.boolean(),
@@ -121,10 +122,18 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ nameLength, nameStrategy, e
 						)}
 					/>
 
-					<Button type="submit" disabled={form.formState.isSubmitting || !form.formState.isValid}>
-						{form.formState.isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Settings2Icon className="mr-2 h-4 w-4" />}{" "}
-						Update settings
-					</Button>
+					<div className="flex items-center gap-2">
+						<Button type="submit" disabled={form.formState.isSubmitting || !form.formState.isValid}>
+							{form.formState.isSubmitting ? (
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+							) : (
+								<Settings2Icon className="mr-2 h-4 w-4" />
+							)}{" "}
+							Update settings
+						</Button>
+
+						<EmbedSettingsDialog {...embed} />
+					</div>
 				</form>
 			</Form>
 		</div>
