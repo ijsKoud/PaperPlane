@@ -88,7 +88,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ domain, isOpen, setI
 				},
 				{ withCredentials: true }
 			);
-			toast({ title: "Shorturl updated", description: "The url has been updated." });
+			toast({ title: "User updated", description: "The user has been updated." });
 		} catch (err) {
 			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
 			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
