@@ -327,7 +327,8 @@ export class Domain {
 			extensionsMode: this.extensionsMode,
 			maxStorage: this.maxStorage,
 			storage: this.storage,
-			uploadSize: this.uploadSize
+			uploadSize: this.uploadSize,
+			auditlog: this.auditlogDuration
 		};
 	}
 
