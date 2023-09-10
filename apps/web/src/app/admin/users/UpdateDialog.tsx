@@ -275,7 +275,11 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ domain, isOpen, setI
 												<strong>{".<extension>,.<extension>,...etc (e.x.: .png,.jpg)."}</strong>
 											</FormDescription>
 											<FormControl>
-												<Input value={field.value} onChange={field.onChange} placeholder="Valid amount here..." />
+												<Input
+													value={field.value}
+													onChange={(ctx) => field.onChange(ctx.currentTarget.value.split(","))}
+													placeholder="Valid amount here..."
+												/>
 											</FormControl>
 											<FormMessage />
 										</FormItem>
