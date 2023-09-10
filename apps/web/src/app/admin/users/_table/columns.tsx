@@ -71,7 +71,6 @@ export const columns: ColumnDef<Domain>[] = [
 		header: "Storage Used",
 		cell: ({ row }) => {
 			const value = row.getValue("storage") as number;
-			if (!value) return <InfinityIcon className="h-4 w-4" aria-label="Infinite" />;
 			return <span>{formatBytes(value)}</span>;
 		}
 	},
