@@ -276,7 +276,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ domain, isOpen, setI
 											</FormDescription>
 											<FormControl>
 												<Input
-													value={field.value}
+													value={field.value.join(",")}
 													onChange={(ctx) => field.onChange(ctx.currentTarget.value.split(","))}
 													placeholder="Valid amount here..."
 												/>
