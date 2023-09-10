@@ -26,7 +26,7 @@
 		"axios": "^1.5.0",
 		"cors": "^2.8.5",
 		"file-saver": "^2.0.5",
-		"formik": "^2.4.3",
+		"formik": "^2.4.4",
 		"next-seo": "^6.1.0",
 		"rc-progress": "^3.5.1",
 		"react-spinners": "^0.13.8",
