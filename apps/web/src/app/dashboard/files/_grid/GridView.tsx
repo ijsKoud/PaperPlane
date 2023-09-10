@@ -1,3 +1,5 @@
+"use client";
+
 import { ApiFile } from "@paperplane/utils";
 import React, { useState } from "react";
 import GridCard from "./GridCard";
@@ -7,6 +9,17 @@ import { Trash2Icon } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger
+} from "@paperplane/ui/alert-dialog";
 
 export interface GridViewProps {
 	files: ApiFile[];
@@ -64,9 +77,27 @@ export const GridView: React.FC<GridViewProps> = ({ files, page, pages, setPage 
 			</div>
 
 			<div className="flex items-center justify-between w-full max-sm:flex-col">
-				<Button className="mt-2" variant="destructive" onClick={deleteFiles} disabled={selected.length <= 0}>
-					<Trash2Icon className="mr-2 w-4 h-4" /> Delete {selected.length} files
-				</Button>
+				<AlertDialog>
+					<AlertDialogTrigger asChild>
+						<Button className="mt-2" variant="destructive" disabled={selected.length <= 0}>
+							<Trash2Icon className="mr-2 w-4 h-4" /> Delete {selected.length} files
+						</Button>
+					</AlertDialogTrigger>
+
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+							<AlertDialogDescription>
+								This action cannot be undone. This will permanently delete <strong>{selected.length}</strong> files from PaperPlane.
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+
+						<AlertDialogFooter>
+							<AlertDialogCancel>Cancel</AlertDialogCancel>
+							<AlertDialogAction onClick={deleteFiles}>Delete</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 
 				<div className="flex items-center mt-2 gap-2 w-fit">
 					<Button variant="outline" onClick={previousPage} disabled={page <= 0}>

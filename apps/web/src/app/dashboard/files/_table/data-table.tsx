@@ -9,6 +9,17 @@ import { ToastAction } from "@paperplane/ui/toast";
 import { Button } from "@paperplane/ui/button";
 import { Trash2Icon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger
+} from "@paperplane/ui/alert-dialog";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -102,9 +113,28 @@ export const DataTable = <TData, TValue>({ columns, data, page, pages, setPage }
 			</div>
 
 			<div className="flex items-center justify-between max-sm:flex-col">
-				<Button className="mt-2" variant="destructive" onClick={deleteFiles} disabled={table.getFilteredSelectedRowModel().rows.length <= 0}>
-					<Trash2Icon className="mr-2 w-4 h-4" /> Delete {table.getFilteredSelectedRowModel().rows.length} files
-				</Button>
+				<AlertDialog>
+					<AlertDialogTrigger asChild>
+						<Button className="mt-2" variant="destructive" disabled={table.getFilteredSelectedRowModel().rows.length <= 0}>
+							<Trash2Icon className="mr-2 w-4 h-4" /> Delete {table.getFilteredSelectedRowModel().rows.length} files
+						</Button>
+					</AlertDialogTrigger>
+
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+							<AlertDialogDescription>
+								This action cannot be undone. This will permanently delete{" "}
+								<strong>{table.getFilteredSelectedRowModel().rows.length}</strong> fikes from PaperPlane.
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+
+						<AlertDialogFooter>
+							<AlertDialogCancel>Cancel</AlertDialogCancel>
+							<AlertDialogAction onClick={deleteFiles}>Delete</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 
 				<div className="flex items-center mt-2 gap-2">
 					<Button variant="outline" onClick={previousPage} disabled={page <= 0}>
