@@ -34,7 +34,7 @@ export const UsersTable: React.FC = () => {
 						className="w-fit"
 						value={data.search}
 						onChange={(ctx) => data.setSearch(ctx.currentTarget.value)}
-						placeholder="Search for a shorturl..."
+						placeholder="Search for a users..."
 					/>
 
 					<Select value={data.sort.toString()} onValueChange={(value) => data.setSort(Number(value))}>
