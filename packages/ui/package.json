@@ -28,7 +28,7 @@
 		"react-spinners": "^0.13.8",
 		"react-switch": "^7.0.0",
 		"react-syntax-highlighter": "^15.5.0",
-		"short-unique-id": "^4.4.4",
+		"short-unique-id": "^5.0.2",
 		"yup": "^1.2.0"
 	},
 	"devDependencies": {
