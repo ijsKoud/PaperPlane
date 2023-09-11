@@ -26,7 +26,7 @@
 		"cron": "^2.4.3",
 		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
-		"express-rate-limit": "^6.10.0",
+		"express-rate-limit": "^6.11.0",
 		"formidable": "^3.5.1",
 		"fuse.js": "^6.6.2",
 		"jsonwebtoken": "^9.0.2",
@@ -39,7 +39,7 @@
 		"pidusage": "^3.0.2",
 		"prisma": "^5.2.0",
 		"short-unique-id": "^5.0.2",
-		"ua-parser-js": "^1.0.35",
+		"ua-parser-js": "^1.0.36",
 		"winston": "^3.10.0",
 		"winston-daily-rotate-file": "^4.7.1",
 		"zip-lib": "^0.7.3"

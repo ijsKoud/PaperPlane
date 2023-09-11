@@ -4359,12 +4359,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:^6.10.0":
-  version: 6.10.0
-  resolution: "express-rate-limit@npm:6.10.0"
+"express-rate-limit@npm:^6.11.0":
+  version: 6.11.0
+  resolution: "express-rate-limit@npm:6.11.0"
   peerDependencies:
     express: ^4 || ^5
-  checksum: f8319d137f77ba622dfb545d17829ae92d9540aad012c16c519a8a6f5b2b11b1766de58d9ce01ff0881ee618f6a19583311e6f986e8c4c48f8f7435b23d95bbc
+  checksum: a2dc7ffa9eb6c43c7d2840bd481fb18f67d2541d705d4ea272fc6c1ddcce290cb80b21fea699808fd2e809da3e8e14e8e34f11a0006d6d5740a7b0057f92d144
   languageName: node
   linkType: hard
 
@@ -8536,7 +8536,7 @@ __metadata:
     dotenv: ^16.3.1
     eslint: 8.49.0
     express: ^4.18.2
-    express-rate-limit: ^6.10.0
+    express-rate-limit: ^6.11.0
     formidable: ^3.5.1
     fuse.js: ^6.6.2
     jsonwebtoken: ^9.0.2
@@ -8550,7 +8550,7 @@ __metadata:
     prisma: ^5.2.0
     short-unique-id: ^5.0.2
     typescript: ^5.2.2
-    ua-parser-js: ^1.0.35
+    ua-parser-js: ^1.0.36
     winston: ^3.10.0
     winston-daily-rotate-file: ^4.7.1
     zip-lib: ^0.7.3
@@ -9498,10 +9498,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ua-parser-js@npm:^1.0.35":
-  version: 1.0.35
-  resolution: "ua-parser-js@npm:1.0.35"
-  checksum: 02370d38a0c8b586f2503d1c3bbba5cbc0b97d407282f9023201a99e4c03eae4357a2800fdf50cf80d73ec25c0b0cc5bfbaa03975b0add4043d6e4c86712c9c1
+"ua-parser-js@npm:^1.0.36":
+  version: 1.0.36
+  resolution: "ua-parser-js@npm:1.0.36"
+  checksum: 5b2c8a5e3443dfbba7624421805de946457c26ae167cb2275781a2729d1518f7067c9d5c74c3b0acac4b9ff3278cae4eace08ca6eecb63848bc3b2f6a63cc975
   languageName: node
   linkType: hard
 
