@@ -1,7 +1,7 @@
 "use client";
 
 import { PAPERPLANE_VERSION, formatBytes, getCircleColor } from "@paperplane/utils";
-import { CircleProgressBar } from "@paperplane/components/src/global/Progress/Circle";
+import CircleProgressBar from "@paperplane/components/progress-circle";
 import type React from "react";
 import { UseDashboardStats } from "./_lib/hooks";
 import { InfinityIcon } from "lucide-react";
