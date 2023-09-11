@@ -40,7 +40,7 @@ export class Utils {
 			case "id":
 			default: {
 				const genId = new ShortUniqueId.default({ length });
-				return genId();
+				return genId.rnd();
 			}
 			case "zerowidth": {
 				const invisibleCharset = ["\u200B", "\u2060", "\u200C", "\u200D"];

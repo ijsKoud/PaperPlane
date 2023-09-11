@@ -8548,7 +8548,7 @@ __metadata:
     node-os-utils: ^1.3.7
     pidusage: ^3.0.2
     prisma: ^5.2.0
-    short-unique-id: ^4.4.4
+    short-unique-id: ^5.0.2
     typescript: ^5.2.2
     ua-parser-js: ^1.0.35
     winston: ^3.10.0
@@ -8589,13 +8589,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"short-unique-id@npm:^4.4.4":
-  version: 4.4.4
-  resolution: "short-unique-id@npm:4.4.4"
+"short-unique-id@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "short-unique-id@npm:5.0.2"
   bin:
     short-unique-id: bin/short-unique-id
     suid: bin/short-unique-id
-  checksum: 3507f2e97326e49180dd4edbf41dd762a76c591df3fd5b7c1e7592bfb0c2f5724d63e626cc6f581c717d3111374811ca1d77a728ac07b0b9041b2355700124d4
+  checksum: f376233cc69ca232d31f511fe8bcd787a6f2e0673dcf84f152acd6f4ec8e869b9624e453ac7419909785f3c3ea55d94bb1bfac6bde4648353bd45c1e2401101a
   languageName: node
   linkType: hard
 
