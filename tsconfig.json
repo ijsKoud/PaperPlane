@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"noUnusedParameters": false,
 		"useUnknownInCatchVariables": false,
-		"module": "ESNext",
+		"module": "NodeNext",
 		"moduleResolution": "NodeNext"
 	},
 	"exclude": ["node_modules"],
