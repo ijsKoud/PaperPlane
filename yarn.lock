@@ -1393,22 +1393,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-table@npm:8.9.3":
-  version: 8.9.3
-  resolution: "@tanstack/react-table@npm:8.9.3"
+"@tanstack/react-table@npm:8.9.8":
+  version: 8.9.8
+  resolution: "@tanstack/react-table@npm:8.9.8"
   dependencies:
-    "@tanstack/table-core": 8.9.3
+    "@tanstack/table-core": 8.9.8
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: a71fbbc608bb11b79ecd2b1a838fad2fc4140f9eb1a25bd44b6b1b4c6acd52741b5745e3e022390c642c284d0d528249360e322c0dbc3d34fea031611c207a7d
+  checksum: efbdd291dfb10fff1185f9410078d5fba5f54aa087e7d842a7c2ca6877374316ba7b0cbbfb27303bc174ff7d212587a33c00bba8bbf122bcacf07affb545eb28
   languageName: node
   linkType: hard
 
-"@tanstack/table-core@npm:8.9.3":
-  version: 8.9.3
-  resolution: "@tanstack/table-core@npm:8.9.3"
-  checksum: 52c7e57daaa3160450fb0bde702ec0b8aab159e2b19efd1012e03b3e167acc52839f5b39578cc8bf96e91346719f400d0435a5191384c168d9477da82f276c38
+"@tanstack/table-core@npm:8.9.8":
+  version: 8.9.8
+  resolution: "@tanstack/table-core@npm:8.9.8"
+  checksum: 9dde7eaa4e6132e1242f2f39b76c6b3263102994e1d2c1a27b49ebabb9b7c4ef1a065a4889d8b31a29b04b612e89ad92fd190d5c1656bfa38dd1509bc41a94b9
   languageName: node
   linkType: hard
 
@@ -3629,7 +3629,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:*, express-rate-limit@npm:^6.11.0":
+"express-rate-limit@npm:*, express-rate-limit@npm:^6.11.1":
   version: 6.11.1
   resolution: "express-rate-limit@npm:6.11.1"
   peerDependencies:
@@ -5249,12 +5249,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.272.0":
-  version: 0.272.0
-  resolution: "lucide-react@npm:0.272.0"
+"lucide-react@npm:^0.276.0":
+  version: 0.276.0
+  resolution: "lucide-react@npm:0.276.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 5ca716c42efdf746b76ab0e7dd2270b3d37129d60d6a278ce625130f6edf318685179df206fa05597ba9b3779f6444d21124055ecc06691bc7119560ac975848
+  checksum: bf57d3345b778cc13c393bbba9ce308f0e96c9aab247e3604610138860d5579c6a2a93250e1768795a5bb4d6419b19f065adbe1ddd6b0da180101bd73194d7b4
   languageName: node
   linkType: hard
 
@@ -6456,7 +6456,7 @@ __metadata:
     "@sapphire/eslint-config": ^5.0.2
     "@sapphire/ts-config": 5.0.0
     "@snowcrystals/prettier-config": ^1.0.0
-    "@tanstack/react-table": 8.9.3
+    "@tanstack/react-table": 8.9.8
     "@types/node": 18.17.15
     "@typescript-eslint/eslint-plugin": ^6.6.0
     "@typescript-eslint/parser": ^6.6.0
@@ -6469,14 +6469,14 @@ __metadata:
     husky: ^8.0.3
     is-ci: ^3.0.1
     lint-staged: ^14.0.1
-    lucide-react: ^0.272.0
+    lucide-react: ^0.276.0
     next: ^13.4.19
     next-themes: 0.2.1
     pinst: ^3.0.0
     prettier: ^3.0.3
     react: 18.2.0
     react-dom: ^18.2.0
-    react-hook-form: ^7.45.4
+    react-hook-form: ^7.46.1
     tailwind-merge: ^1.14.0
     tailwindcss: ^3.3.3
     tailwindcss-animate: ^1.0.7
@@ -6946,7 +6946,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.45.4":
+"react-hook-form@npm:^7.46.1":
   version: 7.46.1
   resolution: "react-hook-form@npm:7.46.1"
   peerDependencies:
@@ -7474,7 +7474,7 @@ __metadata:
     dotenv: ^16.3.1
     eslint: 8.49.0
     express: ^4.18.2
-    express-rate-limit: ^6.11.0
+    express-rate-limit: ^6.11.1
     formidable: ^3.5.1
     fuse.js: ^6.6.2
     jsonwebtoken: ^9.0.2
