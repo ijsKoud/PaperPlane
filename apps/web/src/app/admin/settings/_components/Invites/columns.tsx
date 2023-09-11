@@ -11,14 +11,14 @@ import {
 	DropdownMenuTrigger
 } from "@paperplane/ui/dropdown-menu";
 import { Checkbox } from "@paperplane/ui/checkbox";
-import { SignUpDomain, formatDate } from "@paperplane/utils";
+import { Invite, formatDate } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
 
-export const columns: ColumnDef<SignUpDomain>[] = [
+export const columns: ColumnDef<Invite>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (
@@ -35,8 +35,8 @@ export const columns: ColumnDef<SignUpDomain>[] = [
 		enableHiding: false
 	},
 	{
-		accessorKey: "domain",
-		header: "Domain"
+		accessorKey: "invite",
+		header: "Code"
 	},
 	{
 		accessorKey: "date",
@@ -50,12 +50,11 @@ export const columns: ColumnDef<SignUpDomain>[] = [
 		id: "actions",
 		cell: ({ row }) => {
 			const { toast } = useToast();
-			const domain = row.getValue("domain") as string;
-
-			async function deleteDomain() {
+			const inviteCode = row.getValue("invite") as string;
+			async function deleteInvite() {
 				try {
-					await axios.delete("/api/admin/domains", { data: { domains: [domain] } });
-					toast({ title: "Domain Deleted", description: `${domain} has been deleted.` });
+					await axios.delete("/api/invites/create", { data: { invites: [inviteCode] } });
+					toast({ title: "Invite Deleted", description: `${inviteCode} has been deleted.` });
 				} catch (err) {
 					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
 					const error = _error || "n/a";
@@ -65,7 +64,7 @@ export const columns: ColumnDef<SignUpDomain>[] = [
 						title: "Uh oh! Something went wrong",
 						description: `There was a problem with your request: ${error}`,
 						action: (
-							<ToastAction altText="Try again" onClick={deleteDomain}>
+							<ToastAction altText="Try again" onClick={deleteInvite}>
 								Try again
 							</ToastAction>
 						)
@@ -85,7 +84,8 @@ export const columns: ColumnDef<SignUpDomain>[] = [
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 
 						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={deleteDomain}>Delete</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => void navigator.clipboard.writeText(inviteCode)}>Copy</DropdownMenuItem>
+						<DropdownMenuItem onClick={deleteInvite}>Delete</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);

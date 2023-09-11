@@ -1,5 +1,5 @@
 import { useSwrWithUpdates } from "@paperplane/swr";
-import { AuditLogApi, ServiceApi, SignUpDomainGetApi } from "@paperplane/utils";
+import { AuditLogApi, InviteGetApi, ServiceApi, SignUpDomainGetApi } from "@paperplane/utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -58,6 +58,23 @@ export const UseAdminDomains = () => {
 
 	return {
 		...domainData,
+		page,
+		setPage
+	};
+};
+
+export const UseAdminInvites = () => {
+	const [page, setPage] = useState(0);
+
+	const [inviteData, setInviteData] = useState<InviteGetApi>({ entries: [], pages: 0 });
+	const { data } = useSwrWithUpdates<InviteGetApi>(`/api/invites/list?page=${page}`);
+
+	useEffect(() => {
+		if (data) setInviteData(data);
+	}, [data]);
+
+	return {
+		...inviteData,
 		page,
 		setPage
 	};
