@@ -35,7 +35,7 @@ COPY --from=builder /paperplane/.yarn ./.yarn
 # Copy and install dependencies
 COPY --from=builder /paperplane/out/json/ .
 COPY --from=builder /paperplane/yarn.lock ./yarn.lock
-RUN yarn install --immutable
+RUN yarn install
 
 # Copy build files
 COPY --from=builder /paperplane/out/full/ .
