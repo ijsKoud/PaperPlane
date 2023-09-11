@@ -9,6 +9,7 @@ import { Auth } from "../Auth.js";
 import { Collection } from "@discordjs/collection";
 import { CronJob } from "cron";
 import { existsSync } from "node:fs";
+import type { File } from "formidable";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -185,8 +186,8 @@ export class Domain {
 		this.apiTokens = res;
 	}
 
-	public async addFile(file: Express.Multer.File): Promise<string> {
-		const id = Utils.generateId(this.nameStrategy, this.nameLength) || file.originalname.split(".")[0];
+	public async addFile(file: Express.Multer.File, name?: string | undefined, password?: string): Promise<string> {
+		const id = name || Utils.generateId(this.nameStrategy, this.nameLength) || file.originalname.split(".")[0];
 		const fileExt = file.filename.split(".").filter(Boolean).slice(1).join(".");
 
 		const authBuffer = Buffer.from(`${Auth.generateToken(32)}.${Date.now()}.${this.domain}.${id}`).toString("base64");
@@ -195,18 +196,48 @@ export class Domain {
 		const fileData = await this.server.prisma.file.create({
 			data: {
 				id,
+				authSecret,
 				date: new Date(),
+				mimeType: file.mimetype,
+				domain: this.domain,
 				path: join(this.filesPath, file.filename),
 				size: this.server.config.parseStorage(file.size),
-				domain: this.domain,
-				mimeType: file.mimetype,
-				authSecret
+				password: password ? Auth.encryptPassword(password, this.server.envConfig.encryptionKey) : undefined
 			}
 		});
 
 		const filename = `${fileData.id}${this.nameStrategy === "zerowidth" ? "" : `.${fileExt}`}`;
 		this.auditlogs.register("File Upload", `File: ${filename}, size: ${this.server.config.parseStorage(file.size)}`);
 		return filename;
+	}
+
+	public async registerUpload(file: File, options: { name?: string; password?: string; visible?: boolean } = {}): Promise<string> {
+		const fileExt = file.newFilename.split(".").filter(Boolean).slice(1).join(".");
+		const id =
+			options.name ||
+			Utils.generateId(this.nameStrategy, this.nameLength) ||
+			file.originalFilename?.split(".")[0] ||
+			Utils.generateId("id", 32)!;
+
+		const authBuffer = Buffer.from(`${Auth.generateToken(32)}.${Date.now()}.${this.domain}.${id}`).toString("base64");
+		const authSecret = Auth.encryptToken(authBuffer, this.server.envConfig.encryptionKey);
+
+		const fileData = await this.server.prisma.file.create({
+			data: {
+				id: this.nameStrategy === "zerowidth" ? id : `${id}.${fileExt}`,
+				authSecret,
+				date: new Date(),
+				mimeType: file.mimetype!,
+				domain: this.domain,
+				visible: options.visible,
+				path: join(this.filesPath, file.newFilename),
+				size: this.server.config.parseStorage(file.size),
+				password: options.password ? Auth.encryptPassword(options.password, this.server.envConfig.encryptionKey) : undefined
+			}
+		});
+
+		this.auditlogs.register("File Upload", `File: ${fileData.id}, size: ${this.server.config.parseStorage(file.size)}`);
+		return fileData.id;
 	}
 
 	public addView(id: string) {
@@ -296,7 +327,8 @@ export class Domain {
 			extensionsMode: this.extensionsMode,
 			maxStorage: this.maxStorage,
 			storage: this.storage,
-			uploadSize: this.uploadSize
+			uploadSize: this.uploadSize,
+			auditlog: this.auditlogDuration
 		};
 	}
 

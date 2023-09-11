@@ -12,7 +12,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 
 	const files = await server.prisma.file.findMany({ where: { domain: req.locals.domain.domain } });
 	const data = req.body as FilesEditFormBody;
-	if (typeof data.name !== "string" || data.name.includes(".") || data.name.includes("/")) {
+	if (typeof data.name !== "string" || data.name.includes("/")) {
 		res.status(400).send({ message: "Invalid file name provided" });
 		return;
 	}

@@ -1,6 +1,16 @@
 import { Timestamp } from "@sapphire/timestamp";
 import packageJSON from "../../../package.json";
 import type { TIME_UNITS_ARRAY } from "./Admin";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs));
+}
+
+export function parseSearchParam(param: string | string[] | undefined): string | undefined {
+	return Array.isArray(param) ? param[0] : param;
+}
 
 export const PAPERPLANE_VERSION = packageJSON.version;
 export const STORAGE_UNITS = ["B", "kB", "MB", "GB", "TB", "PB"] as const;
@@ -63,3 +73,6 @@ export const generateToken = (length = 32) => {
 export * from "./Dashboard";
 export * from "./Admin";
 export * from "./SignUp";
+
+export * from "./NotFound";
+export * from "./types";

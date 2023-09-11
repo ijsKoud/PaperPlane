@@ -8,5 +8,5 @@ const packagesPaths = packages.map((pkg) => `../../packages/${pkg}/**/*.{js,ts,j
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	...config,
-	content: ["./src/pages/**/*.{js,ts,jsx,tsx}", ...packagesPaths]
+	content: ["./src/**/*.{js,ts,jsx,tsx}", ...packagesPaths]
 };

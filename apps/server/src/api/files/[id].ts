@@ -11,8 +11,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 	const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
 	const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
 
-	const { id: _id } = req.params;
-	const [id] = _id.split(".");
+	const { id } = req.params;
 	const file = await server.prisma.file.findFirst({ where: { domain: host?.domain ?? "", id } });
 
 	const embed = host?.embedEnabled

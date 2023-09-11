@@ -113,6 +113,7 @@ export interface DashboardSettingsGetApi {
 	nameLength: number;
 	embedEnabled: boolean;
 	tokens: Token[];
+	embed: DashboardEmbedGetApi;
 }
 
 export interface Token {

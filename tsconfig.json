@@ -1,9 +1,9 @@
 {
-	"extends": "@sapphire/ts-config/extra-strict-without-decorators",
+	"extends": ["@sapphire/ts-config", "@sapphire/ts-config/extra-strict", "@sapphire/ts-config/verbatim"],
 	"compilerOptions": {
 		"noUnusedParameters": false,
 		"useUnknownInCatchVariables": false,
-		"module": "ESNext",
+		"module": "NodeNext",
 		"moduleResolution": "NodeNext"
 	},
 	"exclude": ["node_modules"],

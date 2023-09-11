@@ -62,6 +62,7 @@ export interface Domain {
 	maxStorage: number;
 	storage: number;
 	uploadSize: number;
+	auditlog: number;
 }
 
 export interface CreateGetApi {
