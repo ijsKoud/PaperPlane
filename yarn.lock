@@ -632,7 +632,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@paperplane/markdown@workspace:packages/markdown":
+"@paperplane/markdown@*, @paperplane/markdown@workspace:packages/markdown":
   version: 0.0.0-use.local
   resolution: "@paperplane/markdown@workspace:packages/markdown"
   dependencies:
@@ -9631,6 +9631,7 @@ __metadata:
   dependencies:
     "@paperplane/components": "*"
     "@paperplane/logo": "*"
+    "@paperplane/markdown": "*"
     "@paperplane/swr": "*"
     "@paperplane/ui": "*"
     "@paperplane/utils": "*"

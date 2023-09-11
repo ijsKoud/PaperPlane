@@ -19,6 +19,7 @@
 	"dependencies": {
 		"@paperplane/components": "*",
 		"@paperplane/logo": "*",
+		"@paperplane/markdown": "*",
 		"@paperplane/swr": "*",
 		"@paperplane/ui": "*",
 		"@paperplane/utils": "*",
