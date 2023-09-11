@@ -1,0 +1,37 @@
+{
+	"name": "@paperplane/components",
+	"version": "0.0.0",
+	"license": "MIT",
+	"type": "module",
+	"files": [
+		"src",
+		"layouts",
+		"navbar",
+		"Context",
+		"glitch",
+		"ThemeToggle.tsx",
+		"progress-circle.tsx"
+	],
+	"scripts": {
+		"lint": "TIMING=1 eslint"
+	},
+	"peerDependencies": {
+		"next": "13.4.19",
+		"react": "^18.2.0",
+		"react-dom": "18.2.0"
+	},
+	"dependencies": {
+		"@paperplane/ui": "*",
+		"@paperplane/utils": "*",
+		"axios": "^1.5.0",
+		"cookies-next": "4.0.0",
+		"ms": "^2.1.3",
+		"rc-progress": "^3.5.1"
+	},
+	"devDependencies": {
+		"@types/react": "^18.2.21",
+		"@types/react-dom": "^18.2.7",
+		"eslint": "8.49.0",
+		"typescript": "^5.2.2"
+	}
+}

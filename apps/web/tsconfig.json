@@ -15,8 +15,13 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"verbatimModuleSyntax": false,
-		"isolatedModules": true
+		"isolatedModules": true,
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
 	},
-	"include": ["next-env.d.ts", "huge-uploader.d.ts", "**/*.ts", "**/*.tsx"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
 	"exclude": ["node_modules"]
 }

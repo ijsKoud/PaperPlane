@@ -121,7 +121,6 @@ export interface UpdateUserFormBody {
 }
 
 export interface UpdateSettingsFormBody {
-	authMode: "2fa" | "password";
 	signUpMode: "closed" | "open" | "invite";
 
 	storage: string;
@@ -244,6 +243,7 @@ export interface BinEditFormBody {
 
 export interface BinCreateFormBody {
 	name?: string;
+	password?: string;
 	visible: boolean;
 	data: string;
 	highlight: string;

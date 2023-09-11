@@ -17,13 +17,23 @@
 		"postinstall": "is-ci || husky install"
 	},
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^6.5.0"
+		"@typescript-eslint/eslint-plugin": "^6.6.0"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^3.3.1",
 		"@next/font": "13.4.19",
+		"@tanstack/react-table": "8.9.3",
+		"class-variance-authority": "^0.7.0",
+		"clsx": "^2.0.0",
+		"lucide-react": "^0.272.0",
 		"next": "^13.4.19",
+		"next-themes": "0.2.1",
 		"react": "18.2.0",
-		"react-dom": "^18.2.0"
+		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.45.4",
+		"tailwind-merge": "^1.14.0",
+		"tailwindcss-animate": "^1.0.7",
+		"zod": "^3.22.2"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.7.1",
@@ -31,10 +41,10 @@
 		"@sapphire/eslint-config": "^5.0.2",
 		"@sapphire/ts-config": "4.0.1",
 		"@snowcrystals/prettier-config": "^1.0.0",
-		"@types/node": "18.17.14",
-		"@typescript-eslint/eslint-plugin": "^6.5.0",
-		"@typescript-eslint/parser": "^6.5.0",
-		"eslint": "^8.48.0",
+		"@types/node": "18.17.15",
+		"@typescript-eslint/eslint-plugin": "^6.6.0",
+		"@typescript-eslint/parser": "^6.6.0",
+		"eslint": "^8.49.0",
 		"eslint-config-next": "13.4.19",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-prettier": "^5.0.0",

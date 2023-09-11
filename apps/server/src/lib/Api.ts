@@ -18,7 +18,7 @@ export class Api {
 		await Promise.all(files.map((filePath) => this.loadFile(filePath)));
 
 		this.server.express.get("/files/:file", rateLimit({ max: 2e2, windowMs: 1e3 }), async (req, res) => {
-			const { file: _fileName } = req.params;
+			const { file: fileName } = req.params;
 
 			const domain = this.server.domains.get(req.headers.host || req.hostname);
 			if (!domain) {
@@ -31,7 +31,6 @@ export class Api {
 				return;
 			}
 
-			const fileName = _fileName.includes(".") ? _fileName.split(".")[0] : _fileName;
 			const file = await this.server.prisma.file.findFirst({ where: { domain: domain.domain, id: fileName } });
 
 			const checkForAuth = () => {
@@ -60,13 +59,13 @@ export class Api {
 			};
 
 			if (Boolean(file.password) && !checkForAuth() && !checkForPassword()) {
-				res.redirect(`/files/${_fileName}/auth`);
+				res.redirect(`/files/${fileName}/auth`);
 				return;
 			}
 
 			if (!req.query.raw) {
 				if (domain.embedEnabled || charset(lookup(file.path.split(/\//g).reverse()[0]) || "") === "UTF-8") {
-					await this.server.next.render(req, res, `/files/${_fileName}`);
+					await this.server.next.render(req, res, `/files/${fileName}`);
 					return;
 				}
 			}
