@@ -11,10 +11,9 @@ import {
 	DropdownMenuTrigger
 } from "@paperplane/ui/dropdown-menu";
 import { Checkbox } from "@paperplane/ui/checkbox";
-import { Domain, formatBytes, formatDate, getProtocol } from "@paperplane/utils";
+import { Domain, formatBytes, formatDate } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { InfinityIcon, MoreHorizontalIcon } from "lucide-react";
-import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
