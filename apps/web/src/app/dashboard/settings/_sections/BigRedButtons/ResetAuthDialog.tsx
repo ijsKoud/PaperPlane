@@ -7,7 +7,7 @@ import { DownloadIcon, FingerprintIcon, Loader2 } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { useSearchParams } from "next/navigation";
-import { TwoFAGetApi } from "@paperplane/components";
+import { MFAGetApi } from "@paperplane/utils";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ import { Input } from "@paperplane/ui/input";
 import { saveAs } from "file-saver";
 
 const UseMFAReset = () => {
-	const [data, setData] = useState<TwoFAGetApi>();
+	const [data, setData] = useState<MFAGetApi>();
 	useEffect(() => {
 		void axios.post("/api/auth/reset", undefined, { withCredentials: true }).then((res) => setData(res.data));
 		const interval = setInterval(() => axios.post("/api/auth/reset", undefined, { withCredentials: true }).then((res) => setData(res.data)), 9e5);

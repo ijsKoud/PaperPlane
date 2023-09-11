@@ -11,7 +11,7 @@ export const AuthMode: React.FC = async () => {
 	});
 
 	return (
-		<div className="space-y-2">
+		<section className="space-y-2">
 			<div>
 				<h2 className="text-5 font-semibold">Authentication Mode</h2>
 				<p className="text-4">
@@ -28,6 +28,6 @@ export const AuthMode: React.FC = async () => {
 			</p>
 
 			<SelectMenu value={mode.data} />
-		</div>
+		</section>
 	);
 };

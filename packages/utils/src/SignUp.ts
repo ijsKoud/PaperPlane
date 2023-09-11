@@ -3,3 +3,9 @@ export interface SignUpGetApi {
 	mode: "closed" | "open" | "invite";
 	domains: string[];
 }
+
+export interface MFAGetApi {
+	key: string;
+	uri: string;
+	secret: string;
+}

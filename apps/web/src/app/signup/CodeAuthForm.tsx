@@ -11,7 +11,7 @@ import { Loader2, RocketIcon } from "lucide-react";
 import { Input } from "@paperplane/ui/input";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { TwoFAGetApi } from "@paperplane/components";
+import { MFAGetApi } from "@paperplane/utils";
 import { CodesDialog } from "./CodesDialog";
 
 export interface AuthFormProps {
@@ -20,7 +20,7 @@ export interface AuthFormProps {
 }
 
 const UseTwoFactorKey = () => {
-	const [keyData, setKeyData] = useState<TwoFAGetApi>({ key: "", secret: "", uri: "" });
+	const [keyData, setKeyData] = useState<MFAGetApi>({ key: "", secret: "", uri: "" });
 
 	/**
 	 * Creates a valid 2fa QR-code
