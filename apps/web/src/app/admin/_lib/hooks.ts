@@ -1,5 +1,5 @@
 import { useSwrWithUpdates } from "@paperplane/swr";
-import { AuditLogApi, ServiceApi } from "@paperplane/utils";
+import { AuditLogApi, ServiceApi, SignUpDomainGetApi } from "@paperplane/utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -43,5 +43,22 @@ export const UseAdminAudit = () => {
 		setPage,
 		search,
 		setSearch
+	};
+};
+
+export const UseAdminDomains = () => {
+	const [page, setPage] = useState(0);
+
+	const [domainData, setDomainData] = useState<SignUpDomainGetApi>({ entries: [], pages: 0 });
+	const { data } = useSwrWithUpdates<SignUpDomainGetApi>(`/api/admin/domains?page=${page}`);
+
+	useEffect(() => {
+		if (data) setDomainData(data);
+	}, [data]);
+
+	return {
+		...domainData,
+		page,
+		setPage
 	};
 };
