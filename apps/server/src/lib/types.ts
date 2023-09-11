@@ -121,7 +121,6 @@ export interface UpdateUserFormBody {
 }
 
 export interface UpdateSettingsFormBody {
-	authMode: "2fa" | "password";
 	signUpMode: "closed" | "open" | "invite";
 
 	storage: string;
