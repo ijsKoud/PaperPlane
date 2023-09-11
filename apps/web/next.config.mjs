@@ -7,7 +7,6 @@
 const config = {
 	reactStrictMode: false,
 	transpilePackages: [
-		"@paperplane/buttons",
 		"@paperplane/logo",
 		"@paperplane/markdown",
 		"@paperplane/swr",

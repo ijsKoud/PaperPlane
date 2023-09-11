@@ -2,7 +2,6 @@ import type React from "react";
 import type { Metadata } from "next";
 import { PageProps, SearchParams, getProtocol, parseSearchParam } from "@paperplane/utils";
 import axios from "axios";
-import { SelectOption } from "@paperplane/forms";
 import { headers } from "next/headers";
 import { AuthForm } from "./AuthForm";
 
@@ -38,6 +37,6 @@ const Page: React.FC<PageProps<undefined, SearchParams<"user" | "type">>> = asyn
 export default Page;
 
 interface AuthApiResponse {
-	options: SelectOption[];
+	options: { value: string; label: string }[];
 	mode: "2fa" | "password";
 }

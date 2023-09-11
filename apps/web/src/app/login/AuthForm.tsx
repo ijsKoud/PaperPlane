@@ -2,7 +2,6 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@paperplane/ui/form";
-import { SelectOption } from "@paperplane/forms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -15,7 +14,7 @@ import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 export interface AuthFormProps {
-	options: SelectOption[];
+	options: { value: string; label: string }[];
 	user: string | undefined;
 	mode: "2fa" | "password";
 }
