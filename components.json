@@ -1,0 +1,16 @@
+{
+	"$schema": "https://ui.shadcn.com/schema.json",
+	"tsx": true,
+	"rsc": true,
+	"style": "default",
+	"aliases": {
+		"utils": "@paperplane/utils",
+		"components": "@paperplane/ui"
+	},
+	"tailwind": {
+		"baseColor": "zinc",
+		"config": "tailwind.config.cjs",
+		"css": "styles/global.css",
+		"cssVariables": false
+	}
+}

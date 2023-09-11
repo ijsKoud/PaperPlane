@@ -14,6 +14,7 @@ const config = {
 		"@paperplane/modal",
 		"@paperplane/navbar",
 		"@paperplane/swr",
+		"@paperplane/components",
 		"@paperplane/ui",
 		"@paperplane/utils"
 	]

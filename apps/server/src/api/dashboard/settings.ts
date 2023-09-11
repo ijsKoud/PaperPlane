@@ -14,7 +14,12 @@ export default async function handler(server: Server, req: DashboardRequest, res
 			tokens: req.locals.domain.apiTokens.map((token) => ({ name: token.name, date: token.date })),
 			nameLength: req.locals.domain.nameLength,
 			nameStrategy: req.locals.domain.nameStrategy,
-			embedEnabled: req.locals.domain.embedEnabled
+			embedEnabled: req.locals.domain.embedEnabled,
+			embed: {
+				title: req.locals.domain.embedTitle,
+				description: req.locals.domain.embedDescription,
+				color: req.locals.domain.embedColor
+			}
 		});
 
 		return;

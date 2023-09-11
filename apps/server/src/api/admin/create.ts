@@ -52,7 +52,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 			}
 
 			data.extensions = data.extensions.filter((ext) => ext.startsWith(".") && !ext.endsWith("."));
-			const domain = data.domain.startsWith("*.") ? `` : data.domain;
+			const domain = data.domain.startsWith("*.") ? `${data.extension}.${data.domain.replace("*.", "")}` : data.domain;
 
 			await server.domains.create({
 				disabled: false,
@@ -68,7 +68,7 @@ export default async function handler(server: Server, req: Request, res: Respons
 				await server.prisma.signupDomain.delete({ where: { domain: data.domain } });
 			}
 
-			server.adminAuditLogs.register("Create User", `User: ${data.domain} (${server.domains.get(data.domain)!.filesPath})`);
+			server.adminAuditLogs.register("Create User", `User: ${data.domain} (${server.domains.get(domain)!.filesPath})`);
 			res.sendStatus(204);
 			return;
 		} catch (err) {
