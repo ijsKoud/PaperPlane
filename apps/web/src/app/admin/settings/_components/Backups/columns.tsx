@@ -29,7 +29,7 @@ export const columns: ColumnDef<{ name: string }>[] = [
 
 			async function importBackup() {
 				try {
-					await axios.post("/api/admin/backups/import", { data: { id: name.replace(".zip", "") } });
+					await axios.post("/api/admin/backups/import", { id: name.replace(".zip", "") });
 					toast({
 						title: "Backup imported",
 						description: `${name} has been imported, please restart the server as soon as possible for the changes to be processed.`
