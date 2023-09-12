@@ -17,17 +17,17 @@ export class Api {
 		const files = this.readdirRecursive(join(__dirname, "..", "api")).filter((file) => file.endsWith(".js"));
 		await Promise.all(files.map((filePath) => this.loadFile(filePath)));
 
-		this.server.express.get("/files/:file", rateLimit({ max: 2e2, windowMs: 1e3 }), async (req, res) => {
+		this.server.express.get("/files/:file", rateLimit({ max: 2e2, windowMs: 1e3 }), async (req, res, next) => {
 			const { file: fileName } = req.params;
 
 			const domain = this.server.domains.get(req.headers.host || req.hostname);
 			if (!domain) {
-				await this.server.next.render404(req, res);
+				await this.server.next.render(req, res, "/404");
 				return;
 			}
 
 			if (domain.disabled) {
-				await this.server.next.render404(req, res);
+				await this.server.next.render(req, res, "/404");
 				return;
 			}
 
@@ -44,7 +44,7 @@ export class Api {
 			};
 
 			if (!file || (!file.visible && !checkForAuth())) {
-				await this.server.next.render404(req, res);
+				await this.server.next.render(req, res, "/404");
 				return;
 			}
 
@@ -100,12 +100,12 @@ export class Api {
 
 			const domain = this.server.domains.get(req.headers.host || req.hostname);
 			if (!domain) {
-				await this.server.next.render404(req, res);
+				await this.server.next.render(req, res, "/404");
 				return;
 			}
 
 			if (domain.disabled) {
-				await this.server.next.render404(req, res);
+				await this.server.next.render(req, res, "/404");
 				return;
 			}
 
@@ -122,7 +122,7 @@ export class Api {
 			};
 
 			if (!url || (!url.visible && !checkForAuth())) {
-				await this.server.next.render404(req, res);
+				await this.server.next.render(req, res, "/404");
 				return;
 			}
 
