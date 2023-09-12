@@ -89,10 +89,7 @@ export const DataTable = <TData, TValue>({ columns, data }: DataTableProps<TData
 				},
 				URL: "$json:url$",
 				Body: "MultipartFormData",
-				FileFormName: "file",
-				Arguments: {
-					name: "$filename$"
-				}
+				FileFormName: "file"
 			};
 
 			const blob = new Blob([JSON.stringify(config)], {
