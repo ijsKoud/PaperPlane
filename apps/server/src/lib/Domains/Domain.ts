@@ -195,7 +195,7 @@ export class Domain {
 
 		const fileData = await this.server.prisma.file.create({
 			data: {
-				id: this.nameStrategy === "zerowidth" ? id : `${id}.${fileExt}`,
+				id: this.nameStrategy === "zerowidth" || id.includes(".") ? id : `${id}.${fileExt}`,
 				authSecret,
 				date: new Date(),
 				mimeType: file.mimetype,
@@ -206,9 +206,8 @@ export class Domain {
 			}
 		});
 
-		const filename = `${fileData.id}${this.nameStrategy === "zerowidth" ? "" : `.${fileExt}`}`;
-		this.auditlogs.register("File Upload", `File: ${filename}, size: ${this.server.config.parseStorage(file.size)}`);
-		return filename;
+		this.auditlogs.register("File Upload", `File: ${fileData.id}, size: ${this.server.config.parseStorage(file.size)}`);
+		return fileData.id;
 	}
 
 	public async registerUpload(file: File, options: { name?: string; password?: string; visible?: boolean } = {}): Promise<string> {
@@ -224,7 +223,7 @@ export class Domain {
 
 		const fileData = await this.server.prisma.file.create({
 			data: {
-				id: this.nameStrategy === "zerowidth" ? id : `${id}.${fileExt}`,
+				id: this.nameStrategy === "zerowidth" || id.includes(".") ? id : `${id}.${fileExt}`,
 				authSecret,
 				date: new Date(),
 				mimeType: file.mimetype!,
