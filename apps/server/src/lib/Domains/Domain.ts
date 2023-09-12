@@ -195,7 +195,7 @@ export class Domain {
 
 		const fileData = await this.server.prisma.file.create({
 			data: {
-				id,
+				id: this.nameStrategy === "zerowidth" ? id : `${id}.${fileExt}`,
 				authSecret,
 				date: new Date(),
 				mimeType: file.mimetype,

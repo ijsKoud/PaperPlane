@@ -221,6 +221,7 @@ export class Config {
 	private async updateFiles() {
 		const files = await this.server.prisma.file.findMany();
 		let count = 0;
+		let extensionCount = 0;
 
 		for await (const file of files) {
 			if (file.mimeType.length) continue;
@@ -231,6 +232,19 @@ export class Config {
 			count++;
 		}
 
+		for await (const file of files) {
+			if (file.id.includes(".") || ["\u200B", "\u2060", "\u200C", "\u200D"].some((str) => file.id.includes(str))) continue;
+
+			const filename = file.path.split("/").reverse()[0];
+			const fileExt = filename.split(".").slice(1).filter(Boolean).join(".");
+			await this.server.prisma.file.update({
+				where: { id_domain: { id: file.id, domain: file.domain } },
+				data: { id: `${file.id}.${fileExt}` }
+			});
+			extensionCount++;
+		}
+
 		this.server.logger.info(`[CONFIG]: Updated mime-types for ${count} files`);
+		this.server.logger.info(`[CONFIG]: Updated extensions for ${extensionCount} files`);
 	}
 }
