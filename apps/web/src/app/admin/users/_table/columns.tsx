@@ -102,6 +102,30 @@ export const columns: ColumnDef<Domain>[] = [
 				}
 			}
 
+			async function resetUser() {
+				try {
+					await axios.post("/api/admin/reset-user", { domain: domain!.domain });
+					toast({
+						title: "User Reset",
+						description: `${domain!.domain} has been reset. They can now use the default backup code "paperplane-cdn".`
+					});
+				} catch (err) {
+					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
+					const error = _error || "n/a";
+
+					toast({
+						variant: "destructive",
+						title: "Uh oh! Something went wrong",
+						description: `There was a problem with your request: ${error}`,
+						action: (
+							<ToastAction altText="Try again" onClick={deleteUser}>
+								Try again
+							</ToastAction>
+						)
+					});
+				}
+			}
+
 			return (
 				<DropdownMenu>
 					<UpdateDialog domain={domain} isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -118,6 +142,7 @@ export const columns: ColumnDef<Domain>[] = [
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => setIsOpen(true)}>Edit</DropdownMenuItem>
 						<DropdownMenuItem onClick={deleteUser}>Delete</DropdownMenuItem>
+						<DropdownMenuItem onClick={resetUser}>Reset Auth</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);
