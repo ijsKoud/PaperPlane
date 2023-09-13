@@ -20,6 +20,7 @@ import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
 import { UpdateDialog } from "../UpdateDialog";
 import { useState } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@paperplane/ui/tooltip";
 
 export const columns: ColumnDef<ApiUrl>[] = [
 	{
@@ -43,7 +44,23 @@ export const columns: ColumnDef<ApiUrl>[] = [
 	},
 	{
 		accessorKey: "redirect",
-		header: "URL"
+		header: "URL",
+		cell: ({ row }) => {
+			const url = row.getValue("redirect") as string;
+			return (
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<p className="overflow-hidden text-ellipsis max-w-xs whitespace-nowrap">{url}</p>
+						</TooltipTrigger>
+
+						<TooltipContent>
+							<p className="max-w-[calc(100vh-32px)]">{url}</p>
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
+			);
+		}
 	},
 	{
 		accessorKey: "visible",
