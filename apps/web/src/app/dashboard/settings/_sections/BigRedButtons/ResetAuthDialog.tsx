@@ -44,7 +44,11 @@ export const ResetAuthDialog: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const codes = await axios.patch<string[]>("/api/auth/reset", data, { withCredentials: true });
+			const codes = await axios.patch<string[]>(
+				"/api/auth/reset",
+				{ ...data, key: Boolean(mfa?.key) ? mfa?.key : undefined },
+				{ withCredentials: true }
+			);
 			setBackupCodes(codes.data);
 		} catch (err) {
 			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
