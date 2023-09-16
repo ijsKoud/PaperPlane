@@ -10,6 +10,9 @@ import { mkdir, readdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { AuditLog } from "./AuditLog.js";
 import { Auth } from "#lib/Auth.js";
+import { PastebinReadScheduler } from "./Domain/PastebinReadScheduler.js";
+import { FileViewScheduler } from "./Domain/FIleViewScheduler.js";
+import { ShorturlVisitScheduler } from "./Domain/ShorturlVisitScheduler.js";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -68,6 +71,10 @@ export default class Domain {
 	public embedEnabled!: boolean;
 
 	public auditlogs: AuditLog;
+
+	public pastebins = new PastebinReadScheduler(this);
+	public files = new FileViewScheduler(this);
+	public urls = new ShorturlVisitScheduler(this);
 
 	private storageCheckCron!: CronJob;
 	private storageSyncCron!: CronJob;
