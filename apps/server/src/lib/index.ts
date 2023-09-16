@@ -5,5 +5,3 @@ export * from "./Api.js";
 export * from "./utils.js";
 export * from "./backups/index.js";
 export * from "./ChunkUpload.js";
-
-export * from "./Domains/index.js";
