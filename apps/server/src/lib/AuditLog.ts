@@ -3,6 +3,7 @@ import type { Auditlog } from "@prisma/client";
 import { bold } from "colorette";
 import { UAParser } from "ua-parser-js";
 import { CronJob } from "cron";
+import Config from "./Config.js";
 
 export class AuditLog {
 	public logs: Auditlog[] = [];
@@ -18,7 +19,8 @@ export class AuditLog {
 		public user: string,
 		maxAge?: number
 	) {
-		if (user === "admin") this.maxAge = this.server.envConfig.auditLogDuration;
+		const config = Config.getEnv();
+		if (user === "admin") this.maxAge = config.auditLogDuration;
 		else this.maxAge = maxAge ?? 0;
 	}
 

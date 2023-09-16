@@ -48,6 +48,8 @@ export class AuditLog {
 	/** Deletes all the events from the server and stops the cronjob */
 	public async destroy() {
 		this.cron.stop();
+		if (this._queueTimeout) clearTimeout(this._queueTimeout);
+
 		await this.server.prisma.auditlog.deleteMany({ where: { user: this.user } });
 	}
 
