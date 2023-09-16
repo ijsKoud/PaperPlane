@@ -1,4 +1,3 @@
-export * from "./Logger.js";
 export * from "./Auth.js";
 export * from "./types.js";
 export * from "./Api.js";

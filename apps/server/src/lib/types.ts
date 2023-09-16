@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import type Server from "../Server.js";
-import type { Domain } from "./index.js";
+import type Server from "#server.js";
+import type Domain from "#components/Domain.js";
 
 export interface RawEnvConfig {
 	ENCRYPTION_KEY: string;

@@ -3,7 +3,7 @@ import "winston-daily-rotate-file";
 import winston from "winston";
 import { join } from "node:path";
 
-export class Logger extends IcicleLogger {
+export default class Logger extends IcicleLogger {
 	public winston = winston.createLogger({
 		exitOnError: false,
 		handleRejections: true,
