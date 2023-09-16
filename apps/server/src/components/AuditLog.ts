@@ -4,16 +4,15 @@ import { bold } from "colorette";
 import { UAParser } from "ua-parser-js";
 import { CronJob } from "cron";
 import Config from "#lib/Config.js";
+import Scheduler from "./Scheduler.js";
 
-export class AuditLog {
+export class AuditLog extends Scheduler<Log> {
 	/** The which are currently available */
 	public logs: Auditlog[] = [];
 
 	/** The maximum age per log in ms */
 	public maxAge: number;
 
-	private _queue: Omit<Auditlog, "id" | "user" | "date">[] = [];
-	private _queueTimeout: NodeJS.Timeout | null = null;
 	private cron!: CronJob;
 
 	public constructor(
@@ -21,6 +20,7 @@ export class AuditLog {
 		public user: string,
 		maxAge?: number
 	) {
+		super(3e4);
 		const config = Config.getEnv();
 		if (user === "admin") this.maxAge = config.auditLogDuration;
 		else this.maxAge = maxAge ?? 0;
@@ -41,14 +41,13 @@ export class AuditLog {
 	 * @param details The event details
 	 */
 	public register(type: string, details: string) {
-		this._queue.push({ type, details });
-		this.queueUpdate();
+		this.add({ type, details });
 	}
 
 	/** Deletes all the events from the server and stops the cronjob */
 	public async destroy() {
 		this.cron.stop();
-		if (this._queueTimeout) clearTimeout(this._queueTimeout);
+		this.clear();
 
 		await this.server.prisma.auditlog.deleteMany({ where: { user: this.user } });
 	}
@@ -69,24 +68,13 @@ export class AuditLog {
 		}
 	}
 
-	private queueUpdate() {
-		if (this._queueTimeout) return;
-
-		const timeoutFunction = async () => {
-			const createLog = (details: string, type: string) =>
-				this.server.prisma.auditlog
-					.create({ data: { user: this.user, details, type } })
-					.then((log) => this.logs.push(log))
-					.catch(() => void 0);
-
-			await Promise.all(this._queue.map(({ details, type }) => createLog(details, type)));
-
-			this._queue = [];
-			this._queueTimeout = null;
-		};
-
-		const timeout = setTimeout(timeoutFunction.bind(this), 3e4);
-		this._queueTimeout = timeout;
+	protected override async schedulerFunction(logs: Log[]) {
+		for await (const log of logs) {
+			await this.server.prisma.auditlog
+				.create({ data: { user: this.user, ...log } })
+				.then((log) => this.logs.push(log))
+				.catch(() => void 0);
+		}
 	}
 
 	public static getUserAgentData(userAgent: string | undefined) {
@@ -94,3 +82,5 @@ export class AuditLog {
 		return parser.getResult();
 	}
 }
+
+type Log = Omit<Auditlog, "id" | "user" | "date">;
