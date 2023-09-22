@@ -1,9 +1,9 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { PageProps, SearchParams, getProtocol, parseSearchParam } from "@paperplane/utils";
-import axios from "axios";
+import { PageProps, SearchParams, parseSearchParam } from "@paperplane/utils";
 import { headers } from "next/headers";
 import { AuthForm } from "./AuthForm";
+import { api } from "../../trpc/server";
 
 export const metadata: Metadata = {
 	title: "Sign in to your account - Paperplane",
@@ -11,12 +11,10 @@ export const metadata: Metadata = {
 };
 
 async function getAuthMode() {
-	const host = headers().get("host");
-	const response = await axios.get<AuthApiResponse>(`${getProtocol()}${host}/api/auth/accounts`, {
-		headers: { "X-PAPERPLANE-API": process.env.INTERNAL_API_KEY }
-	});
+	const host = headers().get("host")!;
+	const data = await api(host).v1.auth.accounts.query();
 
-	return { ...response.data, host: host! };
+	return { ...data, host };
 }
 
 const Page: React.FC<PageProps<undefined, SearchParams<"user" | "type">>> = async ({ searchParams }) => {
@@ -29,14 +27,9 @@ const Page: React.FC<PageProps<undefined, SearchParams<"user" | "type">>> = asyn
 				<h1 className="text-lg font-normal">Welcome Back!</h1>
 				<h2 className="text-xl">Sign in to your account</h2>
 			</div>
-			<AuthForm options={mode.options} mode={mode.mode} user={user} />
+			<AuthForm options={mode.accounts} mode={mode.mode} user={user} />
 		</>
 	);
 };
 
 export default Page;
-
-interface AuthApiResponse {
-	options: { value: string; label: string }[];
-	mode: "2fa" | "password";
-}
