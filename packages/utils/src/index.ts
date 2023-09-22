@@ -76,3 +76,4 @@ export * from "./SignUp";
 
 export * from "./NotFound";
 export * from "./types";
+export * from "./trpc";

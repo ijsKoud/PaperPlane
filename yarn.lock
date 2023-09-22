@@ -1367,6 +1367,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@snowcrystals/highway@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@snowcrystals/highway@npm:1.1.3"
+  dependencies:
+    "@discordjs/collection": ^1.5.3
+    express: ^4.18.2
+    express-rate-limit: ^6.11.0
+    glob: ^10.3.4
+  checksum: 9ce4295962e3bf4a7985f6c643e7c7f620c65fc346b5bcc25a1f04df819aec16f9e0991c7aa59ca1753426c7c49bf29e346a8af20f1de9f896871870256d9647
+  languageName: node
+  linkType: hard
+
 "@snowcrystals/icicle@npm:^2.0.4":
   version: 2.0.4
   resolution: "@snowcrystals/icicle@npm:2.0.4"
@@ -1393,6 +1405,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:4.35.3":
+  version: 4.35.3
+  resolution: "@tanstack/query-core@npm:4.35.3"
+  checksum: 0184cd19a26c4f96d05bbebd7966866741d46e5be19ac99d8cd6e5bbeb6550f257e7b52b674fb2673190696e113dd601422d196bf4870b58b4d2e2edf4307e92
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^4.35.3":
+  version: 4.35.3
+  resolution: "@tanstack/react-query@npm:4.35.3"
+  dependencies:
+    "@tanstack/query-core": 4.35.3
+    use-sync-external-store: ^1.2.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-native: "*"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 4d7e4e6a8466095848d2924fdbcd2d22a36b53e2d0f79a7dec121c8d7af36ff857b1bae5a7b802f3a399922c9c9f38f2a06372b1fc7b1d5de960e78fa1d3d722
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-table@npm:8.9.8":
   version: 8.9.8
   resolution: "@tanstack/react-table@npm:8.9.8"
@@ -1416,6 +1454,52 @@ __metadata:
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
   checksum: ad87447820dd3f24825d2d947ebc03072b20a42bfc96cbafec16bff8bbda6c1a81fcb0be56d5b21968560c5359a0af4038a68ba150c3e1694fe4c109a063bed8
+  languageName: node
+  linkType: hard
+
+"@trpc/client@npm:^10.38.3":
+  version: 10.38.3
+  resolution: "@trpc/client@npm:10.38.3"
+  peerDependencies:
+    "@trpc/server": 10.38.3
+  checksum: 4b249d8f1d51fe76c00d55d8a148578397dae66a8d7fa04568bd6c056bb4ae97ef855dfcc48c5296d751adfb944de7ec6a7a989f7c5d9304931a0865275d2fd4
+  languageName: node
+  linkType: hard
+
+"@trpc/next@npm:^10.38.3":
+  version: 10.38.3
+  resolution: "@trpc/next@npm:10.38.3"
+  dependencies:
+    react-ssr-prepass: ^1.5.0
+  peerDependencies:
+    "@tanstack/react-query": ^4.18.0
+    "@trpc/client": 10.38.3
+    "@trpc/react-query": 10.38.3
+    "@trpc/server": 10.38.3
+    next: "*"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 14a9f629b0b2a302bd7a866b51122029f94aab0ac867b73856e79810a16ca5c86f39f6b4569835cb5ee716f82decde2fa4f9602503433816030eb5b81b93e610
+  languageName: node
+  linkType: hard
+
+"@trpc/react-query@npm:^10.38.3":
+  version: 10.38.3
+  resolution: "@trpc/react-query@npm:10.38.3"
+  peerDependencies:
+    "@tanstack/react-query": ^4.18.0
+    "@trpc/client": 10.38.3
+    "@trpc/server": 10.38.3
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 62195a61b886745eac6329f7e3caa3721754eead5ba87010a0c9a86286ac5c6b1b5559d19468aa91094ac5807b3b5fb4b440fcb3a7c9dd952756f2d833446785
+  languageName: node
+  linkType: hard
+
+"@trpc/server@npm:^10.38.2":
+  version: 10.38.2
+  resolution: "@trpc/server@npm:10.38.2"
+  checksum: b8b3ec6d087a354678fcbe10b73e1b3e2493de88e79759edae59f76f45b4e35487144095117d2ebea97b5090267de2894be77f75f12112428937bf81a94bf5de
   languageName: node
   linkType: hard
 
@@ -2827,6 +2911,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"copy-anything@npm:^3.0.2":
+  version: 3.0.5
+  resolution: "copy-anything@npm:3.0.5"
+  dependencies:
+    is-what: ^4.1.8
+  checksum: d39f6601c16b7cbd81cdb1c1f40f2bf0f2ca0297601cf7bfbb4ef1d85374a6a89c559502329f5bada36604464df17623e111fe19a9bb0c3f6b1c92fe2cbe972f
+  languageName: node
+  linkType: hard
+
 "core-util-is@npm:~1.0.0":
   version: 1.0.3
   resolution: "core-util-is@npm:1.0.3"
@@ -3638,6 +3731,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-rate-limit@npm:^6.11.0":
+  version: 6.11.2
+  resolution: "express-rate-limit@npm:6.11.2"
+  peerDependencies:
+    express: ^4 || ^5
+  checksum: 3cc4032ee2f7063647f45e338e10c9a67d8595a0f9a5a291d6633b6d96aab6201c8943bae74491f824cb6230a59921daec95ef4e22c1112759a766456c0f1f19
+  languageName: node
+  linkType: hard
+
 "express@npm:^4.18.2":
   version: 4.18.2
   resolution: "express@npm:4.18.2"
@@ -4115,7 +4217,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^10.2.2":
+"glob@npm:^10.2.2, glob@npm:^10.3.4":
   version: 10.3.4
   resolution: "glob@npm:10.3.4"
   dependencies:
@@ -4829,6 +4931,13 @@ __metadata:
     call-bind: ^1.0.2
     get-intrinsic: ^1.1.1
   checksum: 5d8698d1fa599a0635d7ca85be9c26d547b317ed8fd83fc75f03efbe75d50001b5eececb1e9971de85fcde84f69ae6f8346bc92d20d55d46201d328e4c74a367
+  languageName: node
+  linkType: hard
+
+"is-what@npm:^4.1.8":
+  version: 4.1.15
+  resolution: "is-what@npm:4.1.15"
+  checksum: fe27f6cd4af41be59a60caf46ec09e3071bcc69b9b12a7c871c90f54360edb6d0bc7240cb944a251fb0afa3d35635d1cecea9e70709876b368a8285128d70a89
   languageName: node
   linkType: hard
 
@@ -6456,7 +6565,12 @@ __metadata:
     "@sapphire/eslint-config": ^5.0.2
     "@sapphire/ts-config": 5.0.0
     "@snowcrystals/prettier-config": ^1.0.0
+    "@tanstack/react-query": ^4.35.3
     "@tanstack/react-table": 8.9.8
+    "@trpc/client": ^10.38.3
+    "@trpc/next": ^10.38.3
+    "@trpc/react-query": ^10.38.3
+    "@trpc/server": ^10.38.2
     "@types/node": 18.17.15
     "@typescript-eslint/eslint-plugin": ^6.6.0
     "@typescript-eslint/parser": ^6.6.0
@@ -6477,6 +6591,7 @@ __metadata:
     react: 18.2.0
     react-dom: ^18.2.0
     react-hook-form: ^7.46.1
+    superjson: ^1.13.1
     tailwind-merge: ^1.14.0
     tailwindcss: ^3.3.3
     tailwindcss-animate: ^1.0.7
@@ -7030,6 +7145,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-ssr-prepass@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "react-ssr-prepass@npm:1.5.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: efe89b9f8b2053474613f56dfdbeb41d8ee2e572bf819a39377d95d3e4a9acf8a4a16e28d8d8034cb9ac2b316d11dc9e62217743e4322046d08175eb3b4fed3e
+  languageName: node
+  linkType: hard
+
 "react-style-singleton@npm:^2.2.1":
   version: 2.2.1
   resolution: "react-style-singleton@npm:2.2.1"
@@ -7447,6 +7571,7 @@ __metadata:
   dependencies:
     "@discordjs/collection": ^1.5.3
     "@prisma/client": ^5.2.0
+    "@snowcrystals/highway": ^1.1.3
     "@snowcrystals/icicle": ^2.0.4
     "@types/busboy": ^1.5.0
     "@types/cookie-parser": ^1.4.4
@@ -7849,6 +7974,15 @@ __metadata:
     sucrase: bin/sucrase
     sucrase-node: bin/sucrase-node
   checksum: 61860063bdf6103413698e13247a3074d25843e91170825a9752e4af7668ffadd331b6e99e92fc32ee5b3c484ee134936f926fa9039d5711fafff29d017a2110
+  languageName: node
+  linkType: hard
+
+"superjson@npm:^1.13.1":
+  version: 1.13.1
+  resolution: "superjson@npm:1.13.1"
+  dependencies:
+    copy-anything: ^3.0.2
+  checksum: 9c8c664a924ce097250112428805ccc8b500018b31a91042e953d955108b8481c156005d836b413940c9fa5f124a3195f55f3a518fe76510a254a59f9151a204
   languageName: node
   linkType: hard
 
