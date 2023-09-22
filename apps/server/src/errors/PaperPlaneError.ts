@@ -35,5 +35,6 @@ export default class PaperPlaneError extends Error {
 }
 
 export const PaperPlaneErrorCodes = {
-	disabledDomain: "EDISABLEDDOMAIN"
+	disabledDomain: "EDISABLEDDOMAIN",
+	fieldError: "EINVALIDFIELD"
 } as const;
