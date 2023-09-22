@@ -10,12 +10,24 @@
 		"build:watch": "tsc --watch",
 		"dev": "NODE_ENV=development nodemon ./dist"
 	},
+	"exports": {
+		"trpc.js": "./dist/trpc/index.js"
+	},
+	"imports": {
+		"#lib/*": "./dist/lib/*",
+		"#components/*": "./dist/components/*",
+		"#errors/*": "./dist/errors/*",
+		"#server.js": "./dist/Server.js",
+		"#trpc.js": "./dist/trpc/index.js",
+		"#trpc/*": "./dist/trpc/*"
+	},
 	"peerDependencies": {
 		"next": "^13.4.19"
 	},
 	"dependencies": {
 		"@discordjs/collection": "^1.5.3",
 		"@prisma/client": "^5.2.0",
+		"@snowcrystals/highway": "^1.1.3",
 		"@snowcrystals/icicle": "^2.0.4",
 		"axios": "^1.5.0",
 		"body-parser": "^1.20.2",
