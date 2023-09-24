@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"react-markdown": "^8.0.7",
-		"remark-gfm": "^3.0.1"
+		"remark-gfm": "^4.0.0"
 	},
 	"devDependencies": {
 		"@types/react": "^18.2.22",
