@@ -11,8 +11,8 @@
 		"lint": "next lint"
 	},
 	"peerDependencies": {
-		"@next/font": "^13.4.19",
-		"next": "^13.4.19",
+		"@next/font": "^13.5.2",
+		"next": "^13.5.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
 	},
