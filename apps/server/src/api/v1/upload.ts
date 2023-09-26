@@ -30,7 +30,7 @@ export default async function handler(server: Server, req: DashboardRequest, res
 		const password = fields.password?.[0];
 		const visible = fields.visible?.[0];
 		if (uploadedFiles.length === 1) {
-			const file = await req.locals.domain.registerUpload(uploadedFiles[0], { name, password, visible: visible === "true" ? true : false });
+			const file = await req.locals.domain.registerUpload(uploadedFiles[0], { name, password, visible: visible === "false" ? false : true });
 			const fileUrl = `${Utils.getProtocol()}${req.locals.domain}/files/${file}`;
 			res.send({ url: fileUrl, files: { [uploadedFiles[0].originalFilename!]: fileUrl } });
 			return;
