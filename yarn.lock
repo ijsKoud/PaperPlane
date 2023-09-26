@@ -3823,12 +3823,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:^6.11.2":
-  version: 6.11.2
-  resolution: "express-rate-limit@npm:6.11.2"
+"express-rate-limit@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "express-rate-limit@npm:7.0.2"
   peerDependencies:
     express: ^4 || ^5
-  checksum: 3cc4032ee2f7063647f45e338e10c9a67d8595a0f9a5a291d6633b6d96aab6201c8943bae74491f824cb6230a59921daec95ef4e22c1112759a766456c0f1f19
+  checksum: 0d3a853d910b0bfcb70d7e38bcd3f39b20a0d1f402528288eafa3e836e14d670ec633952d4f423d10354705ed729a34d883f86a6d74fb7908a44083a5f691ccf
   languageName: node
   linkType: hard
 
@@ -7668,7 +7668,7 @@ __metadata:
     dotenv: ^16.3.1
     eslint: 8.50.0
     express: ^4.18.2
-    express-rate-limit: ^6.11.2
+    express-rate-limit: ^7.0.2
     formidable: ^3.5.1
     fuse.js: ^6.6.2
     jsonwebtoken: ^9.0.2
