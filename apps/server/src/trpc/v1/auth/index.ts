@@ -6,6 +6,7 @@ import { createFieldError, publicProcedure, t } from "#trpc/lib.js";
 import { TRPCError } from "@trpc/server";
 import { scryptSync, timingSafeEqual } from "node:crypto";
 import { z } from "zod";
+import { SignUpAuthRoute } from "./signup.js";
 
 export const AuthRoute = t.router({
 	accounts: ApiKeyProcedure.query(async (opts) => {
@@ -28,7 +29,6 @@ export const AuthRoute = t.router({
 			const { code, password, domain: _domain } = opts.input;
 
 			const ua = AuditLog.getUserAgentData(req.headers["user-agent"]);
-
 			const domain = server.domains.get(_domain);
 			if (!domain && _domain !== "admin") throw createFieldError("input.domain", "Invalid domain provided");
 
@@ -93,5 +93,6 @@ export const AuthRoute = t.router({
 
 			domain.auditlogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 			res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.pathId, config.encryptionKey), { maxAge: 6.048e8 });
-		})
+		}),
+	signup: SignUpAuthRoute
 });

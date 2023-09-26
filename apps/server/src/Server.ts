@@ -14,12 +14,14 @@ import DomainsManager from "#lib/DomainsManager.js";
 import Logger from "#lib/Logger.js";
 import { fileURLToPath } from "node:url";
 import { getTrpcMiddleware } from "#trpc/index.js";
+import { Auth } from "#lib/Auth.js";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 export default class Server extends HighwayServer {
 	public logger: Logger;
 	public config = new Config(this);
+	public auth = new Auth();
 	public stats = new ServerStats();
 
 	public prisma = new PrismaClient();
