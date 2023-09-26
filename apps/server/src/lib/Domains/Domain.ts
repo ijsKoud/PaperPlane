@@ -228,7 +228,7 @@ export class Domain {
 				date: new Date(),
 				mimeType: file.mimetype!,
 				domain: this.domain,
-				visible: options.visible,
+				visible: options.visible === undefined ? true : options.visible,
 				path: join(this.filesPath, file.newFilename),
 				size: this.server.config.parseStorage(file.size),
 				password: options.password ? Auth.encryptPassword(options.password, this.server.envConfig.encryptionKey) : undefined
