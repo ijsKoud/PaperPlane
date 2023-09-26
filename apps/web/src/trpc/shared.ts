@@ -1,8 +1,6 @@
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import type AppRouter from "server/dist/trpc";
 
-export const ApiKeyProtectedRoutes = ["v1.auth.accounts"];
-
 /**
  * Inference helper for inputs.
  *
