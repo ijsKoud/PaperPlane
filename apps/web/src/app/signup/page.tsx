@@ -1,11 +1,11 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { PageProps, SignUpGetApi, getProtocol } from "@paperplane/utils";
-import axios from "axios";
+import { PageProps } from "@paperplane/utils";
 import { headers } from "next/headers";
 import { CodeAuthForm } from "./CodeAuthForm";
 import { notFound } from "next/navigation";
 import { PasswordAuthForm } from "./PasswordAuthForm";
+import { api } from "#trpc/server";
 
 export const metadata: Metadata = {
 	title: "Create an account - Paperplane",
@@ -13,12 +13,10 @@ export const metadata: Metadata = {
 };
 
 async function getSignUpData() {
-	const host = headers().get("host");
-	const response = await axios.get<SignUpGetApi>(`${getProtocol()}${host}/api/auth/signup`, {
-		headers: { "X-PAPERPLANE-API": process.env.INTERNAL_API_KEY }
-	});
+	const host = headers().get("host")!;
+	const data = await api(host).v1.auth.signup.options.query();
 
-	return response.data;
+	return data;
 }
 
 const Page: React.FC<PageProps> = async () => {

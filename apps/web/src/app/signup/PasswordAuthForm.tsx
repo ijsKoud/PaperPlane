@@ -9,9 +9,10 @@ import React, { useState } from "react";
 import { Button } from "@paperplane/ui/button";
 import { Loader2, RocketIcon } from "lucide-react";
 import { Input } from "@paperplane/ui/input";
-import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { CodesDialog } from "./CodesDialog";
+import { api } from "#trpc/server";
+import { getTRPCError } from "@paperplane/utils";
 
 export interface AuthFormProps {
 	domains: string[];
@@ -30,7 +31,7 @@ export const PasswordAuthForm: React.FC<AuthFormProps> = ({ domains, invite }) =
 			.refine((arg) => domains.includes(arg), { message: "Please select a valid domain" }),
 		extension: z.string().refine((arg) => (isSubdomainDisabled ? true : Boolean(arg)), { message: "A valid subdomain must be provided" }),
 		invite: invite ? z.string({ required_error: "A valid invite code is required" }) : z.string().optional(),
-		auth: z.string({ required_error: "A valid password is required" })
+		password: z.string({ required_error: "A valid password is required" })
 	});
 
 	const form = useForm<z.infer<typeof FormSchema>>({
@@ -57,14 +58,19 @@ export const PasswordAuthForm: React.FC<AuthFormProps> = ({ domains, invite }) =
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const res = await axios.post("/api/auth/signup", data);
-			setBackupCodes(res.data);
+			const codes = await api().v1.auth.signup.createPassword.mutate(data);
+			setBackupCodes(codes);
 		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "Unknown error, please try again later.";
-			form.setError("domain", { message: error });
-			form.setError("auth", { message: error });
-			console.log(err);
+			const parsedError = getTRPCError(err.message);
+			if (!parsedError) {
+				console.error(err);
+				form.setError("password", { message: "Unknown error, please try again later." });
+				return;
+			}
+
+			const inputField = parsedError.field as keyof z.infer<typeof FormSchema>;
+			if (Boolean(form.getValues()[inputField])) form.setError(inputField, { message: parsedError.message });
+			console.error(parsedError);
 		}
 	}
 
@@ -129,7 +135,7 @@ export const PasswordAuthForm: React.FC<AuthFormProps> = ({ domains, invite }) =
 
 					<FormField
 						control={form.control}
-						name="auth"
+						name="password"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Password</FormLabel>

@@ -9,18 +9,20 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@paperplane/ui/button";
 import { Loader2, RocketIcon } from "lucide-react";
 import { Input } from "@paperplane/ui/input";
-import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { MFAGetApi } from "@paperplane/utils";
 import { CodesDialog } from "./CodesDialog";
+import { type PaperPlaneApiOutputs, api } from "#trpc/server";
+import { getTRPCError } from "@paperplane/utils";
 
 export interface AuthFormProps {
 	domains: string[];
 	invite: boolean;
 }
 
+type MFAKeyData = NonNullable<PaperPlaneApiOutputs["v1"]["auth"]["signup"]["mfa"]>;
+
 const UseTwoFactorKey = () => {
-	const [keyData, setKeyData] = useState<MFAGetApi>({ key: "", secret: "", uri: "" });
+	const [keyData, setKeyData] = useState<MFAKeyData>({ key: "", secret: "", uri: "" });
 
 	/**
 	 * Creates a valid 2fa QR-code
@@ -34,10 +36,20 @@ const UseTwoFactorKey = () => {
 		return `${BASE_URL}${imageData}`;
 	};
 
-	useEffect(() => {
-		void axios.post("/api/auth/signup").then((res) => setKeyData(res.data));
+	/** Updates the MFA Key data */
+	const updateMfa = async () => {
+		const data = await api()
+			.v1.auth.signup.mfa.query()
+			.catch(() => null);
+		if (data) setKeyData(data);
 
-		const interval = setInterval(() => axios.post("/api/auth/signup").then((res) => setKeyData(res.data)), 9e5);
+		console.debug(`[MFA]: Updated MFA data, data=${data ? "object" : "null"}`);
+	};
+
+	useEffect(() => {
+		void updateMfa();
+
+		const interval = setInterval(updateMfa, 9e5);
 		return () => clearInterval(interval); // Re-generates the 2fa data every time the data has expired
 	}, []);
 
@@ -100,14 +112,19 @@ export const CodeAuthForm: React.FC<AuthFormProps> = ({ domains, invite }) => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const res = await axios.post("/api/auth/signup", { ...data, key: twoFactorKey.key });
-			setBackupCodes(res.data);
+			const codes = await api().v1.auth.signup.createMfa.mutate({ ...data, key: twoFactorKey.key });
+			setBackupCodes(codes);
 		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "Unknown error, please try again later.";
-			form.setError("domain", { message: error });
-			form.setError("auth", { message: error });
-			console.log(err);
+			const parsedError = getTRPCError(err.message);
+			if (!parsedError) {
+				console.error(err);
+				form.setError("auth", { message: "Unknown error, please try again later." });
+				return;
+			}
+
+			const inputField = parsedError.field as keyof z.infer<typeof FormSchema>;
+			if (Boolean(form.getValues()[inputField])) form.setError(inputField, { message: parsedError.message });
+			console.error(parsedError);
 		}
 	}
 
