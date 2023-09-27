@@ -281,6 +281,7 @@ export default class Domain {
 				disabled: this.disabled,
 				extensions: this.extensions,
 				extensionsMode: this.extensionsMode,
+				maxStorage: Utils.parseStorage(this.maxStorage),
 				storage: Utils.parseStorage(this.storage),
 				uploadSize: Utils.parseStorage(this.uploadSize),
 				auditlog: ms(this.auditlogDuration)
