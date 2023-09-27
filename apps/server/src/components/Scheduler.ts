@@ -42,7 +42,7 @@ export default class Scheduler<Data> {
 		this.queue = [];
 	}
 
-	protected schedulerFunction(queue: Data[]): void {
+	protected schedulerFunction(queue: Data[]): Awaitable<void> {
 		queue;
 	}
 
