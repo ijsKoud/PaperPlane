@@ -40,6 +40,11 @@ export const SignUpAuthRoute = t.router({
 			const { ctx, input } = opt;
 			const { server } = ctx;
 			const config = Config.getEnv();
+			if (config.authMode !== "2fa")
+				throw new TRPCError({
+					code: "PRECONDITION_FAILED",
+					message: "Authentication mode is set to 'password', this route is inaccessible."
+				});
 
 			if (input.domain.startsWith("*.") && !input.extension)
 				throw createFieldError("input.extension", "Extension is required for a wildcard domain");
@@ -106,6 +111,11 @@ export const SignUpAuthRoute = t.router({
 			const { ctx, input } = opt;
 			const { server } = ctx;
 			const config = Config.getEnv();
+			if (config.authMode !== "password")
+				throw new TRPCError({
+					code: "PRECONDITION_FAILED",
+					message: "Authentication mode is set to '2fa', this route is inaccessible."
+				});
 
 			if (input.domain.startsWith("*.") && !input.extension)
 				throw createFieldError("input.extension", "Extension is required for a wildcard domain");
