@@ -1,15 +1,6 @@
-import { getProtocol } from "@paperplane/utils";
-import axios from "axios";
+import { api } from "#trpc/server";
 
-export const getAuthenticationState = async (host: string, cookie: string | undefined) => {
-	const response = await axios.get<AuthenticationStateResponse>(`${getProtocol()}${host}/api/auth/state`, {
-		headers: { "X-PAPERPLANE-AUTH-KEY": cookie }
-	});
-
-	return response.data;
+export const getAuthenticationState = async (host: string) => {
+	const response = await api(host).v1.auth.state.user.query();
+	return response;
 };
-
-export interface AuthenticationStateResponse {
-	admin: boolean;
-	domain: boolean;
-}
