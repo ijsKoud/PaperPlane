@@ -7,6 +7,8 @@ import { TRPCError } from "@trpc/server";
 import { scryptSync, timingSafeEqual } from "node:crypto";
 import { z } from "zod";
 import { SignUpAuthRoute } from "./signup.js";
+import { ResetAuthRoute } from "./reset.js";
+import { AuthStateRoute } from "./state.js";
 
 export const AuthRoute = t.router({
 	accounts: ApiKeyProcedure.query(async (opts) => {
@@ -94,5 +96,7 @@ export const AuthRoute = t.router({
 			domain.auditlogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 			res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.pathId, config.encryptionKey), { maxAge: 6.048e8 });
 		}),
-	signup: SignUpAuthRoute
+	signup: SignUpAuthRoute,
+	reset: ResetAuthRoute,
+	state: AuthStateRoute
 });
