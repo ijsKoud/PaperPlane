@@ -90,6 +90,7 @@ export default class Domain {
 	public async start() {
 		await this.recordStorage();
 		await this.syncStorage();
+		await this.auditlogs.start();
 	}
 
 	/** Resets this domain and removes all the data from the system */
