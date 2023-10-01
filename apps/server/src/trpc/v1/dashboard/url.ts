@@ -106,6 +106,7 @@ export const urlRoute = t.router({
 			});
 		}
 	}),
+	/** Deletes a list of shorturls */
 	delete: AuthUserProdeduce.input(z.array(z.string(), { required_error: "An array of url ids is required" })).mutation(async (opt) => {
 		const urls = opt.input;
 		const { server, domain } = opt.ctx;
