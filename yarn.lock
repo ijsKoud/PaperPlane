@@ -2982,13 +2982,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron@npm:^2.4.3":
-  version: 2.4.3
-  resolution: "cron@npm:2.4.3"
+"cron@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "cron@npm:3.0.0"
   dependencies:
     "@types/luxon": ~3.3.0
     luxon: ~3.3.0
-  checksum: cb0ad49653b37ba125f8670ca92150ce515493512b1b8a5e08086d22bec9c54dc6d8926fcdb49ea5783f6699862ca5fdc532a440ce33c3228f9b3d565010db2f
+  checksum: 6bddb51f73c07bf1b95e28ac841d6ee90c85c2b766b53378cee44d7cffe7d838f85d5b54e292b273d36b75e1cf44c22be7d734ef30635d931ed985043178df13
   languageName: node
   linkType: hard
 
@@ -7664,7 +7664,7 @@ __metadata:
     colorette: ^2.0.20
     cookie-parser: ^1.4.6
     cors: 2.8.5
-    cron: ^2.4.3
+    cron: ^3.0.0
     dotenv: ^16.3.1
     eslint: 8.50.0
     express: ^4.18.2
