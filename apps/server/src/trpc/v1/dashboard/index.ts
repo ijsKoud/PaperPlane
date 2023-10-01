@@ -3,6 +3,7 @@ import { t } from "#trpc/lib.js";
 import { z } from "zod";
 import _ from "lodash";
 import FuzzySearch from "#lib/FuzzySearch.js";
+import { urlRoute } from "./url.js";
 
 export const dashboardRoute = t.router({
 	/** Returns the user stats (storage usage, amount of files, etc) */
@@ -46,5 +47,6 @@ export const dashboardRoute = t.router({
 			entries: chunk ?? [],
 			pages: chunks.length
 		};
-	})
+	}),
+	url: urlRoute
 });
