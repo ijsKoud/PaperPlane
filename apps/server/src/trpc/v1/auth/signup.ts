@@ -7,6 +7,7 @@ import ms from "ms";
 import { z } from "zod";
 
 export const SignUpAuthRoute = t.router({
+	/** Returns the generated MFA key data if this mode is enabled */
 	mfa: publicProcedure.query((opt) => {
 		const config = Config.getEnv();
 		if (config.authMode !== "2fa") return null;
@@ -14,6 +15,7 @@ export const SignUpAuthRoute = t.router({
 		const auth = opt.ctx.server.auth.generateAuthReset("DOMAIN_PLACEHOLDER");
 		return auth;
 	}),
+	/** Returns the signup config and available signup domains */
 	options: publicProcedure.query(async (opt) => {
 		const config = Config.getEnv();
 		const domains = await opt.ctx.server.prisma.signupDomain.findMany();
@@ -24,6 +26,7 @@ export const SignUpAuthRoute = t.router({
 			domains: domains.map((domain) => domain.domain)
 		};
 	}),
+	/** Signup route for authmode="2fa" */
 	createMfa: publicProcedure
 		.input(
 			z.object({
@@ -83,6 +86,7 @@ export const SignUpAuthRoute = t.router({
 					maxUploadSize: Utils.parseStorage(config.maxUpload)
 				});
 
+				// Remove MFA key data from the cache
 				clearTimeout(authData.timeout);
 				server.auth.authReset.delete(input.key);
 
@@ -98,6 +102,7 @@ export const SignUpAuthRoute = t.router({
 				});
 			}
 		}),
+	/** Signup route for authmode="password" */
 	createPassword: publicProcedure
 		.input(
 			z.object({

@@ -6,6 +6,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const ResetAuthRoute = t.router({
+	/** Returns the generated MFA key data if this mode is enabled */
 	mfa: AuthUserProdeduce.query((opt) => {
 		const config = Config.getEnv();
 		if (config.authMode !== "2fa") return null;
@@ -13,6 +14,7 @@ export const ResetAuthRoute = t.router({
 		const auth = opt.ctx.server.auth.generateAuthReset(opt.ctx.domain.domain);
 		return auth;
 	}),
+	/** Reset route for authmode="mfa" */
 	resetMfa: AuthUserProdeduce.input(
 		z.object({
 			key: z.string({ required_error: "Missing a MFA key, please refresh the page" }),
@@ -39,11 +41,13 @@ export const ResetAuthRoute = t.router({
 		const backupCodes = Auth.generateBackupCodes();
 		await domain.update({ twoFactorSecret: authData.token, backupCodes: backupCodes.join(",") });
 
+		// Removes the MFA data from the cache
 		clearTimeout(authData.timeout);
 		server.auth.authReset.delete(input.key);
 
 		return backupCodes;
 	}),
+	/** Reset route for authmode="password" */
 	resetPassword: AuthUserProdeduce.input(
 		z.object({
 			password: z.string({ required_error: "A password is required" })

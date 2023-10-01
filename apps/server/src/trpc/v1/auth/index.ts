@@ -11,12 +11,14 @@ import { ResetAuthRoute } from "./reset.js";
 import { AuthStateRoute } from "./state.js";
 
 export const AuthRoute = t.router({
+	/** Returns the available accounts and authentication mode */
 	accounts: ApiKeyProcedure.query(async (opts) => {
 		const domains = await opts.ctx.server.prisma.domain.findMany({ where: { disabled: false } });
 		const options = domains.map((domain) => domain.domain);
 
 		return { accounts: options, mode: Config.getEnv().authMode };
 	}),
+	/** Route for signing in */
 	login: publicProcedure
 		.input(
 			z.object({
