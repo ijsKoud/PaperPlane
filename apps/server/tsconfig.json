@@ -18,6 +18,6 @@
 			"#trpc.js": ["./src/trpc/index.ts"]
 		}
 	},
-	"include": ["src/**/*.ts", "./types/*.d.ts"],
+	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules"]
 }

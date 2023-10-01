@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import ShortUniqueId from "short-unique-id";
-import type { Domain } from "./index.js";
+import type Domain from "#components/Domain.js";
 import { AdminUserSort, BinSort, FilesSort, UrlsSort } from "./types.js";
 import type { File, Pastebin, Url } from "@prisma/client";
 import { extension } from "mime-types";
