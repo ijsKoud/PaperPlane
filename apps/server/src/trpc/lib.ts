@@ -2,12 +2,13 @@ import FieldError from "#errors/FIeldError.js";
 import type Server from "#server.js";
 import { TRPCError, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
+import superjson from "superjson";
 
 export function createContext(server: Server, opts: trpcExpress.CreateExpressContextOptions) {
 	return { server, ...opts };
 }
 
-export const t = initTRPC.context<typeof createContext>().create();
+export const t = initTRPC.context<typeof createContext>().create({ transformer: superjson });
 export const publicProcedure = t.procedure;
 
 export function createFieldError(field: string, message: string) {
