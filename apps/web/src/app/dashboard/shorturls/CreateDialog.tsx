@@ -10,8 +10,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
+import { api } from "#trpc/server";
+import { getTRPCError } from "@paperplane/utils";
 
 export const CreateDialog: React.FC = () => {
 	const { toast } = useToast();
@@ -28,15 +29,21 @@ export const CreateDialog: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const response = await axios.post<string>("/api/dashboard/urls/create", data, { withCredentials: true });
+			const response = await api().v1.dashboard.url.create.mutate(data);
 			form.setFocus("url");
-			void navigator.clipboard.writeText(response.data);
+			void navigator.clipboard.writeText(response);
 			toast({ title: "Shorturl created", description: "A new url has been created and has been copied to your clipboard." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("url");
-			console.log(err);
+			const parsedError = getTRPCError(err.message);
+			if (!parsedError) {
+				console.error(err);
+				form.setError("url", { message: "Unknown error, please try again later." });
+				return;
+			}
+
+			const inputField = parsedError.field as keyof z.infer<typeof FormSchema>;
+			if (Boolean(form.getValues()[inputField])) form.setError(inputField, { message: parsedError.message });
+			console.error(parsedError);
 		}
 	}
 

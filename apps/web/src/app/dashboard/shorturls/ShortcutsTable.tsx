@@ -1,24 +1,29 @@
 "use client";
 
-import { useSwrWithUpdates } from "@paperplane/swr";
 import { Input } from "@paperplane/ui/input";
-import { ShortUrlsSortNames, UrlsApiRes, UrlsSort } from "@paperplane/utils";
+import { ShortUrlsSortNames, UrlsSort } from "@paperplane/utils";
 import React, { useEffect, useState } from "react";
 import { CreateDialog } from "./CreateDialog";
 import { DataTable } from "./_table/data-table";
 import { columns } from "./_table/columns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
+import { type PaperPlaneApiOutputs, api } from "#trpc/server";
+
+type ShortUrl = PaperPlaneApiOutputs["v1"]["dashboard"]["url"]["list"];
 
 const UseShortcutsList = () => {
-	const [data, setData] = useState<UrlsApiRes>({ entries: [], pages: 0 });
+	const [data, setData] = useState<ShortUrl>({ entries: [], pages: 0 });
 	const [sort, setSort] = useState<UrlsSort>(UrlsSort.DATE_NEW_OLD);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 
-	const swr = useSwrWithUpdates<UrlsApiRes>(`/api/dashboard/urls?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 	useEffect(() => {
-		if (swr.data) setData(swr.data);
-	}, [swr.data]);
+		const updateList = () => api().v1.dashboard.url.list.query({ page, query: search, sort });
+		void updateList().then(setData);
+
+		const interval = setInterval(() => void updateList().then(setData), 5e3);
+		return () => clearInterval(interval);
+	}, [search, page, sort]);
 
 	return { ...data, page, setPage, search, setSearch, sort, setSort };
 };
