@@ -34,7 +34,7 @@ export default class Server extends HighwayServer {
 	public next!: NextServer;
 
 	public constructor() {
-		super({ routePath: join(__dirname, "routes") });
+		super({ routePath: join(__dirname, "routes"), middlewarePath: join(__dirname, "middleware") });
 		this.logger = new Logger({ level: LogLevel.Debug });
 		this.dev = Boolean(process.env.NODE_ENV === "development");
 	}
