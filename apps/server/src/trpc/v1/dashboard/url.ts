@@ -81,7 +81,9 @@ export const urlRoute = t.router({
 	update: AuthUserProdeduce.input(
 		z.object({
 			id: z.string({ required_error: "The name of the url is required" }),
-			name: z.string({ required_error: "A name for the url is required" }).refine((arg) => !arg.includes("/")),
+			name: z
+				.string({ required_error: "A name for the url is required" })
+				.refine((arg) => !arg.includes("/"), { message: "The name cannot contain a slash (/)" }),
 			visible: z.boolean()
 		})
 	).mutation(async (opt) => {

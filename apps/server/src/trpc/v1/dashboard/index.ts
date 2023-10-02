@@ -4,6 +4,7 @@ import { z } from "zod";
 import _ from "lodash";
 import FuzzySearch from "#lib/FuzzySearch.js";
 import { urlRoute } from "./url.js";
+import { filesRoute } from "./files.js";
 
 export const dashboardRoute = t.router({
 	/** Returns the user stats (storage usage, amount of files, etc) */
@@ -48,5 +49,6 @@ export const dashboardRoute = t.router({
 			pages: chunks.length
 		};
 	}),
-	url: urlRoute
+	url: urlRoute,
+	files: filesRoute
 });
