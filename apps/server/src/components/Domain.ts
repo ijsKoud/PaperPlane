@@ -13,6 +13,7 @@ import { Auth } from "#lib/Auth.js";
 import { PastebinReadScheduler } from "./Domain/PastebinReadScheduler.js";
 import { FileViewScheduler } from "./Domain/FIleViewScheduler.js";
 import { ShorturlVisitScheduler } from "./Domain/ShorturlVisitScheduler.js";
+import type formidable from "formidable";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -257,6 +258,39 @@ export default class Domain {
 		this.apiTokens = res;
 
 		this.auditlogs.register("API Token", `Tokens deleted (Amount=${tokens.length})`);
+	}
+
+	/**
+	 * Register an uploaded file
+	 * @param file The file that has been uploaded
+	 * @param opt Upload options that were provided during the request
+	 * @returns
+	 */
+	public async registerFile(file: formidable.File, opt: { visible: boolean; password?: string | undefined; name?: string | undefined }) {
+		const config = Config.getEnv();
+		const fileExt = file.newFilename.split(".").filter(Boolean).slice(1).join(".");
+		const id =
+			opt.name || Utils.generateId(this.nameStrategy, this.nameLength) || file.originalFilename?.split(".")[0] || Utils.generateId("id", 32)!;
+
+		const authBuffer = Buffer.from(`${Auth.generateToken(32)}.${Date.now()}.${this.domain}.${id}`).toString("base64");
+		const authSecret = Auth.encryptToken(authBuffer, config.encryptionKey);
+
+		const fileData = await this.server.prisma.file.create({
+			data: {
+				authSecret,
+				date: new Date(),
+				mimeType: file.mimetype!,
+				domain: this.domain,
+				visible: opt.visible === undefined ? true : opt.visible,
+				path: join(this.filesPath, file.newFilename),
+				size: Utils.parseStorage(file.size),
+				password: opt.password ? Auth.encryptPassword(opt.password, config.encryptionKey) : undefined,
+				id: this.nameStrategy === "zerowidth" || id.includes(".") ? id : `${id}.${fileExt}`
+			}
+		});
+
+		this.auditlogs.register("File Upload", `File: ${fileData.id}, size: ${Utils.parseStorage(file.size)}`);
+		return fileData.id;
 	}
 
 	public toString() {
