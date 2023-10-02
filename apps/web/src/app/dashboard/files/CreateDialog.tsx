@@ -31,18 +31,20 @@ export const CreateDialog: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const form = new FormData();
-			form.set("visible", `${data.visible}`);
-			form.set("file", data.file);
-			if (data.name) form.set("name", data.name);
-			if (data.password) form.set("password", data.password);
+			const formData = new FormData();
+			formData.set("visible", `${data.visible}`);
+			formData.set("file", data.file);
+			if (data.name) formData.set("name", data.name);
+			if (data.password) formData.set("password", data.password);
 
-			const response = await axios.post<{ files: Record<string, string>; url: string }>("/api/v1/upload", form, {
+			const response = await axios.post<{ files: Record<string, string>; url: string }>("/api/v1/upload", formData, {
 				withCredentials: true,
 				headers: { "Content-Type": "multipart/form-data" }
 			});
+
 			void navigator.clipboard.writeText(response.data.url);
 			toast({ title: "File uploaded", description: "A new file has been created and the url has been copied to your clipboard." });
+			form.reset({ visible: true }, { keepDirty: false });
 		} catch (err) {
 			const errors = "isAxiosError" in err ? (err as AxiosError<ApiErrorResponse>).response?.data.errors ?? [] : [];
 			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: "There was a problem with your request" });
