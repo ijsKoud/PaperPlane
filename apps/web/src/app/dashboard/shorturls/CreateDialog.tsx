@@ -30,7 +30,8 @@ export const CreateDialog: React.FC = () => {
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
 			const response = await api().v1.dashboard.url.create.mutate(data);
-			form.setFocus("url");
+			form.reset(undefined, { keepDirty: false });
+
 			void navigator.clipboard.writeText(response);
 			toast({ title: "Shorturl created", description: "A new url has been created and has been copied to your clipboard." });
 		} catch (err) {

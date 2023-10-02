@@ -10,9 +10,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { Checkbox } from "@paperplane/ui/checkbox";
+import { api } from "#trpc/server";
+import { getTRPCError } from "@paperplane/utils";
 
 export interface UpdateDialogProps {
 	/** The name (id) of the url */
@@ -34,7 +35,7 @@ export interface UpdateDialogProps {
 export const UpdateDialog: React.FC<UpdateDialogProps> = ({ name, visible, passwordEnabled, isOpen, setIsOpen }) => {
 	const { toast } = useToast();
 	const FormSchema = z.object({
-		name: z.string().optional(),
+		name: z.string(),
 		visible: z.boolean(),
 		passwordEnabled: z.boolean(),
 		password: z.string().optional()
@@ -48,14 +49,21 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ name, visible, passw
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
 			data.passwordEnabled = data.password ? true : data.passwordEnabled;
-			await axios.post(`/api/dashboard/files/${name}`, data, { withCredentials: true });
+			await api().v1.dashboard.files.update.mutate({ ...data, id: name });
+
 			toast({ title: "File updated", description: "The file has been updated." });
 			form.reset(undefined, { keepDirty: false });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("name");
-			console.log(err);
+			const parsedError = getTRPCError(err.message);
+			if (!parsedError) {
+				console.error(err);
+				form.setError("name", { message: "Unknown error, please try again later." });
+				return;
+			}
+
+			const inputField = parsedError.field as keyof z.infer<typeof FormSchema>;
+			if (Boolean(form.getValues()[inputField])) form.setError(inputField, { message: parsedError.message });
+			console.error(parsedError);
 		}
 	}
 

@@ -37,7 +37,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ name, visible, isOpe
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
-		defaultValues: { visible, name }
+		values: { visible, name }
 	});
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {

@@ -6,7 +6,6 @@ import GridCard from "./GridCard";
 import { Button } from "@paperplane/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { Trash2Icon } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
 import {
@@ -20,6 +19,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger
 } from "@paperplane/ui/alert-dialog";
+import { api } from "#trpc/server";
 
 export interface GridViewProps {
 	files: ApiFile[];
@@ -38,17 +38,14 @@ export const GridView: React.FC<GridViewProps> = ({ files, page, pages, setPage 
 
 	async function deleteFiles() {
 		try {
-			await axios.delete("/api/dashboard/files/bulk", { data: { files: selected } });
+			await api().v1.dashboard.files.delete.mutate(selected);
 			toast({ title: "Files Deleted", description: `${selected.length} files have been deleted.` });
 			setSelected([]);
 		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "n/a";
-
 			toast({
 				variant: "destructive",
 				title: "Uh oh! Something went wrong",
-				description: `There was a problem with your request: ${error}`,
+				description: `There was a problem with your request: ${err.message}`,
 				action: (
 					<ToastAction altText="Try again" onClick={deleteFiles}>
 						Try again

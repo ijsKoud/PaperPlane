@@ -33,11 +33,11 @@ export const CreateDialog: React.FC = () => {
 		try {
 			const form = new FormData();
 			form.set("visible", `${data.visible}`);
-			form.set("upload", data.file);
+			form.set("file", data.file);
 			if (data.name) form.set("name", data.name);
 			if (data.password) form.set("password", data.password);
 
-			const response = await axios.post<{ files: Record<string, string>; url: string }>("/api/v1/upload", data, {
+			const response = await axios.post<{ files: Record<string, string>; url: string }>("/api/v1/upload", form, {
 				withCredentials: true,
 				headers: { "Content-Type": "multipart/form-data" }
 			});

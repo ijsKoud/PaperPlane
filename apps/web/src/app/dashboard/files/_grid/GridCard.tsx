@@ -4,10 +4,10 @@ import { Button } from "@paperplane/ui/button";
 import { ToastAction } from "@paperplane/ui/toast";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ApiFile, cn, formatDate } from "@paperplane/utils";
-import axios, { AxiosError } from "axios";
 import { CopyIcon, EditIcon, ExternalLinkIcon, EyeIcon, EyeOffIcon, LockIcon, Trash2Icon, UnlockIcon } from "lucide-react";
 import React, { useState } from "react";
 import { UpdateDialog } from "../UpdateDialog";
+import { api } from "#trpc/server";
 
 export interface GridCardProps {
 	file: ApiFile;
@@ -33,16 +33,13 @@ const GridCard: React.FC<GridCardProps> = ({ file, selected, toggleSelected }) =
 
 	const deleteFile = async () => {
 		try {
-			await axios.delete("/api/dashboard/files/bulk", { data: { files: [file.name] } });
+			await api().v1.dashboard.files.delete.mutate([file.name]);
 			toast({ title: "File Deleted", description: `${file.name} has been deleted.` });
 		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "n/a";
-
 			toast({
 				variant: "destructive",
 				title: "Uh oh! Something went wrong",
-				description: `There was a problem with your request: ${error}`,
+				description: `There was a problem with your request: ${err.message}`,
 				action: (
 					<ToastAction altText="Try again" onClick={deleteFile}>
 						Try again
