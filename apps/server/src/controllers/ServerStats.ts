@@ -1,6 +1,6 @@
 import osUtils from "node-os-utils";
 import pidusage from "pidusage";
-import { Utils } from "./utils.js";
+import { Utils } from "#lib/utils.js";
 import { join } from "node:path";
 import ms from "ms";
 

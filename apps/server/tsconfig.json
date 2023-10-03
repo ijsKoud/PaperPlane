@@ -12,6 +12,7 @@
 		"paths": {
 			"#lib/*": ["./src/lib/*"],
 			"#components/*": ["./src/components/*"],
+			"#controllers/*": ["./src/controllers/*"],
 			"#errors/*": ["./src/errors/*"],
 			"#trpc/*": ["./src/trpc/*"],
 			"#server.js": ["./src/Server.ts"],

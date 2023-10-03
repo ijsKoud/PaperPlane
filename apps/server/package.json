@@ -16,6 +16,7 @@
 	"imports": {
 		"#lib/*": "./dist/lib/*",
 		"#components/*": "./dist/components/*",
+		"#controllers/*": "./dist/controllers/*",
 		"#errors/*": "./dist/errors/*",
 		"#server.js": "./dist/Server.js",
 		"#trpc.js": "./dist/trpc/index.js",

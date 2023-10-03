@@ -4,8 +4,8 @@ import { Collection } from "@discordjs/collection";
 import type { Invites, Prisma } from "@prisma/client";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
-import Config from "./Config.js";
-import { Auth } from "./Auth.js";
+import Config from "#lib/Config.js";
+import { Auth } from "#lib/Auth.js";
 
 export default class DomainsManager {
 	public server: Server;
