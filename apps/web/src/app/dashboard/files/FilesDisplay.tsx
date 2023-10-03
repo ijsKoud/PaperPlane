@@ -13,10 +13,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@paper
 import { GridView } from "./_grid/GridView";
 import { PaperPlaneApiOutputs, api } from "#trpc/server";
 
-type ShortUrl = PaperPlaneApiOutputs["v1"]["dashboard"]["files"]["list"];
+type File = PaperPlaneApiOutputs["v1"]["dashboard"]["files"]["list"];
 
 const UseFilesList = () => {
-	const [data, setData] = useState<ShortUrl>({ entries: [], pages: 0 });
+	const [data, setData] = useState<File>({ entries: [], pages: 0 });
 	const [sort, setSort] = useState<FilesSort>(FilesSort.DATE_NEW_OLD);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");

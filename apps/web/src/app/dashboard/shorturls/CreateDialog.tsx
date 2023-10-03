@@ -12,7 +12,7 @@ import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
 import { useToast } from "@paperplane/ui/use-toast";
 import { api } from "#trpc/server";
-import { getTRPCError } from "@paperplane/utils";
+import { HandleTRPCFormError } from "#trpc/shared";
 
 export const CreateDialog: React.FC = () => {
 	const { toast } = useToast();
@@ -35,16 +35,7 @@ export const CreateDialog: React.FC = () => {
 			void navigator.clipboard.writeText(response);
 			toast({ title: "Shorturl created", description: "A new url has been created and has been copied to your clipboard." });
 		} catch (err) {
-			const parsedError = getTRPCError(err.message);
-			if (!parsedError) {
-				console.error(err);
-				form.setError("url", { message: "Unknown error, please try again later." });
-				return;
-			}
-
-			const inputField = parsedError.field as keyof z.infer<typeof FormSchema>;
-			if (Boolean(form.getValues()[inputField])) form.setError(inputField, { message: parsedError.message });
-			console.error(parsedError);
+			HandleTRPCFormError(err, form, "url");
 		}
 	}
 

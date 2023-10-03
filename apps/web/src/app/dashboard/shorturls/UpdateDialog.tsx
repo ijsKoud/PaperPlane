@@ -12,7 +12,7 @@ import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
 import { useToast } from "@paperplane/ui/use-toast";
 import { api } from "#trpc/server";
-import { getTRPCError } from "@paperplane/utils";
+import { HandleTRPCFormError } from "#trpc/shared";
 
 export interface UpdateDialogProps {
 	/** The name (id) of the url */
@@ -45,16 +45,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ name, visible, isOpe
 			await api().v1.dashboard.url.update.mutate({ ...data, id: name });
 			toast({ title: "Shorturl updated", description: "The url has been updated." });
 		} catch (err) {
-			const parsedError = getTRPCError(err.message);
-			if (!parsedError) {
-				console.error(err);
-				form.setError("name", { message: "Unknown error, please try again later." });
-				return;
-			}
-
-			const inputField = parsedError.field as keyof z.infer<typeof FormSchema>;
-			if (Boolean(form.getValues()[inputField])) form.setError(inputField, { message: parsedError.message });
-			console.error(parsedError);
+			HandleTRPCFormError(err, form, "name");
 		}
 	}
 
