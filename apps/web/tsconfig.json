@@ -17,7 +17,8 @@
 		"verbatimModuleSyntax": false,
 		"isolatedModules": true,
 		"paths": {
-			"#trpc/*": ["./src/trpc/*"]
+			"#trpc/*": ["./src/trpc/*"],
+			"#lib/*": ["./src/lib/*"]
 		},
 		"plugins": [
 			{
