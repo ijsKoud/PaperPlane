@@ -1,6 +1,6 @@
 import { getTRPCError } from "@paperplane/utils";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
-import { UseFormReturn } from "react-hook-form";
+import { FieldPath, FieldValues, UseFormReturn } from "react-hook-form";
 import type AppRouter from "server/dist/trpc";
 
 /**
@@ -24,7 +24,7 @@ export type RouterOutputs = inferRouterOutputs<typeof AppRouter>;
  * @param key The form key to use as fallback for unknown errors
  * @returns
  */
-export function HandleTRPCFormError<F extends UseFormReturn<any>>(err: any, form: F, key: string) {
+export function HandleTRPCFormError<F extends FieldValues>(err: any, form: UseFormReturn<F>, key: FieldPath<F>) {
 	const parsedError = getTRPCError(err.message);
 	if (!parsedError) {
 		console.error(err);

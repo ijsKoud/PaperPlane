@@ -3,7 +3,6 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@paperplane/ui/table";
 import React, { useState } from "react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
 import { Button } from "@paperplane/ui/button";
@@ -20,6 +19,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger
 } from "@paperplane/ui/alert-dialog";
+import { api } from "#trpc/server";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -45,17 +45,15 @@ export const DataTable = <TData, TValue>({ columns, data, page, pages, setPage }
 	async function deleteBins() {
 		try {
 			const bins = table.getFilteredSelectedRowModel().rows;
-			await axios.delete("/api/dashboard/paste-bins/bulk", { data: { bins: bins.map((bin) => bin.getValue("name")) } });
-			toast({ title: "Pastebins Deleted", description: `${bins.length} urls have been deleted.` });
+			await api().v1.dashboard.bins.delete.mutate(bins.map((bin) => bin.getValue("name")));
+
+			toast({ title: "Pastebins Deleted", description: `${bins.length} pastebins have been deleted.` });
 			setRowSelection({});
 		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "n/a";
-
 			toast({
 				variant: "destructive",
 				title: "Uh oh! Something went wrong",
-				description: `There was a problem with your request: ${error}`,
+				description: `There was a problem with your request: ${err.message}`,
 				action: (
 					<ToastAction altText="Try again" onClick={deleteBins}>
 						Try again

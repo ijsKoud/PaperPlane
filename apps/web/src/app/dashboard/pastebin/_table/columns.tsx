@@ -15,12 +15,11 @@ import { ApiBin, formatDate, getProtocol } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
 import { UpdateDialog } from "../UpdateDialog";
-import { useState } from "react";
-import { useSwrWithUpdates } from "@paperplane/swr";
+import { useEffect, useState } from "react";
+import { api } from "#trpc/server";
 
 export const columns: ColumnDef<ApiBin>[] = [
 	{
@@ -79,6 +78,7 @@ export const columns: ColumnDef<ApiBin>[] = [
 		cell: ({ row }) => {
 			const { toast } = useToast();
 			const [isOpen, setIsOpen] = useState(false);
+			const [binData, setBinData] = useState("");
 
 			const name = row.getValue("name") as string;
 			const visible = row.getValue("visible") as boolean;
@@ -86,22 +86,23 @@ export const columns: ColumnDef<ApiBin>[] = [
 			const highlight = row.getValue("highlight") as string;
 
 			const shorturl = `${getProtocol()}${location.host}/bins/${name}`;
-			const { data: binData } = useSwrWithUpdates<string>(`/api/dashboard/paste-bins/${name}`);
 
-			async function deleteUrl() {
+			useEffect(() => {
+				const getData = () => api().v1.dashboard.bins.details.query(name).then(setBinData);
+				void getData();
+			}, []);
+
+			async function deleteBin() {
 				try {
-					await axios.delete("/api/dashboard/paste-bins/bulk", { data: { urls: [name] } });
+					await api().v1.dashboard.bins.delete.mutate([name]);
 					toast({ title: "Pastebin Deleted", description: `${name} has been deleted.` });
 				} catch (err) {
-					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-					const error = _error || "n/a";
-
 					toast({
 						variant: "destructive",
 						title: "Uh oh! Something went wrong",
-						description: `There was a problem with your request: ${error}`,
+						description: `There was a problem with your request: ${err.message}`,
 						action: (
-							<ToastAction altText="Try again" onClick={deleteUrl}>
+							<ToastAction altText="Try again" onClick={deleteBin}>
 								Try again
 							</ToastAction>
 						)
@@ -138,7 +139,7 @@ export const columns: ColumnDef<ApiBin>[] = [
 
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => setIsOpen(true)}>Edit</DropdownMenuItem>
-						<DropdownMenuItem onClick={deleteUrl}>Delete</DropdownMenuItem>
+						<DropdownMenuItem onClick={deleteBin}>Delete</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);

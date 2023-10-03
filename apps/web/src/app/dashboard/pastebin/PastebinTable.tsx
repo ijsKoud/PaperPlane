@@ -1,24 +1,29 @@
 "use client";
 
-import { useSwrWithUpdates } from "@paperplane/swr";
 import { Input } from "@paperplane/ui/input";
-import { BinSortNames, BinApiRes, BinSort } from "@paperplane/utils";
+import { BinSortNames, BinSort } from "@paperplane/utils";
 import React, { useEffect, useState } from "react";
 import { CreateDialog } from "./CreateDialog";
 import { DataTable } from "./_table/data-table";
 import { columns } from "./_table/columns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
+import { PaperPlaneApiOutputs, api } from "#trpc/server";
+
+type Pastebin = PaperPlaneApiOutputs["v1"]["dashboard"]["bins"]["list"];
 
 const UsePastebinList = () => {
-	const [data, setData] = useState<BinApiRes>({ entries: [], pages: 0 });
+	const [data, setData] = useState<Pastebin>({ entries: [], pages: 0 });
 	const [sort, setSort] = useState<BinSort>(BinSort.DATE_NEW_OLD);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 
-	const swr = useSwrWithUpdates<BinApiRes>(`/api/dashboard/paste-bins?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 	useEffect(() => {
-		if (swr.data) setData(swr.data);
-	}, [swr.data]);
+		const updateList = () => api().v1.dashboard.bins.list.query({ page, query: search, sort });
+		void updateList().then(setData);
+
+		const interval = setInterval(() => void updateList().then(setData), 5e3);
+		return () => clearInterval(interval);
+	}, [search, page, sort]);
 
 	return { ...data, page, setPage, search, setSearch, sort, setSort };
 };
