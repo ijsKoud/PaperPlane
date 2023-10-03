@@ -8,14 +8,15 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Loader2, Settings2Icon } from "lucide-react";
-import { DashboardSettingsGetApi } from "@paperplane/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { Switch } from "@paperplane/ui/switch";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { EmbedSettingsDialog } from "./EmbedSettingsDialog";
+import type { DashboardSettings } from "../../Settings";
+import { api } from "#trpc/server";
+import { HandleTRPCFormError } from "#trpc/shared";
 
-type SettingsFormProps = Omit<DashboardSettingsGetApi, "tokens">;
+type SettingsFormProps = Omit<DashboardSettings, "tokens">;
 
 const SettingsForm: React.FC<SettingsFormProps> = ({ nameLength, nameStrategy, embedEnabled, embed }) => {
 	const { toast } = useToast();
@@ -24,7 +25,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ nameLength, nameStrategy, e
 		nameLength: z.number({ required_error: "A valid name length is required" }).min(4, "The minimum length is 4 characters long"),
 		nameStrategy: z.union([z.literal("name"), z.literal("id"), z.literal("zerowidth")], {
 			required_error: "A valid name strategy must be selected",
-			invalid_type_error: "The provided strategy does not exist "
+			invalid_type_error: "The provided strategy does not exist"
 		})
 	});
 
@@ -35,13 +36,10 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ nameLength, nameStrategy, e
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			await axios.post<string>("/api/dashboard/settings", data, { withCredentials: true });
+			await api().v1.dashboard.settings.update.mutate(data);
 			toast({ title: "Settings updated", description: "The settings have been updated." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("nameLength");
-			console.log(err);
+			HandleTRPCFormError(err, form, "nameStrategy");
 		}
 	}
 

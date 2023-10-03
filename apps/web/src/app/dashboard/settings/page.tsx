@@ -1,6 +1,5 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { getAuthenticationState } from "../_lib/utils";
 import { redirect } from "next/navigation";
 import Settings from "./Settings";
@@ -11,8 +10,7 @@ export const metadata: Metadata = {
 };
 
 const Page: React.FC = async () => {
-	const host = headers().get("host");
-	const authenticationState = await getAuthenticationState(host!);
+	const authenticationState = await getAuthenticationState();
 	if (!authenticationState) redirect("/login");
 
 	return (
