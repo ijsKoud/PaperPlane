@@ -1,17 +1,17 @@
 import { Auth } from "#lib/Auth.js";
 import Config from "#lib/Config.js";
 import { AuthUserProdeduce } from "#trpc/context/AuthUser.js";
-import { createFieldError, t } from "#trpc/lib.js";
+import { createFieldError, publicProcedure, t } from "#trpc/lib.js";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const ResetAuthRoute = t.router({
 	/** Returns the generated MFA key data if this mode is enabled */
-	mfa: AuthUserProdeduce.query((opt) => {
+	mfa: publicProcedure.query((opt) => {
 		const config = Config.getEnv();
 		if (config.authMode !== "2fa") return null;
 
-		const auth = opt.ctx.server.auth.generateAuthReset(opt.ctx.domain.domain);
+		const auth = opt.ctx.server.auth.generateAuthReset("DOMAIN_PLACEHOLDER");
 		return auth;
 	}),
 	/** Reset route for authmode="mfa" */

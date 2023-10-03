@@ -151,7 +151,7 @@ export const binsRoute = t.router({
 			server.logger.fatal("[BIN:CREATE]: Fatal error while deleting files", err);
 			throw new TRPCError({
 				code: "INTERNAL_SERVER_ERROR",
-				message: "Unknown error occurred while deleting the pastebins, please try again later."
+				message: "Unknown error occurred while creating a pastebin, please try again later."
 			});
 		}
 	}),

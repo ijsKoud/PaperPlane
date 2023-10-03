@@ -6,6 +6,7 @@ import FuzzySearch from "#lib/FuzzySearch.js";
 import { urlRoute } from "./url.js";
 import { filesRoute } from "./files.js";
 import { binsRoute } from "./bins.js";
+import { settingsRoute } from "./settings.js";
 
 export const dashboardRoute = t.router({
 	/** Returns the user stats (storage usage, amount of files, etc) */
@@ -52,5 +53,6 @@ export const dashboardRoute = t.router({
 	}),
 	url: urlRoute,
 	files: filesRoute,
-	bins: binsRoute
+	bins: binsRoute,
+	settings: settingsRoute
 });
