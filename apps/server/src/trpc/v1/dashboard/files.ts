@@ -94,7 +94,7 @@ export const filesRoute = t.router({
 			server.logger.fatal("[FILE:DELETE]: Fatal error while deleting files", err);
 			throw new TRPCError({
 				code: "INTERNAL_SERVER_ERROR",
-				message: "Unknown error occurred while updating a file, please try again later."
+				message: "Unknown error occurred while deleting files, please try again later."
 			});
 		}
 	})

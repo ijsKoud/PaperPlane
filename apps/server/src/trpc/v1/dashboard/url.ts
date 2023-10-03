@@ -119,7 +119,7 @@ export const urlRoute = t.router({
 			server.logger.fatal("[URL:DELETE]: Fatal error while deleting shorturls", err);
 			throw new TRPCError({
 				code: "INTERNAL_SERVER_ERROR",
-				message: "Unknown error occurred while updating a shorturl, please try again later."
+				message: "Unknown error occurred while deleting shorturls, please try again later."
 			});
 		}
 	})
