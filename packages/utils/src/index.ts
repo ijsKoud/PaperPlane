@@ -72,7 +72,6 @@ export const generateToken = (length = 32) => {
 
 export * from "./Dashboard";
 export * from "./Admin";
-export * from "./SignUp";
 
 export * from "./NotFound";
 export * from "./types";
