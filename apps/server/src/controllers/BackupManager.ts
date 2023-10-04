@@ -1,30 +1,40 @@
-import type Server from "../../Server.js";
+import type Server from "#server.js";
 import { Unzip, Zip } from "zip-lib";
 import { join } from "node:path";
 import { readdir, readFile, rm, writeFile } from "node:fs/promises";
-import { Auth } from "../Auth.js";
-import { BackupV400 } from "./versions/Backup-4.0.0.js";
-import { BackupV300 } from "./versions/backup-3.0.0.js";
-import { BackupV410 } from "./versions/backup-4.1.0.js";
+import { Auth } from "#lib/Auth.js";
+import BackupV410 from "#components/backup/versions/backup-4.1.0.js";
+import BackupV400 from "#components/backup/versions/backup-4.0.0.js";
+import BackupV300 from "#components/backup/versions/backup-3.0.0.js";
+import Config from "#lib/Config.js";
 
-export class Backups {
-	public baseDataFolder = join(process.cwd(), "..", "..", "data");
-	public baseBackupFolder = join(this.baseDataFolder, "backups");
+export class BackupManager {
+	/** The base data directory */
+	public dataDirectory = join(process.cwd(), "..", "..", "data");
+
+	/** The base backup directory */
+	public backupDirectory = join(this.dataDirectory, "backups");
 
 	public backups: Record<string, BackupV400 | BackupV300 | BackupV410> = {
-		v410: new BackupV410(this.server, this.baseDataFolder),
-		v400: new BackupV400(this.server, this.baseDataFolder),
-		v300: new BackupV300(this.server, this.baseDataFolder)
+		v410: new BackupV410(this.server, this.dataDirectory),
+		v400: new BackupV400(this.server, this.dataDirectory),
+		v300: new BackupV300(this.server, this.dataDirectory)
 	};
 
-	public constructor(public server: Server) {}
+	public constructor(public readonly server: Server) {}
 
+	/**
+	 * Create a new backup
+	 * @returns the backup id
+	 */
 	public async createBackup() {
 		try {
-			const { prisma, envConfig } = this.server;
+			const config = Config.getEnv();
+			const { prisma } = this.server;
+
 			const databaseData = {
 				version: "4.1.0",
-				encryption: envConfig.encryptionKey,
+				encryption: config.encryptionKey,
 				users: await prisma.domain.findMany({ include: { apiTokens: true } }),
 				files: await prisma.file.findMany(),
 				pasteBins: await prisma.pastebin.findMany(),
@@ -34,16 +44,18 @@ export class Backups {
 				signupDomains: await prisma.signupDomain.findMany()
 			};
 
+			// generate unique id
 			const id = `backup-${Auth.generateToken(16)}`;
-			const filePath = join(this.baseBackupFolder, "temp", `${id}-file.json`);
+			const filePath = join(this.backupDirectory, "temp", `${id}-file.json`);
 			await writeFile(filePath, JSON.stringify(databaseData));
 
+			// create backup
 			const zip = new Zip();
-			zip.addFolder(join(this.baseDataFolder, "files"), "files");
-			zip.addFolder(join(this.baseDataFolder, "paste-bins"), "paste-bins");
+			zip.addFolder(join(this.dataDirectory, "files"), "files");
+			zip.addFolder(join(this.dataDirectory, "paste-bins"), "paste-bins");
 			zip.addFile(filePath, "db.json");
 
-			await zip.archive(join(this.baseBackupFolder, "archives", `${id}.zip`));
+			await zip.archive(join(this.backupDirectory, "archives", `${id}.zip`));
 			await rm(filePath, { maxRetries: 4, retryDelay: 1e3 });
 			return id;
 		} catch (err) {
@@ -53,20 +65,28 @@ export class Backups {
 		return undefined;
 	}
 
+	/**
+	 * Import a backup
+	 * @param id The id of the backup
+	 * @returns
+	 */
 	public async import(id: string): Promise<boolean | { errors: Record<string, any> }> {
 		try {
-			const backups = await readdir(join(this.baseBackupFolder, "archives"));
+			const backups = await readdir(join(this.backupDirectory, "archives"));
 			if (!backups.includes(`${id}.zip`)) return false;
 
-			const extractFolder = join(this.baseBackupFolder, "temp", id);
+			// unzip the backip
+			const extractFolder = join(this.backupDirectory, "temp", id);
 			const unzip = new Unzip();
-			await unzip.extract(join(this.baseBackupFolder, "archives", `${id}.zip`), extractFolder);
+			await unzip.extract(join(this.backupDirectory, "archives", `${id}.zip`), extractFolder);
 
+			// get correct parser
 			const jsonStr = await readFile(join(extractFolder, "db.json"), "utf8");
 			const version: string = JSON.parse(jsonStr).version ?? "";
 			const versionParsed = `v${version.replace(/\./g, "")}`;
 			if (this.backups[versionParsed]) await this.backups[versionParsed].import(extractFolder);
 
+			// remove temporary directories
 			await rm(extractFolder, { recursive: true, maxRetries: 5, retryDelay: 1e3 });
 		} catch (err) {
 			if ("message" in err && err.message.includes("errors:")) return JSON.parse(err.message);
