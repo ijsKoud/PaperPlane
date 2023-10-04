@@ -15,6 +15,7 @@ import Logger from "#lib/Logger.js";
 import { fileURLToPath } from "node:url";
 import { getTrpcMiddleware } from "#trpc/index.js";
 import { Auth } from "#lib/Auth.js";
+import { BackupManager } from "#controllers/BackupManager.js";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
@@ -29,6 +30,9 @@ export default class Server extends HighwayServer {
 
 	/** The domains manager */
 	public domains = new DomainsManager(this);
+
+	/** the backup manager */
+	public backups = new BackupManager(this);
 
 	public dev: boolean;
 	public next!: NextServer;

@@ -15,6 +15,12 @@ export class BackupManager {
 	/** The base backup directory */
 	public backupDirectory = join(this.dataDirectory, "backups");
 
+	/** The id of the backup that is currently being imported */
+	public backupImportInProgress: string | undefined;
+
+	/** Whether a backup is being created or not */
+	public backupCreateInProgress = false;
+
 	public backups: Record<string, BackupV400 | BackupV300 | BackupV410> = {
 		v410: new BackupV410(this.server, this.dataDirectory),
 		v400: new BackupV400(this.server, this.dataDirectory),
@@ -28,6 +34,8 @@ export class BackupManager {
 	 * @returns the backup id
 	 */
 	public async createBackup() {
+		this.backupCreateInProgress = true;
+
 		try {
 			const config = Config.getEnv();
 			const { prisma } = this.server;
@@ -62,6 +70,7 @@ export class BackupManager {
 			this.server.logger.fatal("[BACKUP]: Fatal error while creating a backup ", err);
 		}
 
+		this.backupCreateInProgress = false;
 		return undefined;
 	}
 
@@ -74,6 +83,8 @@ export class BackupManager {
 		try {
 			const backups = await readdir(join(this.backupDirectory, "archives"));
 			if (!backups.includes(`${id}.zip`)) return false;
+
+			this.backupImportInProgress = id;
 
 			// unzip the backip
 			const extractFolder = join(this.backupDirectory, "temp", id);
@@ -94,6 +105,7 @@ export class BackupManager {
 			return false;
 		}
 
+		this.backupImportInProgress = undefined;
 		return true;
 	}
 }
