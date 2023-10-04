@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { config } from "dotenv";
 import type Server from "../Server.js";
@@ -37,7 +37,13 @@ export default class Config {
 		await mkdir(join(dataDir, "backups", "archives"), { recursive: true });
 		await mkdir(join(dataDir, "backups", "temp"), { recursive: true });
 
-		await this.updateFiles();
+		// Check if mime-types/extensions are already updated
+		const flagsRaw = await readFile(join(dataDir, "flags.json"), "utf-8").catch(() => "{}");
+		const flags: Record<string, boolean> = JSON.parse(flagsRaw);
+
+		await this.updateFiles(flags["mime-type"], flags.extension);
+		await writeFile(join(dataDir, "flags.json"), JSON.stringify({ "mime-type": true, extension: true }));
+
 		const config = Config.getEnv();
 		await Config.updateEnv(config);
 	}
@@ -74,34 +80,42 @@ export default class Config {
 		this.server.adminAuditLogs.register("Encryption Reset", "N/A");
 	}
 
-	private async updateFiles() {
+	private async updateFiles(mimeType: boolean, extension: boolean) {
 		const files = await this.server.prisma.file.findMany();
 		let count = 0;
 		let extensionCount = 0;
 
-		for await (const file of files) {
-			if (file.mimeType.length) continue;
+		if (!mimeType) {
+			for await (const file of files) {
+				if (file.mimeType.length) continue;
 
-			const filename = file.path.split("/").reverse()[0];
-			const mimeType = lookup(filename);
-			await this.server.prisma.file.update({ where: { id_domain: { id: file.id, domain: file.domain } }, data: { mimeType: mimeType || "" } });
-			count++;
+				const filename = file.path.split("/").reverse()[0];
+				const mimeType = lookup(filename);
+				await this.server.prisma.file.update({
+					where: { id_domain: { id: file.id, domain: file.domain } },
+					data: { mimeType: mimeType || "" }
+				});
+				count++;
+			}
+
+			this.server.logger.info(`[CONFIG]: Updated mime-types for ${count} files`);
 		}
 
-		for await (const file of files) {
-			if (file.id.includes(".") || ["\u200B", "\u2060", "\u200C", "\u200D"].some((str) => file.id.includes(str))) continue;
+		if (extension) {
+			for await (const file of files) {
+				if (file.id.includes(".") || ["\u200B", "\u2060", "\u200C", "\u200D"].some((str) => file.id.includes(str))) continue;
 
-			const filename = file.path.split("/").reverse()[0];
-			const fileExt = filename.split(".").slice(1).filter(Boolean).join(".");
-			await this.server.prisma.file.update({
-				where: { id_domain: { id: file.id, domain: file.domain } },
-				data: { id: `${file.id}.${fileExt}` }
-			});
-			extensionCount++;
+				const filename = file.path.split("/").reverse()[0];
+				const fileExt = filename.split(".").slice(1).filter(Boolean).join(".");
+				await this.server.prisma.file.update({
+					where: { id_domain: { id: file.id, domain: file.domain } },
+					data: { id: `${file.id}.${fileExt}` }
+				});
+				extensionCount++;
+			}
+
+			this.server.logger.info(`[CONFIG]: Updated extensions for ${extensionCount} files`);
 		}
-
-		this.server.logger.info(`[CONFIG]: Updated mime-types for ${count} files`);
-		this.server.logger.info(`[CONFIG]: Updated extensions for ${extensionCount} files`);
 	}
 
 	public static logger = new Logger({ name: "CONFIG" });
