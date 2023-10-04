@@ -3,18 +3,17 @@ import _ from "lodash";
 import ms from "ms";
 import { readdir, readFile, rename } from "node:fs/promises";
 import { join } from "node:path";
-import type Server from "../../../Server.js";
-import { Auth } from "../../Auth.js";
-import { Utils } from "../../utils.js";
-import { BackupUtils } from "../BackupUtils.js";
+import { Auth } from "#lib/Auth.js";
+import { Utils } from "#lib/utils.js";
 import type { iBackupV300 } from "../types.js";
+import Backup from "../Backup.js";
+import Config from "#lib/Config.js";
 
-export class BackupV300 {
-	public constructor(
-		public server: Server,
-		public dataDir: string
-	) {}
-
+export default class BackupV300 extends Backup {
+	/**
+	 * Import the backup
+	 * @param dir The backup contents directory
+	 */
 	public async import(dir: string) {
 		const files = await readdir(dir);
 		if (!files.includes("db.json")) throw new Error(JSON.stringify({ errors: { backup: "Unknown db.json file" } }));
@@ -24,18 +23,22 @@ export class BackupV300 {
 		const dbData = await readFile(filePath, "utf8");
 		const data = this.parseDatabase(dbData);
 
+		// create user
 		const domain = await this.server.prisma.domain.create({ data: data.user });
 
+		// Add files to the database
 		for (const file of data.files) {
 			const [filename] = file.path.split("/").reverse();
-			await this.server.prisma.file.create({ data: { ...file, path: join(this.dataDir, "files", domain.pathId, filename) } });
+			await this.server.prisma.file.create({ data: { ...file, path: join(this.dir, "files", domain.pathId, filename) } });
 		}
 
+		// add urls to database
 		for (const url of data.urls) {
 			await this.server.prisma.url.create({ data: url });
 		}
 
-		await rename(join(dir, "files"), join(this.dataDir, "files", domain.pathId));
+		// move files from backup to correct data folder
+		await rename(join(dir, "files"), join(this.dir, "files", domain.pathId));
 	}
 
 	private parseDatabase(_data: string) {
@@ -44,29 +47,29 @@ export class BackupV300 {
 
 		if (typeof data.version !== "string" || data.version !== "3.0.0") errors.version = "INVALID_VERSION";
 
+		// parse the user data
 		const _user = this.parseUser(data.user);
 		if (typeof _user === "string") errors.user = _user;
 
+		// cast user to correct type
 		const user = _user as Prisma.DomainCreateArgs["data"];
 
+		// parse the files
 		const _files = [...this.parseFiles(data.files, data.user.username)];
 		if (_files.some((file) => typeof file === "string")) {
-			const results = _files
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_files);
 			errors.files = results;
 		}
-		const files = _files as File[];
 
+		// parse the urls
 		const _urls = [...this.parseUrls(data.urls, data.user.username)];
 		if (_urls.some((url) => typeof url === "string")) {
-			const results = _urls
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_urls);
 			errors.urls = results;
 		}
+
+		// cast the files and urls to the correct type
+		const files = _files as File[];
 		const urls = _urls as Url[];
 
 		if (Object.keys(errors).length) throw new Error(JSON.stringify({ errors }));
@@ -87,25 +90,25 @@ export class BackupV300 {
 		if (typeof user.embedDescription !== "string" && !_.isNull(user.embedDescription)) {
 			return "INVALID_EMBED_DESCRIPTION";
 		}
-		if (!BackupUtils.typeofBoolean(user.embedEnabled)) {
+		if (!this.typeofBoolean(user.embedEnabled)) {
 			return "INVALID_EMBED_ENABLED";
 		}
 		if (typeof user.embedTitle !== "string" && !_.isNull(user.embedTitle)) {
 			return "INVALID_EMBED_TITLE";
 		}
-		if (!BackupUtils.typeofString(user.username)) {
+		if (!this.typeofString(user.username)) {
 			return "INVALID_USERNAME";
 		}
-		if (!BackupUtils.typeofString(user.token)) {
+		if (!this.typeofString(user.token)) {
 			return "INVALID_API_TOKEN";
 		}
 
-		const { envConfig } = this.server;
+		const config = Config.getEnv();
 		const apiTokens: Omit<Token, "domain">[] = [{ date: new Date(), name: "v3-token", token: user.token }];
 
 		const date = new Date();
 		const domain: Prisma.DomainCreateArgs["data"] = {
-			auditlogDuration: ms(envConfig.auditLogDuration),
+			auditlogDuration: ms(config.auditLogDuration),
 			disabled: false,
 			domain: user.username,
 			apiTokens: { create: apiTokens },
@@ -115,59 +118,63 @@ export class BackupV300 {
 			embedDescription: user.embedDescription || undefined,
 			embedEnabled: user.embedEnabled,
 			embedTitle: user.embedTitle || undefined,
-			extensionsList: envConfig.extensionsList.join(","),
-			extensionsMode: envConfig.extensionsMode,
-			maxStorage: Utils.parseStorage(envConfig.maxStorage),
-			maxUploadSize: Utils.parseStorage(envConfig.maxUpload)
+			extensionsList: config.extensionsList.join(","),
+			extensionsMode: config.extensionsMode,
+			maxStorage: Utils.parseStorage(config.maxStorage),
+			maxUploadSize: Utils.parseStorage(config.maxUpload)
 		};
 
 		return domain;
 	}
 
 	private *parseFiles(files: iBackupV300["files"], domain: string) {
+		const config = Config.getEnv();
+
 		for (const file of files) {
 			if (typeof file !== "object") {
 				yield "INVALID_FILE_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.date)) {
+			if (!this.typeofString(file.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.id)) {
+			if (!this.typeofString(file.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (file.password && !BackupUtils.typeofString(file.password)) {
+			if (file.password && !this.typeofString(file.password)) {
 				yield "INVALID_PASSWORD";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.path)) {
+			if (!this.typeofString(file.path)) {
 				yield "INVALID_FILE_PATH";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.size)) {
+			if (!this.typeofString(file.size)) {
 				yield "INVALID_SIZE";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(file.views)) {
+			if (!this.typeofNumber(file.views)) {
 				yield "INVALID_VIEWS";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(file.visible)) {
+			if (!this.typeofBoolean(file.visible)) {
 				yield "INVALID_VISIBLE";
 				continue;
 			}
 
 			const authBuffer = Buffer.from(`${Auth.generateToken(32)}.${Date.now()}.${domain}.${file.id}`).toString("base64");
-			const authSecret = Auth.encryptToken(authBuffer, this.server.envConfig.encryptionKey);
+			const authSecret = Auth.encryptToken(authBuffer, config.encryptionKey);
+			const password = file.password ? Auth.encryptPassword(file.password, config.encryptionKey) : null;
+
 			const fileObj: File = {
 				...file,
 				mimeType: "",
 				date: new Date(file.date),
 				authSecret,
 				domain,
-				password: file.password ? Auth.encryptPassword(file.password, this.server.envConfig.encryptionKey) : null
+				password
 			};
 			yield fileObj;
 		}
@@ -179,26 +186,27 @@ export class BackupV300 {
 				yield "INVALID_URL_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.date)) {
+			if (!this.typeofString(url.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.id)) {
+			if (!this.typeofString(url.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.url)) {
+			if (!this.typeofString(url.url)) {
 				yield "INVALID_URL";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(url.visits)) {
+			if (!this.typeofNumber(url.visits)) {
 				yield "INVALID_VISITS";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(url.visible)) {
+			if (!this.typeofBoolean(url.visible)) {
 				yield "INVALID_VISIBLE";
 				continue;
 			}
+
 			const urlObj: Url = { ...url, date: new Date(url.date), domain };
 			yield urlObj;
 		}

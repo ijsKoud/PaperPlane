@@ -2,21 +2,16 @@ import type { Domain, File, Token, Url, Auditlog, Invites, SignupDomain, Pastebi
 import _ from "lodash";
 import { readdir, readFile, rename, rm } from "node:fs/promises";
 import { join } from "node:path";
-import type Server from "../../../Server.js";
-import { BackupUtils } from "../BackupUtils.js";
 import type { iBackupV410 } from "../types.js";
-import { Utils } from "../../utils.js";
+import { Utils } from "#lib/utils.js";
+import Backup from "../Backup.js";
+import Config from "#lib/Config.js";
 
-export class BackupV410 {
-	public server: Server;
-
-	public dataDir: string;
-
-	public constructor(server: Server, dataDir: string) {
-		this.server = server;
-		this.dataDir = dataDir;
-	}
-
+export default class BackupV410 extends Backup {
+	/**
+	 * Import the backup
+	 * @param dir The backup contents directory
+	 */
 	public async import(dir: string) {
 		const files = await readdir(dir);
 		if (!files.includes("db.json")) throw new Error(JSON.stringify({ errors: { backup: "Unknown db.json file" } }));
@@ -27,52 +22,62 @@ export class BackupV410 {
 		const dbData = await readFile(filePath, "utf8");
 		const data = this.parseDatabase(dbData);
 
+		// full system wipe
 		await this.server.prisma.auditlog.deleteMany();
 		await this.server.prisma.file.deleteMany();
 		await this.server.prisma.invites.deleteMany();
 		await this.server.prisma.url.deleteMany();
 		await this.server.prisma.token.deleteMany();
-
 		await this.server.prisma.signupDomain.deleteMany();
 		await this.server.prisma.domain.deleteMany();
 
+		// process users
 		for (const user of data.users) {
 			const { apiTokens, ...data } = user;
 			await this.server.prisma.domain.create({ data: { ...data, apiTokens: { create: apiTokens.map(({ domain, ...rest }) => rest) } } });
 		}
 
+		// process auditlogs
 		for (const auditlog of data.auditLogs) {
 			await this.server.prisma.auditlog.create({ data: auditlog });
 		}
 
+		// process files
 		for (const file of data.files) {
 			await this.server.prisma.file.create({ data: file });
 		}
 
+		// process bins
 		for (const bins of data.bins) {
 			await this.server.prisma.pastebin.create({ data: bins });
 		}
 
+		// process urls
 		for (const url of data.urls) {
 			await this.server.prisma.url.create({ data: url });
 		}
 
+		// process invites
 		for (const invite of data.invites) {
 			await this.server.prisma.invites.create({ data: invite });
 		}
 
+		// process signup domains
 		for (const signupDomain of data.signupDomains) {
 			await this.server.prisma.signupDomain.create({ data: signupDomain });
 		}
 
-		this.server.config.config.encryptionKey = data.encryption;
-		await this.server.config.triggerUpdate();
+		// update the .env
+		const config = Config.getEnv();
+		await Config.updateEnv({ ...config, encryptionKey: data.encryption });
 
-		await rm(join(this.dataDir, "files"), { recursive: true });
-		await rename(join(dir, "files"), join(this.dataDir, "files"));
+		// move files to correct directory
+		await rm(join(this.dir, "files"), { recursive: true });
+		await rename(join(dir, "files"), join(this.dir, "files"));
 
-		await rm(join(this.dataDir, "paste-bins"), { recursive: true });
-		await rename(join(dir, "paste-bins"), join(this.dataDir, "paste-bins"));
+		// move paste-bins to correct directory
+		await rm(join(this.dir, "paste-bins"), { recursive: true });
+		await rename(join(dir, "paste-bins"), join(this.dir, "paste-bins"));
 	}
 
 	private parseDatabase(_data: string) {
@@ -82,74 +87,62 @@ export class BackupV410 {
 		if (typeof data.version !== "string" || data.version !== "4.0.0") errors.version = "INVALID_VERSION";
 		if (typeof data.encryption !== "string") errors.encryptionKey = "INVALID_ENCRYPTION_KEY";
 
+		// parse users
 		const _users = [...this.parseUsers(data.users)];
 		if (_users.some((user) => typeof user === "string")) {
-			const results = _users
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_users);
 			errors.users = results;
 		}
-		const users = _users as (Domain & { apiTokens: Token[] })[];
 
+		// parse files
 		const _files = [...this.parseFiles(data.files)];
 		if (_files.some((file) => typeof file === "string")) {
-			const results = _files
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_files);
 			errors.files = results;
 		}
-		const files = _files as File[];
 
+		// parse pastebins
 		const _bins = [...this.parsePasteBins(data.pastebins)];
 		if (_bins.some((bin) => typeof bin === "string")) {
-			const results = _bins
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_bins);
 			errors.bins = results;
 		}
-		const bins = _bins as Pastebin[];
 
+		// parse urls
 		const _urls = [...this.parseUrls(data.urls)];
 		if (_urls.some((url) => typeof url === "string")) {
-			const results = _urls
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_urls);
 			errors.urls = results;
 		}
-		const urls = _urls as Url[];
 
+		// parse auditlogs
 		const _auditlogs = [...this.parseAuditLogs(data.auditlogs)];
 		if (_auditlogs.some((url) => typeof url === "string")) {
-			const results = _auditlogs
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_auditlogs);
 			errors.auditlogs = results;
 		}
-		const auditLogs = _auditlogs as Auditlog[];
 
+		// parse invites
 		const _invites = [...this.parseInvites(data.invites)];
 		if (_invites.some((url) => typeof url === "string")) {
-			const results = _invites
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_invites);
 			errors.invites = results;
 		}
-		const invites = _invites as Invites[];
 
+		// parse signup domains
 		const _signupDomains = [...this.parseSignUpDomains(data.signupDomains)];
 		if (_signupDomains.some((url) => typeof url === "string")) {
-			const results = _signupDomains
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_signupDomains);
 			errors.signupDomains = results;
 		}
+
+		// cast objects to correct type
+		const users = _users as (Domain & { apiTokens: Token[] })[];
+		const files = _files as File[];
+		const bins = _bins as Pastebin[];
+		const urls = _urls as Url[];
+		const auditLogs = _auditlogs as Auditlog[];
+		const invites = _invites as Invites[];
 		const signupDomains = _signupDomains as SignupDomain[];
 
 		if (Object.keys(errors).length) throw new Error(JSON.stringify({ errors }));
@@ -171,72 +164,72 @@ export class BackupV410 {
 				yield "INVALID_USER_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.auditlogDuration)) {
+			if (!this.typeofString(user.auditlogDuration)) {
 				yield "INVALID_AUDITLOG_DURATION";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.backupCodes)) {
+			if (!this.typeofString(user.backupCodes)) {
 				yield "INVALID_BACKUP_CODES";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.date)) {
+			if (!this.typeofString(user.date)) {
 				yield "INVALID_USER_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(user.disabled)) {
+			if (!this.typeofBoolean(user.disabled)) {
 				yield "INVALID_USER_DISABLED";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.embedColor)) {
+			if (!this.typeofString(user.embedColor)) {
 				yield "INVALID_EMBED_COLOR";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.embedDescription)) {
+			if (!this.typeofString(user.embedDescription)) {
 				yield "INVALID_EMBED_DESCRIPTION";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(user.embedEnabled)) {
+			if (!this.typeofBoolean(user.embedEnabled)) {
 				yield "INVALID_EMBED_ENABLED";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.embedTitle)) {
+			if (!this.typeofString(user.embedTitle)) {
 				yield "INVALID_EMBED_TITLE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.extensionsList)) {
+			if (!this.typeofString(user.extensionsList)) {
 				yield "INVALID_EXTENSIONS_LIST";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.extensionsMode)) {
+			if (!this.typeofString(user.extensionsMode)) {
 				yield "INVALID_EXTENSIONS_MODE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.maxStorage)) {
+			if (!this.typeofString(user.maxStorage)) {
 				yield "INVALID_MAX_STORAGE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.maxUploadSize)) {
+			if (!this.typeofString(user.maxUploadSize)) {
 				yield "INVALID_UPLOAD_SIZE";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(user.nameLength)) {
+			if (!this.typeofNumber(user.nameLength)) {
 				yield "INVALID_NAME_LENGTH";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.nameStrategy) || !["id", "zerowidth", "name"].includes(user.nameStrategy)) {
+			if (!this.typeofString(user.nameStrategy) || !["id", "zerowidth", "name"].includes(user.nameStrategy)) {
 				yield "INVALID_NAME_STRATEGY";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.pathId)) {
+			if (!this.typeofString(user.pathId)) {
 				yield "INVALID_PATH_ID";
 				continue;
 			}
 
-			if (user.password && !BackupUtils.typeofString(user.password)) {
+			if (user.password && !this.typeofString(user.password)) {
 				yield "INVALID_PASSWORD";
 				continue;
 			}
-			if (user.twoFactorSecret && !BackupUtils.typeofString(user.twoFactorSecret)) {
+			if (user.twoFactorSecret && !this.typeofString(user.twoFactorSecret)) {
 				yield "INVALID_2FA_SECRET";
 				continue;
 			}
@@ -262,7 +255,8 @@ export class BackupV410 {
 				continue;
 			}
 
-			if (!Object.keys(_token).every((key) => BackupUtils.typeofString(_token[key as keyof typeof _token]))) {
+			// check to make sure all values are strings
+			if (!Object.keys(_token).every((key) => this.typeofString(_token[key as keyof typeof _token]))) {
 				yield null;
 				continue;
 			}
@@ -278,49 +272,49 @@ export class BackupV410 {
 				yield "INVALID_FILE_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.authSecret)) {
+			if (!this.typeofString(file.authSecret)) {
 				yield "INVALID_AUTH_SECRET";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.date)) {
+			if (!this.typeofString(file.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.domain)) {
+			if (!this.typeofString(file.domain)) {
 				yield "INVALID_DOMAIN";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.id)) {
+			if (!this.typeofString(file.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (file.password && !BackupUtils.typeofString(file.password)) {
+			if (file.password && !this.typeofString(file.password)) {
 				yield "INVALID_PASSWORD";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.path)) {
+			if (!this.typeofString(file.path)) {
 				yield "INVALID_FILE_PATH";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.size)) {
+			if (!this.typeofString(file.size)) {
 				yield "INVALID_SIZE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.mimeType) || !Utils.getExtension(file.mimeType)) {
+			if (!this.typeofString(file.mimeType) || !Utils.getExtension(file.mimeType)) {
 				yield "INVALID_MIME_TYPE";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(file.views)) {
+			if (!this.typeofNumber(file.views)) {
 				yield "INVALID_VIEWS";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(file.visible)) {
+			if (!this.typeofBoolean(file.visible)) {
 				yield "INVALID_VISIBLE";
 				continue;
 			}
 
 			const [fileName, userId] = file.path.split("/").reverse();
-			const filePath = join(this.dataDir, "files", userId, fileName);
+			const filePath = join(this.dir, "files", userId, fileName);
 			const fileObj: File = { ...file, path: filePath, date: new Date(file.date) };
 			yield fileObj;
 		}
@@ -332,45 +326,45 @@ export class BackupV410 {
 				yield "INVALID_FILE_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(bin.authSecret)) {
+			if (!this.typeofString(bin.authSecret)) {
 				yield "INVALID_AUTH_SECRET";
 				continue;
 			}
-			if (!BackupUtils.typeofString(bin.date)) {
+			if (!this.typeofString(bin.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(bin.domain)) {
+			if (!this.typeofString(bin.domain)) {
 				yield "INVALID_DOMAIN";
 				continue;
 			}
-			if (!BackupUtils.typeofString(bin.id)) {
+			if (!this.typeofString(bin.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (bin.password && !BackupUtils.typeofString(bin.password)) {
+			if (bin.password && !this.typeofString(bin.password)) {
 				yield "INVALID_PASSWORD";
 				continue;
 			}
-			if (!BackupUtils.typeofString(bin.path)) {
+			if (!this.typeofString(bin.path)) {
 				yield "INVALID_bin_PATH";
 				continue;
 			}
-			if (!BackupUtils.typeofString(bin.highlight)) {
+			if (!this.typeofString(bin.highlight)) {
 				yield "INVALID_HIGHLIGHT_TYPE";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(bin.views)) {
+			if (!this.typeofNumber(bin.views)) {
 				yield "INVALID_VIEWS";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(bin.visible)) {
+			if (!this.typeofBoolean(bin.visible)) {
 				yield "INVALID_VISIBLE";
 				continue;
 			}
 
 			const [binName, userId] = bin.path.split("/").reverse();
-			const binPath = join(this.dataDir, "bins", userId, binName);
+			const binPath = join(this.dir, "bins", userId, binName);
 			const binObj: Pastebin = { ...bin, path: binPath, date: new Date(bin.date) };
 			yield binObj;
 		}
@@ -382,27 +376,27 @@ export class BackupV410 {
 				yield "INVALID_URL_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.date)) {
+			if (!this.typeofString(url.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.domain)) {
+			if (!this.typeofString(url.domain)) {
 				yield "INVALID_DOMAIN";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.id)) {
+			if (!this.typeofString(url.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.url)) {
+			if (!this.typeofString(url.url)) {
 				yield "INVALID_URL";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(url.visits)) {
+			if (!this.typeofNumber(url.visits)) {
 				yield "INVALID_VISITS";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(url.visible)) {
+			if (!this.typeofBoolean(url.visible)) {
 				yield "INVALID_VISIBLE";
 				continue;
 			}
@@ -417,23 +411,23 @@ export class BackupV410 {
 				yield "INVALID_AUDITLOG_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.date)) {
+			if (!this.typeofString(log.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.details)) {
+			if (!this.typeofString(log.details)) {
 				yield "INVALID_DETAILS";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.id)) {
+			if (!this.typeofString(log.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.type)) {
+			if (!this.typeofString(log.type)) {
 				yield "INVALID_TYPE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.user)) {
+			if (!this.typeofString(log.user)) {
 				yield "INVALID_USER";
 				continue;
 			}
@@ -448,11 +442,11 @@ export class BackupV410 {
 				yield "INVALID_INVITE_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(invite.date)) {
+			if (!this.typeofString(invite.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(invite.invite)) {
+			if (!this.typeofString(invite.invite)) {
 				yield "INVALID_CODE";
 				continue;
 			}
@@ -468,11 +462,11 @@ export class BackupV410 {
 				yield "INVALID_SIGNUP_DOMAIN_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(domain.date)) {
+			if (!this.typeofString(domain.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(domain.domain)) {
+			if (!this.typeofString(domain.domain)) {
 				yield "INVALID_DOMAIN";
 				continue;
 			}

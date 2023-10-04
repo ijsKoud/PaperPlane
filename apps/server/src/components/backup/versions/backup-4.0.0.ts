@@ -2,16 +2,15 @@ import type { Domain, File, Token, Url, Auditlog, Invites, SignupDomain } from "
 import _ from "lodash";
 import { readdir, readFile, rename, rm } from "node:fs/promises";
 import { join } from "node:path";
-import type Server from "../../../Server.js";
-import { BackupUtils } from "../BackupUtils.js";
 import type { iBackupV400 } from "../types.js";
+import Backup from "../Backup.js";
+import Config from "#lib/Config.js";
 
-export class BackupV400 {
-	public constructor(
-		public server: Server,
-		public dataDir: string
-	) {}
-
+export default class BackupV400 extends Backup {
+	/**
+	 * Import the backup
+	 * @param dir The backup contents directory
+	 */
 	public async import(dir: string) {
 		const files = await readdir(dir);
 		if (!files.includes("db.json")) throw new Error(JSON.stringify({ errors: { backup: "Unknown db.json file" } }));
@@ -21,45 +20,53 @@ export class BackupV400 {
 		const dbData = await readFile(filePath, "utf8");
 		const data = this.parseDatabase(dbData);
 
+		// full system wipe
 		await this.server.prisma.auditlog.deleteMany();
 		await this.server.prisma.file.deleteMany();
 		await this.server.prisma.invites.deleteMany();
 		await this.server.prisma.url.deleteMany();
 		await this.server.prisma.token.deleteMany();
-
 		await this.server.prisma.signupDomain.deleteMany();
 		await this.server.prisma.domain.deleteMany();
 
+		// process the users
 		for (const user of data.users) {
 			const { apiTokens, ...data } = user;
 			await this.server.prisma.domain.create({ data: { ...data, apiTokens: { create: apiTokens.map(({ domain, ...rest }) => rest) } } });
 		}
 
+		// process the auditlogs
 		for (const auditlog of data.auditLogs) {
 			await this.server.prisma.auditlog.create({ data: auditlog });
 		}
 
+		// process the files
 		for (const file of data.files) {
 			await this.server.prisma.file.create({ data: file });
 		}
 
+		// process the urls
 		for (const url of data.urls) {
 			await this.server.prisma.url.create({ data: url });
 		}
 
+		// process the invites
 		for (const invite of data.invites) {
 			await this.server.prisma.invites.create({ data: invite });
 		}
 
+		// process the signup domains
 		for (const signupDomain of data.signupDomains) {
 			await this.server.prisma.signupDomain.create({ data: signupDomain });
 		}
 
-		this.server.config.config.encryptionKey = data.encryption;
-		await this.server.config.triggerUpdate();
+		// update the .env
+		const config = Config.getEnv();
+		await Config.updateEnv({ ...config, encryptionKey: data.encryption });
 
-		await rm(join(this.dataDir, "files"), { recursive: true });
-		await rename(join(dir, "files"), join(this.dataDir, "files"));
+		// move files to correct directory
+		await rm(join(this.dir, "files"), { recursive: true });
+		await rename(join(dir, "files"), join(this.dir, "files"));
 	}
 
 	private parseDatabase(_data: string) {
@@ -69,64 +76,54 @@ export class BackupV400 {
 		if (typeof data.version !== "string" || data.version !== "4.0.0") errors.version = "INVALID_VERSION";
 		if (typeof data.encryption !== "string") errors.encryptionKey = "INVALID_ENCRYPTION_KEY";
 
+		// parse the users
 		const _users = [...this.parseUsers(data.users)];
 		if (_users.some((user) => typeof user === "string")) {
-			const results = _users
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_users);
 			errors.users = results;
 		}
-		const users = _users as (Domain & { apiTokens: Token[] })[];
 
+		// parse files
 		const _files = [...this.parseFiles(data.files)];
 		if (_files.some((file) => typeof file === "string")) {
-			const results = _files
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_files);
 			errors.files = results;
 		}
-		const files = _files as File[];
 
+		// parse urls
 		const _urls = [...this.parseUrls(data.urls)];
 		if (_urls.some((url) => typeof url === "string")) {
-			const results = _urls
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_urls);
 			errors.urls = results;
 		}
-		const urls = _urls as Url[];
 
+		// parse audit logs
 		const _auditlogs = [...this.parseAuditLogs(data.auditlogs)];
 		if (_auditlogs.some((url) => typeof url === "string")) {
-			const results = _auditlogs
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_auditlogs);
 			errors.auditlogs = results;
 		}
-		const auditLogs = _auditlogs as Auditlog[];
 
+		// parse invites
 		const _invites = [...this.parseInvites(data.invites)];
 		if (_invites.some((url) => typeof url === "string")) {
-			const results = _invites
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_invites);
 			errors.invites = results;
 		}
-		const invites = _invites as Invites[];
 
+		// parse signup domains
 		const _signupDomains = [...this.parseSignUpDomains(data.signupDomains)];
 		if (_signupDomains.some((url) => typeof url === "string")) {
-			const results = _signupDomains
-				.map((res, key) => ({ res, key }))
-				.filter((res) => typeof res.res === "string")
-				.map((res) => ({ [res.key]: res.res as string }));
+			const results = this.mapErrors(_signupDomains);
 			errors.signupDomains = results;
 		}
+
+		// cast objects to correct type
+		const users = _users as (Domain & { apiTokens: Token[] })[];
+		const files = _files as File[];
+		const urls = _urls as Url[];
+		const auditLogs = _auditlogs as Auditlog[];
+		const invites = _invites as Invites[];
 		const signupDomains = _signupDomains as SignupDomain[];
 
 		if (Object.keys(errors).length) throw new Error(JSON.stringify({ errors }));
@@ -147,72 +144,72 @@ export class BackupV400 {
 				yield "INVALID_USER_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.auditlogDuration)) {
+			if (!this.typeofString(user.auditlogDuration)) {
 				yield "INVALID_AUDITLOG_DURATION";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.backupCodes)) {
+			if (!this.typeofString(user.backupCodes)) {
 				yield "INVALID_BACKUP_CODES";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.date)) {
+			if (!this.typeofString(user.date)) {
 				yield "INVALID_USER_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(user.disabled)) {
+			if (!this.typeofBoolean(user.disabled)) {
 				yield "INVALID_USER_DISABLED";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.embedColor)) {
+			if (!this.typeofString(user.embedColor)) {
 				yield "INVALID_EMBED_COLOR";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.embedDescription)) {
+			if (!this.typeofString(user.embedDescription)) {
 				yield "INVALID_EMBED_DESCRIPTION";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(user.embedEnabled)) {
+			if (!this.typeofBoolean(user.embedEnabled)) {
 				yield "INVALID_EMBED_ENABLED";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.embedTitle)) {
+			if (!this.typeofString(user.embedTitle)) {
 				yield "INVALID_EMBED_TITLE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.extensionsList)) {
+			if (!this.typeofString(user.extensionsList)) {
 				yield "INVALID_EXTENSIONS_LIST";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.extensionsMode)) {
+			if (!this.typeofString(user.extensionsMode)) {
 				yield "INVALID_EXTENSIONS_MODE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.maxStorage)) {
+			if (!this.typeofString(user.maxStorage)) {
 				yield "INVALID_MAX_STORAGE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.maxUploadSize)) {
+			if (!this.typeofString(user.maxUploadSize)) {
 				yield "INVALID_UPLOAD_SIZE";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(user.nameLength)) {
+			if (!this.typeofNumber(user.nameLength)) {
 				yield "INVALID_NAME_LENGTH";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.nameStrategy) || !["id", "zerowidth", "name"].includes(user.nameStrategy)) {
+			if (!this.typeofString(user.nameStrategy) || !["id", "zerowidth", "name"].includes(user.nameStrategy)) {
 				yield "INVALID_NAME_STRATEGY";
 				continue;
 			}
-			if (!BackupUtils.typeofString(user.pathId)) {
+			if (!this.typeofString(user.pathId)) {
 				yield "INVALID_PATH_ID";
 				continue;
 			}
 
-			if (user.password && !BackupUtils.typeofString(user.password)) {
+			if (user.password && !this.typeofString(user.password)) {
 				yield "INVALID_PASSWORD";
 				continue;
 			}
-			if (user.twoFactorSecret && !BackupUtils.typeofString(user.twoFactorSecret)) {
+			if (user.twoFactorSecret && !this.typeofString(user.twoFactorSecret)) {
 				yield "INVALID_2FA_SECRET";
 				continue;
 			}
@@ -238,7 +235,8 @@ export class BackupV400 {
 				continue;
 			}
 
-			if (!Object.keys(_token).every((key) => BackupUtils.typeofString(_token[key as keyof typeof _token]))) {
+			// check to see if all values are strings
+			if (!Object.keys(_token).every((key) => this.typeofString(_token[key as keyof typeof _token]))) {
 				yield null;
 				continue;
 			}
@@ -254,45 +252,45 @@ export class BackupV400 {
 				yield "INVALID_FILE_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.authSecret)) {
+			if (!this.typeofString(file.authSecret)) {
 				yield "INVALID_AUTH_SECRET";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.date)) {
+			if (!this.typeofString(file.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.domain)) {
+			if (!this.typeofString(file.domain)) {
 				yield "INVALID_DOMAIN";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.id)) {
+			if (!this.typeofString(file.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (file.password && !BackupUtils.typeofString(file.password)) {
+			if (file.password && !this.typeofString(file.password)) {
 				yield "INVALID_PASSWORD";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.path)) {
+			if (!this.typeofString(file.path)) {
 				yield "INVALID_FILE_PATH";
 				continue;
 			}
-			if (!BackupUtils.typeofString(file.size)) {
+			if (!this.typeofString(file.size)) {
 				yield "INVALID_SIZE";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(file.views)) {
+			if (!this.typeofNumber(file.views)) {
 				yield "INVALID_VIEWS";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(file.visible)) {
+			if (!this.typeofBoolean(file.visible)) {
 				yield "INVALID_VISIBLE";
 				continue;
 			}
 
 			const [fileName, userId] = file.path.split("/").reverse();
-			const filePath = join(this.dataDir, "files", userId, fileName);
+			const filePath = join(this.dir, "files", userId, fileName);
 			const fileObj: File = { ...file, mimeType: "", path: filePath, date: new Date(file.date) };
 			yield fileObj;
 		}
@@ -304,27 +302,27 @@ export class BackupV400 {
 				yield "INVALID_URL_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.date)) {
+			if (!this.typeofString(url.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.domain)) {
+			if (!this.typeofString(url.domain)) {
 				yield "INVALID_DOMAIN";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.id)) {
+			if (!this.typeofString(url.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (!BackupUtils.typeofString(url.url)) {
+			if (!this.typeofString(url.url)) {
 				yield "INVALID_URL";
 				continue;
 			}
-			if (!BackupUtils.typeofNumber(url.visits)) {
+			if (!this.typeofNumber(url.visits)) {
 				yield "INVALID_VISITS";
 				continue;
 			}
-			if (!BackupUtils.typeofBoolean(url.visible)) {
+			if (!this.typeofBoolean(url.visible)) {
 				yield "INVALID_VISIBLE";
 				continue;
 			}
@@ -339,23 +337,23 @@ export class BackupV400 {
 				yield "INVALID_AUDITLOG_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.date)) {
+			if (!this.typeofString(log.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.details)) {
+			if (!this.typeofString(log.details)) {
 				yield "INVALID_DETAILS";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.id)) {
+			if (!this.typeofString(log.id)) {
 				yield "INVALID_ID";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.type)) {
+			if (!this.typeofString(log.type)) {
 				yield "INVALID_TYPE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(log.user)) {
+			if (!this.typeofString(log.user)) {
 				yield "INVALID_USER";
 				continue;
 			}
@@ -370,11 +368,11 @@ export class BackupV400 {
 				yield "INVALID_INVITE_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(invite.date)) {
+			if (!this.typeofString(invite.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(invite.invite)) {
+			if (!this.typeofString(invite.invite)) {
 				yield "INVALID_CODE";
 				continue;
 			}
@@ -390,11 +388,11 @@ export class BackupV400 {
 				yield "INVALID_SIGNUP_DOMAIN_OBJECT";
 				continue;
 			}
-			if (!BackupUtils.typeofString(domain.date)) {
+			if (!this.typeofString(domain.date)) {
 				yield "INVALID_DATE";
 				continue;
 			}
-			if (!BackupUtils.typeofString(domain.domain)) {
+			if (!this.typeofString(domain.domain)) {
 				yield "INVALID_DOMAIN";
 				continue;
 			}
