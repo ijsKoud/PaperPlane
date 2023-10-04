@@ -12,12 +12,18 @@ export const AuthStateRoute = t.router({
 		const proxyHost = req.headers["x-forwarded-host"];
 		const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
 
-		const domainAuthHeader = opt.input;
-		const domainAuthSecret = Array.isArray(domainAuthHeader) ? domainAuthHeader[0] : domainAuthHeader ?? "";
-
+		const domainAuthSecret = opt.input;
 		const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
 		const domain = domainAuthSecret ? Auth.verifyJWTToken(domainAuthSecret, config.encryptionKey, host?.pathId || req.hostname) : false;
 
 		return domain;
+	}),
+	/** Route to check if user is admin in */
+	admin: publicProcedure.input(z.string({ required_error: "PAPERPLANE-ADMIN cookie is required" })).query((opt) => {
+		const config = Config.getEnv();
+		const adminAuthSecret = opt.input;
+		const admin = adminAuthSecret ? Auth.verifyJWTToken(adminAuthSecret, config.encryptionKey, "admin") : false;
+
+		return admin;
 	})
 });
