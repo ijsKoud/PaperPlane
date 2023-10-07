@@ -1,47 +1,77 @@
+import { PaperPlaneApiOutputs, api } from "#trpc/server";
 import { useSwrWithUpdates } from "@paperplane/swr";
-import { AuditLogApi, BackupsGetApi, InviteGetApi, ServiceApi, SignUpDomainGetApi } from "@paperplane/utils";
-import axios from "axios";
+import { BackupsGetApi, InviteGetApi, SignUpDomainGetApi } from "@paperplane/utils";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+type ServiceOutput = PaperPlaneApiOutputs["v1"]["admin"]["service"];
+type AuditlogOutput = PaperPlaneApiOutputs["v1"]["admin"]["audit"];
+
 export const UseAdminStats = () => {
-	const [service, setService] = useState<ServiceApi>({
+	const [service, setService] = useState<ServiceOutput>({
 		authMode: "2fa",
-		cpuUsage: 0,
-		memory: { total: 0, usage: 0 },
+		cpuUsage: "0 kB",
+		memoryUsage: { total: "0 kB", usage: "0 kB" },
 		signUpMode: "closed",
-		storageUsage: 0,
-		uptime: 0,
-		users: 0,
-		version: "0.0.0"
+		storageUsage: "0 kB",
+		uptime: "0s",
+		users: 0
 	});
-	const { data } = useSwrWithUpdates<ServiceApi>("/api/admin/service", undefined, (url) =>
-		axios({ url, withCredentials: true }).then((res) => res.data)
-	);
+
+	const updateStats = () => api().v1.admin.service.query().then(setService);
 
 	useEffect(() => {
-		if (data) setService(data);
-	}, [data]);
+		void updateStats();
+
+		const interval = setInterval(updateStats, 5e3);
+		return () => clearInterval(interval);
+	}, []);
 
 	return service;
 };
 
-export const UseAdminAudit = () => {
-	const [page, setPage] = useState(0);
-	const [search, setSearch] = useState("");
+/**
+ * Auditlogs getter hook
+ * @param init The initial search parameter data
+ * @returns
+ */
+export const UseAdminAudit = (init: { query: string; page: number }) => {
+	const params = useSearchParams();
+	const pathname = usePathname();
+	const router = useRouter();
 
-	const [auditLogData, setAuditLogData] = useState<AuditLogApi>({ entries: [], pages: 0 });
-	const { data: auditData } = useSwrWithUpdates<AuditLogApi>(`/api/admin/audit?page=${page}&search=${encodeURIComponent(search)}`);
+	const [page, _setPage] = useState(init.page);
+	const [query, setQuery] = useState(init.query);
+
+	const [auditLogData, setAuditLogData] = useState<AuditlogOutput>({ entries: [], pages: 0 });
 
 	useEffect(() => {
-		if (auditData) setAuditLogData(auditData);
-	}, [auditData]);
+		void api().v1.dashboard.audit.query({ page, query }).then(setAuditLogData);
+	}, [query, page]);
+
+	const setPage = (page: number) => {
+		const searchParams = new URLSearchParams(params.toString());
+		searchParams.set("page", `${page}`);
+		_setPage(page);
+
+		router.replace(`${pathname}?${searchParams}`);
+	};
+
+	const setSearch = (search: string) => {
+		const searchParams = new URLSearchParams(params.toString());
+		if (search.length) searchParams.set("q", search);
+		else searchParams.delete("q");
+		setQuery(search);
+
+		router.replace(`${pathname}?${searchParams}`);
+	};
 
 	return {
 		logs: auditLogData.entries,
 		pages: auditLogData.pages,
 		page,
 		setPage,
-		search,
+		search: query,
 		setSearch
 	};
 };

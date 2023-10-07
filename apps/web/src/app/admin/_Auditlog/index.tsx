@@ -3,9 +3,11 @@
 import { AuditlogTable, AuditlogToolbar } from "./DataTable";
 import React from "react";
 import { UseAdminAudit } from "../_lib/hooks";
+import { type ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
 export const Auditlog: React.FC = () => {
-	const { logs, page, pages, setPage, setSearch } = UseAdminAudit();
+	const params = getAuditlogSearchParams(useSearchParams());
+	const { logs, page, pages, setPage, setSearch } = UseAdminAudit(params);
 
 	return (
 		<div className="w-full px-2">
@@ -19,3 +21,19 @@ export const Auditlog: React.FC = () => {
 		</div>
 	);
 };
+
+/**
+ * Parses the search params
+ * @param params The readonly search params class
+ * @returns
+ */
+function getAuditlogSearchParams(params: ReadonlyURLSearchParams) {
+	const query = params.get("q") ?? "";
+	const _page = params.get("page");
+	const page = Number(_page);
+
+	return {
+		query,
+		page: isNaN(page) ? 0 : page
+	};
+}

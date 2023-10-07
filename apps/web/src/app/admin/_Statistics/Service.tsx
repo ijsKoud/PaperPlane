@@ -1,5 +1,4 @@
 import { PAPERPLANE_VERSION } from "@paperplane/utils";
-import ms from "ms";
 import React from "react";
 
 export interface ServiceProps {
@@ -13,7 +12,7 @@ export interface ServiceProps {
 	signupMode: "open" | "closed" | "invite";
 
 	/** The application uptime */
-	uptime: number;
+	uptime: string;
 }
 
 export const Service: React.FC<ServiceProps> = ({ users, authMode, signupMode, uptime }) => {
@@ -39,7 +38,7 @@ export const Service: React.FC<ServiceProps> = ({ users, authMode, signupMode, u
 				</div>
 				<div>
 					<h2 className="text-5 font-medium">Uptime</h2>
-					<p className="text-14 font-black leading-[50px]">{ms(uptime)}</p>
+					<p className="text-14 font-black leading-[50px]">{uptime}</p>
 				</div>
 			</div>
 		</div>

@@ -10,7 +10,12 @@ const Statistics: React.FC = () => {
 
 	return (
 		<div className="w-full h-80 flex gap-6 items-center px-2 max-md:flex-col max-md:h-auto">
-			<Usage cpuUsage={stats.cpuUsage} storageUsage={stats.storageUsage} memoryUsage={stats.memory.usage} memoryTotal={stats.memory.total} />
+			<Usage
+				cpuUsage={stats.cpuUsage}
+				storageUsage={stats.storageUsage}
+				memoryUsage={stats.memoryUsage.usage}
+				memoryTotal={stats.memoryUsage.total}
+			/>
 			<Service authMode={stats.authMode} signupMode={stats.signUpMode} uptime={stats.uptime} users={stats.users} />
 		</div>
 	);
