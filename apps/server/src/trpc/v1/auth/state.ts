@@ -5,7 +5,7 @@ import { z } from "zod";
 
 export const AuthStateRoute = t.router({
 	/** Route to check if user is signed in */
-	user: publicProcedure.input(z.string({ required_error: "PAPERPLANE-AUTH cookie is required" })).query((opt) => {
+	user: publicProcedure.input(z.string({ required_error: "PAPERPLANE-ADMIN cookie is required" })).query((opt) => {
 		const { req, server } = opt.ctx;
 		const config = Config.getEnv();
 

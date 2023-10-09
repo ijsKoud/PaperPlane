@@ -3,15 +3,13 @@
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
+	"main": "dist/index.js",
 	"scripts": {
 		"build": "tsc --build",
 		"start": "node ./dist/index.js",
 		"lint": "eslint src",
 		"build:watch": "tsc --watch",
 		"dev": "NODE_ENV=development nodemon ./dist"
-	},
-	"exports": {
-		"trpc.js": "./dist/trpc/index.js"
 	},
 	"imports": {
 		"#lib/*": "./dist/lib/*",

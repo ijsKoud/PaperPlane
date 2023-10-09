@@ -6591,6 +6591,7 @@ __metadata:
     react: 18.2.0
     react-dom: ^18.2.0
     react-hook-form: ^7.46.1
+    react-syntax-highlighter: 15.5.0
     superjson: ^1.13.1
     tailwind-merge: ^1.14.0
     tailwindcss: ^3.3.3
@@ -7171,7 +7172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-syntax-highlighter@npm:^15.5.0":
+"react-syntax-highlighter@npm:15.5.0, react-syntax-highlighter@npm:^15.5.0":
   version: 15.5.0
   resolution: "react-syntax-highlighter@npm:15.5.0"
   dependencies:

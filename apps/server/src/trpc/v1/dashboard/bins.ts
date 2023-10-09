@@ -9,7 +9,6 @@ import { BinSort } from "#lib/types.js";
 import { Auth } from "#lib/Auth.js";
 import Config from "#lib/Config.js";
 import { readFile, writeFile } from "node:fs/promises";
-import SyntaxHighlighter from "react-syntax-highlighter";
 import { join } from "node:path";
 
 export const binsRoute = t.router({
@@ -76,7 +75,7 @@ export const binsRoute = t.router({
 			passwordEnabled: z.boolean(),
 			password: z.string().optional(),
 			data: z.string().nonempty("Pastebin content is required"),
-			highlight: z.union(SyntaxHighlighter.supportedLanguages.map((language) => z.literal(language)) as any)
+			highlight: z.string({ required_error: "A valid highlight type is required" })
 		})
 	).mutation(async (opt) => {
 		const { id, name, visible, passwordEnabled, password, data, highlight } = opt.input;
@@ -112,7 +111,7 @@ export const binsRoute = t.router({
 			name: z.string().optional(),
 			visible: z.boolean(),
 			data: z.string().nonempty("Pastebin content is required"),
-			highlight: z.union(SyntaxHighlighter.supportedLanguages.map((language) => z.literal(language)) as any),
+			highlight: z.string({ required_error: "A valid highlight type is required" }),
 			password: z.string().optional()
 		})
 	).mutation(async (opt) => {
