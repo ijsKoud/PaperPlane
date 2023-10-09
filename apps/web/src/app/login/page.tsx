@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 async function getAuthMode() {
 	const host = headers().get("host")!;
 	const data = await api(host).v1.auth.accounts.query();
+	data.accounts.push("admin");
 
 	return { ...data, host };
 }
