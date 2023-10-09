@@ -46,7 +46,7 @@ export const UseAdminAudit = (init: { query: string; page: number }) => {
 	const [auditLogData, setAuditLogData] = useState<AuditlogOutput>({ entries: [], pages: 0 });
 
 	useEffect(() => {
-		void api().v1.dashboard.audit.query({ page, query }).then(setAuditLogData);
+		void api().v1.admin.audit.query({ page, query }).then(setAuditLogData);
 	}, [query, page]);
 
 	const setPage = (page: number) => {
