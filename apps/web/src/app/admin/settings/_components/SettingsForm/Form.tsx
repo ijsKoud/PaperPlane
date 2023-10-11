@@ -6,20 +6,21 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@paperplane/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { useToast } from "@paperplane/ui/use-toast";
-import { STORAGE_UNITS, SettingsGetApi, TIME_UNITS_ARRAY, formatBytes, parseToDay } from "@paperplane/utils";
-import axios, { AxiosError } from "axios";
+import { STORAGE_UNITS, TIME_UNITS_ARRAY, formatBytes, parseToDay } from "@paperplane/utils";
 import { Loader2, PenIcon } from "lucide-react";
 import ms from "ms";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { SettingsOutput } from ".";
+import { api } from "#trpc/server";
 
 const getStorage = (storage: number): string[] => {
 	const res = formatBytes(storage);
 	return res.split(/ +/g);
 };
 
-export const SettingsForm: React.FC<SettingsGetApi> = ({ defaults }) => {
+export const SettingsForm: React.FC<SettingsOutput> = ({ defaults }) => {
 	const { toast } = useToast();
 	const FormSchema = z.object({
 		signUpMode: z.union([z.literal("closed"), z.literal("open"), z.literal("invite")], {
@@ -64,16 +65,20 @@ export const SettingsForm: React.FC<SettingsGetApi> = ({ defaults }) => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			await axios.post("/api/admin/settings", {
+			await api().v1.admin.settings.update.mutate({
 				...data,
 				auditlog: parseToDay(data.auditlog, data.auditlogUnit as any),
 				storage: `${data.storage} ${data.storageUnit}`,
 				uploadSize: `${data.uploadSize} ${data.uploadSizeUnit}`
 			});
+
 			toast({ title: "Settings updated", description: "The settings have been updated." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong",
+				description: `There was a problem with your request: ${err.message}`
+			});
 			console.log(err);
 		}
 	}

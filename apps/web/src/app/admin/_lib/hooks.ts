@@ -1,11 +1,12 @@
 import { PaperPlaneApiOutputs, api } from "#trpc/server";
-import { useSwrWithUpdates } from "@paperplane/swr";
-import { BackupsGetApi, InviteGetApi, SignUpDomainGetApi } from "@paperplane/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type ServiceOutput = PaperPlaneApiOutputs["v1"]["admin"]["service"];
 type AuditlogOutput = PaperPlaneApiOutputs["v1"]["admin"]["audit"];
+type AdminDomainsOutput = PaperPlaneApiOutputs["v1"]["admin"]["domains"]["list"];
+type AdminInvitesOutput = PaperPlaneApiOutputs["v1"]["admin"]["invite"]["list"];
+type AdminBackupsOutput = PaperPlaneApiOutputs["v1"]["admin"]["backup"]["list"];
 
 export const UseAdminStats = () => {
 	const [service, setService] = useState<ServiceOutput>({
@@ -78,13 +79,11 @@ export const UseAdminAudit = (init: { query: string; page: number }) => {
 
 export const UseAdminDomains = () => {
 	const [page, setPage] = useState(0);
-
-	const [domainData, setDomainData] = useState<SignUpDomainGetApi>({ entries: [], pages: 0 });
-	const { data } = useSwrWithUpdates<SignUpDomainGetApi>(`/api/admin/domains?page=${page}`);
+	const [domainData, setDomainData] = useState<AdminDomainsOutput>({ entries: [], pages: 0 });
 
 	useEffect(() => {
-		if (data) setDomainData(data);
-	}, [data]);
+		void api().v1.admin.domains.list.query(page).then(setDomainData);
+	}, [page]);
 
 	return {
 		...domainData,
@@ -95,16 +94,14 @@ export const UseAdminDomains = () => {
 
 export const UseAdminInvites = () => {
 	const [page, setPage] = useState(0);
-
-	const [inviteData, setInviteData] = useState<InviteGetApi>({ entries: [], pages: 0 });
-	const { data } = useSwrWithUpdates<InviteGetApi>(`/api/invites/list?page=${page}`);
+	const [data, setData] = useState<AdminInvitesOutput>({ entries: [], pages: 0 });
 
 	useEffect(() => {
-		if (data) setInviteData(data);
-	}, [data]);
+		void api().v1.admin.invite.list.query(page).then(setData);
+	}, [page]);
 
 	return {
-		...inviteData,
+		...data,
 		page,
 		setPage
 	};
@@ -112,16 +109,18 @@ export const UseAdminInvites = () => {
 
 export const UseAdminBackups = () => {
 	const [page, setPage] = useState(0);
-
-	const [backupData, setBackupData] = useState<BackupsGetApi>({ entries: [], pages: 0 });
-	const { data } = useSwrWithUpdates<BackupsGetApi>(`/api/admin/backups/list?page=${page}`);
+	const [data, setData] = useState<AdminBackupsOutput>({ entries: [], pages: 0, createInProgress: false, importInProgress: undefined });
 
 	useEffect(() => {
-		if (data) setBackupData(data);
-	}, [data]);
+		const updateData = () => api().v1.admin.backup.list.query(page).then(setData);
+		void updateData();
+
+		const interval = setInterval(updateData, 2e3);
+		return () => clearInterval(interval);
+	}, [page]);
 
 	return {
-		...backupData,
+		...data,
 		page,
 		setPage
 	};

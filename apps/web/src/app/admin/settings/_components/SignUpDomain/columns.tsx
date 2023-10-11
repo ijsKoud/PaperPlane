@@ -14,9 +14,9 @@ import { Checkbox } from "@paperplane/ui/checkbox";
 import { SignUpDomain, formatDate } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
+import { api } from "#trpc/server";
 
 export const columns: ColumnDef<SignUpDomain>[] = [
 	{
@@ -54,16 +54,13 @@ export const columns: ColumnDef<SignUpDomain>[] = [
 
 			async function deleteDomain() {
 				try {
-					await axios.delete("/api/admin/domains", { data: { domains: [domain] } });
+					await api().v1.admin.domains.delete.mutate([domain]);
 					toast({ title: "Domain Deleted", description: `${domain} has been deleted.` });
 				} catch (err) {
-					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-					const error = _error || "n/a";
-
 					toast({
 						variant: "destructive",
 						title: "Uh oh! Something went wrong",
-						description: `There was a problem with your request: ${error}`,
+						description: `There was a problem with your request: ${err.message}`,
 						action: (
 							<ToastAction altText="Try again" onClick={deleteDomain}>
 								Try again

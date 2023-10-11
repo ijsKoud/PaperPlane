@@ -14,9 +14,9 @@ import {
 } from "@paperplane/ui/alert-dialog";
 import { Button } from "@paperplane/ui/button";
 import { KeyIcon } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { api } from "#trpc/server";
 
 export const ResetEncryptionDialog: React.FC = () => {
 	const { toast } = useToast();
@@ -24,15 +24,18 @@ export const ResetEncryptionDialog: React.FC = () => {
 
 	async function resetEncryption() {
 		try {
-			await axios.delete<string>("/api/admin/reset", { withCredentials: true });
+			await api().v1.admin.settings.reset.mutate();
 			toast({
 				title: "Encryption reset",
 				description: "The encryption has been reset and updated with a new secret."
 			});
 			router.push("/login?user=admin");
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong",
+				description: `There was a problem with your request: ${err.message}`
+			});
 			console.log(err);
 		}
 	}

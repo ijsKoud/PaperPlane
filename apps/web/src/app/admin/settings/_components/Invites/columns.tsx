@@ -14,9 +14,9 @@ import { Checkbox } from "@paperplane/ui/checkbox";
 import { Invite, formatDate } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
+import { api } from "#trpc/server";
 
 export const columns: ColumnDef<Invite>[] = [
 	{
@@ -51,18 +51,16 @@ export const columns: ColumnDef<Invite>[] = [
 		cell: ({ row }) => {
 			const { toast } = useToast();
 			const inviteCode = row.getValue("invite") as string;
+
 			async function deleteInvite() {
 				try {
-					await axios.delete("/api/invites/create", { data: { invites: [inviteCode] } });
+					await api().v1.admin.invite.delete.mutate([inviteCode]);
 					toast({ title: "Invite Deleted", description: `${inviteCode} has been deleted.` });
 				} catch (err) {
-					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-					const error = _error || "n/a";
-
 					toast({
 						variant: "destructive",
 						title: "Uh oh! Something went wrong",
-						description: `There was a problem with your request: ${error}`,
+						description: `There was a problem with your request: ${err.message}`,
 						action: (
 							<ToastAction altText="Try again" onClick={deleteInvite}>
 								Try again

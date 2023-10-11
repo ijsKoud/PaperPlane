@@ -1,14 +1,11 @@
-import { getProtocol } from "@paperplane/utils";
-import axios from "axios";
 import { cookies, headers } from "next/headers";
 import React from "react";
 import { SelectMenu } from "./Menu";
+import { api } from "#trpc/server";
 
 export const AuthMode: React.FC = async () => {
-	const host = headers().get("host");
-	const mode = await axios.get<"2fa" | "password">(`${getProtocol()}${host}/api/admin/settings/auth-mode`, {
-		headers: { cookie: cookies().toString() }
-	});
+	const host = headers().get("host")!;
+	const mode = await api(host, { cookie: cookies().toString() }).v1.admin.settings.authMode.query();
 
 	return (
 		<section className="space-y-2">
@@ -27,7 +24,7 @@ export const AuthMode: React.FC = async () => {
 				<span className="dark:bg-zinc-800 bg-zinc-500 p-1 rounded-md ml-1">paperplane-cdn</span> if they one or both are unset.
 			</p>
 
-			<SelectMenu value={mode.data} />
+			<SelectMenu value={mode} />
 		</section>
 	);
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { api } from "#trpc/server";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -13,7 +14,6 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { ToastAction } from "@paperplane/ui/toast";
 import { useToast } from "@paperplane/ui/use-toast";
-import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
 
 export const SelectMenu: React.FC<{ value: string }> = ({ value }) => {
@@ -22,34 +22,27 @@ export const SelectMenu: React.FC<{ value: string }> = ({ value }) => {
 	const [dialog, setDialog] = useState(false);
 
 	/** Updates the authentication mode */
-	async function updateAuthenticationMode(value: string) {
+	async function updateAuthenticationMode(v: string) {
 		try {
-			await axios.post(
-				"/api/admin/settings/auth-mode",
-				{ mode: value },
-				{
-					withCredentials: true
-				}
-			);
+			await api().v1.admin.settings.updateAuthMode.mutate(v as any);
 			toast({ title: "Auth mode updated", description: `The authentication mode has been set to ${value}.` });
-		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
+		} catch (error) {
 			toast({
 				variant: "destructive",
 				title: "Uh oh! Something went wrong",
-				description: `There was a problem with your request: ${error}`,
+				description: `There was a problem with your request: ${error.message}`,
 				action: (
 					<ToastAction altText="try again" onClick={() => updateAuthenticationMode(value)}>
 						Try Again
 					</ToastAction>
 				)
 			});
-			console.log(err);
+			console.log(error);
 		}
 	}
 
-	function onModeChange(value: string) {
-		setMode(value);
+	function onModeChange(v: string) {
+		setMode(v);
 		setDialog(true);
 	}
 

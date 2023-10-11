@@ -8,7 +8,7 @@ export type PaperPlaneApiEndpoints = typeof AppRouter;
 export type PaperPlaneApiInputs = inferRouterInputs<PaperPlaneApiEndpoints>;
 export type PaperPlaneApiOutputs = inferRouterOutputs<PaperPlaneApiEndpoints>;
 
-export const api = (host?: string) => {
+export const api = (host?: string | undefined, opt?: { cookie?: string }) => {
 	const LoggerLink = loggerLink({
 		enabled: (op) => process.env.NODE_ENV === "development" || (op.direction === "down" && op.result instanceof Error)
 	});
@@ -16,10 +16,10 @@ export const api = (host?: string) => {
 	const httpLink = httpBatchLink({
 		url: host ? `${getProtocol()}${host}/trpc` : "/trpc",
 		headers: () => {
-			if (host) return { "x-paperplane-api": process.env.INTERNAL_API_KEY! };
+			if (host) return { "x-paperplane-api": process.env.INTERNAL_API_KEY!, cookie: opt?.cookie };
 
 			return {
-				cookie: document.cookie
+				cookie: opt?.cookie ?? document.cookie
 			};
 		}
 	});

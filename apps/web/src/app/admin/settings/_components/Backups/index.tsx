@@ -2,14 +2,14 @@
 
 import { Button } from "@paperplane/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@paperplane/ui/dialog";
-import { ArchiveIcon, ArchiveRestoreIcon } from "lucide-react";
+import { ArchiveIcon, ArchiveRestoreIcon, Loader2 } from "lucide-react";
 import React from "react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ScrollArea } from "@paperplane/ui/scroll-area";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { UseAdminBackups } from "../../../_lib/hooks";
+import { api } from "#trpc/server";
 
 export const Backups: React.FC = () => {
 	const { toast } = useToast();
@@ -17,11 +17,14 @@ export const Backups: React.FC = () => {
 
 	async function createBackup() {
 		try {
-			await axios.post("/api/admin/backups/create", undefined, { withCredentials: true });
-			toast({ title: "Backup created", description: "A new backup has been created." });
+			await api().v1.admin.backup.create.mutate();
+			toast({ title: "Backup in progress", description: "A new is being created, you can track its status via the backups menu." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong",
+				description: `There was a problem with your request: ${err.message}`
+			});
 			console.log(err);
 		}
 	}
@@ -53,13 +56,31 @@ export const Backups: React.FC = () => {
 					<DialogDescription>
 						Here you can import and add backups. Note that once an import has started you will not be able to go back.
 					</DialogDescription>
+
+					{backups.createInProgress && (
+						<DialogDescription className="bg-red-400 p-2 rounded-md !text-white">
+							A backup is currently being created, therefore you are unable to import a backup at the moment.
+						</DialogDescription>
+					)}
+
+					{Boolean(backups.importInProgress) && (
+						<DialogDescription className="bg-red-400 p-2 rounded-md !text-white">
+							<strong>{backups.importInProgress}</strong> is currently being imported, therefore you are unable to create or import a
+							backup at the moment.
+						</DialogDescription>
+					)}
 				</DialogHeader>
 
 				<ScrollArea className="max-h-[50vh]">
 					<DataTable {...backups} data={backups.entries.map((name) => ({ name }))} columns={columns} />
 
-					<Button onClick={createBackup}>
-						<ArchiveRestoreIcon className="mr-2 h-4 w-4" /> Create backup
+					<Button onClick={createBackup} disabled={backups.createInProgress || Boolean(backups.importInProgress)}>
+						{backups.createInProgress ? (
+							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+						) : (
+							<ArchiveRestoreIcon className="mr-2 h-4 w-4" />
+						)}{" "}
+						Create backup
 					</Button>
 				</ScrollArea>
 			</DialogContent>
