@@ -4,6 +4,10 @@ import { AuthAdminProdeduce } from "#trpc/context/AuthAdmin.js";
 import { t } from "#trpc/lib.js";
 import _ from "lodash";
 import { z } from "zod";
+import { AdminSettingsRoute } from "./settings.js";
+import { AdminDomainsRoute } from "./domains.js";
+import { AdminInvitesRoute } from "./invites.js";
+import { AdminBackupsRoute } from "./backups.js";
 
 export const AdminRoute = t.router({
 	/** returns the computer usage and other useful information */
@@ -36,5 +40,9 @@ export const AdminRoute = t.router({
 			entries: chunk ?? [],
 			pages: chunks.length
 		};
-	})
+	}),
+	settings: AdminSettingsRoute,
+	domains: AdminDomainsRoute,
+	invite: AdminInvitesRoute,
+	backup: AdminBackupsRoute
 });
