@@ -1,5 +1,4 @@
 import { AuthAdminProdeduce } from "#trpc/context/AuthAdmin.js";
-import { AuthUserProdeduce } from "#trpc/context/AuthUser.js";
 import { t } from "#trpc/lib.js";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
@@ -20,7 +19,7 @@ export const AdminDomainsRoute = t.router({
 		};
 	}),
 	/** Create new signup domain */
-	create: AuthUserProdeduce.input(
+	create: AuthAdminProdeduce.input(
 		z
 			.string({ required_error: "A valid domain is required" })
 			.refine((arg) => !arg.startsWith(".") && !arg.endsWith(".") && !arg.startsWith("-"), { message: "Invalid domain provided" })
@@ -40,7 +39,7 @@ export const AdminDomainsRoute = t.router({
 		}
 	}),
 	/** Deletes signup domains */
-	delete: AuthUserProdeduce.input(z.array(z.string({ required_error: "A valid domain is required" }))).mutation(async (opt) => {
+	delete: AuthAdminProdeduce.input(z.array(z.string({ required_error: "A valid domain is required" }))).mutation(async (opt) => {
 		const { server } = opt.ctx;
 		const domains = opt.input;
 

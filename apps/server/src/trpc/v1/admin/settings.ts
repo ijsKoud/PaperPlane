@@ -1,6 +1,5 @@
 import Config from "#lib/Config.js";
 import { AuthAdminProdeduce } from "#trpc/context/AuthAdmin.js";
-import { AuthUserProdeduce } from "#trpc/context/AuthUser.js";
 import { t } from "#trpc/lib.js";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
@@ -14,7 +13,7 @@ export const AdminSettingsRoute = t.router({
 		return config.authMode;
 	}),
 	/** Updates the authentication mode */
-	updateAuthMode: AuthUserProdeduce.input(
+	updateAuthMode: AuthAdminProdeduce.input(
 		z.union([z.literal("2fa"), z.literal("password")], { required_error: "A valid authentication mode is required" })
 	).mutation(async (opt) => {
 		const { server } = opt.ctx;

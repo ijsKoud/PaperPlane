@@ -1,5 +1,4 @@
 import { AuthAdminProdeduce } from "#trpc/context/AuthAdmin.js";
-import { AuthUserProdeduce } from "#trpc/context/AuthUser.js";
 import { t } from "#trpc/lib.js";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
@@ -24,7 +23,7 @@ export const AdminBackupsRoute = t.router({
 		};
 	}),
 	/** Create new backup */
-	create: AuthUserProdeduce.mutation((opt) => {
+	create: AuthAdminProdeduce.mutation((opt) => {
 		const { server } = opt.ctx;
 
 		if (Boolean(server.backups.backupImportInProgress))
@@ -34,7 +33,7 @@ export const AdminBackupsRoute = t.router({
 		void server.backups.createBackup();
 	}),
 	/** Deletes backup */
-	import: AuthUserProdeduce.input(z.string({ required_error: "A valid backup name is required" })).mutation((opt) => {
+	import: AuthAdminProdeduce.input(z.string({ required_error: "A valid backup name is required" })).mutation((opt) => {
 		const { server } = opt.ctx;
 		const backup = opt.input;
 

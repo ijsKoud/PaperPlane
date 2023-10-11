@@ -1,5 +1,4 @@
 import { AuthAdminProdeduce } from "#trpc/context/AuthAdmin.js";
-import { AuthUserProdeduce } from "#trpc/context/AuthUser.js";
 import { t } from "#trpc/lib.js";
 import { TRPCError } from "@trpc/server";
 import _ from "lodash";
@@ -20,7 +19,7 @@ export const AdminInvitesRoute = t.router({
 		};
 	}),
 	/** Create new invite */
-	create: AuthUserProdeduce.mutation(async (opt) => {
+	create: AuthAdminProdeduce.mutation(async (opt) => {
 		const { server } = opt.ctx;
 
 		try {
@@ -35,7 +34,7 @@ export const AdminInvitesRoute = t.router({
 		}
 	}),
 	/** Deletes invites */
-	delete: AuthUserProdeduce.input(z.array(z.string({ required_error: "A valid invite is required" }))).mutation(async (opt) => {
+	delete: AuthAdminProdeduce.input(z.array(z.string({ required_error: "A valid invite is required" }))).mutation(async (opt) => {
 		const { server } = opt.ctx;
 		const invites = opt.input;
 
