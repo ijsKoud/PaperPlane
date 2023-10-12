@@ -13,7 +13,7 @@ export class AuditLog extends Scheduler<Log> {
 	/** The maximum age per log in ms */
 	public maxAge: number;
 
-	private cron!: CronJob;
+	private cron!: CronJob<null>;
 
 	public constructor(
 		public server: Server,

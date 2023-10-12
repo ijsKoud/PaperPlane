@@ -77,8 +77,8 @@ export default class Domain {
 	public files = new FileViewScheduler(this);
 	public urls = new ShorturlVisitScheduler(this);
 
-	private storageCheckCron!: CronJob;
-	private storageSyncCron!: CronJob;
+	private storageCheckCron!: CronJob<null>;
+	private storageSyncCron!: CronJob<null>;
 
 	public constructor(server: Server, data: iDomain) {
 		this.server = server;
