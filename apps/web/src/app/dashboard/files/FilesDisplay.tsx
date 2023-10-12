@@ -1,8 +1,7 @@
 "use client";
 
-import { useSwrWithUpdates } from "@paperplane/swr";
 import { Input } from "@paperplane/ui/input";
-import { FilesSortNames, FilesApiRes, FilesSort } from "@paperplane/utils";
+import { FilesSortNames, FilesSort } from "@paperplane/utils";
 import React, { useEffect, useState } from "react";
 import { CreateDialog } from "./CreateDialog";
 import { DataTable } from "./_table/data-table";
@@ -12,17 +11,24 @@ import { Button } from "@paperplane/ui/button";
 import { LayoutPanelTopIcon, Table2Icon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@paperplane/ui/tooltip";
 import { GridView } from "./_grid/GridView";
+import { PaperPlaneApiOutputs, api } from "#trpc/server";
+
+type FileData = PaperPlaneApiOutputs["v1"]["dashboard"]["files"]["list"];
+export type File = PaperPlaneApiOutputs["v1"]["dashboard"]["files"]["list"]["entries"][0];
 
 const UseFilesList = () => {
-	const [data, setData] = useState<FilesApiRes>({ entries: [], pages: 0 });
+	const [data, setData] = useState<FileData>({ entries: [], pages: 0 });
 	const [sort, setSort] = useState<FilesSort>(FilesSort.DATE_NEW_OLD);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 
-	const swr = useSwrWithUpdates<FilesApiRes>(`/api/dashboard/files?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 	useEffect(() => {
-		if (swr.data) setData(swr.data);
-	}, [swr.data]);
+		const updateList = () => api().v1.dashboard.files.list.query({ page, query: search, sort });
+		void updateList().then(setData);
+
+		const interval = setInterval(() => void updateList().then(setData), 5e3);
+		return () => clearInterval(interval);
+	}, [search, page, sort]);
 
 	return { ...data, page, setPage, search, setSearch, sort, setSort };
 };

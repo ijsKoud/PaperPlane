@@ -2,16 +2,12 @@
 
 import { PAPERPLANE_VERSION, formatBytes, getCircleColor } from "@paperplane/utils";
 import CircleProgressBar from "@paperplane/components/progress-circle";
-import type React from "react";
-import { UseDashboardStats } from "./_lib/hooks";
+import { type DashboardStats as iDashboardStats, UseDashboardStats } from "./_lib/hooks";
 import { InfinityIcon } from "lucide-react";
+import type React from "react";
 
-interface StorageUsageProps {
-	used: number;
-	total: number;
-}
-
-const StorageUsage: React.FC<StorageUsageProps> = ({ used, total }) => {
+/** The dashboard storage usage (circle diagram) */
+const StorageUsage: React.FC<iDashboardStats["storage"]> = ({ used, total }) => {
 	const isInfinitive = total === 0;
 	const _percentage = (used / total) * 100;
 	const percentage = isNaN(_percentage) ? 0 : Math.round(_percentage);
@@ -39,13 +35,8 @@ const StorageUsage: React.FC<StorageUsageProps> = ({ used, total }) => {
 	);
 };
 
-interface StatisticsProps {
-	files: number;
-	shorturls: number;
-	pastebins: number;
-}
-
-const Statistics: React.FC<StatisticsProps> = ({ files, shorturls, pastebins }) => {
+/** The dashboard statistics component */
+const Statistics: React.FC<Omit<iDashboardStats, "storage">> = ({ files, shorturls, pastebins }) => {
 	return (
 		<div className="dark:bg-zinc-900 bg-zinc-100 border border-zinc-200 dark:border-zinc-700 p-8 rounded-xl h-full w-full">
 			<h1 className="text-xl">Statistics</h1>

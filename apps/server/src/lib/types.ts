@@ -1,7 +1,3 @@
-import type { NextFunction, Request, Response } from "express";
-import type Server from "../Server.js";
-import type { Domain } from "./index.js";
-
 export interface RawEnvConfig {
 	ENCRYPTION_KEY: string;
 	INTERNAL_API_KEY: string;
@@ -63,16 +59,6 @@ export type SignUpMode = "open" | "closed" | "invite";
 export type AuthMode = "2fa" | "password";
 export type ExtensionsMode = "block" | "pass";
 
-export type RequestMethods = "get" | "put" | "post" | "patch" | "delete" | "head" | "options";
-
-export type Middleware = (server: Server, req: Request, res: Response, next: NextFunction) => void | Promise<void>;
-
-export interface ApiRoute {
-	default: (...args: unknown[]) => void;
-	methods: RequestMethods[];
-	middleware?: Middleware[];
-}
-
 export enum AdminUserSort {
 	DATE_NEW_OLD,
 	DATE_OLD_NEW,
@@ -93,62 +79,6 @@ export const AdminUserSortNames = {
 	[AdminUserSort.NAME_A_Z]: "Name: A - Z",
 	[AdminUserSort.NAME_Z_A]: "Name: Z - A"
 } as const;
-
-export interface CreateUserFormBody {
-	domain?: string;
-	extension?: string;
-
-	storage: string;
-	uploadSize: string;
-
-	extensions: string[];
-	extensionsMode: "block" | "pass";
-
-	auditlog: string;
-}
-
-export interface UpdateUserFormBody {
-	disabled: boolean;
-	domains: string[];
-
-	storage: string;
-	uploadSize: string;
-
-	extensions: string[];
-	extensionsMode: "block" | "pass";
-
-	auditlog: string;
-}
-
-export interface UpdateSettingsFormBody {
-	signUpMode: "closed" | "open" | "invite";
-
-	storage: string;
-	uploadSize: string;
-
-	extensions: string[];
-	extensionsMode: "block" | "pass";
-
-	auditlog: string;
-}
-
-export interface UpdateDashboardSettingsFormBody {
-	nameStrategy: "id" | "zerowidth" | "name";
-	nameLength: number;
-	embedEnabled: boolean;
-}
-
-export interface UpdateDashboardEmbedFormBody {
-	title: string;
-	description: string;
-	color: string;
-}
-
-export interface DashboardRequest extends Request {
-	locals: {
-		domain: Domain;
-	};
-}
 
 export enum FilesSort {
 	DATE_NEW_OLD,
@@ -207,44 +137,3 @@ export const BinSortNames = {
 	[BinSort.NAME_A_Z]: "Name: A - Z",
 	[BinSort.NAME_Z_A]: "Name: Z - A"
 } as const;
-
-export interface FilesBulkDeleteFormBody {
-	files: string[];
-}
-
-export interface UrlsBulkDeleteFormBody {
-	urls: string[];
-}
-
-export interface BinsBulkDeleteFormBody {
-	bins: string[];
-}
-
-export interface FilesEditFormBody {
-	name: string;
-	password?: string;
-	passwordEnabled: boolean;
-	visible: boolean;
-}
-
-export interface UrlEditFormBody {
-	name: string;
-	visible: boolean;
-}
-
-export interface BinEditFormBody {
-	name: string;
-	password?: string;
-	passwordEnabled: boolean;
-	visible: boolean;
-	data?: string;
-	highlight: string;
-}
-
-export interface BinCreateFormBody {
-	name?: string;
-	password?: string;
-	visible: boolean;
-	data: string;
-	highlight: string;
-}

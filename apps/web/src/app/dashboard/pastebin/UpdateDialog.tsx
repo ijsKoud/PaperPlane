@@ -10,7 +10,6 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { atomOneDark, atomOneLight } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -19,6 +18,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@paperplane/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@paperplane/ui/tabs";
 import { Textarea } from "@paperplane/ui/textarea";
+import { api } from "#trpc/server";
+import { getTRPCError } from "@paperplane/utils";
 
 export interface UpdateDialogProps {
 	/** The name (id) of the url */
@@ -67,14 +68,19 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ name, visible, data,
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
 			data.passwordEnabled = data.password ? true : data.passwordEnabled;
-			await axios.put(`/api/dashboard/paste-bins/${name}`, data, { withCredentials: true });
+			await api().v1.dashboard.bins.update.mutate({ ...data, highlight: data.highlight ?? "", id: name });
 			toast({ title: "Pastebin updated", description: "The pastebin has been updated." });
-			form.reset(undefined, { keepDirty: false });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("name");
-			console.log(err);
+			const parsedError = getTRPCError(err.message);
+			if (!parsedError) {
+				console.error(err);
+				form.setError("name", { message: "Unknown error, please try again later." });
+				return;
+			}
+
+			const inputField = parsedError.field as keyof z.infer<typeof FormSchema>;
+			if (Boolean(form.getValues()[inputField])) form.setError(inputField, { message: parsedError.message });
+			console.error(parsedError);
 		}
 	}
 

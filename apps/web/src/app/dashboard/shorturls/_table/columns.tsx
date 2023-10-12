@@ -11,18 +11,19 @@ import {
 	DropdownMenuTrigger
 } from "@paperplane/ui/dropdown-menu";
 import { Checkbox } from "@paperplane/ui/checkbox";
-import { ApiUrl, formatDate, getProtocol } from "@paperplane/utils";
+import { formatDate, getProtocol } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
 import { UpdateDialog } from "../UpdateDialog";
 import { useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@paperplane/ui/tooltip";
+import { api } from "#trpc/server";
+import { ShortUrl } from "../ShortcutsTable";
 
-export const columns: ColumnDef<ApiUrl>[] = [
+export const columns: ColumnDef<ShortUrl>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (
@@ -94,16 +95,13 @@ export const columns: ColumnDef<ApiUrl>[] = [
 
 			async function deleteUrl() {
 				try {
-					await axios.delete("/api/dashboard/urls/bulk", { data: { urls: [name] } });
+					await api().v1.dashboard.url.delete.mutate([name]);
 					toast({ title: "URL Deleted", description: `${name} has been deleted.` });
 				} catch (err) {
-					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-					const error = _error || "n/a";
-
 					toast({
 						variant: "destructive",
 						title: "Uh oh! Something went wrong",
-						description: `There was a problem with your request: ${error}`,
+						description: `There was a problem with your request: ${err.message}`,
 						action: (
 							<ToastAction altText="Try again" onClick={deleteUrl}>
 								Try again

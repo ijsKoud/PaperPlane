@@ -5,47 +5,20 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@paperplane/ui/button";
 import { Loader2, RocketIcon } from "lucide-react";
 import { Input } from "@paperplane/ui/input";
-import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { MFAGetApi } from "@paperplane/utils";
 import { CodesDialog } from "./CodesDialog";
+import { api } from "#trpc/server";
+import { getTRPCError } from "@paperplane/utils";
+import { UseTwoFactorKey } from "#lib/auth";
 
 export interface AuthFormProps {
 	domains: string[];
 	invite: boolean;
 }
-
-const UseTwoFactorKey = () => {
-	const [keyData, setKeyData] = useState<MFAGetApi>({ key: "", secret: "", uri: "" });
-
-	/**
-	 * Creates a valid 2fa QR-code
-	 * @param domain The domain which is currently selected
-	 * @returns qr-code image url
-	 */
-	const getImage = (domain: string) => {
-		const BASE_URL = "https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=";
-		const imageData = encodeURIComponent(keyData.uri.replace("DOMAIN_PLACEHOLDER", domain));
-
-		return `${BASE_URL}${imageData}`;
-	};
-
-	useEffect(() => {
-		void axios.post("/api/auth/signup").then((res) => setKeyData(res.data));
-
-		const interval = setInterval(() => axios.post("/api/auth/signup").then((res) => setKeyData(res.data)), 9e5);
-		return () => clearInterval(interval); // Re-generates the 2fa data every time the data has expired
-	}, []);
-
-	return {
-		...keyData,
-		getImage
-	};
-};
 
 export const CodeAuthForm: React.FC<AuthFormProps> = ({ domains, invite }) => {
 	const router = useRouter();
@@ -100,14 +73,19 @@ export const CodeAuthForm: React.FC<AuthFormProps> = ({ domains, invite }) => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const res = await axios.post("/api/auth/signup", { ...data, key: twoFactorKey.key });
-			setBackupCodes(res.data);
+			const codes = await api().v1.auth.signup.createMfa.mutate({ ...data, key: twoFactorKey.key });
+			setBackupCodes(codes);
 		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "Unknown error, please try again later.";
-			form.setError("domain", { message: error });
-			form.setError("auth", { message: error });
-			console.log(err);
+			const parsedError = getTRPCError(err.message);
+			if (!parsedError) {
+				console.error(err);
+				form.setError("auth", { message: "Unknown error, please try again later." });
+				return;
+			}
+
+			const inputField = parsedError.field as keyof z.infer<typeof FormSchema>;
+			if (Boolean(form.getValues()[inputField])) form.setError(inputField, { message: parsedError.message });
+			console.error(parsedError);
 		}
 	}
 

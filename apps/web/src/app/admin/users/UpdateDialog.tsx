@@ -10,12 +10,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
-import { Domain, STORAGE_UNITS, TIME_UNITS_ARRAY, formatBytes, parseToDay } from "@paperplane/utils";
-import ms from "ms";
+import { STORAGE_UNITS, TIME_UNITS_ARRAY } from "@paperplane/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { ScrollArea } from "@paperplane/ui/scroll-area";
+import { Domain } from "./_table/columns";
+import { api } from "#trpc/server";
 
 export interface UpdateDialogProps {
 	/** The domain to edit */
@@ -27,11 +27,6 @@ export interface UpdateDialogProps {
 	/** Set the dialog open state */
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const getStorage = (storage: number): string[] => {
-	const res = formatBytes(storage);
-	return res.split(/ +/g);
-};
 
 export const UpdateDialog: React.FC<UpdateDialogProps> = ({ domain, isOpen, setIsOpen }) => {
 	const { toast } = useToast();
@@ -56,17 +51,17 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ domain, isOpen, setI
 			disabled: domain.disabled,
 			extensions: domain.extensions,
 			extensionsMode: domain.extensionsMode,
-			storage: Number(getStorage(domain.maxStorage)[0]),
-			storageUnit: getStorage(domain.maxStorage)[1] as any,
-			uploadSize: Number(getStorage(domain.uploadSize)[0]),
-			uploadSizeUnit: getStorage(domain.uploadSize)[1] as any,
+			storage: Number(domain.maxStorage.split(/ +/g)[0]),
+			storageUnit: domain.maxStorage.split(/ +/g)[1] as any,
+			uploadSize: Number(domain.uploadSize.split(/ +/g)[0]),
+			uploadSizeUnit: domain.uploadSize.split(/ +/g)[1] as any,
 			auditlog: Number(
-				ms(domain.auditlog)
+				domain.auditlog
 					.split("")
 					.filter((str) => !isNaN(Number(str)))
 					.join("")
 			),
-			auditlogUnit: ms(domain.auditlog)
+			auditlogUnit: domain.auditlog
 				.split("")
 				.filter((str) => isNaN(Number(str)))
 				.join("")
@@ -75,23 +70,14 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ domain, isOpen, setI
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			await axios.put(
-				"/api/admin/create",
-				{
-					domains: [domain.domain],
-					disabled: data.disabled,
-					extensions: data.extensions,
-					extensionsMode: data.extensionsMode,
-					auditlog: parseToDay(data.auditlog, data.auditlogUnit as any),
-					storage: `${data.storage} ${data.storageUnit}`,
-					uploadSize: `${data.uploadSize} ${data.uploadSizeUnit}`
-				},
-				{ withCredentials: true }
-			);
+			await api().v1.admin.users.update.mutate({ ...data, domains: [domain.domain] });
 			toast({ title: "User updated", description: "The user has been updated." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong",
+				description: `There was a problem with your request: ${err.message}`
+			});
 			form.setFocus("disabled");
 			console.log(err);
 		}

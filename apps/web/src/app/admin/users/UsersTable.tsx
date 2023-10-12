@@ -1,24 +1,29 @@
 "use client";
 
-import { useSwrWithUpdates } from "@paperplane/swr";
 import { Input } from "@paperplane/ui/input";
-import { UsersApi, AdminUserSort, AdminUserSortNames } from "@paperplane/utils";
+import { AdminUserSort, AdminUserSortNames } from "@paperplane/utils";
 import React, { useEffect, useState } from "react";
 import { CreateDialog } from "./CreateDialog";
 import { DataTable } from "./_table/data-table";
 import { columns } from "./_table/columns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
+import { PaperPlaneApiOutputs, api } from "#trpc/server";
+
+type UserData = PaperPlaneApiOutputs["v1"]["admin"]["users"]["list"];
 
 const UseUsersList = () => {
-	const [data, setData] = useState<UsersApi>({ entries: [], pages: 0 });
+	const [data, setData] = useState<UserData>({ entries: [], pages: 0 });
 	const [sort, setSort] = useState<AdminUserSort>(AdminUserSort.DATE_NEW_OLD);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
 
-	const swr = useSwrWithUpdates<UsersApi>(`/api/admin/users?page=${page}&search=${encodeURIComponent(search)}&sort=${sort}`);
 	useEffect(() => {
-		if (swr.data) setData(swr.data);
-	}, [swr.data]);
+		const updateList = () => api().v1.admin.users.list.query({ page, query: search, sort });
+		void updateList().then(setData);
+
+		const interval = setInterval(() => void updateList().then(setData), 5e3);
+		return () => clearInterval(interval);
+	}, [search, page, sort]);
 
 	return { ...data, page, setPage, search, setSearch, sort, setSort };
 };

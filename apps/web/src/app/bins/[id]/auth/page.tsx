@@ -1,7 +1,7 @@
 import type React from "react";
 import axios from "axios";
 import { PageProps, Params, getProtocol } from "@paperplane/utils";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AuthForm } from "./form";
 
@@ -14,7 +14,7 @@ export function generateMetadata({ params }: { params: Record<string, string> })
 
 const Page: React.FC<PageProps<Params<"id">>> = async ({ params }) => {
 	const host = headers().get("host")!;
-	const status = await axios.get(`${getProtocol()}${host}/api/bins/${params.id}`);
+	const status = await axios.get(`${getProtocol()}${host}/api/v1/bins/${params.id}`, { headers: { Cookie: cookies().toString() } });
 	if (typeof status.data === "object") redirect(`/bins/${params.id}`);
 
 	return (

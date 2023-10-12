@@ -14,24 +14,28 @@ import {
 } from "@paperplane/ui/alert-dialog";
 import { Button } from "@paperplane/ui/button";
 import { RotateCcwIcon } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { api } from "#trpc/server";
 
 export const ResetAccountDialog: React.FC = () => {
 	const { toast } = useToast();
 	const router = useRouter();
+
 	async function resetAccount() {
 		try {
-			await axios.delete<string>("/api/dashboard/reset", { withCredentials: true });
+			await api().v1.dashboard.settings.reset.mutate();
 			toast({
 				title: "Account reset",
 				description: "Your account has been reset. Use the code 'paperplane-cdn' to reset your password/2fa key."
 			});
 			router.push("/reset");
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong",
+				description: `There was a problem with your request: ${err.message}`
+			});
 			console.log(err);
 		}
 	}

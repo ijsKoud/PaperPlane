@@ -4,35 +4,24 @@ import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@paperplane/ui/dialog";
 import { Button } from "@paperplane/ui/button";
 import { DownloadIcon, FingerprintIcon, Loader2 } from "lucide-react";
-import axios, { AxiosError } from "axios";
-import { useToast } from "@paperplane/ui/use-toast";
 import { useSearchParams } from "next/navigation";
-import { MFAGetApi } from "@paperplane/utils";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@paperplane/ui/form";
 import { Input } from "@paperplane/ui/input";
 import { saveAs } from "file-saver";
-
-const UseMFAReset = () => {
-	const [data, setData] = useState<MFAGetApi>();
-	useEffect(() => {
-		void axios.post("/api/auth/reset", undefined, { withCredentials: true }).then((res) => setData(res.data));
-		const interval = setInterval(() => axios.post("/api/auth/reset", undefined, { withCredentials: true }).then((res) => setData(res.data)), 9e5);
-		return () => clearInterval(interval);
-	}, []);
-
-	return data;
-};
+import { UseTwoFactorKey } from "#lib/auth";
+import { api } from "#trpc/server";
+import { HandleTRPCFormError } from "#trpc/shared";
 
 export const ResetAuthDialog: React.FC = () => {
-	const { toast } = useToast();
 	const searchParams = useSearchParams();
 	const defaultOpen = searchParams?.get("action") === "reset-auth";
 
+	const [hostname, setHostname] = useState("");
 	const [backupCodes, setBackupCodes] = useState<string[]>([]);
-	const mfa = UseMFAReset();
+	const mfa = UseTwoFactorKey();
 
 	const FormSchema = z.object({
 		auth: z.string({ required_error: "This field is required" })
@@ -42,19 +31,18 @@ export const ResetAuthDialog: React.FC = () => {
 		resolver: zodResolver(FormSchema)
 	});
 
+	useEffect(() => {
+		setHostname(location.hostname);
+	}, []);
+
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const codes = await axios.patch<string[]>(
-				"/api/auth/reset",
-				{ ...data, key: Boolean(mfa?.key) ? mfa?.key : undefined },
-				{ withCredentials: true }
-			);
-			setBackupCodes(codes.data);
+			const codes = mfa.key
+				? await api().v1.auth.reset.resetMfa.mutate({ ...data, key: mfa.key })
+				: await api().v1.auth.reset.resetPassword.mutate({ password: data.auth });
+			setBackupCodes(codes);
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("auth");
-			console.log(err);
+			HandleTRPCFormError(err, form, "auth");
 		}
 	}
 
@@ -106,10 +94,7 @@ export const ResetAuthDialog: React.FC = () => {
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 							{mfa?.key && (
 								<div>
-									<img
-										alt="2FA QR Code"
-										src={`https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=${encodeURIComponent(mfa.uri)}`}
-									/>
+									<img alt="2FA QR Code" src={mfa.getImage(hostname)} />
 									<p className="text-4">
 										Scan the QR-Code above or use the following Code: <strong>{mfa.secret}</strong>. Note: this resets every{" "}
 										<strong>15 minutes</strong>!

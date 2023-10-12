@@ -4,12 +4,12 @@ import { Button } from "@paperplane/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@paperplane/ui/dialog";
 import { MailIcon, MailPlusIcon } from "lucide-react";
 import React from "react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ScrollArea } from "@paperplane/ui/scroll-area";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { UseAdminInvites } from "../../../_lib/hooks";
+import { api } from "#trpc/server";
 
 export const Invites: React.FC = () => {
 	const { toast } = useToast();
@@ -17,11 +17,15 @@ export const Invites: React.FC = () => {
 
 	async function createNewInvite() {
 		try {
-			await axios.post("/api/invites/create", undefined, { withCredentials: true });
-			toast({ title: "Invite created", description: "A new invite has been created." });
+			const invite = await api().v1.admin.invite.create.mutate();
+			toast({ title: "Invite created", description: "A new invite has been created and copied to your clipboard." });
+			void navigator.clipboard.writeText(invite.invite);
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong",
+				description: `There was a problem with your request: ${err.message}`
+			});
 			console.log(err);
 		}
 	}

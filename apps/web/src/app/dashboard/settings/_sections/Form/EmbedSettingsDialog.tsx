@@ -10,8 +10,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Textarea } from "@paperplane/ui/textarea";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
+import { api } from "#trpc/server";
+import { HandleTRPCFormError } from "#trpc/shared";
 
 interface EmbedSettingsDialogProps {
 	/** The title of the embed */
@@ -39,13 +40,10 @@ export const EmbedSettingsDialog: React.FC<EmbedSettingsDialogProps> = ({ title,
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			await axios.post<string>("/api/dashboard/embed", data, { withCredentials: true });
+			await api().v1.dashboard.settings.updateEmbed.mutate(data);
 			toast({ title: "Settings updated", description: "The embed settings have been updated." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("title");
-			console.log(err);
+			HandleTRPCFormError(err, form, "title");
 		}
 	}
 

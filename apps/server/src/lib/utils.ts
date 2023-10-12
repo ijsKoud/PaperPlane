@@ -2,10 +2,11 @@ import { randomBytes } from "node:crypto";
 import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import ShortUniqueId from "short-unique-id";
-import type { Domain } from "./index.js";
+import type Domain from "#components/Domain.js";
 import { AdminUserSort, BinSort, FilesSort, UrlsSort } from "./types.js";
 import type { File, Pastebin, Url } from "@prisma/client";
 import { extension } from "mime-types";
+import { STORAGE_UNITS } from "./constants.js";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Utils {
@@ -60,12 +61,11 @@ export class Utils {
 	public static parseStorage(storage: number): string;
 	public static parseStorage(storage: string | number): number | string {
 		if (typeof storage === "string") {
-			const units = ["B", "kB", "MB", "GB", "TB", "PB"];
-			const INFINITY = units.map((unit) => `0 ${unit}`);
+			const INFINITY = STORAGE_UNITS.map((unit) => `0 ${unit}`);
 			if (!storage.length || [INFINITY, "0"].includes(storage)) return 0;
 
 			const [_amount, unit] = storage.split(/ +/g);
-			const unitSize = units.indexOf(unit) || 0;
+			const unitSize = STORAGE_UNITS.indexOf(unit as any) || 0;
 
 			const amount = Number(_amount);
 			if (isNaN(amount)) return 0;
@@ -75,7 +75,6 @@ export class Utils {
 
 		if (storage === Infinity) return "Infinity";
 
-		const units = ["B", "kB", "MB", "GB", "TB", "PB"];
 		let num = 0;
 
 		while (storage > 1024) {
@@ -83,7 +82,7 @@ export class Utils {
 			++num;
 		}
 
-		return `${storage.toFixed(1)} ${units[num]}`;
+		return `${storage.toFixed(1)} ${STORAGE_UNITS[num]}`;
 	}
 
 	public static async sizeOfDir(directory: string): Promise<number> {

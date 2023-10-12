@@ -10,8 +10,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
+import { api } from "#trpc/server";
+import { HandleTRPCFormError } from "#trpc/shared";
 
 export const CreateDialog: React.FC = () => {
 	const { toast } = useToast();
@@ -28,15 +29,13 @@ export const CreateDialog: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const response = await axios.post<string>("/api/dashboard/urls/create", data, { withCredentials: true });
-			form.setFocus("url");
-			void navigator.clipboard.writeText(response.data);
+			const response = await api().v1.dashboard.url.create.mutate(data);
+			form.reset(undefined, { keepDirty: false });
+
+			void navigator.clipboard.writeText(response);
 			toast({ title: "Shorturl created", description: "A new url has been created and has been copied to your clipboard." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("url");
-			console.log(err);
+			HandleTRPCFormError(err, form, "url");
 		}
 	}
 

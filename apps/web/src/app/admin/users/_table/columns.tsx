@@ -11,14 +11,16 @@ import {
 	DropdownMenuTrigger
 } from "@paperplane/ui/dropdown-menu";
 import { Checkbox } from "@paperplane/ui/checkbox";
-import { Domain, formatBytes, formatDate } from "@paperplane/utils";
+import { formatDate } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { InfinityIcon, MoreHorizontalIcon } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
 import { UpdateDialog } from "../UpdateDialog";
 import { useState } from "react";
+import { PaperPlaneApiOutputs, api } from "#trpc/server";
+
+export type Domain = PaperPlaneApiOutputs["v1"]["admin"]["users"]["list"]["entries"][0];
 
 export const columns: ColumnDef<Domain>[] = [
 	{
@@ -60,18 +62,14 @@ export const columns: ColumnDef<Domain>[] = [
 		accessorKey: "maxStorage",
 		header: "Storage Limit",
 		cell: ({ row }) => {
-			const value = row.getValue("maxStorage") as number;
-			if (!value) return <InfinityIcon className="h-4 w-4" aria-label="Infinite" />;
-			return <span>{formatBytes(value)}</span>;
+			const value = row.getValue("maxStorage") as string;
+			if (value === "0.0 B") return <InfinityIcon className="h-4 w-4" aria-label="Infinite" />;
+			return <span>{value}</span>;
 		}
 	},
 	{
 		accessorKey: "storage",
-		header: "Storage Used",
-		cell: ({ row }) => {
-			const value = row.getValue("storage") as number;
-			return <span>{formatBytes(value)}</span>;
-		}
+		header: "Storage Used"
 	},
 	{
 		id: "actions",
@@ -83,16 +81,13 @@ export const columns: ColumnDef<Domain>[] = [
 
 			async function deleteUser() {
 				try {
-					await axios.delete("/api/admin/create", { data: { domains: [domain!.domain] } });
+					await api().v1.admin.users.delete.mutate([domain!.domain]);
 					toast({ title: "Domain Deleted", description: `${domain!.domain} has been deleted.` });
 				} catch (err) {
-					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-					const error = _error || "n/a";
-
 					toast({
 						variant: "destructive",
 						title: "Uh oh! Something went wrong",
-						description: `There was a problem with your request: ${error}`,
+						description: `There was a problem with your request: ${err.message}`,
 						action: (
 							<ToastAction altText="Try again" onClick={deleteUser}>
 								Try again
@@ -104,19 +99,16 @@ export const columns: ColumnDef<Domain>[] = [
 
 			async function resetUser() {
 				try {
-					await axios.post("/api/admin/reset-user", { domain: domain!.domain });
+					await api().v1.admin.users.resetAuth.mutate(domain!.domain);
 					toast({
 						title: "User Reset",
 						description: `${domain!.domain} has been reset. They can now use the default backup code "paperplane-cdn".`
 					});
 				} catch (err) {
-					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-					const error = _error || "n/a";
-
 					toast({
 						variant: "destructive",
 						title: "Uh oh! Something went wrong",
-						description: `There was a problem with your request: ${error}`,
+						description: `There was a problem with your request: ${err.message}`,
 						action: (
 							<ToastAction altText="Try again" onClick={deleteUser}>
 								Try again

@@ -12,12 +12,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { atomOneDark, atomOneLight } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { useTheme } from "next-themes";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
+import { api } from "#trpc/server";
+import { HandleTRPCFormError } from "#trpc/shared";
 
 export const CreateDialog: React.FC = () => {
 	const { toast } = useToast();
@@ -37,15 +38,13 @@ export const CreateDialog: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const response = await axios.post<string>("/api/dashboard/paste-bins/create", data, { withCredentials: true });
-			form.setFocus("data");
-			void navigator.clipboard.writeText(response.data);
+			const response = await api().v1.dashboard.bins.create.mutate({ ...data, highlight: data.highlight ?? "" });
+			form.reset(form.formState.defaultValues, { keepDirtyValues: false, keepDirty: false });
+
+			void navigator.clipboard.writeText(response);
 			toast({ title: "Pastebin created", description: "A new pastebin has been created and the url has been copied to your clipboard." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("data");
-			console.log(err);
+			HandleTRPCFormError<z.infer<typeof FormSchema>>(err, form, "data");
 		}
 	}
 

@@ -1,14 +1,25 @@
 {
-	"extends": ["@sapphire/ts-config", "@sapphire/ts-config/extra-strict", "@sapphire/ts-config/verbatim"],
+	"extends": ["@sapphire/ts-config", "@sapphire/ts-config/extra-strict", "@sapphire/ts-config/verbatim", "@sapphire/ts-config/decorators"],
 	"compilerOptions": {
 		"noUnusedParameters": false,
 		"useUnknownInCatchVariables": false,
-		"module": "ESNext",
-		"moduleResolution": "node",
-		"outDir": "dist",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"outDir": "./dist",
+		"noEmit": false,
 		"skipLibCheck": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"rootDir": "./src",
+		"paths": {
+			"#lib/*": ["./src/lib/*"],
+			"#components/*": ["./src/components/*"],
+			"#controllers/*": ["./src/controllers/*"],
+			"#errors/*": ["./src/errors/*"],
+			"#trpc/*": ["./src/trpc/*"],
+			"#server.js": ["./src/Server.ts"],
+			"#trpc.js": ["./src/trpc/index.ts"]
+		}
 	},
-	"include": ["src/**/*.ts", "./types/*.d.ts"],
+	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules"]
 }

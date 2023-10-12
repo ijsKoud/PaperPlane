@@ -1,6 +1,6 @@
 import { Timestamp } from "@sapphire/timestamp";
 import packageJSON from "../../../package.json";
-import type { TIME_UNITS_ARRAY } from "./Admin";
+import type { TIME_UNITS_ARRAY } from "./constants";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -70,9 +70,7 @@ export const generateToken = (length = 32) => {
 	return res;
 };
 
-export * from "./Dashboard";
-export * from "./Admin";
-export * from "./SignUp";
-
 export * from "./NotFound";
 export * from "./types";
+export * from "./trpc";
+export * from "./constants";

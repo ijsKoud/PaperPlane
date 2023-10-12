@@ -7,7 +7,10 @@ import { Button } from "@paperplane/ui/button";
 import { ArrowBigLeftIcon, ArrowBigRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@paperplane/ui/table";
-import { formatDate, type AuditLogEntry } from "@paperplane/utils";
+import { formatDate } from "@paperplane/utils";
+import { PaperPlaneApiOutputs } from "#trpc/server";
+
+type AuditLogEntry = PaperPlaneApiOutputs["v1"]["dashboard"]["audit"]["entries"][0];
 
 interface ToolbarProps {
 	pages: number;

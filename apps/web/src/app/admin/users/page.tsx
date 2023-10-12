@@ -1,6 +1,5 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { headers, cookies } from "next/headers";
 import { getAuthenticationState } from "../_lib/utils";
 import { redirect } from "next/navigation";
 import { UsersTable } from "./UsersTable";
@@ -11,10 +10,8 @@ export const metadata: Metadata = {
 };
 
 const Page: React.FC = async () => {
-	const host = headers().get("host");
-	const cookie = cookies().get("PAPERPLANE-ADMIN");
-	const authenticationState = await getAuthenticationState(host!, cookie?.value);
-	if (!authenticationState.admin) redirect("/login?user=admin");
+	const authenticationState = await getAuthenticationState();
+	if (!authenticationState) redirect("/login?user=admin");
 
 	return (
 		<>

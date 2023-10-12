@@ -1,92 +1,58 @@
-import type { Server as HttpServer } from "node:http";
 import type { NextServer } from "next/dist/server/next.js";
-import express, { type Express } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { join } from "node:path";
 import next from "next";
-import { Config, Logger, Api, Utils, AuditLog, Domains, Auth, Backups } from "./lib/index.js";
 import { LogLevel } from "@snowcrystals/icicle";
-import { readFileSync } from "node:fs";
 import { PrismaClient } from "@prisma/client";
-import osUtils from "node-os-utils";
-import pidusage from "pidusage";
 import cors from "cors";
+import Config from "#lib/Config.js";
+import { AuditLog } from "#components/AuditLog.js";
+import ServerStats from "#controllers/ServerStats.js";
+import { Server as HighwayServer } from "@snowcrystals/highway";
+import DomainsManager from "#controllers/DomainsManager.js";
+import Logger from "#lib/Logger.js";
+import { fileURLToPath } from "node:url";
+import { getTrpcMiddleware } from "#trpc/index.js";
+import { Auth } from "#lib/Auth.js";
+import { BackupManager } from "#controllers/BackupManager.js";
 
-export default class Server {
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
+
+export default class Server extends HighwayServer {
 	public logger: Logger;
-	public backups = new Backups(this);
 	public config = new Config(this);
-	public api = new Api(this);
 	public auth = new Auth();
+	public stats = new ServerStats();
 
 	public prisma = new PrismaClient();
 	public adminAuditLogs = new AuditLog(this, "admin");
 
-	public domains = new Domains(this);
+	/** The domains manager */
+	public domains = new DomainsManager(this);
 
-	public cpuUsage = 0;
-	public storageUsage = 0;
-	public memory = { usage: 0, total: 0 };
+	/** the backup manager */
+	public backups = new BackupManager(this);
 
-	public uptime = 0;
 	public dev: boolean;
-
-	public _server!: HttpServer;
-	public express: Express;
 	public next!: NextServer;
 
-	public get envConfig() {
-		const file = readFileSync(join(process.cwd(), "..", "..", "package.json"), "utf-8");
-		const { version } = JSON.parse(file);
-
-		return {
-			...this.config.config,
-			version: version as string
-		};
-	}
-
 	public constructor() {
-		this.dev = Boolean(process.env.NODE_ENV === "development");
-		this.express = express();
-
+		super({ routePath: join(__dirname, "routes"), middlewarePath: join(__dirname, "middleware") });
 		this.logger = new Logger({ level: LogLevel.Debug });
-
-		const updateUsage = async () => {
-			const pid = await pidusage(process.pid);
-			const memory = osUtils.mem.totalMem();
-
-			this.memory = {
-				total: memory,
-				usage: pid.memory
-			};
-
-			this.uptime = pid.elapsed;
-
-			const cpuUsage = await osUtils.cpu.usage();
-			this.cpuUsage = cpuUsage;
-
-			const storage = await Utils.sizeOfDir(join(process.cwd(), "..", "..", "data"));
-			this.storageUsage = storage;
-		};
-
-		void updateUsage();
-		setInterval(() => void updateUsage(), 3e4);
-		setInterval(async () => {
-			const pid = await pidusage(process.pid);
-			this.uptime = pid.elapsed;
-		}, 1e4);
+		this.dev = Boolean(process.env.NODE_ENV === "development");
 	}
 
 	public async run() {
-		process.env.INSECURE_REQUESTS = (this.dev || this.envConfig.insecureRequests) as any;
+		const config = Config.getEnv();
+		process.env.INSECURE_REQUESTS = (this.dev || config.insecureRequests) as any;
 
-		this.next = next({
+		this.next = (next as any)({
 			dev: this.dev,
 			quiet: !this.dev,
 			isNextDevCommand: true,
 			customServer: true,
-			port: this.envConfig.port,
+			port: config.port,
 			dir: join(process.cwd(), "..", "web")
 		});
 
@@ -97,20 +63,22 @@ export default class Server {
 			bodyParser.urlencoded({ extended: true })
 		);
 
-		await this.api.start();
 		await this.config.start();
-		await this.adminAuditLogs.start();
 		await this.domains.start();
-
+		await this.adminAuditLogs.start();
 		await this.next.prepare();
+
+		this.express.use("/trpc", getTrpcMiddleware(this));
 		const handler = this.next.getRequestHandler();
-		this.express.use((req, res) => handler(req, res));
 
 		await this.prisma.$connect().then(() => this.logger.info("[PRISMA]: Connected to data.db file in data directory."));
-		this._server = this.express.listen(this.envConfig.port, this.startupLog.bind(this));
+		await this.listen(config.port, this.startupLog.bind(this));
+
+		this.express.use((req, res) => handler(req, res));
 	}
 
 	private startupLog() {
+		const config = Config.getEnv();
 		console.log(
 			[
 				"______                         ______  _                     ",
@@ -123,7 +91,7 @@ export default class Server {
 				"            |_|                                              "
 			].join("\n")
 		);
-		this.logger.debug(`Starting Paperplane v${this.envConfig.version} - NodeJS ${process.version}`);
-		this.logger.info(`Server is listening to port ${this.envConfig.port}`);
+		this.logger.debug(`Starting Paperplane v${Config.VERSION} - NodeJS ${process.version}`);
+		this.logger.info(`Server is listening to port ${config.port}`);
 	}
 }

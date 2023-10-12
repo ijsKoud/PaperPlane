@@ -1,6 +1,5 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { headers, cookies } from "next/headers";
 import { getAuthenticationState } from "../_lib/utils";
 import { redirect } from "next/navigation";
 import { PastebinTable } from "./PastebinTable";
@@ -11,10 +10,8 @@ export const metadata: Metadata = {
 };
 
 const Page: React.FC = async () => {
-	const host = headers().get("host");
-	const cookie = cookies().get("PAPERPLANE-AUTH");
-	const authenticationState = await getAuthenticationState(host!, cookie?.value);
-	if (!authenticationState.domain) redirect("/login");
+	const authenticationState = await getAuthenticationState();
+	if (!authenticationState) redirect("/login");
 
 	return (
 		<>

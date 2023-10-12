@@ -10,11 +10,12 @@ import { Button } from "@paperplane/ui/button";
 import { Loader2, LogInIcon } from "lucide-react";
 import { Input } from "@paperplane/ui/input";
 import Link from "next/link";
-import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { api } from "#trpc/server";
+import { getTRPCError } from "@paperplane/utils";
 
 export interface AuthFormProps {
-	options: { value: string; label: string }[];
+	options: string[];
 	user: string | undefined;
 	mode: "2fa" | "password";
 }
@@ -40,12 +41,12 @@ export const AuthForm: React.FC<AuthFormProps> = ({ mode, options, user }) => {
 	const router = useRouter();
 	const [authMode, setAuthMode] = useState(mode);
 
-	const defaultValue = user ? options.find((opt) => opt.value === user)?.value : undefined;
+	const defaultValue = user ? options.find((opt) => opt === user) : undefined;
 	const correctAuthProps = AuthProps[authMode];
 	const FormSchema = z.object({
 		domain: z
 			.string({ required_error: "A valid domain is required" })
-			.refine((arg) => options.map((opt) => opt.value).includes(arg), { message: "Please select a valid domain" }),
+			.refine((arg) => options.map((opt) => opt).includes(arg), { message: "Please select a valid domain" }),
 		[correctAuthProps.key]: correctAuthProps.zod
 	});
 
@@ -63,15 +64,18 @@ export const AuthForm: React.FC<AuthFormProps> = ({ mode, options, user }) => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			await axios.post("/api/auth/login", data);
+			await api().v1.auth.login.mutate(data as any);
 			void router.push(data.domain === "admin" ? "/admin" : "/dashboard");
 		} catch (err) {
-			const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-			const error = _error || "Unknown error, please try again later.";
-			form.setError("domain", { message: error });
-			form.setError(correctAuthProps.key, { message: error });
+			const parsedError = getTRPCError(err.message);
+			if (!parsedError) {
+				console.error(err);
+				form.setError(correctAuthProps.key, { message: "Unknown error, please try again later." });
+				return;
+			}
 
-			console.log(err);
+			if (Boolean(form.getValues()[parsedError.field])) form.setError(parsedError.field, { message: parsedError.message });
+			console.error(parsedError);
 		}
 	}
 
@@ -93,8 +97,8 @@ export const AuthForm: React.FC<AuthFormProps> = ({ mode, options, user }) => {
 									</FormControl>
 									<SelectContent>
 										{options.map((opt, key) => (
-											<SelectItem key={key} value={opt.value}>
-												{opt.label}
+											<SelectItem key={key} value={opt}>
+												{opt}
 											</SelectItem>
 										))}
 									</SelectContent>

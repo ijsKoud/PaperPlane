@@ -2,9 +2,9 @@ import { generateSecret, generateToken, verifyToken } from "node-2fa";
 import Jwt from "jsonwebtoken";
 import _ from "lodash";
 import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "node:crypto";
-import type { NextFunction, Request, Response } from "express";
-import type Server from "../Server.js";
-import type { DashboardRequest } from "./types.js";
+// import type { NextFunction, Request, Response } from "express";
+// import type Server from "../Server.js";
+// import type { DashboardRequest } from "./types.js";
 import { Collection } from "@discordjs/collection";
 
 export class Auth {
@@ -96,67 +96,67 @@ export class Auth {
 		return token;
 	}
 
-	public static adminMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
-		try {
-			const authCookie: string = req.cookies["PAPERPLANE-ADMIN"] ?? "";
-			if (!authCookie.length) throw new Error("Unauthorized");
+	// public static adminMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
+	// 	try {
+	// 		const authCookie: string = req.cookies["PAPERPLANE-ADMIN"] ?? "";
+	// 		if (!authCookie.length) throw new Error("Unauthorized");
 
-			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, "admin");
-			if (!verify) throw new Error("Unauthorized");
+	// 		const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, "admin");
+	// 		if (!verify) throw new Error("Unauthorized");
 
-			next();
-		} catch (err) {
-			res.status(401).send({ message: err.message });
-		}
-	}
+	// 		next();
+	// 	} catch (err) {
+	// 		res.status(401).send({ message: err.message });
+	// 	}
+	// }
 
-	public static userMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
-		try {
-			const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
-			if (!authCookie.length) throw new Error("Unauthorized");
+	// public static userMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
+	// 	try {
+	// 		const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
+	// 		if (!authCookie.length) throw new Error("Unauthorized");
 
-			const proxyHost = req.headers["x-forwarded-host"];
-			const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
-			const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
+	// 		const proxyHost = req.headers["x-forwarded-host"];
+	// 		const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
+	// 		const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
 
-			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.pathId || req.hostname);
-			if (!verify) throw new Error("Unauthorized");
+	// 		const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.pathId || req.hostname);
+	// 		if (!verify) throw new Error("Unauthorized");
 
-			(req as DashboardRequest).locals = { domain: host! };
-			next();
-		} catch (err) {
-			res.status(401).send({ message: err.message });
-		}
-	}
+	// 		(req as DashboardRequest).locals = { domain: host! };
+	// 		next();
+	// 	} catch (err) {
+	// 		res.status(401).send({ message: err.message });
+	// 	}
+	// }
 
-	public static userApiKeyMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
-		try {
-			const authHeader = req.headers.authorization ?? "";
-			const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
+	// public static userApiKeyMiddleware(server: Server, req: Request, res: Response, next: NextFunction) {
+	// 	try {
+	// 		const authHeader = req.headers.authorization ?? "";
+	// 		const authCookie: string = req.cookies["PAPERPLANE-AUTH"] ?? "";
 
-			if (authHeader.length) {
-				const host = server.domains.domains.find((dm) => dm.apiTokens.find((key) => key.token === authHeader));
-				if (!host) throw new Error("Unauthorized");
+	// 		if (authHeader.length) {
+	// 			const host = server.domains.domains.find((dm) => dm.apiTokens.find((key) => key.token === authHeader));
+	// 			if (!host) throw new Error("Unauthorized");
 
-				(req as DashboardRequest).locals = { domain: host };
-				next();
-				return;
-			} else if (authCookie.length) {
-				const proxyHost = req.headers["x-forwarded-host"];
-				const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
-				const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
+	// 			(req as DashboardRequest).locals = { domain: host };
+	// 			next();
+	// 			return;
+	// 		} else if (authCookie.length) {
+	// 			const proxyHost = req.headers["x-forwarded-host"];
+	// 			const hostName = proxyHost ? proxyHost : req.headers.host ?? req.hostname;
+	// 			const host = server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
 
-				const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.pathId || req.hostname);
-				if (!verify) throw new Error("Unauthorized");
+	// 			const verify = Auth.verifyJWTToken(authCookie, server.envConfig.encryptionKey, host?.pathId || req.hostname);
+	// 			if (!verify) throw new Error("Unauthorized");
 
-				(req as DashboardRequest).locals = { domain: host! };
-				next();
-				return;
-			}
+	// 			(req as DashboardRequest).locals = { domain: host! };
+	// 			next();
+	// 			return;
+	// 		}
 
-			throw new Error("Unauthorized");
-		} catch (err) {
-			res.status(401).send({ message: err.message });
-		}
-	}
+	// 		throw new Error("Unauthorized");
+	// 	} catch (err) {
+	// 		res.status(401).send({ message: err.message });
+	// 	}
+	// }
 }

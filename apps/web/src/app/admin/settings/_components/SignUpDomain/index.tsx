@@ -9,12 +9,12 @@ import { GlobeIcon, Loader2, PlusCircleIcon } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ScrollArea } from "@paperplane/ui/scroll-area";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { UseAdminDomains } from "../../../_lib/hooks";
+import { api } from "#trpc/server";
 
 export const SignUpDomain: React.FC = () => {
 	const { toast } = useToast();
@@ -31,13 +31,15 @@ export const SignUpDomain: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			await axios.post<string>("/api/admin/domains", data, { withCredentials: true });
-			form.setFocus("domain");
+			await api().v1.admin.domains.create.mutate(data.domain);
 			form.reset();
 			toast({ title: "Domain created", description: "A new sign up domain has been created" });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong",
+				description: `There was a problem with your request: ${err.message}`
+			});
 			form.setFocus("domain");
 			console.log(err);
 		}

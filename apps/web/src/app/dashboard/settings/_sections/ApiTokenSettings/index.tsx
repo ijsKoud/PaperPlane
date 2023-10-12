@@ -1,10 +1,12 @@
 import React from "react";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import { DashboardSettingsGetApi } from "@paperplane/utils";
+import { PaperPlaneApiOutputs } from "#trpc/server";
+
+export type Token = PaperPlaneApiOutputs["v1"]["dashboard"]["settings"]["get"]["tokens"][0];
 
 export interface ApiTokenSettingsProps {
-	tokens: DashboardSettingsGetApi["tokens"];
+	tokens: Token[];
 }
 
 const ApiTokenSettings: React.FC<ApiTokenSettingsProps> = ({ tokens }) => {

@@ -22,6 +22,7 @@ output.css
 # production
 /build
 /data
+tsconfig.tsbuildinfo
 
 # misc
 .DS_Store

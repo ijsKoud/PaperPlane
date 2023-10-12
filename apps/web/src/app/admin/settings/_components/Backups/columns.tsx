@@ -12,9 +12,9 @@ import {
 } from "@paperplane/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
+import { api } from "#trpc/server";
 
 export const columns: ColumnDef<{ name: string }>[] = [
 	{
@@ -29,21 +29,18 @@ export const columns: ColumnDef<{ name: string }>[] = [
 
 			async function importBackup() {
 				try {
-					await axios.post("/api/admin/backups/import", { id: name.replace(".zip", "") });
+					await api().v1.admin.backup.import.mutate(name.replace(".zip", ""));
 					toast({
-						title: "Backup imported",
-						description: `${name} has been imported, please restart the server as soon as possible for the changes to be processed.`
+						title: "Backup import in progress",
+						description: `${name} is being imported, you can track its status via the backups menu. Once completed, a server restart is required.`
 					});
 				} catch (err) {
-					const _error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message : "";
-					const error = _error || "n/a";
-
 					console.log(err);
 
 					toast({
 						variant: "destructive",
 						title: "Uh oh! Something went wrong",
-						description: `There was a problem with your request: ${error}`,
+						description: `There was a problem with your request: ${err.message}`,
 						action: (
 							<ToastAction altText="Try again" onClick={importBackup}>
 								Try again

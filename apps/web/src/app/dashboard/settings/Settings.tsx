@@ -1,25 +1,25 @@
 "use client";
 
-import { useSwrWithUpdates } from "@paperplane/swr";
-import { DashboardSettingsGetApi } from "@paperplane/utils";
 import React, { useEffect, useState } from "react";
 import ApiTokenSettings from "./_sections/ApiTokenSettings";
 import SettingsForm from "./_sections/Form";
 import BigRedButtons from "./_sections/BigRedButtons";
+import { PaperPlaneApiOutputs, api } from "#trpc/server";
+
+export type DashboardSettings = PaperPlaneApiOutputs["v1"]["dashboard"]["settings"]["get"];
 
 const UseDashboardSettings = () => {
-	const [settings, setSettings] = useState<DashboardSettingsGetApi>({
+	const [settings, setSettings] = useState<DashboardSettings>({
 		embedEnabled: false,
 		nameLength: 10,
 		nameStrategy: "id",
 		tokens: [],
 		embed: { title: "", description: "", color: "" }
 	});
-	const { data } = useSwrWithUpdates<DashboardSettingsGetApi>("/api/dashboard/settings");
 
 	useEffect(() => {
-		if (data) setSettings(data);
-	}, [data]);
+		void api().v1.dashboard.settings.get.query().then(setSettings);
+	}, []);
 
 	return settings;
 };

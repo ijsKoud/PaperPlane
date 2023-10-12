@@ -16,6 +16,10 @@
 		"incremental": true,
 		"verbatimModuleSyntax": false,
 		"isolatedModules": true,
+		"paths": {
+			"#trpc/*": ["./src/trpc/*"],
+			"#lib/*": ["./src/lib/*"]
+		},
 		"plugins": [
 			{
 				"name": "next"
