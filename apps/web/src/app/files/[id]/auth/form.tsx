@@ -28,7 +28,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ id }) => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			await axios.post(`/api/files/${id}`, data, { withCredentials: true });
+			await axios.post(`/api/v1/files/${id}`, data, { withCredentials: true });
 			router.push(`/files/${id}`);
 		} catch (err) {
 			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
