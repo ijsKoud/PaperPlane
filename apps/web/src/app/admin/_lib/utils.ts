@@ -7,15 +7,10 @@ import { cookies, headers } from "next/headers";
  * @returns Returns boolean depending on authentication state of the user
  */
 export const getAuthenticationState = async (): Promise<boolean> => {
-	try {
-		const cookie = cookies();
-		const host = headers().get("host")!;
+	const cookie = cookies();
+	const host = headers().get("host")!;
 
-		const authCookie = cookie.get(ADMIN_AUTHENTICATION_COOKIE)?.value;
-		const response = await api(host).v1.auth.state.admin.query(authCookie ?? "");
-		return response;
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
+	const authCookie = cookie.get(ADMIN_AUTHENTICATION_COOKIE)?.value;
+	const response = await api(host).v1.auth.state.admin.query(authCookie ?? "");
+	return response;
 };
