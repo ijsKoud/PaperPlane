@@ -1,6 +1,6 @@
 import { AuditLog } from "#components/AuditLog.js";
 import Config from "#lib/Config.js";
-import { Auth } from "#lib/index.js";
+import { Auth } from "#lib/Auth.js";
 import { ApiKeyProcedure } from "#trpc/context/ApiKey.js";
 import { createFieldError, publicProcedure, t } from "#trpc/lib.js";
 import { TRPCError } from "@trpc/server";

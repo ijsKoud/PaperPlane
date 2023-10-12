@@ -1,5 +1,5 @@
 import Config from "#lib/Config.js";
-import { Auth } from "#lib/index.js";
+import { Auth } from "#lib/Auth.js";
 import type Server from "#server.js";
 import { ApplyOptions, Route, methods } from "@snowcrystals/highway";
 import type { Request, Response } from "express";

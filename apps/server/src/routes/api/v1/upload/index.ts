@@ -1,5 +1,5 @@
 import type Domain from "#components/Domain.js";
-import { Auth } from "#lib/index.js";
+import { Auth } from "#lib/Auth.js";
 import type Server from "#server.js";
 import { ApplyOptions, Route, methods } from "@snowcrystals/highway";
 import type { NextFunction, Request, Response } from "express";
