@@ -6,28 +6,37 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@paperplane/ui/form";
 import { Input } from "@paperplane/ui/input";
 import { Loader2, PlusCircleIcon, UserIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import axios, { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
-import { CreateGetApi, STORAGE_UNITS, TIME_UNITS_ARRAY, formatBytes, parseToDay } from "@paperplane/utils";
+import { STORAGE_UNITS, TIME_UNITS_ARRAY, formatBytes } from "@paperplane/utils";
 import ms from "ms";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { ScrollArea } from "@paperplane/ui/scroll-area";
-import { useSwr } from "@paperplane/swr";
+import { PaperPlaneApiOutputs, api } from "#trpc/server";
+import { HandleTRPCFormError } from "#trpc/shared";
 
 const getStorage = (storage: number): string[] => {
 	const res = formatBytes(storage);
 	return res.split(/ +/g);
 };
 
+type DefaultCreateOptions = PaperPlaneApiOutputs["v1"]["admin"]["users"]["getDefault"];
+
+const useDefaultCreateOptions = () => {
+	const [data, setData] = useState<DefaultCreateOptions>();
+	useEffect(() => {
+		void api().v1.admin.users.getDefault.query().then(setData);
+	}, []);
+
+	return data;
+};
+
 export const CreateDialog: React.FC = () => {
 	const { toast } = useToast();
 	const [extensionDisabled, setExtensionDisabled] = useState(true);
-	const { data: createGetData } = useSwr<CreateGetApi>("/api/admin/create", undefined, (url) =>
-		axios.get(url, { withCredentials: true }).then((res) => res.data)
-	);
+	const defaultCreateOptions = useDefaultCreateOptions();
 
 	const FormSchema = z.object({
 		storage: z.number({ required_error: "A max storage is required" }).min(0, "Storage cannot be below 0 K.B"),
@@ -41,26 +50,26 @@ export const CreateDialog: React.FC = () => {
 		}),
 		auditlog: z.number({ required_error: "An auditlog duration is required" }).min(0, "Auditlog duration cannot be below 0 seconds"),
 		auditlogUnit: z.string().refine((arg) => TIME_UNITS_ARRAY.includes(arg as any), "The provided unit is not valid"),
-		domain: z.string({ required_error: "The domain is a required option" }).refine((arg) => createGetData?.domains.includes(arg)),
+		domain: z.string({ required_error: "The domain is a required option" }).refine((arg) => defaultCreateOptions?.domains.includes(arg)),
 		extension: z.string()
 	});
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		values: {
-			extensions: createGetData?.defaults.extensions ?? [],
-			extensionsMode: createGetData?.defaults.extensionsMode || "pass",
-			storage: Number(getStorage(createGetData?.defaults.maxStorage ?? 0)[0]),
-			storageUnit: getStorage(createGetData?.defaults.maxStorage ?? 0)[1] as any,
-			uploadSize: Number(getStorage(createGetData?.defaults.maxUploadSize ?? 0)[0]),
-			uploadSizeUnit: getStorage(createGetData?.defaults.maxUploadSize ?? 0)[1] as any,
+			extensions: defaultCreateOptions?.defaults.extensions ?? [],
+			extensionsMode: defaultCreateOptions?.defaults.extensionsMode || "pass",
+			storage: Number(getStorage(defaultCreateOptions?.defaults.maxStorage ?? 0)[0]),
+			storageUnit: getStorage(defaultCreateOptions?.defaults.maxStorage ?? 0)[1] as any,
+			uploadSize: Number(getStorage(defaultCreateOptions?.defaults.maxUploadSize ?? 0)[0]),
+			uploadSizeUnit: getStorage(defaultCreateOptions?.defaults.maxUploadSize ?? 0)[1] as any,
 			auditlog: Number(
-				ms(createGetData?.defaults.auditlog ?? 0)
+				ms(defaultCreateOptions?.defaults.auditlog ?? 0)
 					.split("")
 					.filter((str) => !isNaN(Number(str)))
 					.join("")
 			),
-			auditlogUnit: ms(createGetData?.defaults.auditlog ?? 0)
+			auditlogUnit: ms(defaultCreateOptions?.defaults.auditlog ?? 0)
 				.split("")
 				.filter((str) => isNaN(Number(str)))
 				.join(""),
@@ -71,25 +80,10 @@ export const CreateDialog: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			await axios.post(
-				"/api/admin/create",
-				{
-					domain: data.domain,
-					extension: data.extension,
-					extensions: data.extensions,
-					extensionsMode: data.extensionsMode,
-					auditlog: parseToDay(data.auditlog, data.auditlogUnit as any),
-					storage: `${data.storage} ${data.storageUnit}`,
-					uploadSize: `${data.uploadSize} ${data.uploadSizeUnit}`
-				},
-				{ withCredentials: true }
-			);
+			await api().v1.admin.users.create.mutate(data);
 			toast({ title: "User created", description: "A new user has been created." });
 		} catch (err) {
-			const error = "isAxiosError" in err ? (err as AxiosError<{ message: string }>).response?.data.message || "n/a" : "n/a";
-			toast({ variant: "destructive", title: "Uh oh! Something went wrong", description: `There was a problem with your request: ${error}` });
-			form.setFocus("domain");
-			console.log(err);
+			HandleTRPCFormError(err, form, "domain");
 		}
 	}
 
@@ -150,7 +144,7 @@ export const CreateDialog: React.FC = () => {
 													</SelectTrigger>
 												</FormControl>
 												<SelectContent className="overflow-y-auto max-h-56">
-													{createGetData?.domains.map((domain, key) => (
+													{defaultCreateOptions?.domains.map((domain, key) => (
 														<SelectItem key={key} value={domain}>
 															{domain}
 														</SelectItem>
