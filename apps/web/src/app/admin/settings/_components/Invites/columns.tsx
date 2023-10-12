@@ -11,12 +11,14 @@ import {
 	DropdownMenuTrigger
 } from "@paperplane/ui/dropdown-menu";
 import { Checkbox } from "@paperplane/ui/checkbox";
-import { Invite, formatDate } from "@paperplane/utils";
+import { formatDate } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
-import { api } from "#trpc/server";
+import { PaperPlaneApiOutputs, api } from "#trpc/server";
+
+type Invite = PaperPlaneApiOutputs["v1"]["admin"]["invite"]["list"]["entries"][0];
 
 export const columns: ColumnDef<Invite>[] = [
 	{

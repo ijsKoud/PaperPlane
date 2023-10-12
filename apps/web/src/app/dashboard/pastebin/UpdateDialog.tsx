@@ -68,7 +68,7 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ name, visible, data,
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
 			data.passwordEnabled = data.password ? true : data.passwordEnabled;
-			await api().v1.dashboard.bins.update.mutate({ ...data, id: name });
+			await api().v1.dashboard.bins.update.mutate({ ...data, highlight: data.highlight ?? "", id: name });
 			toast({ title: "Pastebin updated", description: "The pastebin has been updated." });
 		} catch (err) {
 			const parsedError = getTRPCError(err.message);

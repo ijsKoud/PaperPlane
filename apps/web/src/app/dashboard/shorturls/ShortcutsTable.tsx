@@ -9,10 +9,11 @@ import { columns } from "./_table/columns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { type PaperPlaneApiOutputs, api } from "#trpc/server";
 
-type ShortUrl = PaperPlaneApiOutputs["v1"]["dashboard"]["url"]["list"];
+type ShortUrlData = PaperPlaneApiOutputs["v1"]["dashboard"]["url"]["list"];
+export type ShortUrl = ShortUrlData["entries"][0];
 
 const UseShortcutsList = () => {
-	const [data, setData] = useState<ShortUrl>({ entries: [], pages: 0 });
+	const [data, setData] = useState<ShortUrlData>({ entries: [], pages: 0 });
 	const [sort, setSort] = useState<UrlsSort>(UrlsSort.DATE_NEW_OLD);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");

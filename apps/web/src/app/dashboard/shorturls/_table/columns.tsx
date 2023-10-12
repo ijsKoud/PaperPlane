@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger
 } from "@paperplane/ui/dropdown-menu";
 import { Checkbox } from "@paperplane/ui/checkbox";
-import { ApiUrl, formatDate, getProtocol } from "@paperplane/utils";
+import { formatDate, getProtocol } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
@@ -21,8 +21,9 @@ import { UpdateDialog } from "../UpdateDialog";
 import { useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@paperplane/ui/tooltip";
 import { api } from "#trpc/server";
+import { ShortUrl } from "../ShortcutsTable";
 
-export const columns: ColumnDef<ApiUrl>[] = [
+export const columns: ColumnDef<ShortUrl>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (

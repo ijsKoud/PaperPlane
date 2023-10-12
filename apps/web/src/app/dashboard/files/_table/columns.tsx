@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger
 } from "@paperplane/ui/dropdown-menu";
 import { Checkbox } from "@paperplane/ui/checkbox";
-import { ApiFile, formatDate, getProtocol } from "@paperplane/utils";
+import { formatDate, getProtocol } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
@@ -20,8 +20,9 @@ import { ToastAction } from "@paperplane/ui/toast";
 import { UpdateDialog } from "../UpdateDialog";
 import { useState } from "react";
 import { api } from "#trpc/server";
+import { File } from "../FilesDisplay";
 
-export const columns: ColumnDef<ApiFile>[] = [
+export const columns: ColumnDef<File>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (

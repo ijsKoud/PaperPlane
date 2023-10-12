@@ -38,7 +38,7 @@ export const CreateDialog: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const response = await api().v1.dashboard.bins.create.mutate(data);
+			const response = await api().v1.dashboard.bins.create.mutate({ ...data, highlight: data.highlight ?? "" });
 			form.reset(form.formState.defaultValues, { keepDirtyValues: false, keepDirty: false });
 
 			void navigator.clipboard.writeText(response);

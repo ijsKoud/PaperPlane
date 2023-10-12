@@ -3,14 +3,15 @@
 
 import { Button } from "@paperplane/ui/button";
 import { Checkbox } from "@paperplane/ui/checkbox";
-import { DashboardSettingsGetApi, formatDate } from "@paperplane/utils";
+import { formatDate } from "@paperplane/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash2Icon } from "lucide-react";
 import { useToast } from "@paperplane/ui/use-toast";
 import { ToastAction } from "@paperplane/ui/toast";
 import { api } from "#trpc/server";
+import { Token } from ".";
 
-export const columns: ColumnDef<DashboardSettingsGetApi["tokens"][0]>[] = [
+export const columns: ColumnDef<Token>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (

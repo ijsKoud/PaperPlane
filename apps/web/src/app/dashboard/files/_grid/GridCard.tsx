@@ -3,14 +3,15 @@
 import { Button } from "@paperplane/ui/button";
 import { ToastAction } from "@paperplane/ui/toast";
 import { useToast } from "@paperplane/ui/use-toast";
-import { ApiFile, cn, formatDate } from "@paperplane/utils";
+import { cn, formatDate } from "@paperplane/utils";
 import { CopyIcon, EditIcon, ExternalLinkIcon, EyeIcon, EyeOffIcon, LockIcon, Trash2Icon, UnlockIcon } from "lucide-react";
 import React, { useState } from "react";
 import { UpdateDialog } from "../UpdateDialog";
 import { api } from "#trpc/server";
+import { File } from "../FilesDisplay";
 
 export interface GridCardProps {
-	file: ApiFile;
+	file: File;
 
 	selected: boolean;
 	toggleSelected: () => void;

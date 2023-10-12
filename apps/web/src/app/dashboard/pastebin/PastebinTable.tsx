@@ -9,10 +9,11 @@ import { columns } from "./_table/columns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@paperplane/ui/select";
 import { PaperPlaneApiOutputs, api } from "#trpc/server";
 
-type Pastebin = PaperPlaneApiOutputs["v1"]["dashboard"]["bins"]["list"];
+type PastebinData = PaperPlaneApiOutputs["v1"]["dashboard"]["bins"]["list"];
+export type Pastebin = PastebinData["entries"][0];
 
 const UsePastebinList = () => {
-	const [data, setData] = useState<Pastebin>({ entries: [], pages: 0 });
+	const [data, setData] = useState<PastebinData>({ entries: [], pages: 0 });
 	const [sort, setSort] = useState<BinSort>(BinSort.DATE_NEW_OLD);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");

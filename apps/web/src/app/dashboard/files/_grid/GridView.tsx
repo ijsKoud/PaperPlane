@@ -1,6 +1,5 @@
 "use client";
 
-import { ApiFile } from "@paperplane/utils";
 import React, { useState } from "react";
 import GridCard from "./GridCard";
 import { Button } from "@paperplane/ui/button";
@@ -20,9 +19,10 @@ import {
 	AlertDialogTrigger
 } from "@paperplane/ui/alert-dialog";
 import { api } from "#trpc/server";
+import { File } from "../FilesDisplay";
 
 export interface GridViewProps {
-	files: ApiFile[];
+	files: File[];
 	page: number;
 	pages: number;
 	setPage: React.Dispatch<React.SetStateAction<number>>;
