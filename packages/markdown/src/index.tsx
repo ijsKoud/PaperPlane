@@ -15,7 +15,6 @@ const Markdown: React.FC<Props> = ({ children }) => {
 		<ReactMarkdown
 			remarkPlugins={[[remarkGfm, remarkGfmOptions]]}
 			className="react_markdown-components"
-			linkTarget="_blank"
 			components={{
 				h1: ({ node, children, ...props }) => (
 					<h1 className="text-3xl border-b border-white-200 mb-4" {...props}>
