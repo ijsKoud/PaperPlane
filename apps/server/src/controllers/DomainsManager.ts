@@ -23,8 +23,8 @@ export default class DomainsManager {
 	 * @returns
 	 */
 	public getAll(includeDisabled = false) {
-		if (includeDisabled) return this.domains;
-		return this.domains.filter((domain) => !domain.disabled);
+		if (includeDisabled) return [...this.domains.values()];
+		return [...this.domains.filter((domain) => !domain.disabled).values()];
 	}
 
 	/**
