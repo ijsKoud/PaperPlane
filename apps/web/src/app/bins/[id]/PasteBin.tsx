@@ -3,8 +3,10 @@
 import Markdown from "@paperplane/markdown";
 import { useTheme } from "next-themes";
 import React from "react";
-import SyntaxHighlighter from "react-syntax-highlighter/dist/cjs/default-highlight";
+import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark, atomOneLight } from "react-syntax-highlighter/dist/esm/styles/hljs";
+
+const Highlighter = SyntaxHighlighter as unknown as React.FC<any>;
 
 export interface PasteBinProps {
 	data: string;
@@ -17,9 +19,9 @@ const PasteBin: React.FC<PasteBinProps> = ({ data, highlight }) => {
 	return highlight === "markdown" ? (
 		<Markdown>{data}</Markdown>
 	) : (
-		<SyntaxHighlighter style={theme === "light" ? atomOneLight : atomOneDark} language={highlight} showLineNumbers>
+		<Highlighter style={theme === "light" ? atomOneLight : atomOneDark} language={highlight} showLineNumbers>
 			{data}
-		</SyntaxHighlighter>
+		</Highlighter>
 	);
 };
 

@@ -10,7 +10,7 @@ export class NotFoundError {
 	public readonly titleBack = "PLANE";
 	public readonly titleBackAlt = "P\\4N3";
 
-	private interval: NodeJS.Timer | null = null;
+	private interval: NodeJS.Timeout | null = null;
 
 	/**
 	 * Starts the interval which updates the error messages ever 2 seconds

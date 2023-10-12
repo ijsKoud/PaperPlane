@@ -20,6 +20,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { api } from "#trpc/server";
 import { HandleTRPCFormError } from "#trpc/shared";
 
+const Highlighter = SyntaxHighlighter as unknown as React.FC<any>;
+
 export const CreateDialog: React.FC = () => {
 	const { toast } = useToast();
 	const { theme } = useTheme();
@@ -134,13 +136,13 @@ export const CreateDialog: React.FC = () => {
 												<Textarea {...field} placeholder="Your inspiring qoutes here..." />
 											</TabsContent>
 											<TabsContent value="preview">
-												<SyntaxHighlighter
+												<Highlighter
 													language={form.getValues().highlight}
 													style={theme === "light" ? atomOneLight : atomOneDark}
 													showLineNumbers
 												>
 													{field.value}
-												</SyntaxHighlighter>
+												</Highlighter>
 											</TabsContent>
 										</Tabs>
 

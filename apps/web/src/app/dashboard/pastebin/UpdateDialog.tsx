@@ -21,6 +21,8 @@ import { Textarea } from "@paperplane/ui/textarea";
 import { api } from "#trpc/server";
 import { getTRPCError } from "@paperplane/utils";
 
+const Highlighter = SyntaxHighlighter as unknown as React.FC<any>;
+
 export interface UpdateDialogProps {
 	/** The name (id) of the url */
 	name: string;
@@ -174,13 +176,13 @@ export const UpdateDialog: React.FC<UpdateDialogProps> = ({ name, visible, data,
 											<Textarea {...field} placeholder="Your inspiring qoutes here..." />
 										</TabsContent>
 										<TabsContent value="preview">
-											<SyntaxHighlighter
+											<Highlighter
 												language={form.getValues().highlight}
 												style={theme === "light" ? atomOneLight : atomOneDark}
 												showLineNumbers
 											>
 												{field.value}
-											</SyntaxHighlighter>
+											</Highlighter>
 										</TabsContent>
 									</Tabs>
 
