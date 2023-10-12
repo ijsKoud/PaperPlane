@@ -1,6 +1,6 @@
 {
 	"name": "paperplane",
-	"version": "4.3.0",
+	"version": "4.3.1",
 	"workspaces": [
 		"apps/*",
 		"packages/*"
@@ -17,25 +17,25 @@
 		"postinstall": "is-ci || husky install"
 	},
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^6.6.0"
+		"@typescript-eslint/eslint-plugin": "^6.7.4"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.3.1",
-		"@next/font": "13.4.19",
+		"@next/font": "13.5.2",
 		"@tanstack/react-query": "^4.35.3",
-		"@tanstack/react-table": "8.9.8",
+		"@tanstack/react-table": "8.10.1",
 		"@trpc/client": "^10.38.3",
 		"@trpc/next": "^10.38.3",
 		"@trpc/react-query": "^10.38.3",
 		"@trpc/server": "^10.38.2",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.0.0",
-		"lucide-react": "^0.276.0",
-		"next": "^13.4.19",
+		"lucide-react": "^0.279.0",
+		"next": "^13.5.2",
 		"next-themes": "0.2.1",
 		"react": "18.2.0",
 		"react-dom": "^18.2.0",
-		"react-hook-form": "^7.46.1",
+		"react-hook-form": "^7.46.2",
 		"react-syntax-highlighter": "15.5.0",
 		"superjson": "^1.13.1",
 		"tailwind-merge": "^1.14.0",
@@ -46,11 +46,11 @@
 		"@sapphire/eslint-config": "^5.0.2",
 		"@sapphire/ts-config": "5.0.0",
 		"@snowcrystals/prettier-config": "^1.0.0",
-		"@types/node": "18.17.15",
-		"@typescript-eslint/eslint-plugin": "^6.6.0",
-		"@typescript-eslint/parser": "^6.6.0",
-		"eslint": "^8.49.0",
-		"eslint-config-next": "13.4.19",
+		"@types/node": "18.17.19",
+		"@typescript-eslint/eslint-plugin": "^6.7.2",
+		"@typescript-eslint/parser": "^6.7.2",
+		"eslint": "^8.50.0",
+		"eslint-config-next": "13.5.2",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-prettier": "^5.0.0",
 		"husky": "^8.0.3",
@@ -59,11 +59,11 @@
 		"pinst": "^3.0.0",
 		"prettier": "^3.0.3",
 		"tailwindcss": "^3.3.3",
-		"turbo": "^1.10.13",
+		"turbo": "^1.10.14",
 		"typescript": "5.2.2"
 	},
 	"engines": {
 		"node": ">= v18.16.0"
 	},
-	"packageManager": "yarn@3.6.3"
+	"packageManager": "yarn@3.6.4"
 }
