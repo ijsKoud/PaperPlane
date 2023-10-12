@@ -8,6 +8,7 @@ import { AdminSettingsRoute } from "./settings.js";
 import { AdminDomainsRoute } from "./domains.js";
 import { AdminInvitesRoute } from "./invites.js";
 import { AdminBackupsRoute } from "./backups.js";
+import { AdminUsersRoute } from "./users.js";
 
 export const AdminRoute = t.router({
 	/** returns the computer usage and other useful information */
@@ -44,5 +45,6 @@ export const AdminRoute = t.router({
 	settings: AdminSettingsRoute,
 	domains: AdminDomainsRoute,
 	invite: AdminInvitesRoute,
-	backup: AdminBackupsRoute
+	backup: AdminBackupsRoute,
+	users: AdminUsersRoute
 });
