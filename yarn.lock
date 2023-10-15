@@ -6715,7 +6715,7 @@ __metadata:
     react-dom: ^18.2.0
     react-hook-form: ^7.47.0
     react-syntax-highlighter: 15.5.0
-    superjson: ^1.13.3
+    superjson: ^2.0.0
     tailwind-merge: ^1.14.0
     tailwindcss: ^3.3.3
     tailwindcss-animate: ^1.0.7
@@ -8054,12 +8054,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superjson@npm:^1.13.3":
-  version: 1.13.3
-  resolution: "superjson@npm:1.13.3"
+"superjson@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "superjson@npm:2.0.0"
   dependencies:
     copy-anything: ^3.0.2
-  checksum: f5aeb010f24163cb871a4bc402d9164112201c059afc247a75b03131c274aea6eec9cf08be9e4a9465fe4961689009a011584528531d52f7cc91c077e07e5c75
+  checksum: 03a3d4f9bb67556b79de7cfccdd7c59b6761d40c4dccd0c94d08acb6ac7fd6db009d12a82b09f6e4f86cca2e4276be06c79a322463c8bc7aa05abcfa317ba2a6
   languageName: node
   linkType: hard
 
