@@ -64,7 +64,7 @@
 		"@types/lodash": "^4.14.199",
 		"@types/mime-types": "^2.1.2",
 		"@types/ms": "^0.7.32",
-		"@types/node": "^18.18.4",
+		"@types/node": "^18.18.5",
 		"@types/node-os-utils": "^1.3.2",
 		"@types/pidusage": "^2.0.3",
 		"@types/ua-parser-js": "^0.7.37",
