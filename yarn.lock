@@ -1445,22 +1445,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-table@npm:8.10.6":
-  version: 8.10.6
-  resolution: "@tanstack/react-table@npm:8.10.6"
+"@tanstack/react-table@npm:8.10.7":
+  version: 8.10.7
+  resolution: "@tanstack/react-table@npm:8.10.7"
   dependencies:
-    "@tanstack/table-core": 8.10.6
+    "@tanstack/table-core": 8.10.7
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 4b920fa36c70ed2de356c8c0e99f497f6ee8ab5bc74bc57f1f9aa8cc5d580ea3eb4a7743a03ad149fc43629efb157c592aba620141fb230d5529646dd6c7c002
+  checksum: f8f19ae3ad8531e0f3cb838b61213d9acd0b64b27d1a8a05a699e6ed50e25c9d3c9478ae3f6d20883288f601eec06e8264fac9503b36122471c2f8778782e1e2
   languageName: node
   linkType: hard
 
-"@tanstack/table-core@npm:8.10.6":
-  version: 8.10.6
-  resolution: "@tanstack/table-core@npm:8.10.6"
-  checksum: 05e7f15171f02053d1a9e552a7877e878a827635d3d4ed50387fa3d0e4ede9eb325eae758a4faa921dc2dd552302f4b49bb3b540e3511bff16b6a2b92d450429
+"@tanstack/table-core@npm:8.10.7":
+  version: 8.10.7
+  resolution: "@tanstack/table-core@npm:8.10.7"
+  checksum: 2a364917e7ab051ef3f33d6f18e5e1ddb75cfed4b5ee0e2b9c74a8cb72d3b86cdd4ffbab67565c68b4333f761b6fde9a7215196387a9a3b3d5811119d8859bad
   languageName: node
   linkType: hard
 
@@ -3016,13 +3016,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "cron@npm:3.1.0"
+"cron@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "cron@npm:3.1.1"
   dependencies:
     "@types/luxon": ~3.3.0
     luxon: ~3.3.0
-  checksum: aa3ab93d0f1ade6d24c117e3ecafc4b6d84c7f34228c0e9f348d9165bae421fb830bea91823fb5cb0288859a6eaaf12815ec94d0d4e6ccdbf74f4e8367c54c7d
+  checksum: 9826fec5936bc341a37258f6bd3027dae595e82f220d9981100b13f61d96465b685a2e87b353951037bbecbc82cf06f8b4cbff55456e531e40056048f8b7e7f9
   languageName: node
   linkType: hard
 
@@ -5519,12 +5519,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.286.0":
-  version: 0.286.0
-  resolution: "lucide-react@npm:0.286.0"
+"lucide-react@npm:^0.287.0":
+  version: 0.287.0
+  resolution: "lucide-react@npm:0.287.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 2bde5a18d5806595ebddcf83ca3be0db37b3d8d258af318bee4b93ea15061a6c0e69f708574a7800fa42659879b0e3c83e821ac83cf936ca603893e7f1483b4f
+  checksum: 9c49c74d0e70ae920b65a683e5e3a76ec0709bd44d5ebcc50f6bdefb57c7868e139ce58df74b31b49b2a7022b8dc7ff7fe5a8944ace335ae39dc0284786c375d
   languageName: node
   linkType: hard
 
@@ -6689,7 +6689,7 @@ __metadata:
     "@sapphire/ts-config": 5.0.0
     "@snowcrystals/prettier-config": ^1.0.0
     "@tanstack/react-query": ^4.36.1
-    "@tanstack/react-table": 8.10.6
+    "@tanstack/react-table": 8.10.7
     "@trpc/client": ^10.40.0
     "@trpc/next": ^10.40.0
     "@trpc/react-query": ^10.40.0
@@ -6706,7 +6706,7 @@ __metadata:
     husky: ^8.0.3
     is-ci: ^3.0.1
     lint-staged: ^14.0.1
-    lucide-react: ^0.286.0
+    lucide-react: ^0.287.0
     next: ^13.5.4
     next-themes: 0.2.1
     pinst: ^3.0.0
@@ -7682,7 +7682,7 @@ __metadata:
     colorette: ^2.0.20
     cookie-parser: ^1.4.6
     cors: 2.8.5
-    cron: ^3.1.0
+    cron: ^3.1.1
     dotenv: ^16.3.1
     eslint: 8.51.0
     express: ^4.18.2
