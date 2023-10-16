@@ -33,23 +33,16 @@ if (isMainThread) {
 	process.exit(1);
 }
 
-const [lastChunkId] = data.chunks.sort().reverse();
-if (data.lastChunkId !== lastChunkId) {
-	data.lastChunkId = lastChunkId;
-}
-
 async function run() {
 	logger.debug("Starting the worker");
 
-	const existingFile = await prisma.file.findFirst({ where: { domain: data.domain, id: data.filename } });
-	const fileId = existingFile ? Utils.generateId("id", 12)! : data.filename;
-
-	const filePath = join(data.destination, fileId);
+	const fileId = Auth.generateToken(32);
+	const filePath = join(data.destination, `${fileId}.${Utils.getExtension(data.mimeType)}`);
 	const stream = await open(filePath, "w");
 
 	for await (const chunk of data.chunks) {
 		const buffer = await readFile(join(data.path, chunk));
-		await stream.write(buffer);
+		await stream.write(buffer, 0, buffer.length);
 	}
 
 	const stats = await stream.stat();
@@ -62,7 +55,7 @@ async function run() {
 
 	await prisma.file.create({
 		data: {
-			id: fileId,
+			id: data.filename,
 			date: data.createdAt,
 			path: filePath,
 			domain: data.domain,
@@ -74,7 +67,7 @@ async function run() {
 		}
 	});
 
-	parentPort?.postMessage(fileId);
+	parentPort?.postMessage(data.filename);
 	logger.debug("Worker finished");
 }
 
