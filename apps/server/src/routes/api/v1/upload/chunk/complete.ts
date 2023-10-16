@@ -5,9 +5,9 @@ import { ApplyOptions, Route, methods } from "@snowcrystals/highway";
 import type { NextFunction, Request, Response } from "express";
 import { ZodError, z } from "zod";
 
-@ApplyOptions<Route.Options>({ ratelimit: { max: 25, windowMs: 1e3 }, middleware: [[methods.GET, "user-api-key"]] })
+@ApplyOptions<Route.Options>({ ratelimit: { max: 25, windowMs: 1e3 }, middleware: [[methods.POST, "user-api-key"]] })
 export default class ApiRoute extends Route<Server> {
-	public [methods.GET](req: Request, res: Response, next: NextFunction, { domain }: Record<"domain", Domain>) {
+	public async [methods.POST](req: Request, res: Response, next: NextFunction, { domain }: Record<"domain", Domain>) {
 		const body = this.parseBody(req.body);
 		if (body instanceof ZodError) {
 			const errors = Utils.parseZodError(body);
@@ -34,6 +34,7 @@ export default class ApiRoute extends Route<Server> {
 
 		clearTimeout(partialFileHandler.timeout);
 		domain.partialFileManager.partials.delete(body.id);
+		await this.server.prisma.partialFile.delete({ where: { path: partialFileHandler.path } });
 
 		res.status(200).send({ status: "FINISHED", url: `${req.protocol}://${domain.domain}/files/${partialFileHandler.documentId}` });
 	}
