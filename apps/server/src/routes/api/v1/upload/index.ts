@@ -1,5 +1,6 @@
 import type Domain from "#components/Domain.js";
 import { Auth } from "#lib/Auth.js";
+import { Utils } from "#lib/utils.js";
 import type Server from "#server.js";
 import { ApplyOptions, Route, methods } from "@snowcrystals/highway";
 import type { NextFunction, Request, Response } from "express";
@@ -35,7 +36,7 @@ export default class ApiRoute extends Route<Server> {
 			const uploadConfig = this.parseFields(fields);
 			if (uploadedFiles.length === 1) {
 				const file = await domain.registerFile(uploadedFiles[0], uploadConfig);
-				const fileUrl = `${req.protocol}://${domain}/files/${file}`;
+				const fileUrl = `${Utils.getProtocol()}${domain}/files/${file}`;
 				res.send({ url: fileUrl, files: { [uploadedFiles[0].originalFilename!]: fileUrl } });
 				return;
 			}
@@ -49,7 +50,7 @@ export default class ApiRoute extends Route<Server> {
 			res.send({
 				url: registedFiles[0].url,
 				files: registedFiles
-					.map((file) => ({ [file.name]: `${req.protocol}://${domain}/files/${file.url}` }))
+					.map((file) => ({ [file.name]: `${Utils.getProtocol()}${domain}/files/${file.url}` }))
 					.reduce((a, b) => ({ ...a, ...b }), {})
 			});
 		} catch (err) {

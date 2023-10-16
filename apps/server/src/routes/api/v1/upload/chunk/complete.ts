@@ -36,7 +36,7 @@ export default class ApiRoute extends Route<Server> {
 		domain.partialFileManager.partials.delete(body.id);
 		await this.server.prisma.partialFile.delete({ where: { path: partialFileHandler.path } });
 
-		res.status(200).send({ status: "FINISHED", url: `${req.protocol}://${domain.domain}/files/${partialFileHandler.documentId}` });
+		res.status(200).send({ status: "FINISHED", url: `${Utils.getProtocol()}${domain.domain}/files/${partialFileHandler.documentId}` });
 	}
 
 	/**

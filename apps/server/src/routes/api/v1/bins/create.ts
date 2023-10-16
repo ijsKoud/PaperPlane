@@ -46,7 +46,7 @@ export default class ApiRoute extends Route<Server> {
 
 			domain.auditlogs.register("Pastebin Created", `Id: ${id}`);
 			res.status(200).json({
-				url: `${req.protocol}://${domain}/bins/${id}`,
+				url: `${Utils.getProtocol()}${domain}/bins/${id}`,
 				visible: pastebin.visible,
 				password: Boolean(pastebin.password),
 				highlight: pastebin.highlight,

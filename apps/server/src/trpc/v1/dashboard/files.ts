@@ -20,7 +20,7 @@ export const filesRoute = t.router({
 		})
 	).query(async (opt) => {
 		const { query, page, sort } = opt.input;
-		const { domain, server, req } = opt.ctx;
+		const { domain, server } = opt.ctx;
 
 		let entries = await server.prisma.file.findMany({ where: { domain: domain.domain } });
 
@@ -40,7 +40,7 @@ export const filesRoute = t.router({
 			views: file.views,
 			visible: file.visible,
 			ext: Utils.getExtension(file.mimeType || lookup(file.path) || "") || "",
-			url: `${req.protocol}://${domain}/files/${file.id}`
+			url: `${Utils.getProtocol()}${domain}/files/${file.id}`
 		}));
 
 		return {

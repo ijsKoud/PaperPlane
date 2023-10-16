@@ -29,7 +29,7 @@ export default class ApiRoute extends Route<Server> {
 			const url = await this.server.prisma.url.create({
 				data: { date: new Date(), url: body.url, id: path, visible: body.visible, domain: domain.domain }
 			});
-			res.send({ url: `${req.protocol}://${domain.domain}/r/${path}`, date: url.date, visible: url.visible });
+			res.send({ url: `${Utils.getProtocol()}${domain.domain}/r/${path}`, date: url.date, visible: url.visible });
 		} catch (err) {
 			this.server.logger.fatal("[URL:CREATE]: Fatal error while creating a shorturl", err);
 			res.status(500).send({

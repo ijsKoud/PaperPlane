@@ -54,7 +54,7 @@ export const urlRoute = t.router({
 		})
 	).mutation(async (opt) => {
 		const { url, name, visible } = opt.input;
-		const { server, domain, req } = opt.ctx;
+		const { server, domain } = opt.ctx;
 
 		const links = await server.prisma.url.findMany({ where: { domain: domain.domain } });
 		const strategy = domain.nameStrategy === "name" ? "id" : domain.nameStrategy;
@@ -68,7 +68,7 @@ export const urlRoute = t.router({
 
 		try {
 			await server.prisma.url.create({ data: { date: new Date(), url, id: path, visible, domain: domain.domain } });
-			return `${req.protocol}://${domain.domain}/r/${path}`;
+			return `${Utils.getProtocol()}${domain.domain}/r/${path}`;
 		} catch (err) {
 			server.logger.fatal("[URL:CREATE]: Fatal error while uploading a shorturl", err);
 			throw new TRPCError({

@@ -21,7 +21,7 @@ export const binsRoute = t.router({
 		})
 	).query(async (opt) => {
 		const { query, page, sort } = opt.input;
-		const { domain, server, req } = opt.ctx;
+		const { domain, server } = opt.ctx;
 
 		let entries = await server.prisma.pastebin.findMany({ where: { domain: domain.domain } });
 
@@ -39,7 +39,7 @@ export const binsRoute = t.router({
 			highlight: bin.highlight,
 			views: bin.views,
 			visible: bin.visible,
-			url: `${req.protocol}://${domain}/bins/${bin.id}`
+			url: `${Utils.getProtocol()}${domain}/bins/${bin.id}`
 		}));
 
 		return {
@@ -74,7 +74,7 @@ export const binsRoute = t.router({
 			visible: z.boolean(),
 			passwordEnabled: z.boolean(),
 			password: z.string().optional(),
-			data: z.string().nonempty("Pastebin content is required"),
+			data: z.string().min(1, "Pastebin content is required"),
 			highlight: z.string({ required_error: "A valid highlight type is required" })
 		})
 	).mutation(async (opt) => {
@@ -116,7 +116,7 @@ export const binsRoute = t.router({
 		})
 	).mutation(async (opt) => {
 		const { name, visible, password, data, highlight } = opt.input;
-		const { server, domain, req } = opt.ctx;
+		const { server, domain } = opt.ctx;
 
 		const config = Config.getEnv();
 		const pastebins = await server.prisma.pastebin.findMany({ where: { domain: domain.domain } });
@@ -145,7 +145,7 @@ export const binsRoute = t.router({
 
 			domain.auditlogs.register("Pastebin Created", `Id: ${id}`);
 
-			return `${req.protocol}://${domain}/bins/${id}`;
+			return `${Utils.getProtocol()}${domain}/bins/${id}`;
 		} catch (err) {
 			server.logger.fatal("[BIN:CREATE]: Fatal error while deleting files", err);
 			throw new TRPCError({
