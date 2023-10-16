@@ -14,7 +14,7 @@ export function generateMetadata({ params }: { params: Record<string, string> })
 
 const Page: React.FC<PageProps<Params<"id">>> = async ({ params }) => {
 	const host = headers().get("host")!;
-	const status = await axios.get(`${getProtocol()}${host}/api/v1/bins/${params.id}`, { headers: { Cookie: cookies().toString() } });
+	const status = await axios.get(`${getProtocol()}${host}/api/internal/bins/${params.id}`, { headers: { Cookie: cookies().toString() } });
 	if (typeof status.data === "object") redirect(`/bins/${params.id}`);
 
 	return (

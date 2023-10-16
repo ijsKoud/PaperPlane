@@ -8,7 +8,7 @@ import FileView from "./FileView";
 
 export async function generateMetadata({ params }: { params: Record<string, string> }): Promise<Metadata> {
 	const host = headers().get("host")!;
-	const { data: file } = await axios.get<FileResponse>(`${getProtocol()}${host}/api/v1/files/${params.id}`, {
+	const { data: file } = await axios.get<FileResponse>(`${getProtocol()}${host}/api/internal/files/${params.id}`, {
 		headers: { Cookie: cookies().toString() }
 	});
 
@@ -50,7 +50,7 @@ export interface FileResponse {
 
 const Page: React.FC<PageProps<Params<"id">>> = async ({ params }) => {
 	const host = headers().get("host")!;
-	const { data: file } = await axios.get<FileResponse>(`${getProtocol()}${host}/api/v1/files/${params.id}`, {
+	const { data: file } = await axios.get<FileResponse>(`${getProtocol()}${host}/api/internal/files/${params.id}`, {
 		headers: { Cookie: cookies().toString() }
 	});
 	if (typeof file !== "object") redirect(`/files/${params.id}/auth`);
