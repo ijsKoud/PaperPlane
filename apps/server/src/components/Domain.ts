@@ -14,6 +14,7 @@ import { PastebinReadScheduler } from "./Domain/PastebinReadScheduler.js";
 import { FileViewScheduler } from "./Domain/FIleViewScheduler.js";
 import { ShorturlVisitScheduler } from "./Domain/ShorturlVisitScheduler.js";
 import type formidable from "formidable";
+import PartialFileManager from "#controllers/PartialFileManager.js";
 
 type iDomain = DomainInterface & {
 	apiTokens: Token[];
@@ -72,6 +73,7 @@ export default class Domain {
 	public embedEnabled!: boolean;
 
 	public auditlogs: AuditLog;
+	public partialFileManager!: PartialFileManager;
 
 	public pastebins = new PastebinReadScheduler(this);
 	public files = new FileViewScheduler(this);
@@ -92,6 +94,9 @@ export default class Domain {
 		await this.recordStorage();
 		await this.syncStorage();
 		await this.auditlogs.start();
+
+		const partialFiles = await this.server.prisma.partialFile.findMany({ where: { domain: this.domain } });
+		this.partialFileManager = new PartialFileManager(this, partialFiles);
 	}
 
 	/** Resets this domain and removes all the data from the system */

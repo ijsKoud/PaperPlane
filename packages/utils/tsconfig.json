@@ -4,7 +4,8 @@
 		"outDir": "../dist",
 		"module": "ESNext",
 		"target": "ESNext",
-		"moduleResolution": "node"
+		"moduleResolution": "node",
+		"lib": ["dom", "dom.iterable", "esnext"]
 	},
 	"include": ["**/*.ts", "**/*.tsx", "../../package.json"]
 }
