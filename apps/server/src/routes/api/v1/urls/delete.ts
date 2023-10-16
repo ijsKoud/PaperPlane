@@ -27,7 +27,7 @@ export default class ApiRoute extends Route<Server> {
 			await this.server.prisma.url.delete({ where: { id_domain: { domain: domain.domain, id: body.name } } });
 			res.sendStatus(204);
 		} catch (err) {
-			this.server.logger.fatal("[URL:CREATE]: Fatal error while deleting a shorturl", err);
+			this.server.logger.fatal("[URL:DELETE]: Fatal error while deleting a shorturl", err);
 			res.status(500).send({
 				errors: [
 					{

@@ -19,7 +19,7 @@ export default class ApiRoute extends Route<Server> {
 
 			res.status(200).json(url);
 		} catch (err) {
-			this.server.logger.fatal("[URL:CREATE]: Fatal error while fetching a shorturl", err);
+			this.server.logger.fatal("[URL:GET]: Fatal error while fetching a shorturl", err);
 			res.status(500).send({
 				errors: [
 					{
