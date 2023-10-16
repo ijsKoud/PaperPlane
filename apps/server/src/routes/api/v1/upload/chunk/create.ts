@@ -16,6 +16,39 @@ export default class ApiRoute extends Route<Server> {
 			return;
 		}
 
+		switch (domain.extensionsMode) {
+			case "block":
+				if (domain.extensions.includes(Utils.getExtension(body.mimeType)!)) {
+					res.status(403).send({
+						errors: [
+							{
+								field: "mimeType",
+								code: "DISALLOWED_EXTENSION",
+								message: "The provided mime-type and its file-extension are not allowed."
+							}
+						]
+					});
+
+					return;
+				}
+				break;
+			case "pass":
+				if (!domain.extensions.includes(Utils.getExtension(body.mimeType)!)) {
+					res.status(403).send({
+						errors: [
+							{
+								field: "mimeType",
+								code: "DISALLOWED_EXTENSION",
+								message: "The provided mime-type and its file-extension are not allowed."
+							}
+						]
+					});
+
+					return;
+				}
+				break;
+		}
+
 		const existingFile = await this.server.prisma.partialFile.findFirst({ where: { filename: body.filename, domain: domain.domain } });
 		if (existingFile) {
 			res.status(409).send({
