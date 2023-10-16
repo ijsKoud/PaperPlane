@@ -7,6 +7,7 @@ import { AdminUserSort, BinSort, FilesSort, UrlsSort } from "./types.js";
 import type { File, Pastebin, Url } from "@prisma/client";
 import { extension } from "mime-types";
 import { STORAGE_UNITS } from "./constants.js";
+import type { ZodError } from "zod";
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Utils {
@@ -18,6 +19,15 @@ export class Utils {
 		while (i < L) result.push(arr.slice(i, (i += size)));
 
 		return result;
+	}
+
+	/** Maps the zod errors */
+	public static parseZodError(error: ZodError) {
+		return error.errors.map((error) => ({
+			field: error.path.map((path) => (typeof path === "number" ? `[${path}]` : `${path}`)).join("."),
+			code: error.code.toUpperCase(),
+			message: error.message
+		}));
 	}
 
 	public static getExtension(type: string): string | null {
