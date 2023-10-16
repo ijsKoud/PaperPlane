@@ -101,7 +101,7 @@ export default class Config {
 			this.server.logger.info(`[CONFIG]: Updated mime-types for ${count} files`);
 		}
 
-		if (extension) {
+		if (!extension) {
 			for await (const file of files) {
 				if (file.id.includes(".") || ["\u200B", "\u2060", "\u200C", "\u200D"].some((str) => file.id.includes(str))) continue;
 
