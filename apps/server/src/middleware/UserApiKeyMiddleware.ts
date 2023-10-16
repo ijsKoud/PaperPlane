@@ -12,10 +12,15 @@ export default class userApiKeyMiddleware extends Middleware<Server> {
 		const authCookie: string = req.cookies[USER_AUTHENTICATION_COOKIE] ?? "";
 		const config = Config.getEnv();
 
+		const unauthorizedError = { field: null, code: "UNAUTHORIZED", messsage: "An API key is required for this api route" };
+
 		try {
 			if (authHeader.length) {
 				const host = this.server.domains.domains.find((dm) => dm.apiTokens.find((key) => key.token === authHeader));
-				if (!host) throw new Error("Unauthorized");
+				if (!host) {
+					res.status(404).send({ errors: [unauthorizedError] });
+					return;
+				}
 
 				context.domain = host;
 				return next();
@@ -27,19 +32,33 @@ export default class userApiKeyMiddleware extends Middleware<Server> {
 				const host = this.server.domains.domains.find((dm) => dm.domain.startsWith(Array.isArray(hostName) ? hostName[0] : hostName));
 
 				const verify = Auth.verifyJWTToken(authCookie, config.encryptionKey, host?.pathId || req.hostname);
-				if (!verify) throw new Error("Unauthorized");
+				if (!verify) {
+					res.status(404).send({ errors: [unauthorizedError] });
+					return;
+				}
 
 				context.domain = host;
 				return next();
 			}
 
-			throw new Error("Unauthorized");
+			res.status(404).send({ errors: [unauthorizedError] });
 		} catch (err) {
-			res.status(401).send({ message: err.message });
+			this.server.logger.fatal("[USER_API_KEY_MIDDLEWARE]: Fatal error authenticating user", err);
+			res.status(500).send({
+				errors: [{ field: null, code: "INTERNAL_SERVER_ERROR", message: "Unknown server error, please try again later." }]
+			});
 		}
 	}
 
 	public [methods.POST](req: Request, res: Response, next: NextFunction, context: Record<string, any>) {
+		return this.middleware(req, res, next, context);
+	}
+
+	public [methods.DELETE](req: Request, res: Response, next: NextFunction, context: Record<string, any>) {
+		return this.middleware(req, res, next, context);
+	}
+
+	public [methods.GET](req: Request, res: Response, next: NextFunction, context: Record<string, any>) {
 		return this.middleware(req, res, next, context);
 	}
 }

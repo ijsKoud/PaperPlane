@@ -110,7 +110,7 @@ export const binsRoute = t.router({
 		z.object({
 			name: z.string().optional(),
 			visible: z.boolean(),
-			data: z.string().nonempty("Pastebin content is required"),
+			data: z.string().min(1, "Pastebin content is required"),
 			highlight: z.string({ required_error: "A valid highlight type is required" }),
 			password: z.string().optional()
 		})
