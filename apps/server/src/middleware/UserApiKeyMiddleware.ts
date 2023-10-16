@@ -42,4 +42,12 @@ export default class userApiKeyMiddleware extends Middleware<Server> {
 	public [methods.POST](req: Request, res: Response, next: NextFunction, context: Record<string, any>) {
 		return this.middleware(req, res, next, context);
 	}
+
+	public [methods.DELETE](req: Request, res: Response, next: NextFunction, context: Record<string, any>) {
+		return this.middleware(req, res, next, context);
+	}
+
+	public [methods.GET](req: Request, res: Response, next: NextFunction, context: Record<string, any>) {
+		return this.middleware(req, res, next, context);
+	}
 }
