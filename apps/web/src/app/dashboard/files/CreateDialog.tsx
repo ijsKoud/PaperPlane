@@ -10,10 +10,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "@paperplane/ui/switch";
-import axios, { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { useToast } from "@paperplane/ui/use-toast";
 import Dropzone from "react-dropzone";
 import { ApiErrorResponse, formatBytes } from "@paperplane/utils";
+import FileUploader from "@paperplane/utils/FileUploader";
 
 export const CreateDialog: React.FC = () => {
 	const { toast } = useToast();
@@ -31,18 +32,10 @@ export const CreateDialog: React.FC = () => {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const formData = new FormData();
-			formData.set("visible", `${data.visible}`);
-			formData.set("file", data.file);
-			if (data.name) formData.set("name", data.name);
-			if (data.password) formData.set("password", data.password);
+			const uploader = new FileUploader(data.file);
+			const url = await uploader.upload(data);
 
-			const response = await axios.post<{ files: Record<string, string>; url: string }>("/api/v1/upload", formData, {
-				withCredentials: true,
-				headers: { "Content-Type": "multipart/form-data" }
-			});
-
-			void navigator.clipboard.writeText(response.data.url);
+			void navigator.clipboard.writeText(url);
 			toast({ title: "File uploaded", description: "A new file has been created and the url has been copied to your clipboard." });
 			form.reset({ visible: true }, { keepDirty: false });
 		} catch (err) {
