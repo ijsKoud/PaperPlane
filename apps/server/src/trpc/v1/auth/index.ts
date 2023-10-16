@@ -59,6 +59,7 @@ export const AuthRoute = t.router({
 
 					server.adminAuditLogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 					res.cookie("PAPERPLANE-ADMIN", Auth.createJWTToken("admin", config.encryptionKey), { maxAge: 6.048e8 });
+					await new Promise((res) => setTimeout(res, 1e3));
 					return;
 				}
 
@@ -75,6 +76,7 @@ export const AuthRoute = t.router({
 
 				domain.auditlogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 				res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain.pathId, config.encryptionKey), { maxAge: 6.048e8 });
+				await new Promise((res) => setTimeout(res, 1e3));
 				return;
 			}
 
@@ -97,6 +99,7 @@ export const AuthRoute = t.router({
 
 			domain.auditlogs.register("Login", `${ua.browser.name}-${ua.browser.version} on ${ua.os.name}-${ua.os.version}`);
 			res.cookie("PAPERPLANE-AUTH", Auth.createJWTToken(domain!.pathId, config.encryptionKey), { maxAge: 6.048e8 });
+			await new Promise((res) => setTimeout(res, 1e3));
 		}),
 	signup: SignUpAuthRoute,
 	reset: ResetAuthRoute,
