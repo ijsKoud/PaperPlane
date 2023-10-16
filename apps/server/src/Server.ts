@@ -56,7 +56,7 @@ export default class Server extends HighwayServer {
 			dir: join(process.cwd(), "..", "web")
 		});
 
-		this.express.set("trust proxy", 1);
+		this.express.enable("trust proxy");
 		this.express.use(
 			cors({ origin: "*", methods: ["GET", "DELETE", "POST", "PUT"] }),
 			cookieParser(),
