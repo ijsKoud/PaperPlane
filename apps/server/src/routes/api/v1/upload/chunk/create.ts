@@ -50,7 +50,7 @@ export default class ApiRoute extends Route<Server> {
 		}
 
 		const existingFile = await this.server.prisma.partialFile.findFirst({ where: { filename: body.filename, domain: domain.domain } });
-		if (existingFile) {
+		if (existingFile && body.filename) {
 			res.status(409).send({
 				errors: [{ field: "filename", code: "DUPLICATE_FIELD", message: "A file with the provided filename already exists" }]
 			});
