@@ -16,24 +16,24 @@ export default class ApiRoute extends Route<Server> {
 		}
 
 		try {
-			const pastebin = await this.server.prisma.pastebin.findFirst({ where: { id: body.name, domain: domain.domain } });
-			if (!pastebin) {
+			const file = await this.server.prisma.file.findFirst({ where: { id: body.name, domain: domain.domain } });
+			if (!file) {
 				res.status(404).send({
-					errors: [{ field: "name", code: "BIN_NOT_FOUND", message: "A pastebin with the provided name does not exist" }]
+					errors: [{ field: "name", code: "FILE_NOT_FOUND", message: "A file with the provided name does not exist" }]
 				});
 				return;
 			}
 
-			await this.server.prisma.pastebin.delete({ where: { id_domain: { domain: domain.domain, id: body.name } } });
+			await this.server.prisma.file.delete({ where: { id_domain: { domain: domain.domain, id: body.name } } });
 			res.sendStatus(204);
 		} catch (err) {
-			this.server.logger.fatal("[PASTEBIN:DELETE]: Fatal error while deleting a pastebin", err);
+			this.server.logger.fatal("[FILE:DELETE]: Fatal error while deleting a file", err);
 			res.status(500).send({
 				errors: [
 					{
 						field: null,
 						code: "INTERNAL_SERVER_ERROR",
-						message: "Unknown error occurred while deleting a pastebin, please try again later."
+						message: "Unknown error occurred while deleting a file, please try again later."
 					}
 				]
 			});
@@ -47,7 +47,7 @@ export default class ApiRoute extends Route<Server> {
 	 */
 	private parseBody(body: any) {
 		const schema = z.object({
-			name: z.string({ invalid_type_error: "Property 'name' must be a string", required_error: "The pastebin name is required" })
+			name: z.string({ invalid_type_error: "Property 'name' must be a string", required_error: "The file name is required" })
 		});
 
 		try {
