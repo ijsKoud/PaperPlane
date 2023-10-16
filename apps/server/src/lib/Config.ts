@@ -30,19 +30,18 @@ export default class Config {
 	public constructor(public server: Server) {}
 
 	public async start() {
-		const dataDir = join(process.cwd(), "..", "..", "data");
-		await mkdir(join(dataDir, "logs"), { recursive: true });
-		await mkdir(join(dataDir, "files"), { recursive: true });
-		await mkdir(join(dataDir, "paste-bins"), { recursive: true });
-		await mkdir(join(dataDir, "backups", "archives"), { recursive: true });
-		await mkdir(join(dataDir, "backups", "temp"), { recursive: true });
+		await mkdir(join(Config.dataDirectory, "logs"), { recursive: true });
+		await mkdir(join(Config.dataDirectory, "files"), { recursive: true });
+		await mkdir(join(Config.dataDirectory, "paste-bins"), { recursive: true });
+		await mkdir(join(Config.dataDirectory, "backups", "archives"), { recursive: true });
+		await mkdir(join(Config.dataDirectory, "backups", "temp"), { recursive: true });
 
 		// Check if mime-types/extensions are already updated
-		const flagsRaw = await readFile(join(dataDir, "flags.json"), "utf-8").catch(() => "{}");
+		const flagsRaw = await readFile(join(Config.dataDirectory, "flags.json"), "utf-8").catch(() => "{}");
 		const flags: Record<string, boolean> = JSON.parse(flagsRaw);
 
 		await this.updateFiles(flags["mime-type"], flags.extension);
-		await writeFile(join(dataDir, "flags.json"), JSON.stringify({ "mime-type": true, extension: true }));
+		await writeFile(join(Config.dataDirectory, "flags.json"), JSON.stringify({ "mime-type": true, extension: true }));
 
 		const config = Config.getEnv();
 		await Config.updateEnv(config);
@@ -119,6 +118,7 @@ export default class Config {
 	}
 
 	public static logger = new Logger({ name: "CONFIG" });
+	public static dataDirectory = join(process.cwd(), "..", "..", "data");
 
 	public static get VERSION(): string {
 		const file = readFileSync(join(process.cwd(), "..", "..", "package.json"), "utf-8");
