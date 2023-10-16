@@ -57,7 +57,7 @@ export default class PartialFile {
 	 * @param file The file chunk to register
 	 */
 	public async registerUpload(file: formidable.File) {
-		const chunkId = (this.lastChunkId ? this.lastChunkId + 1 : 0).toString();
+		const chunkId = (this.lastChunkId ? Number(this.lastChunkId) + 1 : 0).toString();
 		this.lastChunkId = chunkId;
 		this.chunks.push(chunkId);
 
@@ -130,7 +130,7 @@ export default class PartialFile {
 		const password = data.password ? Auth.encryptPassword(data.password, config.encryptionKey) : undefined;
 
 		const client = new PrismaClient();
-		const file = await client.partialFile.create({ data: { ...data, id, path, filename, password } });
+		const file = await client.partialFile.create({ data: { ...data, id, path, filename, password, domain: manager.domain.domain } });
 
 		return new PartialFile(manager, file);
 	}
