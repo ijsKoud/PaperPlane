@@ -5,7 +5,7 @@ import { ApplyOptions, Route, methods } from "@snowcrystals/highway";
 import type { NextFunction, Request, Response } from "express";
 import formidable from "formidable";
 
-@ApplyOptions<Route.Options>({ ratelimit: { max: 2, windowMs: 1e3 }, middleware: [[methods.POST, "user-api-key"]] })
+@ApplyOptions<Route.Options>({ ratelimit: { max: 25, windowMs: 1e3 / 2 }, middleware: [[methods.POST, "user-api-key"]] })
 export default class ApiRoute extends Route<Server> {
 	public async [methods.POST](req: Request, res: Response, next: NextFunction, context: Record<"domain", Domain>) {
 		const { domain } = context;
