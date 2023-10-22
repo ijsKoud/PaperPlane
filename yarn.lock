@@ -237,10 +237,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/env@npm:13.5.5"
-  checksum: 4e3a92f2bd60189d81eb0437bf8141de26dec371edc125553c2d93b1de4c40ce99e8c81f60d8450961fab5c8880a6bcfccd23d9ef9c86aceab2f5380776def9f
+"@next/env@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/env@npm:13.5.6"
+  checksum: 5e8f3f6f987a15dad3cd7b2bcac64a6382c2ec372d95d0ce6ab295eb59c9731222017eebf71ff3005932de2571f7543bce7e5c6a8c90030207fb819404138dc2
   languageName: node
   linkType: hard
 
@@ -253,72 +253,72 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/font@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/font@npm:13.5.5"
-  checksum: 1f25e0286b090fc36e614ddec9ff4d4f26fd198fbea3d3c0a89cfcfbb3a660186a45c9049491ab362c8d048d7cd4691dc923afcf888eee1f28e6d3f5eb94c190
+"@next/font@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/font@npm:13.5.6"
+  checksum: 12aa997147094bb122e2e22b29a2f6c1872de37fca0b444f20aa5c48e20bd8176c7d8661c1c597a43d528c7dc75d3acc44bc08c47aa716a5ab450fca68e4c814
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-darwin-arm64@npm:13.5.5"
+"@next/swc-darwin-arm64@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-darwin-arm64@npm:13.5.6"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-darwin-x64@npm:13.5.5"
+"@next/swc-darwin-x64@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-darwin-x64@npm:13.5.6"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-linux-arm64-gnu@npm:13.5.5"
+"@next/swc-linux-arm64-gnu@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-linux-arm64-gnu@npm:13.5.6"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-linux-arm64-musl@npm:13.5.5"
+"@next/swc-linux-arm64-musl@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-linux-arm64-musl@npm:13.5.6"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-linux-x64-gnu@npm:13.5.5"
+"@next/swc-linux-x64-gnu@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-linux-x64-gnu@npm:13.5.6"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-linux-x64-musl@npm:13.5.5"
+"@next/swc-linux-x64-musl@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-linux-x64-musl@npm:13.5.6"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-win32-arm64-msvc@npm:13.5.5"
+"@next/swc-win32-arm64-msvc@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-win32-arm64-msvc@npm:13.5.6"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-ia32-msvc@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-win32-ia32-msvc@npm:13.5.5"
+"@next/swc-win32-ia32-msvc@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-win32-ia32-msvc@npm:13.5.6"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:13.5.5":
-  version: 13.5.5
-  resolution: "@next/swc-win32-x64-msvc@npm:13.5.5"
+"@next/swc-win32-x64-msvc@npm:13.5.6":
+  version: 13.5.6
+  resolution: "@next/swc-win32-x64-msvc@npm:13.5.6"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -1382,15 +1382,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snowcrystals/highway@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "@snowcrystals/highway@npm:1.1.3"
+"@snowcrystals/highway@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "@snowcrystals/highway@npm:1.1.4"
   dependencies:
     "@discordjs/collection": ^1.5.3
     express: ^4.18.2
-    express-rate-limit: ^6.11.0
-    glob: ^10.3.4
-  checksum: 9ce4295962e3bf4a7985f6c643e7c7f620c65fc346b5bcc25a1f04df819aec16f9e0991c7aa59ca1753426c7c49bf29e346a8af20f1de9f896871870256d9647
+    express-rate-limit: ^7.1.1
+    glob: ^10.3.10
+  checksum: 8e981676ad76f2bba1deb9d0b3e37361a08d874b19b400592ec0954e89bf50b4fe88ce33e16c329526d6bb198996e311a3076eb70c3d98a9d49da15d9730417a
   languageName: node
   linkType: hard
 
@@ -1472,49 +1472,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:^10.40.0":
-  version: 10.40.0
-  resolution: "@trpc/client@npm:10.40.0"
+"@trpc/client@npm:^10.41.0":
+  version: 10.41.0
+  resolution: "@trpc/client@npm:10.41.0"
   peerDependencies:
-    "@trpc/server": 10.40.0
-  checksum: b0375431ef6239dc3a95142ffcc259d23d5901d613d1eede17a6c78fa3bff06595249984d5d5b6f279297f4fcda4e4fa92fbc8a54a71b1cb4ed84ba1c49bce7b
+    "@trpc/server": 10.41.0
+  checksum: 0ff5d6a117ef9424bd35d1bc051d54f64b2757ff7c857d1aa83f015112725946cb9021d8814296dd3b3fb5d204122794ba2c50f7a3f7fe73783aca52cc1dd4eb
   languageName: node
   linkType: hard
 
-"@trpc/next@npm:^10.40.0":
-  version: 10.40.0
-  resolution: "@trpc/next@npm:10.40.0"
+"@trpc/next@npm:^10.41.0":
+  version: 10.41.0
+  resolution: "@trpc/next@npm:10.41.0"
   dependencies:
     react-ssr-prepass: ^1.5.0
   peerDependencies:
     "@tanstack/react-query": ^4.18.0
-    "@trpc/client": 10.40.0
-    "@trpc/react-query": 10.40.0
-    "@trpc/server": 10.40.0
+    "@trpc/client": 10.41.0
+    "@trpc/react-query": 10.41.0
+    "@trpc/server": 10.41.0
     next: "*"
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 225086efde6d07ec0eb9814e4a11ddb21745b78d37087c75dad1059ee24a70a2aeef4fcf09ecdeeefd0a80aacf2f3f6500e18e65ca7a8a1c8655c9cecc3fec19
+  checksum: 91bbc71ce9012c11ea72ef9a532b5840377195562378487ed73d5eb8dfdfda9d79d4b2aebb76b7b2104399105366e996808a32770b08f56a4359fb1c24ec6ca8
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.40.0":
-  version: 10.40.0
-  resolution: "@trpc/react-query@npm:10.40.0"
+"@trpc/react-query@npm:^10.41.0":
+  version: 10.41.0
+  resolution: "@trpc/react-query@npm:10.41.0"
   peerDependencies:
     "@tanstack/react-query": ^4.18.0
-    "@trpc/client": 10.40.0
-    "@trpc/server": 10.40.0
+    "@trpc/client": 10.41.0
+    "@trpc/server": 10.41.0
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 1175952d350c07a8174eb9c47b11b350dae96080ae0f0a0b60212cedaba68609163df0dba6a4588bfcdc4614b071fa1a8f9552aacdb1d76c5bfc86f916c4bbe2
+  checksum: 9459cf4c6d393956ee01d0562ebacf55709dce2c81da153ac43fbbba105079675740853091f93db3be694cc975f5ec357354af02ca1507862577039f33dfa916
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^10.40.0":
-  version: 10.40.0
-  resolution: "@trpc/server@npm:10.40.0"
-  checksum: 343d765002573b7f0d800de76b9d649de4245174454198ecd39fe7b98db07f09e6aadfcaab2f2654780826e996f1b28abe82b55965dce91f80b666e5864d17da
+"@trpc/server@npm:^10.41.0":
+  version: 10.41.0
+  resolution: "@trpc/server@npm:10.41.0"
+  checksum: 251a23c1f5031a604e7b883e98f5a0b17dbad93351e721a2677fefc9733aac80e3a6b37f144be4112f9502a43d07cdfe5735157e741d57a59dc70eb120fe007b
   languageName: node
   linkType: hard
 
@@ -3017,13 +3017,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "cron@npm:3.1.1"
+"cron@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "cron@npm:3.1.3"
   dependencies:
     "@types/luxon": ~3.3.0
-    luxon: ~3.3.0
-  checksum: 9826fec5936bc341a37258f6bd3027dae595e82f220d9981100b13f61d96465b685a2e87b353951037bbecbc82cf06f8b4cbff55456e531e40056048f8b7e7f9
+    luxon: ~3.4.0
+  checksum: 92c8a04c477e36bf3b555d1e60528fa9b5efe35bfd484c8c891fea41cadeeed9ef3120a58dcf05944f7bc0e5fd0ef6070bc8968837bf7e33765a4d296f2b0146
   languageName: node
   linkType: hard
 
@@ -3896,15 +3896,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:^6.11.0":
-  version: 6.11.2
-  resolution: "express-rate-limit@npm:6.11.2"
-  peerDependencies:
-    express: ^4 || ^5
-  checksum: 3cc4032ee2f7063647f45e338e10c9a67d8595a0f9a5a291d6633b6d96aab6201c8943bae74491f824cb6230a59921daec95ef4e22c1112759a766456c0f1f19
-  languageName: node
-  linkType: hard
-
 "express-rate-limit@npm:^7.1.1":
   version: 7.1.1
   resolution: "express-rate-limit@npm:7.1.1"
@@ -4398,7 +4389,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^10.2.2, glob@npm:^10.3.4":
+"glob@npm:^10.2.2":
   version: 10.3.4
   resolution: "glob@npm:10.3.4"
   dependencies:
@@ -4410,6 +4401,21 @@ __metadata:
   bin:
     glob: dist/cjs/src/bin.js
   checksum: 176b97c124414401cb51329a93d2ba112cef8814adbed10348481916b9521b677773eee2691cb6b24d66632d8c8bb8913533f5ac4bfb2d0ef5454a1856082361
+  languageName: node
+  linkType: hard
+
+"glob@npm:^10.3.10":
+  version: 10.3.10
+  resolution: "glob@npm:10.3.10"
+  dependencies:
+    foreground-child: ^3.1.0
+    jackspeak: ^2.3.5
+    minimatch: ^9.0.1
+    minipass: ^5.0.0 || ^6.0.2 || ^7.0.0
+    path-scurry: ^1.10.1
+  bin:
+    glob: dist/esm/bin.mjs
+  checksum: 4f2fe2511e157b5a3f525a54092169a5f92405f24d2aed3142f4411df328baca13059f4182f1db1bf933e2c69c0bd89e57ae87edd8950cba8c7ccbe84f721cf3
   languageName: node
   linkType: hard
 
@@ -5196,6 +5202,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jackspeak@npm:^2.3.5":
+  version: 2.3.6
+  resolution: "jackspeak@npm:2.3.6"
+  dependencies:
+    "@isaacs/cliui": ^8.0.2
+    "@pkgjs/parseargs": ^0.11.0
+  dependenciesMeta:
+    "@pkgjs/parseargs":
+      optional: true
+  checksum: 57d43ad11eadc98cdfe7496612f6bbb5255ea69fe51ea431162db302c2a11011642f50cfad57288bd0aea78384a0612b16e131944ad8ecd09d619041c8531b54
+  languageName: node
+  linkType: hard
+
 "jiti@npm:^1.18.2":
   version: 1.20.0
   resolution: "jiti@npm:1.20.0"
@@ -5546,19 +5565,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.287.0":
-  version: 0.287.0
-  resolution: "lucide-react@npm:0.287.0"
+"lucide-react@npm:^0.288.0":
+  version: 0.288.0
+  resolution: "lucide-react@npm:0.288.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 9c49c74d0e70ae920b65a683e5e3a76ec0709bd44d5ebcc50f6bdefb57c7868e139ce58df74b31b49b2a7022b8dc7ff7fe5a8944ace335ae39dc0284786c375d
+  checksum: 0738a035d41e9777d4fbb198b5e10911110ecb271774c2925073f4d298cb587df0b6b6cf5f885d967d2c65c362c821835895b735ecc01b98d37d0bc39e8aae00
   languageName: node
   linkType: hard
 
-"luxon@npm:~3.3.0":
-  version: 3.3.0
-  resolution: "luxon@npm:3.3.0"
-  checksum: 50cf17a0dc155c3dcacbeae8c0b7e80db425e0ba97b9cbdf12a7fc142d841ff1ab1560919f033af46240ed44e2f70c49f76e3422524c7fc8bb8d81ca47c66187
+"luxon@npm:~3.4.0":
+  version: 3.4.3
+  resolution: "luxon@npm:3.4.3"
+  checksum: 3eade81506224d038ed24035a0cd0dd4887848d7eba9361dce9ad8ef81380596a68153240be3988721f9690c624fb449fcf8fd8c3fc0681a6a8496faf48e92a3
   languageName: node
   linkType: hard
 
@@ -6356,20 +6375,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^13.5.5":
-  version: 13.5.5
-  resolution: "next@npm:13.5.5"
+"next@npm:^13.5.6":
+  version: 13.5.6
+  resolution: "next@npm:13.5.6"
   dependencies:
-    "@next/env": 13.5.5
-    "@next/swc-darwin-arm64": 13.5.5
-    "@next/swc-darwin-x64": 13.5.5
-    "@next/swc-linux-arm64-gnu": 13.5.5
-    "@next/swc-linux-arm64-musl": 13.5.5
-    "@next/swc-linux-x64-gnu": 13.5.5
-    "@next/swc-linux-x64-musl": 13.5.5
-    "@next/swc-win32-arm64-msvc": 13.5.5
-    "@next/swc-win32-ia32-msvc": 13.5.5
-    "@next/swc-win32-x64-msvc": 13.5.5
+    "@next/env": 13.5.6
+    "@next/swc-darwin-arm64": 13.5.6
+    "@next/swc-darwin-x64": 13.5.6
+    "@next/swc-linux-arm64-gnu": 13.5.6
+    "@next/swc-linux-arm64-musl": 13.5.6
+    "@next/swc-linux-x64-gnu": 13.5.6
+    "@next/swc-linux-x64-musl": 13.5.6
+    "@next/swc-win32-arm64-msvc": 13.5.6
+    "@next/swc-win32-ia32-msvc": 13.5.6
+    "@next/swc-win32-x64-msvc": 13.5.6
     "@swc/helpers": 0.5.2
     busboy: 1.6.0
     caniuse-lite: ^1.0.30001406
@@ -6407,7 +6426,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: 034a52cf9a5df79912ad67467e00ab98e6505a7544514a12d6310d67fea760764f6b04ade344d457aadecb6170dd50eb0709346fd97a9e6659fcabd5e510fb97
+  checksum: c869b0014ae921ada3bf22301985027ec320aebcd6aa9c16e8afbded68bb8def5874cca034c680e8c351a79578f1e514971d02777f6f0a5a1d7290f25970ac0d
   languageName: node
   linkType: hard
 
@@ -6711,16 +6730,16 @@ __metadata:
   resolution: "paperplane@workspace:."
   dependencies:
     "@hookform/resolvers": ^3.3.2
-    "@next/font": 13.5.5
+    "@next/font": 13.5.6
     "@sapphire/eslint-config": ^5.0.2
     "@sapphire/ts-config": 5.0.0
     "@snowcrystals/prettier-config": ^1.0.0
     "@tanstack/react-query": ^4.36.1
     "@tanstack/react-table": 8.10.7
-    "@trpc/client": ^10.40.0
-    "@trpc/next": ^10.40.0
-    "@trpc/react-query": ^10.40.0
-    "@trpc/server": ^10.40.0
+    "@trpc/client": ^10.41.0
+    "@trpc/next": ^10.41.0
+    "@trpc/react-query": ^10.41.0
+    "@trpc/server": ^10.41.0
     "@types/node": 18.18.5
     "@typescript-eslint/eslint-plugin": ^6.8.0
     "@typescript-eslint/parser": ^6.8.0
@@ -6733,8 +6752,8 @@ __metadata:
     husky: ^8.0.3
     is-ci: ^3.0.1
     lint-staged: ^15.0.1
-    lucide-react: ^0.287.0
-    next: ^13.5.5
+    lucide-react: ^0.288.0
+    next: ^13.5.6
     next-themes: 0.2.1
     pinst: ^3.0.0
     prettier: ^3.0.3
@@ -7688,7 +7707,7 @@ __metadata:
   dependencies:
     "@discordjs/collection": ^1.5.3
     "@prisma/client": ^5.4.2
-    "@snowcrystals/highway": ^1.1.3
+    "@snowcrystals/highway": ^1.1.4
     "@snowcrystals/icicle": ^2.0.4
     "@types/cookie-parser": ^1.4.4
     "@types/cors": 2.8.14
@@ -7709,7 +7728,7 @@ __metadata:
     colorette: ^2.0.20
     cookie-parser: ^1.4.6
     cors: 2.8.5
-    cron: ^3.1.1
+    cron: ^3.1.3
     dotenv: ^16.3.1
     eslint: 8.51.0
     express: ^4.18.2
