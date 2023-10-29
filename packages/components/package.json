@@ -29,7 +29,7 @@
 		"rc-progress": "^3.5.1"
 	},
 	"devDependencies": {
-		"@types/react": "^18.2.31",
+		"@types/react": "^18.2.33",
 		"@types/react-dom": "^18.2.14",
 		"eslint": "8.52.0",
 		"typescript": "^5.2.2"
