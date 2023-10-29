@@ -385,7 +385,7 @@ __metadata:
     "@paperplane/utils": "*"
     "@types/react": ^18.2.33
     "@types/react-dom": ^18.2.14
-    axios: ^1.5.1
+    axios: ^1.6.0
     cookies-next: 4.0.0
     eslint: 8.52.0
     ms: ^2.1.3
@@ -434,7 +434,7 @@ __metadata:
   dependencies:
     "@types/react": ^18.2.33
     "@types/react-dom": ^18.2.14
-    axios: ^1.5.1
+    axios: ^1.6.0
     eslint: 8.52.0
     swr: ^2.2.4
     typescript: ^5.2.2
@@ -477,7 +477,7 @@ __metadata:
   resolution: "@paperplane/utils@workspace:packages/utils"
   dependencies:
     "@sapphire/timestamp": ^1.0.1
-    axios: 1.5.1
+    axios: 1.6.0
     eslint: 8.52.0
     typescript: ^5.2.2
   languageName: unknown
@@ -504,31 +504,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:^5.4.2":
-  version: 5.4.2
-  resolution: "@prisma/client@npm:5.4.2"
+"@prisma/client@npm:^5.5.2":
+  version: 5.5.2
+  resolution: "@prisma/client@npm:5.5.2"
   dependencies:
-    "@prisma/engines-version": 5.4.1-2.ac9d7041ed77bcc8a8dbd2ab6616b39013829574
+    "@prisma/engines-version": 5.5.1-1.aebc046ce8b88ebbcb45efe31cbe7d06fd6abc0a
   peerDependencies:
     prisma: "*"
   peerDependenciesMeta:
     prisma:
       optional: true
-  checksum: e01aebad95a6168668a214784e036ba4d6c6ac2c7eff35c7c3b1b729d2fc70b7f1addfce8a8550b24ffadf9be45538f2bd8a2257dfac9ec18d1d900437bf6660
+  checksum: 71ac5830041106070744645b882aa3270b8fb2d4a6bdf844c5e936543b2fccc3a6939e2ce47a5aad07f5c958e97ade06b7843a6664d8c9038403a357d04c5f88
   languageName: node
   linkType: hard
 
-"@prisma/engines-version@npm:5.4.1-2.ac9d7041ed77bcc8a8dbd2ab6616b39013829574":
-  version: 5.4.1-2.ac9d7041ed77bcc8a8dbd2ab6616b39013829574
-  resolution: "@prisma/engines-version@npm:5.4.1-2.ac9d7041ed77bcc8a8dbd2ab6616b39013829574"
-  checksum: 493f84e8856bf214c64177f879f7009740156492a3e1b42cd02e91eec273a5d290bfdde9ca32c361cd8a0616a33d903163582a51e44a79a6b6b318f72130517f
+"@prisma/engines-version@npm:5.5.1-1.aebc046ce8b88ebbcb45efe31cbe7d06fd6abc0a":
+  version: 5.5.1-1.aebc046ce8b88ebbcb45efe31cbe7d06fd6abc0a
+  resolution: "@prisma/engines-version@npm:5.5.1-1.aebc046ce8b88ebbcb45efe31cbe7d06fd6abc0a"
+  checksum: bd0a1dd20f9c69526099800a9b1870ab5969ad8da728e3cec676b826f5d7e8751e118486901bde2f14f4edce02e98a26da1ad93560c4b51ec38be3356b1b6913
   languageName: node
   linkType: hard
 
-"@prisma/engines@npm:5.4.2":
-  version: 5.4.2
-  resolution: "@prisma/engines@npm:5.4.2"
-  checksum: 90bec53c85e800291a3cf9f02f4979bd8177225077178fb292ea100b47af0e6d5c9a31bf3630f1dcfd23829299fe7685e386fc57a3d7ff3bf0c25c3704ce971f
+"@prisma/engines@npm:5.5.2":
+  version: 5.5.2
+  resolution: "@prisma/engines@npm:5.5.2"
+  checksum: 45c74bd3db7ae3c6544e0d5303d7750a59b2fbc6cd9b33898ef3680fdbcfdb112a3058c2dfda03b0605156b8051624c2b85de8ccad25b7d859043ecf51a7cac3
   languageName: node
   linkType: hard
 
@@ -1438,18 +1438,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.0.0":
-  version: 5.0.0
-  resolution: "@tanstack/query-core@npm:5.0.0"
-  checksum: 19ef7a26d114b03f5899d209ec88c815fc4887c3b3682aca2ec7765b3430bcd085ddccd8434a702affe9ce22c2f3fd5575b823d01ea1f6497c16bb05ec83d668
+"@tanstack/query-core@npm:5.0.5":
+  version: 5.0.5
+  resolution: "@tanstack/query-core@npm:5.0.5"
+  checksum: 8df99b29c136d597b89bd49aba49c26c33f5ffc6d034a7c42e57a85e9be831cbb576822b02472cfdba467f76389dd4e0f8c1d3b2f82f68222f7e3e2ad2b749b9
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@tanstack/react-query@npm:5.0.0"
+"@tanstack/react-query@npm:^5.0.5":
+  version: 5.0.5
+  resolution: "@tanstack/react-query@npm:5.0.5"
   dependencies:
-    "@tanstack/query-core": 5.0.0
+    "@tanstack/query-core": 5.0.5
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
@@ -1459,7 +1459,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 266cdf25aa7a35f44f0f00628b42f815f945e5cbbe2ff0e7d1d40f3800aca430ef1e43c7718bb8cd8ae039f1a483517275f4aaa41932c2d7cf6da374dda4c8b7
+  checksum: 8c4db91b2dc72e4a9ff94dad1143b2a157fe3516a1f875366ad2dd2e66cde0c37a6613ac828a998401ea21d745591d0c477e6bf62a0676cd6eb3088cae01ec38
   languageName: node
   linkType: hard
 
@@ -1489,49 +1489,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:^10.41.0":
-  version: 10.41.0
-  resolution: "@trpc/client@npm:10.41.0"
+"@trpc/client@npm:^10.43.0":
+  version: 10.43.0
+  resolution: "@trpc/client@npm:10.43.0"
   peerDependencies:
-    "@trpc/server": 10.41.0
-  checksum: 0ff5d6a117ef9424bd35d1bc051d54f64b2757ff7c857d1aa83f015112725946cb9021d8814296dd3b3fb5d204122794ba2c50f7a3f7fe73783aca52cc1dd4eb
+    "@trpc/server": 10.43.0
+  checksum: b64560aef37a37e5657ef170f51329f6b0fe3c18362967d14888bfa20f418a7d13aa04d667665611d85252f4f5297c00c07cb6eab4ec5aaa652e2d3188c0e150
   languageName: node
   linkType: hard
 
-"@trpc/next@npm:^10.41.0":
-  version: 10.41.0
-  resolution: "@trpc/next@npm:10.41.0"
+"@trpc/next@npm:^10.43.0":
+  version: 10.43.0
+  resolution: "@trpc/next@npm:10.43.0"
   dependencies:
     react-ssr-prepass: ^1.5.0
   peerDependencies:
     "@tanstack/react-query": ^4.18.0
-    "@trpc/client": 10.41.0
-    "@trpc/react-query": 10.41.0
-    "@trpc/server": 10.41.0
+    "@trpc/client": 10.43.0
+    "@trpc/react-query": 10.43.0
+    "@trpc/server": 10.43.0
     next: "*"
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 91bbc71ce9012c11ea72ef9a532b5840377195562378487ed73d5eb8dfdfda9d79d4b2aebb76b7b2104399105366e996808a32770b08f56a4359fb1c24ec6ca8
+  checksum: 1243ab164f53669f57166f41b22ea64682719361495d0f624d2d6e597bf8ec3a110490c95a2425f54fac835f8daf035e0e8ae49a25ed2ac364812c1ed95a57e2
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.41.0":
-  version: 10.41.0
-  resolution: "@trpc/react-query@npm:10.41.0"
+"@trpc/react-query@npm:^10.43.0":
+  version: 10.43.0
+  resolution: "@trpc/react-query@npm:10.43.0"
   peerDependencies:
     "@tanstack/react-query": ^4.18.0
-    "@trpc/client": 10.41.0
-    "@trpc/server": 10.41.0
+    "@trpc/client": 10.43.0
+    "@trpc/server": 10.43.0
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 9459cf4c6d393956ee01d0562ebacf55709dce2c81da153ac43fbbba105079675740853091f93db3be694cc975f5ec357354af02ca1507862577039f33dfa916
+  checksum: bb57c0e771347d6a5d3a7586083fc39152f5f306a3984b37b875336347bf63968e56e354d46ee259027f310d592c8f8b585414abd9f3204570cf984f9d53eca8
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^10.41.0":
-  version: 10.41.0
-  resolution: "@trpc/server@npm:10.41.0"
-  checksum: 251a23c1f5031a604e7b883e98f5a0b17dbad93351e721a2677fefc9733aac80e3a6b37f144be4112f9502a43d07cdfe5735157e741d57a59dc70eb120fe007b
+"@trpc/server@npm:^10.43.0":
+  version: 10.43.0
+  resolution: "@trpc/server@npm:10.43.0"
+  checksum: 62c5299b71569b8d8197b539ca4b79eebfff85e2f29a4fef42c43fa760f088dad8aca70336174dff9a01423953f7b0fb9927bc5ccf0a18bca2b2eeedf17f51cf
   languageName: node
   linkType: hard
 
@@ -2467,14 +2467,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.5.1, axios@npm:^1.5.1":
-  version: 1.5.1
-  resolution: "axios@npm:1.5.1"
+"axios@npm:1.6.0, axios@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "axios@npm:1.6.0"
   dependencies:
     follow-redirects: ^1.15.0
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: 4444f06601f4ede154183767863d2b8e472b4a6bfc5253597ed6d21899887e1fd0ee2b3de792ac4f8459fe2e359d2aa07c216e45fd8b9e4e0688a6ebf48a5a8d
+  checksum: c7c9f2ae9e0b9bad7d6f9a4dff030930b12ee667dedf54c3c776714f91681feb743c509ac0796ae5c01e12c4ab4a2bee74905068dd200fbc1ab86f9814578fb0
   languageName: node
   linkType: hard
 
@@ -3036,13 +3036,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cron@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "cron@npm:3.1.3"
+"cron@npm:^3.1.5":
+  version: 3.1.5
+  resolution: "cron@npm:3.1.5"
   dependencies:
     "@types/luxon": ~3.3.0
     luxon: ~3.4.0
-  checksum: 92c8a04c477e36bf3b555d1e60528fa9b5efe35bfd484c8c891fea41cadeeed9ef3120a58dcf05944f7bc0e5fd0ef6070bc8968837bf7e33765a4d296f2b0146
+  checksum: cd2dfd4c928360f669aeb3f8fd141fc8ddb2301e4161a700414f54ab4995a462c4457de8b97ce0e759c5c8113af313351302f4654ed4c7f5be09addbf3bacf72
   languageName: node
   linkType: hard
 
@@ -3922,6 +3922,15 @@ __metadata:
   peerDependencies:
     express: ^4 || ^5
   checksum: d5b6a171e7faad25ef38e280cc442fb3baa252b95a16c2fcaee4df04e17af25d89f5f05b9c45bdf4e465f01b3ec9ddab783e7a7427c1bb2138a51592845d2a3c
+  languageName: node
+  linkType: hard
+
+"express-rate-limit@npm:^7.1.3":
+  version: 7.1.3
+  resolution: "express-rate-limit@npm:7.1.3"
+  peerDependencies:
+    express: 4 || 5 || ^5.0.0-beta.1
+  checksum: a56deb8e8b706810ec17ce54e8bcfb818b283b9059739a34e589f4cd28ae3b6c12b8aa19d4ab64333bebf9bf4ac41a2b4685021df066628418f248b7dfb70d94
   languageName: node
   linkType: hard
 
@@ -5585,12 +5594,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.288.0":
-  version: 0.288.0
-  resolution: "lucide-react@npm:0.288.0"
+"lucide-react@npm:^0.290.0":
+  version: 0.290.0
+  resolution: "lucide-react@npm:0.290.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 0738a035d41e9777d4fbb198b5e10911110ecb271774c2925073f4d298cb587df0b6b6cf5f885d967d2c65c362c821835895b735ecc01b98d37d0bc39e8aae00
+  checksum: c12cc136e3a48abaa3b1718c473a68d3ecdfbf0d4319c3f42526c41beb96acd59d2883e4176885a61b4617f30d0573a103fc31d52369d6e04851357e2a4e157c
   languageName: node
   linkType: hard
 
@@ -6754,12 +6763,12 @@ __metadata:
     "@sapphire/eslint-config": ^5.0.2
     "@sapphire/ts-config": 5.0.0
     "@snowcrystals/prettier-config": ^1.0.0
-    "@tanstack/react-query": ^5.0.0
+    "@tanstack/react-query": ^5.0.5
     "@tanstack/react-table": 8.10.7
-    "@trpc/client": ^10.41.0
-    "@trpc/next": ^10.41.0
-    "@trpc/react-query": ^10.41.0
-    "@trpc/server": ^10.41.0
+    "@trpc/client": ^10.43.0
+    "@trpc/next": ^10.43.0
+    "@trpc/react-query": ^10.43.0
+    "@trpc/server": ^10.43.0
     "@types/node": 18.18.7
     "@typescript-eslint/eslint-plugin": ^6.9.0
     "@typescript-eslint/parser": ^6.9.0
@@ -6772,7 +6781,7 @@ __metadata:
     husky: ^8.0.3
     is-ci: ^3.0.1
     lint-staged: ^15.0.2
-    lucide-react: ^0.288.0
+    lucide-react: ^0.290.0
     next: ^13.5.6
     next-themes: 0.2.1
     pinst: ^3.0.0
@@ -6781,7 +6790,7 @@ __metadata:
     react-dom: ^18.2.0
     react-hook-form: ^7.47.0
     react-syntax-highlighter: 15.5.0
-    superjson: ^2.0.0
+    superjson: ^2.2.0
     tailwind-merge: ^1.14.0
     tailwindcss: ^3.3.5
     tailwindcss-animate: ^1.0.7
@@ -7059,14 +7068,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^5.4.2":
-  version: 5.4.2
-  resolution: "prisma@npm:5.4.2"
+"prisma@npm:^5.5.2":
+  version: 5.5.2
+  resolution: "prisma@npm:5.5.2"
   dependencies:
-    "@prisma/engines": 5.4.2
+    "@prisma/engines": 5.5.2
   bin:
     prisma: build/index.js
-  checksum: 863b34fb16960b533a3ec0e8d1e32f6a9caf99849ade9157beea74ef708695281b318b9d2afac0a12953b1ff27df111a8fdb37324a6e6b060d255ae51a53c8c5
+  checksum: 0f728d5953f8acb136708021da909ae9b22068bd19952378b545520ce6ce4e43f38db53fc3002866ff44dd0372b19460cc7b8c8558664492b26de6687da8680b
   languageName: node
   linkType: hard
 
@@ -7726,7 +7735,7 @@ __metadata:
   resolution: "server@workspace:apps/server"
   dependencies:
     "@discordjs/collection": ^1.5.3
-    "@prisma/client": ^5.4.2
+    "@prisma/client": ^5.5.2
     "@snowcrystals/highway": ^1.1.4
     "@snowcrystals/icicle": ^2.0.4
     "@types/cookie-parser": ^1.4.5
@@ -7743,16 +7752,16 @@ __metadata:
     "@types/node-os-utils": ^1.3.3
     "@types/pidusage": ^2.0.4
     "@types/ua-parser-js": ^0.7.38
-    axios: ^1.5.1
+    axios: ^1.6.0
     body-parser: ^1.20.2
     colorette: ^2.0.20
     cookie-parser: ^1.4.6
     cors: 2.8.5
-    cron: ^3.1.3
+    cron: ^3.1.5
     dotenv: ^16.3.1
     eslint: 8.52.0
     express: ^4.18.2
-    express-rate-limit: ^7.1.1
+    express-rate-limit: ^7.1.3
     formidable: ^3.5.1
     fuse.js: ^6.6.2
     jsonwebtoken: ^9.0.2
@@ -7762,10 +7771,10 @@ __metadata:
     node-2fa: ^2.0.3
     node-os-utils: ^1.3.7
     pidusage: ^3.0.2
-    prisma: ^5.4.2
+    prisma: ^5.5.2
     short-unique-id: ^5.0.3
     typescript: ^5.2.2
-    ua-parser-js: ^1.0.36
+    ua-parser-js: ^1.0.37
     winston: ^3.11.0
     winston-daily-rotate-file: ^4.7.1
     zip-lib: ^0.7.3
@@ -8120,12 +8129,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superjson@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "superjson@npm:2.0.0"
+"superjson@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "superjson@npm:2.2.0"
   dependencies:
     copy-anything: ^3.0.2
-  checksum: 03a3d4f9bb67556b79de7cfccdd7c59b6761d40c4dccd0c94d08acb6ac7fd6db009d12a82b09f6e4f86cca2e4276be06c79a322463c8bc7aa05abcfa317ba2a6
+  checksum: d55b44297048ba67c4a4b3d74f224fe485d06fd9a29bde0e5ffc012eb41f95587013989f278ed469f242cdd8322c3a301543c54c29fd8edf6c3367a9245e516d
   languageName: node
   linkType: hard
 
@@ -8533,10 +8542,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ua-parser-js@npm:^1.0.36":
-  version: 1.0.36
-  resolution: "ua-parser-js@npm:1.0.36"
-  checksum: 5b2c8a5e3443dfbba7624421805de946457c26ae167cb2275781a2729d1518f7067c9d5c74c3b0acac4b9ff3278cae4eace08ca6eecb63848bc3b2f6a63cc975
+"ua-parser-js@npm:^1.0.37":
+  version: 1.0.37
+  resolution: "ua-parser-js@npm:1.0.37"
+  checksum: 4d481c720d523366d7762dc8a46a1b58967d979aacf786f9ceceb1cd767de069f64a4bdffb63956294f1c0696eb465ddb950f28ba90571709e33521b4bd75e07
   languageName: node
   linkType: hard
 
@@ -8771,7 +8780,7 @@ __metadata:
     "@types/react": ^18.2.33
     "@types/react-dom": ^18.2.14
     "@types/react-syntax-highlighter": ^15.5.9
-    axios: ^1.5.1
+    axios: ^1.6.0
     eslint: 8.52.0
     file-saver: ^2.0.5
     ms: ^2.1.3
