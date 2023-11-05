@@ -255,10 +255,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/env@npm:14.0.0"
-  checksum: 50d906fa92f32755dba45ac3b330fdacd9bfba31e836586c15f75e34dc01ef414da871554de94f7e2f1e056fd426a010df4a0b948a8547242fd031f3fbd4571f
+"@next/env@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/env@npm:14.0.1"
+  checksum: e0dad5ba1e68e05563d11524dd8d866a52e9c414d3cfb34bbc9d3c2618cff4bf0696effc3851249dcbcf76322c2c8fa3e413a7f5729881ea56dfcfbe3fe992d3
   languageName: node
   linkType: hard
 
@@ -271,72 +271,72 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/font@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/font@npm:14.0.0"
-  checksum: 34cc37a693536317bdb2bc468d026a033fd3ebb7b6c3a2e207e8eb02eb65b031341680f5c1e76f01ee87b46c6f37ac7fc149da7b9e81b7519585066de36b8ae7
+"@next/font@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/font@npm:14.0.1"
+  checksum: 8722f030ef78bfd637a499c592b6b515aece363f9951e3e365f8633c33edd6a03de0ad174c65743fb83aee756142fa38f11c15008e5a5990311fea3c065e1035
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-darwin-arm64@npm:14.0.0"
+"@next/swc-darwin-arm64@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-darwin-arm64@npm:14.0.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-darwin-x64@npm:14.0.0"
+"@next/swc-darwin-x64@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-darwin-x64@npm:14.0.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-linux-arm64-gnu@npm:14.0.0"
+"@next/swc-linux-arm64-gnu@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-linux-arm64-gnu@npm:14.0.1"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-linux-arm64-musl@npm:14.0.0"
+"@next/swc-linux-arm64-musl@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-linux-arm64-musl@npm:14.0.1"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-linux-x64-gnu@npm:14.0.0"
+"@next/swc-linux-x64-gnu@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-linux-x64-gnu@npm:14.0.1"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-linux-x64-musl@npm:14.0.0"
+"@next/swc-linux-x64-musl@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-linux-x64-musl@npm:14.0.1"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-win32-arm64-msvc@npm:14.0.0"
+"@next/swc-win32-arm64-msvc@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-win32-arm64-msvc@npm:14.0.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-ia32-msvc@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-win32-ia32-msvc@npm:14.0.0"
+"@next/swc-win32-ia32-msvc@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-win32-ia32-msvc@npm:14.0.1"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/swc-win32-x64-msvc@npm:14.0.0"
+"@next/swc-win32-x64-msvc@npm:14.0.1":
+  version: 14.0.1
+  resolution: "@next/swc-win32-x64-msvc@npm:14.0.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -1438,18 +1438,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.0.5":
-  version: 5.0.5
-  resolution: "@tanstack/query-core@npm:5.0.5"
-  checksum: 50715a800fe0a134b47c13978f4d52fd1b807087862181144ba03108d3a3a91f86769402fd42d454bf9ac8e9f8ac6681e362d14b9c476b9b3c06cd4d6f25bfd4
+"@tanstack/query-core@npm:5.4.3":
+  version: 5.4.3
+  resolution: "@tanstack/query-core@npm:5.4.3"
+  checksum: 01a0ffab4dfae4741f2629a2884fceb1af7cb5e280f3e37952bff4af7210cc57a69b2683cea16099b68af4fdd858f2bbd6b5a76d4f847a07cec2ae1b3f598839
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.0.5":
-  version: 5.0.5
-  resolution: "@tanstack/react-query@npm:5.0.5"
+"@tanstack/react-query@npm:^5.7.0":
+  version: 5.7.0
+  resolution: "@tanstack/react-query@npm:5.7.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.0.5"
+    "@tanstack/query-core": "npm:5.4.3"
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
@@ -1459,7 +1459,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 517dd5d4928ec129b2c44030105eb3ea8f63443e1dfaed6f152e18a4091b923973cb77cef07b926dfec6056228ff6663275285c23c5616978850f9277fd750cd
+  checksum: 0f8c0423c4c4ee639222c6d9e71afa6471844fb60780009e4b8e4917515b82c28ae97a845f0bfb3dd2d6b5b80e506e8a0fb64d0cba361a9d2d818827e6c62dec
   languageName: node
   linkType: hard
 
@@ -1489,49 +1489,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@trpc/client@npm:^10.43.0":
-  version: 10.43.0
-  resolution: "@trpc/client@npm:10.43.0"
+"@trpc/client@npm:^10.43.1":
+  version: 10.43.1
+  resolution: "@trpc/client@npm:10.43.1"
   peerDependencies:
-    "@trpc/server": 10.43.0
-  checksum: db5964ac6a10e089f55a03c3d621ce187bda26abe77fa7252644725d23a601a1155cb25895896cb0fba972751ef8b87d12721186b5dd55c852b854dcd3011859
+    "@trpc/server": 10.43.1
+  checksum: 370546793dc7963aa7367c66f156f897b0f85f17f0de68d309b81fd899f1bf9d19ad95443cc8379be3b192fcd272ca699533ad80692fda6a586cf648300406c3
   languageName: node
   linkType: hard
 
-"@trpc/next@npm:^10.43.0":
-  version: 10.43.0
-  resolution: "@trpc/next@npm:10.43.0"
+"@trpc/next@npm:^10.43.1":
+  version: 10.43.1
+  resolution: "@trpc/next@npm:10.43.1"
   dependencies:
     react-ssr-prepass: "npm:^1.5.0"
   peerDependencies:
     "@tanstack/react-query": ^4.18.0
-    "@trpc/client": 10.43.0
-    "@trpc/react-query": 10.43.0
-    "@trpc/server": 10.43.0
+    "@trpc/client": 10.43.1
+    "@trpc/react-query": 10.43.1
+    "@trpc/server": 10.43.1
     next: "*"
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: c4affc9e9236af5253e472805458b8d30681df8c7db6a84d6c1c35426c944f7ed370da38234656e6cce98467dd19fb75176bd0af69f030a1125aa9508de2e7ee
+  checksum: aa68b2c7bb3424f22087e9794c91ca7165d0791856064795257dbf99d1f84c8cc8151f020904b16b95f7f94059f0deda51c42e0794f9b2d79494d026e92afbb3
   languageName: node
   linkType: hard
 
-"@trpc/react-query@npm:^10.43.0":
-  version: 10.43.0
-  resolution: "@trpc/react-query@npm:10.43.0"
+"@trpc/react-query@npm:^10.43.1":
+  version: 10.43.1
+  resolution: "@trpc/react-query@npm:10.43.1"
   peerDependencies:
     "@tanstack/react-query": ^4.18.0
-    "@trpc/client": 10.43.0
-    "@trpc/server": 10.43.0
+    "@trpc/client": 10.43.1
+    "@trpc/server": 10.43.1
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 7164c92793c23596d968fc513b4c0a73d39c15534faa7fac159aae155f2ed2224100e54fffc2a856c97bab7e20342c7a9a56b1d9af1ecc6826add5dfabe66332
+  checksum: d17f52f410c64f6c0acdff0fb2fadffeee94a0fa6e05f571f7166516093c67e2a82cad969ba03925cf5532dd9d04abca246bc839e51d20d15de9252abfb27db8
   languageName: node
   linkType: hard
 
-"@trpc/server@npm:^10.43.0":
-  version: 10.43.0
-  resolution: "@trpc/server@npm:10.43.0"
-  checksum: 3db6087ceb3df26655fb74ffebf4556782291a237488153613b132d80fa1657dabc0ae7577d98b54a47a419849aa96fedd8ab1d5034f364580407ef4f48d7258
+"@trpc/server@npm:^10.43.1":
+  version: 10.43.1
+  resolution: "@trpc/server@npm:10.43.1"
+  checksum: 3b504d0e602eda61ab166b677660a53801a9971a6ee7cc68c0dfe42ab79e78dff2af5955c635a0d7a2124a09b49de7fb59f25ffa5e64387ed1df54939294bb78
   languageName: node
   linkType: hard
 
@@ -5594,12 +5594,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.290.0":
-  version: 0.290.0
-  resolution: "lucide-react@npm:0.290.0"
+"lucide-react@npm:^0.292.0":
+  version: 0.292.0
+  resolution: "lucide-react@npm:0.292.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 97ae1be6295c4dfcb8d9d22363462eaa86b670cefbd10acc34d12bb72884d3a98b0e32fbb21abf799ea6e017e23848df508390824a66100222c229077ff2c207
+  checksum: 877aa4f28c6c7e2a1d46865bbdf43d34a5d7f7e529eaa95d7ef35f82e8e19203bb9da893a462e0078e1850374d42e36a5df2eb49f6316654e011867c604c8067
   languageName: node
   linkType: hard
 
@@ -6404,20 +6404,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "next@npm:14.0.0"
+"next@npm:^14.0.1":
+  version: 14.0.1
+  resolution: "next@npm:14.0.1"
   dependencies:
-    "@next/env": "npm:14.0.0"
-    "@next/swc-darwin-arm64": "npm:14.0.0"
-    "@next/swc-darwin-x64": "npm:14.0.0"
-    "@next/swc-linux-arm64-gnu": "npm:14.0.0"
-    "@next/swc-linux-arm64-musl": "npm:14.0.0"
-    "@next/swc-linux-x64-gnu": "npm:14.0.0"
-    "@next/swc-linux-x64-musl": "npm:14.0.0"
-    "@next/swc-win32-arm64-msvc": "npm:14.0.0"
-    "@next/swc-win32-ia32-msvc": "npm:14.0.0"
-    "@next/swc-win32-x64-msvc": "npm:14.0.0"
+    "@next/env": "npm:14.0.1"
+    "@next/swc-darwin-arm64": "npm:14.0.1"
+    "@next/swc-darwin-x64": "npm:14.0.1"
+    "@next/swc-linux-arm64-gnu": "npm:14.0.1"
+    "@next/swc-linux-arm64-musl": "npm:14.0.1"
+    "@next/swc-linux-x64-gnu": "npm:14.0.1"
+    "@next/swc-linux-x64-musl": "npm:14.0.1"
+    "@next/swc-win32-arm64-msvc": "npm:14.0.1"
+    "@next/swc-win32-ia32-msvc": "npm:14.0.1"
+    "@next/swc-win32-x64-msvc": "npm:14.0.1"
     "@swc/helpers": "npm:0.5.2"
     busboy: "npm:1.6.0"
     caniuse-lite: "npm:^1.0.30001406"
@@ -6455,7 +6455,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: 9db732496c40cb9de3d7d42031c6c392ca821bb3385afce059fbccffefcd04e49f610a099720c05459db846990e11085fe9dfad1356eb0dc3d62d8c2b30c8973
+  checksum: a21dd825cb5cb5d2e9a15eacf4cda3949d49e999c4690f2d2348bb4f270318a075cc78a994e84156364ce9207c04b9136c987261fdf0ec780a5c8f264a6fa5fe
   languageName: node
   linkType: hard
 
@@ -6759,16 +6759,16 @@ __metadata:
   resolution: "paperplane@workspace:."
   dependencies:
     "@hookform/resolvers": "npm:^3.3.2"
-    "@next/font": "npm:14.0.0"
+    "@next/font": "npm:14.0.1"
     "@sapphire/eslint-config": "npm:^5.0.2"
     "@sapphire/ts-config": "npm:5.0.0"
     "@snowcrystals/prettier-config": "npm:^1.0.0"
-    "@tanstack/react-query": "npm:^5.0.5"
+    "@tanstack/react-query": "npm:^5.7.0"
     "@tanstack/react-table": "npm:8.10.7"
-    "@trpc/client": "npm:^10.43.0"
-    "@trpc/next": "npm:^10.43.0"
-    "@trpc/react-query": "npm:^10.43.0"
-    "@trpc/server": "npm:^10.43.0"
+    "@trpc/client": "npm:^10.43.1"
+    "@trpc/next": "npm:^10.43.1"
+    "@trpc/react-query": "npm:^10.43.1"
+    "@trpc/server": "npm:^10.43.1"
     "@types/node": "npm:20.8.9"
     "@typescript-eslint/eslint-plugin": "npm:^6.9.0"
     "@typescript-eslint/parser": "npm:^6.9.0"
@@ -6781,14 +6781,14 @@ __metadata:
     husky: "npm:^8.0.3"
     is-ci: "npm:^3.0.1"
     lint-staged: "npm:^15.0.2"
-    lucide-react: "npm:^0.290.0"
-    next: "npm:^14.0.0"
+    lucide-react: "npm:^0.292.0"
+    next: "npm:^14.0.1"
     next-themes: "npm:0.2.1"
     pinst: "npm:^3.0.0"
     prettier: "npm:^3.0.3"
     react: "npm:18.2.0"
     react-dom: "npm:^18.2.0"
-    react-hook-form: "npm:^7.47.0"
+    react-hook-form: "npm:^7.48.1"
     react-syntax-highlighter: "npm:15.5.0"
     superjson: "npm:^2.2.0"
     tailwind-merge: "npm:^1.14.0"
@@ -7253,12 +7253,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.47.0":
-  version: 7.47.0
-  resolution: "react-hook-form@npm:7.47.0"
+"react-hook-form@npm:^7.48.1":
+  version: 7.48.1
+  resolution: "react-hook-form@npm:7.48.1"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: 182a03afd2dedc31d6688481f01c0fed06c8440691b5d103df5007104aea5dc79f188c493730020bedac7781abc3327e51b432c605691beef44b0513bcadf51b
+  checksum: 876185b41e7d9c1fe6a3a6aa729780f1d01c31fdcc097d947d8a42ae4461bd462ff3cf141144c5253f8545c1460530abca3bf397d8a3a24fa939bfcbde0642a0
   languageName: node
   linkType: hard
 
