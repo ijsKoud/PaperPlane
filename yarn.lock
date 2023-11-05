@@ -6805,7 +6805,7 @@ __metadata:
     prettier: "npm:^3.0.3"
     react: "npm:18.2.0"
     react-dom: "npm:^18.2.0"
-    react-hook-form: "npm:^7.48.1"
+    react-hook-form: "npm:^7.48.2"
     react-syntax-highlighter: "npm:15.5.0"
     superjson: "npm:^2.2.0"
     tailwind-merge: "npm:^1.14.0"
@@ -7270,12 +7270,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.48.1":
-  version: 7.48.1
-  resolution: "react-hook-form@npm:7.48.1"
+"react-hook-form@npm:^7.48.2":
+  version: 7.48.2
+  resolution: "react-hook-form@npm:7.48.2"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: 876185b41e7d9c1fe6a3a6aa729780f1d01c31fdcc097d947d8a42ae4461bd462ff3cf141144c5253f8545c1460530abca3bf397d8a3a24fa939bfcbde0642a0
+  checksum: 6cb494f359675e78c14c49a33d1c568df1a03db4c750eab18d6554e622fd64e04195c57efa138db03f8988587d132c57d2a7f5f3dd9157be996cc9acd4362170
   languageName: node
   linkType: hard
 
