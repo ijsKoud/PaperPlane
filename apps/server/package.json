@@ -21,7 +21,7 @@
 		"#trpc/*": "./dist/trpc/*"
 	},
 	"peerDependencies": {
-		"next": "^14.0.1"
+		"next": "^14.0.2"
 	},
 	"dependencies": {
 		"@discordjs/collection": "^1.5.3",
