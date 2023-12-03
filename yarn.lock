@@ -28,12 +28,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.23.1":
-  version: 7.23.2
-  resolution: "@babel/runtime@npm:7.23.2"
+"@babel/runtime@npm:^7.23.5":
+  version: 7.23.5
+  resolution: "@babel/runtime@npm:7.23.5"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
-  checksum: abdcbdd590c7e31762e1bdab94dd466823c8bcedd3ff2fde85eeb94dac7cccaef151ac37c428bda7018ededd27c9a82b4dfeb621f978ad934232475a902f8e3a
+  checksum: 0f1669f639af30a0a2948ffcefa2c61935f337b0777bd94f8d7bc66bba8e7d4499e725caeb0449540d9c6d67399b733c4e719babb43ce9a0f33095aa01b42b37
   languageName: node
   linkType: hard
 
@@ -1473,28 +1473,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.8.7":
-  version: 5.8.7
-  resolution: "@tanstack/query-core@npm:5.8.7"
-  checksum: 743a18ec0a28d4397a7c2bde9e696a038d305d04a1f1b044763085bcb96e6ed1f8e01bbb8cd0c67d47ce1747e1517d9890b01625eff1e7b1d79e74a6a7af5750
+"@tanstack/query-core@npm:5.12.1":
+  version: 5.12.1
+  resolution: "@tanstack/query-core@npm:5.12.1"
+  checksum: 64b06563f8bb6abba2cd2fc8fb99b963da7dba5fa837d5bb6ebc0e0a01b5fa946be6e365bddabf895d533a9196611bb12a007c1d2fff4017b0226b1c06e822dc
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.8.7":
-  version: 5.8.7
-  resolution: "@tanstack/react-query@npm:5.8.7"
+"@tanstack/react-query@npm:^5.12.2":
+  version: 5.12.2
+  resolution: "@tanstack/react-query@npm:5.12.2"
   dependencies:
-    "@tanstack/query-core": "npm:5.8.7"
+    "@tanstack/query-core": "npm:5.12.1"
   peerDependencies:
     react: ^18.0.0
-    react-dom: ^18.0.0
-    react-native: "*"
-  peerDependenciesMeta:
-    react-dom:
-      optional: true
-    react-native:
-      optional: true
-  checksum: c8489b37928fe86e24da661de28433565ed9d7b2d43c0d8a30eba1ee6668f5bd6282c7a2ac34e556f51e007d971248821d41408a1e6b9d2536d1542dac7b8f12
+  checksum: bf954750cff2b38846136ef6fa3d79b6861eb886af80ff577f644ebdbe70840603bed4bb073c9cde34c4b9e61cadbb495dfea17344e5ec8c49bc1c7fcaf2f155
   languageName: node
   linkType: hard
 
@@ -3971,12 +3964,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:^7.1.4":
-  version: 7.1.4
-  resolution: "express-rate-limit@npm:7.1.4"
+"express-rate-limit@npm:^7.1.5":
+  version: 7.1.5
+  resolution: "express-rate-limit@npm:7.1.5"
   peerDependencies:
     express: 4 || 5 || ^5.0.0-beta.1
-  checksum: dbcec0508ec2bea697617efa8e92b61309641c34971fc50b27baf731b93e8f6bdd8688228bce32b42fe4ea2128ab287ee629880535b5d07ae512293b1c058a01
+  checksum: bced4208de86fc8b99fe9a2dbfd522e0ea9a1875e678a4079102cc77c13c94f40b892ec46dac30cd028e229178ba021778070b86d0741e7258db0adc38cc858a
   languageName: node
   linkType: hard
 
@@ -5640,12 +5633,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.293.0":
-  version: 0.293.0
-  resolution: "lucide-react@npm:0.293.0"
+"lucide-react@npm:^0.294.0":
+  version: 0.294.0
+  resolution: "lucide-react@npm:0.294.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 3087c70df4a2809f6b52cbe1a421e958126ca0490b53c4f65380567045f6b106d31bab8eea66577d27f20561b79bc48a9fab801ffb630c29dfcd39b2638f6982
+  checksum: 91476328b1e1f9441a1bbf392e7d6741373cbea64527376fffb14ff7b4b64e541f7fc9ae05c0ffbae1e9e775048a678a50afe405f10ce8f41db2f3a5a5b029d6
   languageName: node
   linkType: hard
 
@@ -6809,7 +6802,7 @@ __metadata:
     "@sapphire/eslint-config": "npm:^5.0.2"
     "@sapphire/ts-config": "npm:5.0.0"
     "@snowcrystals/prettier-config": "npm:^1.0.0"
-    "@tanstack/react-query": "npm:^5.8.7"
+    "@tanstack/react-query": "npm:^5.12.2"
     "@tanstack/react-table": "npm:8.10.7"
     "@trpc/client": "npm:^10.44.1"
     "@trpc/next": "npm:^10.44.1"
@@ -6827,7 +6820,7 @@ __metadata:
     husky: "npm:^8.0.3"
     is-ci: "npm:^3.0.1"
     lint-staged: "npm:^15.1.0"
-    lucide-react: "npm:^0.293.0"
+    lucide-react: "npm:^0.294.0"
     next: "npm:^14.0.3"
     next-themes: "npm:0.2.1"
     pinst: "npm:^3.0.0"
@@ -6837,7 +6830,7 @@ __metadata:
     react-hook-form: "npm:^7.48.2"
     react-syntax-highlighter: "npm:15.5.0"
     superjson: "npm:^2.2.1"
-    tailwind-merge: "npm:^2.0.0"
+    tailwind-merge: "npm:^2.1.0"
     tailwindcss: "npm:^3.3.5"
     tailwindcss-animate: "npm:^1.0.7"
     turbo: "npm:^1.10.16"
@@ -7804,7 +7797,7 @@ __metadata:
     dotenv: "npm:^16.3.1"
     eslint: "npm:8.55.0"
     express: "npm:^4.18.2"
-    express-rate-limit: "npm:^7.1.4"
+    express-rate-limit: "npm:^7.1.5"
     formidable: "npm:^3.5.1"
     fuse.js: "npm:^7.0.0"
     jsonwebtoken: "npm:^9.0.2"
@@ -8219,12 +8212,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwind-merge@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "tailwind-merge@npm:2.0.0"
+"tailwind-merge@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "tailwind-merge@npm:2.1.0"
   dependencies:
-    "@babel/runtime": "npm:^7.23.1"
-  checksum: d20d2551f4b2fd9eb68466accccf9b81baef0d8cfb9ecf89738a9abe72e023ec9fe9aad5b3b9da0a0b0ec340432069568b83dea9463ae670a20a9937fbb59bb0
+    "@babel/runtime": "npm:^7.23.5"
+  checksum: 2de4ed3167e69101c7c559af93028ff205543f98f57edaafa460e67b95fdde13a164b8f6f364fde90554e227feac24beaa8be3e74eb12e50fbd38aa5011583db
   languageName: node
   linkType: hard
 
