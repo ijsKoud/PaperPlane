@@ -17,7 +17,7 @@
 		"postinstall": "is-ci || husky install"
 	},
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^6.12.0"
+		"@typescript-eslint/eslint-plugin": "^6.13.1"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.3.2",
@@ -46,12 +46,12 @@
 		"@sapphire/eslint-config": "^5.0.2",
 		"@sapphire/ts-config": "5.0.0",
 		"@snowcrystals/prettier-config": "^1.0.0",
-		"@types/node": "20.10.0",
-		"@typescript-eslint/eslint-plugin": "^6.12.0",
-		"@typescript-eslint/parser": "^6.12.0",
-		"eslint": "^8.54.0",
+		"@types/node": "20.10.2",
+		"@typescript-eslint/eslint-plugin": "^6.13.1",
+		"@typescript-eslint/parser": "^6.13.1",
+		"eslint": "^8.55.0",
 		"eslint-config-next": "14.0.3",
-		"eslint-config-prettier": "^9.0.0",
+		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-prettier": "^5.0.1",
 		"husky": "^8.0.3",
 		"is-ci": "^3.0.1",
