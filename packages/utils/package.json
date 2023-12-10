@@ -13,7 +13,7 @@
 		"typescript": "^5.3.2"
 	},
 	"dependencies": {
-		"@sapphire/timestamp": "^1.0.1",
+		"@sapphire/timestamp": "^1.0.2",
 		"axios": "1.6.2"
 	}
 }
