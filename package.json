@@ -17,7 +17,7 @@
 		"postinstall": "is-ci || husky install"
 	},
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^6.13.1"
+		"@typescript-eslint/eslint-plugin": "^6.13.2"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.3.2",
@@ -43,24 +43,24 @@
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
-		"@sapphire/eslint-config": "^5.0.2",
+		"@sapphire/eslint-config": "^5.0.3",
 		"@sapphire/ts-config": "5.0.0",
 		"@snowcrystals/prettier-config": "^1.0.0",
-		"@types/node": "20.10.2",
-		"@typescript-eslint/eslint-plugin": "^6.13.1",
-		"@typescript-eslint/parser": "^6.13.1",
+		"@types/node": "20.10.4",
+		"@typescript-eslint/eslint-plugin": "^6.13.2",
+		"@typescript-eslint/parser": "^6.13.2",
 		"eslint": "^8.55.0",
-		"eslint-config-next": "14.0.3",
+		"eslint-config-next": "14.0.4",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-prettier": "^5.0.1",
 		"husky": "^8.0.3",
 		"is-ci": "^3.0.1",
-		"lint-staged": "^15.1.0",
+		"lint-staged": "^15.2.0",
 		"pinst": "^3.0.0",
 		"prettier": "^3.1.0",
-		"tailwindcss": "^3.3.5",
-		"turbo": "^1.10.16",
-		"typescript": "5.3.2"
+		"tailwindcss": "^3.3.6",
+		"turbo": "^1.11.1",
+		"typescript": "5.3.3"
 	},
 	"engines": {
 		"node": ">= v18.16.0"
