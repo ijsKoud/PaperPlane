@@ -1468,21 +1468,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.13.4":
-  version: 5.13.4
-  resolution: "@tanstack/query-core@npm:5.13.4"
-  checksum: bd65fee57416582e15d0cc5c18bd8aeeb76cabc1ac1fb1af7dc7e85ec114217354380e24660951b0faf33082a949f774fd8a13acf118a89c5092bd9e9de2bdc7
+"@tanstack/query-core@npm:5.14.0":
+  version: 5.14.0
+  resolution: "@tanstack/query-core@npm:5.14.0"
+  checksum: 160f9ef581960b0df8d7106e66bde053924d52590eecc8cf3de0d0c4a6eb3ccb06535f36084441828643d9e3ec1f3fbe3f6e98ea45b7ccbf2da99432ac223634
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.13.4":
-  version: 5.13.4
-  resolution: "@tanstack/react-query@npm:5.13.4"
+"@tanstack/react-query@npm:^5.14.0":
+  version: 5.14.0
+  resolution: "@tanstack/react-query@npm:5.14.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.13.4"
+    "@tanstack/query-core": "npm:5.14.0"
   peerDependencies:
     react: ^18.0.0
-  checksum: 684ca3a552ee3a075c4d266f25146019ae4870d3353b27075fcf11bd7d0ba04e0996209c1cfb0a8dddabafdfd34def48230eac5c4aacc6390acaecc9d5db602e
+  checksum: c0093b8c852d0b575195c16b545b7cd073eeef8dff073ba0966aba4c2455960cb670ffe2d25ed1cb447896abc062ad66341b8979d7ffddd2c1d2bd234d2c07d8
   languageName: node
   linkType: hard
 
@@ -5581,12 +5581,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.294.0":
-  version: 0.294.0
-  resolution: "lucide-react@npm:0.294.0"
+"lucide-react@npm:^0.298.0":
+  version: 0.298.0
+  resolution: "lucide-react@npm:0.298.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0
-  checksum: 91476328b1e1f9441a1bbf392e7d6741373cbea64527376fffb14ff7b4b64e541f7fc9ae05c0ffbae1e9e775048a678a50afe405f10ce8f41db2f3a5a5b029d6
+  checksum: 8753c6793b8adac83bc1fa820630e7e51e2532e4ab150fad7abed00261fb7c7299c175edb4beca9f3bda94cd0e6941888fc5bd384f4e2a9dfde5dccf555695fb
   languageName: node
   linkType: hard
 
@@ -6751,7 +6751,7 @@ __metadata:
     "@sapphire/eslint-config": "npm:^5.0.3"
     "@sapphire/ts-config": "npm:5.0.0"
     "@snowcrystals/prettier-config": "npm:^1.0.0"
-    "@tanstack/react-query": "npm:^5.13.4"
+    "@tanstack/react-query": "npm:^5.14.0"
     "@tanstack/react-table": "npm:8.10.7"
     "@trpc/client": "npm:^10.44.1"
     "@trpc/next": "npm:^10.44.1"
@@ -6769,14 +6769,14 @@ __metadata:
     husky: "npm:^8.0.3"
     is-ci: "npm:^3.0.1"
     lint-staged: "npm:^15.2.0"
-    lucide-react: "npm:^0.294.0"
+    lucide-react: "npm:^0.298.0"
     next: "npm:^14.0.4"
     next-themes: "npm:0.2.1"
     pinst: "npm:^3.0.0"
     prettier: "npm:^3.1.1"
     react: "npm:18.2.0"
     react-dom: "npm:^18.2.0"
-    react-hook-form: "npm:^7.49.0"
+    react-hook-form: "npm:^7.49.2"
     react-syntax-highlighter: "npm:15.5.0"
     superjson: "npm:^2.2.1"
     tailwind-merge: "npm:^2.1.0"
@@ -7239,12 +7239,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.49.0":
-  version: 7.49.0
-  resolution: "react-hook-form@npm:7.49.0"
+"react-hook-form@npm:^7.49.2":
+  version: 7.49.2
+  resolution: "react-hook-form@npm:7.49.2"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: 0444c314707acf1cd89a8d8d1e7d952467549a618ae80ea6551ec539142b1bd9d025f797302802db27c4cb650058fc2090fc2f9ea3b6ab0280041042216fe32a
+  checksum: 7895d65b8458c42d46eb338803bb0fd1aab42fc69ecf80b47846eace9493a10cac5b05c9b744a5f9f1f7969a3e2703fc2118cdab97e49a7798a72d09f106383f
   languageName: node
   linkType: hard
 
