@@ -12,7 +12,7 @@
 		"react": "^18.2.0"
 	},
 	"dependencies": {
-		"axios": "^1.6.2",
+		"axios": "^1.6.3",
 		"swr": "^2.2.4"
 	},
 	"devDependencies": {
