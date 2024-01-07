@@ -1475,21 +1475,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.17.7":
-  version: 5.17.7
-  resolution: "@tanstack/query-core@npm:5.17.7"
-  checksum: 901808daed3fc2be1613ab2302feddb077225b5bac708aeeb5008f649d96995d75c115061a066ab654a9e7bf5775006d59700760d7f8e8bab8d21ac66b35abc3
+"@tanstack/query-core@npm:5.17.8":
+  version: 5.17.8
+  resolution: "@tanstack/query-core@npm:5.17.8"
+  checksum: dda6c53d7168d46d72533fe588249d7ef617791b7bfe7127c9d01cda0d146e25d3fe32d75dd1ea79f5a049c58b78b0c1f8ad6c40a7c53c18b1a64adf72cc961d
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.17.7":
-  version: 5.17.7
-  resolution: "@tanstack/react-query@npm:5.17.7"
+"@tanstack/react-query@npm:^5.17.8":
+  version: 5.17.8
+  resolution: "@tanstack/react-query@npm:5.17.8"
   dependencies:
-    "@tanstack/query-core": "npm:5.17.7"
+    "@tanstack/query-core": "npm:5.17.8"
   peerDependencies:
     react: ^18.0.0
-  checksum: 31422f32d2b8ef31c74f5f18170c1ed2d85d5e74a74357603bf8564de90b61e1024fe97ee0bedf88050a7318fbf44c6866339ea573420243e3db212768cb6c74
+  checksum: 53b957600e2d7dd6aa1313b8fd1453d955f5c3fa6e7e26798168af7a2636727b20d8e0fbe88f9b5145405d4af748648e2316dba3bd4fa84c1e57dc4c2c0d3eb1
   languageName: node
   linkType: hard
 
@@ -6895,7 +6895,7 @@ __metadata:
     "@sapphire/eslint-config": "npm:^5.0.3"
     "@sapphire/ts-config": "npm:5.0.0"
     "@snowcrystals/prettier-config": "npm:^1.0.0"
-    "@tanstack/react-query": "npm:^5.17.7"
+    "@tanstack/react-query": "npm:^5.17.8"
     "@tanstack/react-table": "npm:8.11.3"
     "@trpc/client": "npm:^10.45.0"
     "@trpc/next": "npm:^10.45.0"
