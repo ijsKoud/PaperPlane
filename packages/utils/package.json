@@ -14,6 +14,6 @@
 	},
 	"dependencies": {
 		"@sapphire/timestamp": "^1.0.2",
-		"axios": "1.6.3"
+		"axios": "1.6.5"
 	}
 }
