@@ -4165,15 +4165,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fd-slicer@npm:~1.1.0":
-  version: 1.1.0
-  resolution: "fd-slicer@npm:1.1.0"
-  dependencies:
-    pend: "npm:~1.2.0"
-  checksum: 10/db3e34fa483b5873b73f248e818f8a8b59a6427fd8b1436cd439c195fdf11e8659419404826059a642b57d18075c856d06d6a50a1413b714f12f833a9341ead3
-  languageName: node
-  linkType: hard
-
 "fecha@npm:^4.2.0":
   version: 4.2.3
   resolution: "fecha@npm:4.2.3"
@@ -7893,7 +7884,7 @@ __metadata:
     ua-parser-js: "npm:^1.0.37"
     winston: "npm:^3.11.0"
     winston-daily-rotate-file: "npm:^4.7.1"
-    zip-lib: "npm:^0.7.3"
+    zip-lib: "npm:^1.0.0"
   peerDependencies:
     next: ^14.1.0
   languageName: unknown
@@ -9165,13 +9156,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yauzl@npm:^2.10.0":
-  version: 2.10.0
-  resolution: "yauzl@npm:2.10.0"
+"yauzl@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "yauzl@npm:3.1.0"
   dependencies:
     buffer-crc32: "npm:~0.2.3"
-    fd-slicer: "npm:~1.1.0"
-  checksum: 10/1e4c311050dc0cf2ee3dbe8854fe0a6cde50e420b3e561a8d97042526b4cf7a0718d6c8d89e9e526a152f4a9cec55bcea9c3617264115f48bd6704cf12a04445
+    pend: "npm:~1.2.0"
+  checksum: 10/0fc568a872e1172d48be9e8ed4950c01c70f3d7ee49111408cb7647eff9e83e8783a37585d9fe49d4b917185bc25370e3aac2ed5c8f24c08f396e0befd1b3144
   languageName: node
   linkType: hard
 
@@ -9191,13 +9182,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zip-lib@npm:^0.7.3":
-  version: 0.7.3
-  resolution: "zip-lib@npm:0.7.3"
+"zip-lib@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "zip-lib@npm:1.0.0"
   dependencies:
-    yauzl: "npm:^2.10.0"
+    yauzl: "npm:^3.1.0"
     yazl: "npm:^2.5.1"
-  checksum: 10/372e0498405494e2af34826549227b1ae9148a58b49d6a99d605cb1a44b933756e9d0d9f0e61bb6805504ac74997f2c231fbd9958b981f1e3febea0c6d4cf18c
+  checksum: 10/9528cb5866cb431dab9633d292ddbcdcb06651d0e9c796cc2c305e306b8a26a842fd5069a622c8f955bb55ea9794dae7122c748fcfe53e22292d71153e6dec80
   languageName: node
   linkType: hard
 
