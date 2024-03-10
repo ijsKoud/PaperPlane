@@ -10,7 +10,7 @@
 	},
 	"devDependencies": {
 		"eslint": "8.57.0",
-		"typescript": "^5.3.3"
+		"typescript": "^5.4.2"
 	},
 	"dependencies": {
 		"@sapphire/timestamp": "^1.0.3",
