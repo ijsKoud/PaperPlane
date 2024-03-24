@@ -407,7 +407,7 @@ __metadata:
     cookies-next: "npm:4.1.1"
     eslint: "npm:8.57.0"
     ms: "npm:^2.1.3"
-    rc-progress: "npm:^3.5.1"
+    rc-progress: "npm:^4.0.0"
     typescript: "npm:^5.4.2"
   peerDependencies:
     next: 14.1.4
@@ -7402,9 +7402,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rc-progress@npm:^3.5.1":
-  version: 3.5.1
-  resolution: "rc-progress@npm:3.5.1"
+"rc-progress@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "rc-progress@npm:4.0.0"
   dependencies:
     "@babel/runtime": "npm:^7.10.1"
     classnames: "npm:^2.2.6"
@@ -7412,7 +7412,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10/e6e34acdec07443ef850ddd12e0678533ff706ea4f7d2fa3d500df76aeafdf08f5297353e902d891f354c464931a69b3d568f4e17204436d3a6d30b37a241bb8
+  checksum: 10/c65efbc45fced051715647538c1ebe70a6da761ca6691455d72d38dcbba41d5bb5e7f7de38d4bb8e8939645a2cd120e8d5b2b8690b6d6bb4fa4cf6848700a2d8
   languageName: node
   linkType: hard
 
