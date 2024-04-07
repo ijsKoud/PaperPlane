@@ -22,7 +22,7 @@
 	"dependencies": {
 		"@hookform/resolvers": "^3.3.4",
 		"@next/font": "14.1.4",
-		"@tanstack/react-query": "^5.28.9",
+		"@tanstack/react-query": "^5.29.0",
 		"@tanstack/react-table": "8.15.3",
 		"@trpc/client": "^10.45.2",
 		"@trpc/next": "^10.45.2",
@@ -30,7 +30,7 @@
 		"@trpc/server": "^10.45.2",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
-		"lucide-react": "^0.363.0",
+		"lucide-react": "^0.365.0",
 		"next": "^14.1.4",
 		"next-themes": "0.3.0",
 		"react": "18.2.0",
