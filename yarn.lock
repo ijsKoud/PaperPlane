@@ -417,7 +417,7 @@ __metadata:
     rc-progress: "npm:^4.0.0"
     typescript: "npm:^5.4.2"
   peerDependencies:
-    next: 14.2.13
+    next: 14.2.14
     react: ^18.3.1
     react-dom: 18.3.1
   languageName: unknown
@@ -432,7 +432,7 @@ __metadata:
     eslint: "npm:8.57.0"
     typescript: "npm:^5.4.2"
   peerDependencies:
-    "@next/font": ^14.2.13
+    "@next/font": ^14.2.14
     react: ^18.3.1
     react-dom: 18.3.1
   languageName: unknown
@@ -491,7 +491,7 @@ __metadata:
     eslint: "npm:8.57.0"
     typescript: "npm:^5.4.2"
   peerDependencies:
-    next: 14.2.13
+    next: 14.2.14
     react: ^18.3.1
     react-dom: 18.3.1
   languageName: unknown
@@ -8159,7 +8159,7 @@ __metadata:
     winston-daily-rotate-file: "npm:^5.0.0"
     zip-lib: "npm:^1.0.3"
   peerDependencies:
-    next: ^14.2.13
+    next: ^14.2.14
   languageName: unknown
   linkType: soft
 
@@ -9267,8 +9267,8 @@ __metadata:
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:^5.4.2"
   peerDependencies:
-    "@next/font": ^14.2.13
-    next: ^14.2.13
+    "@next/font": ^14.2.14
+    next: ^14.2.14
     react: ^18.3.1
     react-dom: ^18.3.1
   languageName: unknown
