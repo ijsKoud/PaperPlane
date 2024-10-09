@@ -23,10 +23,10 @@
 		"@paperplane/swr": "*",
 		"@paperplane/ui": "*",
 		"@paperplane/utils": "*",
-		"axios": "^1.6.8",
+		"axios": "^1.7.7",
 		"file-saver": "^2.0.5",
 		"ms": "^2.1.3",
-		"react-dropzone": "^14.2.3",
+		"react-dropzone": "^14.2.9",
 		"react-syntax-highlighter": "^15.5.0"
 	},
 	"devDependencies": {
