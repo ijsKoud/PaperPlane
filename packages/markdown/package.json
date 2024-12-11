@@ -16,9 +16,9 @@
 		"remark-gfm": "^4.0.0"
 	},
 	"devDependencies": {
-		"@types/react": "^18.2.64",
-		"@types/react-dom": "^18.2.21",
-		"eslint": "8.57.0",
-		"typescript": "^5.4.2"
+		"@types/react": "^18.3.16",
+		"@types/react-dom": "^18.3.5",
+		"eslint": "8.57.1",
+		"typescript": "^5.7.2"
 	}
 }
